@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{608CD73B-DF09-4AAD-A21A-1143BBEA3E57}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GUI</RootNamespace>
+    <AssemblyName>GUI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\BaseForm.cs" />
+    <Compile Include="src\BaseTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\FunctionsPerformances\FunctionsPerformances.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\FunctionsPerformances\FunctionsPerformances.Designer.cs">
+      <DependentUpon>FunctionsPerformances.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\GraphView\GraphView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\GraphView\GraphView.Designer.cs">
+      <DependentUpon>GraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ReferencesParagraphTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RuleConditionsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RuleConditionTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RuleDisablingsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RuleDisablingTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\ProcedureParametersTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StructureProcedureParametersTreeNode.cs" />
+    <Compile Include="src\MyPropertyGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\CasesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\CaseTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\CollectionsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\CollectionTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StructureProcedureRulesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\ProcedureRulesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\CustomAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\CustomAction.Designer.cs">
+      <DependentUpon>CustomAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\CustomProcedure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\CustomProcedure.Designer.cs">
+      <DependentUpon>CustomProcedure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\NameSpaceSubNameSpacesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RangeValuesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\SubEnumerationsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StateMachineStatesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StateMachineRulesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\NameSpaceProceduresTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\FunctionsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\FunctionTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\NameSpaceRulesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\NameSpaceVariablesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\ParametersTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RulesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\NameSpacesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\ParameterTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\PreConditionsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StructureProcedureTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StructureProceduresTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\UsageTreeView\UsageTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\UsageTreeView\TypeUsageTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\UsageTreeView\RuleUsageTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\UsageTreeView\UsageTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\StructureElementsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\EnumerationValuesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\TypeTreeNode.cs" />
+    <Compile Include="src\EnumConverter.cs" />
+    <Compile Include="src\ExplainTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\GUIUtils.cs" />
+    <Compile Include="src\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Report\Frm_ModelReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Report\Frm_ModelReport.Designer.cs">
+      <DependentUpon>Frm_ModelReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Report\Frm_SpecIssuesReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Report\Frm_SpecIssuesReport.Designer.cs">
+      <DependentUpon>Frm_SpecIssuesReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Report\Frm_SpecReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Report\Frm_SpecReport.Designer.cs">
+      <DependentUpon>Frm_SpecReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Report\Frm_TestReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Report\Frm_TestReport.Designer.cs">
+      <DependentUpon>Frm_TestReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Report\Utils.cs" />
+    <Compile Include="src\ReqRelatedTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\SubVariablesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StateMachineTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\DataDictionaryTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\EnumerationsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RangesTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StructureElementTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StructuresTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StructureTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\EnumerationValueTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\StateTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\ProcedureTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RangeTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\NameSpaceTreeNode.cs" />
+    <Compile Include="src\MyRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\ActionsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\ActionTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RulePreConditionsTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\SubRulesTreeNode.cs" />
+    <Compile Include="src\ReqRefsTreeNode.cs" />
+    <Compile Include="src\ReqRefTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\PreConditionTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\RuleTreeNode.cs" />
+    <Compile Include="src\DictionarySelector\DictionarySelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\DictionarySelector\DictionarySelector.Designer.cs">
+      <DependentUpon>DictionarySelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\RulePerformances\RulesPerformances.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\RulePerformances\RulesPerformances.Designer.cs">
+      <DependentUpon>RulesPerformances.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\SearchDialog\SearchDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\SearchDialog\SearchDialog.Designer.cs">
+      <DependentUpon>SearchDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Shortcuts\ShortcutDictionaryTreeNode.cs" />
+    <Compile Include="src\Shortcuts\ShortcutFolderTreeNode.cs" />
+    <Compile Include="src\Shortcuts\ShortcutTreeNode.cs" />
+    <Compile Include="src\Shortcuts\ShortcutTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\Shortcuts\ShortcutTreeView.Designer.cs">
+      <DependentUpon>ShortcutTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Shortcuts\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Shortcuts\Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\SpecificationView\SpecificationTreeNode.cs" />
+    <Compile Include="src\SpecificationView\ParagraphTreeNode.cs" />
+    <Compile Include="src\SpecificationView\SpecificationTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\StateDiagram\Span.cs" />
+    <Compile Include="src\StateDiagram\StateControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\StateDiagram\StateControl.Designer.cs">
+      <DependentUpon>StateControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\StateDiagram\StateDiagramWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\StateDiagram\StateDiagramWindow.Designer.cs">
+      <DependentUpon>StateDiagramWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\StateDiagram\StatePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\StateDiagram\StatePanel.Designer.cs">
+      <DependentUpon>StatePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\StateDiagram\TransitionControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\StateDiagram\TransitionControl.Designer.cs">
+      <DependentUpon>TransitionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\TestRunnerView\ActionsTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\ExplainBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\TestRunnerView\ExplainBox.Designer.cs">
+      <DependentUpon>ExplainBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\TestRunnerView\StepsTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\ExpectationsTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\ExpectationTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\StepTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\SubStepTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\TestsTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\TestCaseTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\SubSequenceTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\FrameTreeNode.cs" />
+    <Compile Include="src\TestRunnerView\TestTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\TestRunnerView\TimeLineControl\FilterConfiguration.cs" />
+    <Compile Include="src\TestRunnerView\TimeLineControl\Filtering.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\TestRunnerView\TimeLineControl\Filtering.Designer.cs">
+      <DependentUpon>Filtering.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\TestRunnerView\TimeLineControl\StepBack.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\TestRunnerView\TimeLineControl\StepOnce.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\TestRunnerView\TimeLineControl\EventControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\TestRunnerView\TimeLineControl\TimeLineButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\TranslationRules\FolderTreeNode.cs" />
+    <Compile Include="src\TranslationRules\SourceTextsTreeNode.cs" />
+    <Compile Include="src\TranslationRules\SourceTextTreeNode.cs" />
+    <Compile Include="src\TranslationRules\TranslationTreeNode.cs" />
+    <Compile Include="src\TranslationRules\TranslationDictionaryTreeNode.cs" />
+    <Compile Include="src\TranslationRules\TranslationTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\TranslationRules\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\TranslationRules\Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\TypeConverters.cs" />
+    <Compile Include="src\DataDictionaryView\EnumerationTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\VariableTreeNode.cs" />
+    <Compile Include="src\DataTreeNode.cs" />
+    <Compile Include="src\DataDictionaryView\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\DataDictionaryView\Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\TestRunnerView\TimeLineControl\TimeLineControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Program.cs" />
+    <Compile Include="src\SpecificationView\ChapterTreeNode.cs" />
+    <Compile Include="src\SpecificationView\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\SpecificationView\Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\TestRunnerView\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\TestRunnerView\Window.Designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\VerticalLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="src\DataDictionaryView\CustomAction.resx">
+      <DependentUpon>CustomAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\DataDictionaryView\CustomProcedure.resx">
+      <DependentUpon>CustomProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\DataDictionaryView\Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\FunctionsPerformances\FunctionsPerformances.resx">
+      <DependentUpon>FunctionsPerformances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\GraphView\GraphView.resx">
+      <DependentUpon>GraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Report\Frm_ModelReport.resx">
+      <DependentUpon>Frm_ModelReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Report\Frm_SpecIssuesReport.resx">
+      <DependentUpon>Frm_SpecIssuesReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Report\Frm_SpecReport.resx">
+      <DependentUpon>Frm_SpecReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Report\Frm_TestReport.resx">
+      <DependentUpon>Frm_TestReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\DictionarySelector\DictionarySelector.resx">
+      <DependentUpon>DictionarySelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\RulePerformances\RulesPerformances.resx">
+      <DependentUpon>RulesPerformances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SearchDialog\SearchDialog.resx">
+      <DependentUpon>SearchDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Shortcuts\Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\StateDiagram\StateDiagramWindow.resx">
+      <DependentUpon>StateDiagramWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\TestRunnerView\ExplainBox.resx">
+      <DependentUpon>ExplainBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\TestRunnerView\TimeLineControl\Filtering.resx">
+      <DependentUpon>Filtering.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\TestRunnerView\TimeLineControl\StepBack.resx">
+      <DependentUpon>StepBack.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\TestRunnerView\TimeLineControl\StepOnce.resx">
+      <DependentUpon>StepOnce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\TestRunnerView\TimeLineControl\TimeLineControl.resx">
+      <DependentUpon>TimeLineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\SpecificationView\Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\TestRunnerView\Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\TranslationRules\Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataDictionary\DataDictionary.csproj">
+      <Project>{0FF1E452-81CA-4E56-8ABE-295BF3604BE2}</Project>
+      <Name>DataDictionary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErtmsSolutions\ErtmsSolutions.csproj">
+      <Project>{7A9B0694-8FCE-4F94-B380-219893B31DB9}</Project>
+      <Name>ErtmsSolutions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Importers\Importers.csproj">
+      <Project>{5265E7F5-F3D5-4F52-90CB-ACE9F277791C}</Project>
+      <Name>Importers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reports\Reports.csproj">
+      <Project>{732D884A-5BDB-4745-A881-A357F12105F6}</Project>
+      <Name>Reports</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{508CA32D-6CC9-4528-9A30-567CD9E1B4CB}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XmlBooster\XmlBooster.csproj">
+      <Project>{A022717B-2952-4948-B63A-A2D3881B97D7}</Project>
+      <Name>XmlBooster</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\file.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\folder_closed.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\folder_opened.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(ProjectDir)\..\etc\logconfig.xml $(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

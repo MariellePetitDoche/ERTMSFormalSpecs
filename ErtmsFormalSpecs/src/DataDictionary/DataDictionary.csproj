@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0FF1E452-81CA-4E56-8ABE-295BF3604BE2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataDictionary</RootNamespace>
+    <AssemblyName>DataDictionary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0168 0219</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0168 0219</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="generated\DataDictionary.Generated.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Functions\Graph.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Allocate.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Available.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Cast.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Before.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\AddIncrement.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\EmptyDoubleToDoubleFunction.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\FunctionOnSurface.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\MinSurface.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Override.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\DistanceForSpeed.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\FunctionOnGraph.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\DecelerationProfile.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Max.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Min.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Not.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\PredefinedFunction.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\RoundToMultiple.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\Targets.cs" />
+    <Compile Include="src\Functions\Surface.cs" />
+    <Compile Include="src\Interpreter\ExplanationPart.cs" />
+    <Compile Include="src\Interpreter\StabilizeExpression.cs" />
+    <Compile Include="src\Interpreter\FunctionExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\CountExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\SumExpression.cs" />
+    <Compile Include="src\Interpreter\Statement\ApplyStatement.cs" />
+    <Compile Include="src\Interpreter\Statement\ReplaceStatement.cs" />
+    <Compile Include="src\Interpreter\Statement\RemoveStatement.cs" />
+    <Compile Include="src\Interpreter\Statement\InsertStatement.cs" />
+    <Compile Include="src\Interpreter\StructExpression.cs" />
+    <Compile Include="src\ReferencesParagraph.cs" />
+    <Compile Include="src\Functions\Case.cs" />
+    <Compile Include="src\Interpreter\DerefExpression.cs" />
+    <Compile Include="src\Interpreter\SymbolTable.cs" />
+    <Compile Include="src\ModelElement.cs" />
+    <Compile Include="src\Parameter.cs" />
+    <Compile Include="src\Functions\Function.cs" />
+    <Compile Include="src\Interpreter\BinaryExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\ConditionBasedListExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\ReduceExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\MapExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\LastExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\FirstExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\ForAllExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\ThereIsExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\ExpressionBasedListExpression.cs" />
+    <Compile Include="src\Interpreter\UnaryExpression.cs" />
+    <Compile Include="src\Interpreter\ListOperators\ListOperatorExpression.cs" />
+    <Compile Include="src\Interpreter\Statement\ProcedureCallStatement.cs" />
+    <Compile Include="src\Interpreter\Statement\VariableUpdateStatement.cs" />
+    <Compile Include="src\Interpreter\Statement\Statement.cs" />
+    <Compile Include="src\Interpreter\Expression.cs" />
+    <Compile Include="src\Interpreter\Designator.cs" />
+    <Compile Include="src\Interpreter\Call.cs" />
+    <Compile Include="src\Interpreter\InterpreterTreeNode.cs" />
+    <Compile Include="src\Interpreter\ParseErrorException.cs" />
+    <Compile Include="src\Interpreter\Parser.cs" />
+    <Compile Include="src\Finders.cs" />
+    <Compile Include="src\Interpreter\Term.cs" />
+    <Compile Include="src\ReqRef.cs" />
+    <Compile Include="src\ReqRelated.cs" />
+    <Compile Include="src\RuleChecker.cs" />
+    <Compile Include="src\Rules\Action.cs" />
+    <Compile Include="src\Rules\Change.cs" />
+    <Compile Include="src\Rules\RuleCondition.cs" />
+    <Compile Include="src\Rules\RuleDisabling.cs" />
+    <Compile Include="src\Rules\PreCondition.cs" />
+    <Compile Include="src\Rules\Rule.cs" />
+    <Compile Include="src\Rules\Transition.cs" />
+    <Compile Include="src\Shortcuts\Shortcut.cs" />
+    <Compile Include="src\Shortcuts\ShortcutDictionary.cs" />
+    <Compile Include="src\Shortcuts\ShortcutFolder.cs" />
+    <Compile Include="src\Specification\Chapter.cs" />
+    <Compile Include="src\Specification\CharValue.cs" />
+    <Compile Include="src\Specification\FunctionalBlockExporter.cs" />
+    <Compile Include="src\Specification\Mask.cs" />
+    <Compile Include="src\Specification\Match.cs" />
+    <Compile Include="src\Specification\MatchRange.cs" />
+    <Compile Include="src\Specification\Meaning.cs" />
+    <Compile Include="src\Specification\Message.cs" />
+    <Compile Include="src\Specification\MsgVariable.cs" />
+    <Compile Include="src\Specification\Paragraph.cs" />
+    <Compile Include="src\Specification\ParagraphRevision.cs" />
+    <Compile Include="src\Specification\ResolutionFormula.cs" />
+    <Compile Include="src\Specification\SpecialOrReservedValue.cs" />
+    <Compile Include="src\Specification\SpecialOrReservedValues.cs" />
+    <Compile Include="src\Specification\Specification.cs" />
+    <Compile Include="src\Specification\TypeSpec.cs" />
+    <Compile Include="src\Specification\Value.cs" />
+    <Compile Include="src\Specification\Values.cs" />
+    <Compile Include="src\EFSSystem.cs" />
+    <Compile Include="src\Tests\DBElements\DBField.cs" />
+    <Compile Include="src\Tests\DBElements\DBMessage.cs" />
+    <Compile Include="src\Tests\DBElements\DBPacket.cs" />
+    <Compile Include="src\Tests\Expectation.cs" />
+    <Compile Include="src\Tests\Frame.cs" />
+    <Compile Include="src\Tests\Runner\Events\ExpectationStateChange.cs" />
+    <Compile Include="src\Tests\Runner\Events\EventTimeLine.cs" />
+    <Compile Include="src\Tests\Runner\Events\Expect.cs" />
+    <Compile Include="src\Tests\Runner\Events\ModelEvents.cs" />
+    <Compile Include="src\Tests\Runner\Events\RuleFired.cs" />
+    <Compile Include="src\Tests\Runner\Events\SubStepActivated.cs" />
+    <Compile Include="src\Tests\Runner\Events\VariableUpdate.cs" />
+    <Compile Include="src\Tests\Runner\Runner.cs" />
+    <Compile Include="src\Tests\Step.cs" />
+    <Compile Include="src\Tests\SubSequence.cs" />
+    <Compile Include="src\Tests\SubStep.cs" />
+    <Compile Include="src\Tests\TestCase.cs" />
+    <Compile Include="src\Tests\Translations\Folder.cs" />
+    <Compile Include="src\Tests\Translations\SourceText.cs" />
+    <Compile Include="src\Tests\Translations\Translation.cs" />
+    <Compile Include="src\Tests\Translations\TranslationDictionary.cs" />
+    <Compile Include="src\Types\Collection.cs" />
+    <Compile Include="src\Types\StructureProcedure.cs" />
+    <Compile Include="src\Types\StructureElement.cs" />
+    <Compile Include="src\Types\Structure.cs" />
+    <Compile Include="src\Types\PredefinedTypes.cs" />
+    <Compile Include="src\Constants\State.cs" />
+    <Compile Include="src\Types\StateMachine.cs" />
+    <Compile Include="src\Namable.cs" />
+    <Compile Include="src\Types\NameSpace.cs" />
+    <Compile Include="src\Types\TypeInconsistancyException.cs" />
+    <Compile Include="src\Values\BoolValue.cs" />
+    <Compile Include="src\Values\DoubleValue.cs" />
+    <Compile Include="src\Values\ListValue.cs" />
+    <Compile Include="src\Values\PlaceHolder.cs" />
+    <Compile Include="src\Values\StringValue.cs" />
+    <Compile Include="src\Values\IntValue.cs" />
+    <Compile Include="src\Values\StructureValue.cs" />
+    <Compile Include="src\Values\Value.cs" />
+    <Compile Include="src\Types\Type.cs" />
+    <Compile Include="src\Types\Range.cs" />
+    <Compile Include="src\Constants\EnumValue.cs" />
+    <Compile Include="src\Types\Enum.cs" />
+    <Compile Include="src\ICommentable.cs" />
+    <Compile Include="src\Variables\IProcedure.cs" />
+    <Compile Include="src\Variables\IVariable.cs" />
+    <Compile Include="src\Variables\Procedure.cs" />
+    <Compile Include="src\Variables\Variable.cs" />
+    <Compile Include="src\Util.cs" />
+    <Compile Include="src\ObjectFactory.cs" />
+    <Compile Include="src\Dictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ErtmsSolutions\ErtmsSolutions.csproj">
+      <Project>{7A9B0694-8FCE-4F94-B380-219893B31DB9}</Project>
+      <Name>ErtmsSolutions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{508CA32D-6CC9-4528-9A30-567CD9E1B4CB}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XmlBooster\XmlBooster.csproj">
+      <Project>{A022717B-2952-4948-B63A-A2D3881B97D7}</Project>
+      <Name>XmlBooster</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

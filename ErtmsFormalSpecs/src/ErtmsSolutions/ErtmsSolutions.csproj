@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7A9B0694-8FCE-4F94-B380-219893B31DB9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ErtmsSolutions</RootNamespace>
+    <AssemblyName>ErtmsSolutions</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Etcs\Subset26\AccelerationSpeedCurve.cs" />
+    <Compile Include="Etcs\Subset26\AccelerationSpeedDistanceSurface.cs" />
+    <Compile Include="Etcs\Subset26\AccelerationSpeedDistanceSurfaceExport.cs" />
+    <Compile Include="Etcs\Subset26\AccelerationSpeedDistanceSurfacePlotter.cs" />
+    <Compile Include="Etcs\Subset26\ConstantCurveSegment.cs" />
+    <Compile Include="Etcs\Subset26\Curve.cs" />
+    <Compile Include="Etcs\Subset26\CurveSegment.cs" />
+    <Compile Include="Etcs\Subset26\EtcsBrakingCurveBuilder.cs" />
+    <Compile Include="Etcs\Subset26\EtcsBrakingData.cs" />
+    <Compile Include="Etcs\Subset26\GnuPlotter.cs" />
+    <Compile Include="Etcs\Subset26\Interval.cs" />
+    <Compile Include="Etcs\Subset26\QuadraticCurveSegment.cs" />
+    <Compile Include="Etcs\Subset26\SpeedDistanceCurve.cs" />
+    <Compile Include="Etcs\Subset26\SpeedDistanceCurveMinimizer.cs" />
+    <Compile Include="Etcs\Subset26\SpeedDistanceCurvePlotter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SiUnits\ISiUnit.cs" />
+    <Compile Include="SiUnits\SiAcceleration.cs" />
+    <Compile Include="SiUnits\SiDistance.cs" />
+    <Compile Include="SiUnits\SiSpeed.cs" />
+    <Compile Include="SiUnits\SiTime.cs" />
+    <Compile Include="Utils\Process\RunProcessExec.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

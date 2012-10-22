@@ -1,0 +1,15 @@
+.phony: all clean 
+.default: all
+
+all: bin/$(PROJECT).exe
+
+bin/$(PROJECT).exe :  
+	@banner $(PROJECT)
+	@make clean
+	@-mkdir bin
+	@$(BUILD)
+
+clean:
+	@echo Cleaning $(PROJECT)
+	@rm -rf bin/$(PROJECT).exe	
+

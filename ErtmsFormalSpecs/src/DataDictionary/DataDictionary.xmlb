@@ -1,0 +1,1663 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SYSTEM NAME="DataDictionary.Generated"
+        IGNOREALIENATTRS="TRUE"
+				ENTITIESINATTR="TRUE">
+  <CSHARPCONFIG USEABSTRACTFACTORY="TRUE"
+                GENERATEWITHCONTROLLERS="TRUE"/>
+
+
+  <!-- ------------------------- -->
+  <!-- Elements that have a name -->
+  <!-- ------------------------- -->
+  <ELEMENT NAME="Namable" ABSTRACT="TRUE" MAIN="TRUE" BASECLASS="ModelElement">
+    <FIELDS>
+      <FIELD  NAME="Name" TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Name" TARGET="Name" OPTIONAL="TRUE"/>
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- ------------------------------------------------ -->
+  <!-- Elements that have a relation with a requirement -->
+  <!-- ------------------------------------------------ -->
+  <ELEMENT NAME="ReferencesParagraph" ABSTRACT="TRUE" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Requirements" 		REFTYPE="ReqRef" />
+      <FIELD NAME="Comment"      		TYPE="PCHAR" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <REPEAT TARGET="Requirements" ATLEASTONE="FALSE">
+          <ELEMENTREF NAME="ReqRef"/>
+        </REPEAT>
+        <ENCLOSED NAME="Comment" OPTIONAL="TRUE">
+          <PCDATA TARGET="Comment"/>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------------------------------------------ -->
+  <!-- Elements that have a relation with a requirement -->
+  <!-- and which can implement the requirement          -->
+  <!-- ------------------------------------------------ -->
+  <ELEMENT NAME="ReqRelated" ABSTRACT="TRUE" BASEELEMENT="ReferencesParagraph" BASECLASS="DataDictionary.ReferencesParagraph">
+    <FIELDS>
+      <FIELD NAME="Implemented"  		TYPE="BOOLEAN" />
+      <FIELD NAME="Verified"     		TYPE="BOOLEAN" />
+      <FIELD NAME="NeedsRequirement" 		TYPE="BOOLEAN" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Implemented" TARGET="Implemented" OPTIONAL="TRUE" DEFAULT="FALSE" />
+      <ATTR NAME="Verified" TARGET="Verified" OPTIONAL="TRUE" DEFAULT="FALSE" />
+      <ATTR NAME="NeedsRequirement" TARGET="NeedsRequirement" OPTIONAL="TRUE" DEFAULT="TRUE" />
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- --------------- -->
+  <!-- Data dictionary -->
+  <!-- --------------- -->
+  <ELEMENT NAME="Dictionary" BASECLASS="ModelElement" MAIN="TRUE">
+    <FIELDS>
+      <FIELD NAME="Specification"         REFTYPE="Specification" />
+      <FIELD NAME="RuleDisablings"        REFTYPE="RuleDisabling" />
+      <FIELD NAME="NameSpaces"            REFTYPE="NameSpace" />
+      <FIELD NAME="Tests"                 REFTYPE="Frame"/>
+      <FIELD NAME="TranslationDictionary" REFTYPE="TranslationDictionary"/>
+      <FIELD NAME="ShortcutDictionary"    REFTYPE="ShortcutDictionary"/>
+      <FIELD NAME="Xsi"                   TYPE="PCHAR"/>
+      <FIELD NAME="XsiLocation"           TYPE="PCHAR"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="xmlns:xsi" TARGET="Xsi" />
+      <ATTR NAME="xsi:noNamespaceSchemaLocation" TARGET="XsiLocation" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ELEMENTREF NAME="Specification" TARGET="Specification" OPTIONAL="TRUE" />
+        <ENCLOSED NAME="RuleDisabling" OPTIONAL="TRUE">
+          <REPEAT TARGET="RuleDisablings">
+            <ELEMENTREF NAME="RuleDisabling"/>
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="NameSpaces">
+          <REPEAT TARGET="NameSpaces">
+            <ELEMENTREF NAME="NameSpace"/>
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Tests" OPTIONAL="TRUE">
+          <REPEAT TARGET="Tests">
+            <ELEMENTREF NAME="Frame" />
+          </REPEAT>
+        </ENCLOSED>
+        <ELEMENTREF NAME="TranslationDictionary" TARGET="TranslationDictionary" OPTIONAL="TRUE" />
+	<ELEMENTREF NAME="ShortcutDictionary"    TARGET="ShortcutDictionary"    OPTIONAL="TRUE" />
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------------------- -->
+  <!-- Disabling of a rule       -->
+  <!-- ------------------------- -->
+  <ELEMENT NAME="RuleDisabling" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="Rule" TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Rule" TARGET="Rule" />
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- --------- -->
+  <!-- NameSpace -->
+  <!-- --------- -->
+  <ELEMENT NAME="NameSpace" TAG="NameSpace" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="NameSpaces"          REFTYPE="NameSpace"     MODE="DEFAULT"/>
+      <FIELD NAME="Ranges"              REFTYPE="Range"         MODE="DEFAULT"/>
+      <FIELD NAME="Enumerations"        REFTYPE="Enum"          MODE="DEFAULT"/>
+      <FIELD NAME="Structures"          REFTYPE="Structure"     MODE="DEFAULT"/>
+      <FIELD NAME="Collections"         REFTYPE="Collection"    MODE="DEFAULT"/>
+      <FIELD NAME="Functions"           REFTYPE="Function"      MODE="DEFAULT"/>
+      <FIELD NAME="Procedures"          REFTYPE="Procedure"     MODE="DEFAULT"/>
+      <FIELD NAME="Variables"           REFTYPE="Variable"      MODE="DEFAULT"/>
+      <FIELD NAME="Rules"               REFTYPE="Rule"          MODE="DEFAULT"/>
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="NameSpaces" OPTIONAL="TRUE">
+          <REPEAT TARGET="NameSpaces">
+            <ELEMENTREF NAME="NameSpace" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Ranges" OPTIONAL="TRUE">
+          <REPEAT TARGET="Ranges">
+            <ELEMENTREF NAME="Range" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Enumerations" OPTIONAL="TRUE">
+          <REPEAT TARGET="Enumerations">
+            <ELEMENTREF NAME="Enum" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Structures" OPTIONAL="TRUE">
+          <REPEAT TARGET="Structures">
+            <ELEMENTREF NAME="Structure" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Collections" OPTIONAL="TRUE">
+          <REPEAT TARGET="Collections">
+            <ELEMENTREF NAME="Collection" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Functions" OPTIONAL="TRUE">
+          <REPEAT TARGET="Functions">
+            <ELEMENTREF NAME="Function" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Procedures" OPTIONAL="TRUE">
+          <REPEAT TARGET="Procedures">
+            <ELEMENTREF NAME="Procedure" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Variables" OPTIONAL="TRUE">
+          <REPEAT TARGET="Variables">
+            <ELEMENTREF NAME="Variable" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Rules" OPTIONAL="TRUE">
+          <REPEAT TARGET="Rules">
+            <ELEMENTREF NAME="Rule" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+  
+  <!-- -------------------------- -->
+  <!-- Reference to a requirement -->
+  <!-- -------------------------- -->
+  <ELEMENT NAME="ReqRef" BASECLASS="ModelElement" MAIN="TRUE">
+    <FIELDS>
+      <FIELD NAME="Id"       TYPE="PCHAR"/>
+      <FIELD NAME="Comment"  TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Id" TARGET="Id"/>
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Comment" OPTIONAL="TRUE">
+          <PCDATA TARGET="Comment"/>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----- -->
+  <!-- Types -->
+  <!-- ----- -->
+  <ELEMENT NAME="Type" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="Default" TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Default" TARGET="Default" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- --------- -->
+  <!-- Enum Type -->
+  <!-- --------- -->
+  <ELEMENT NAME="Enum" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <FIELDS>
+      <FIELD NAME="Values"   REFTYPE="EnumValue"/>
+      <FIELD NAME="SubEnums" REFTYPE="Enum"/>
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Values" OPTIONAL="TRUE">
+          <REPEAT TARGET="Values">
+            <ELEMENTREF NAME="EnumValue"/>
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="SubEnums" OPTIONAL="TRUE">
+          <REPEAT TARGET="SubEnums">
+            <ELEMENTREF NAME="Enum"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------- -->
+  <!-- Enum Value -->
+  <!-- ---------- -->
+  <ELEMENT NAME="EnumValue" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Value"      TYPE="PCHAR"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Value" TARGET="Value" OPTIONAL="TRUE" DEFAULT="0"/>
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- ---------- -->
+  <!-- Range Type -->
+  <!-- ---------- -->
+  <ELEMENT NAME="Range" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <FIELDS>
+      <FIELD NAME="MinValue"      TYPE="PCHAR"/>
+      <FIELD NAME="MaxValue"      TYPE="PCHAR"/>
+      <FIELD NAME="SpecialValues" REFTYPE="EnumValue"/>
+      <FIELD NAME="Precision"     ENUMTYPE="PrecisionEnum"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="MinValue"  TARGET="MinValue"/>
+      <ATTR NAME="MaxValue"  TARGET="MaxValue"/>
+      <ATTR NAME="Precision" TARGET="Precision" OPTIONAL="TRUE" DEFAULT="IntegerPrecision"/>
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="SpecialValues" OPTIONAL="TRUE">
+          <REPEAT TARGET="SpecialValues">
+            <ELEMENTREF NAME="EnumValue"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+  
+  <!-- -------------- -->
+  <!-- Structure Type -->
+  <!-- -------------- -->
+  <ELEMENT NAME="Structure" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <FIELDS>
+      <FIELD NAME="Elements"   REFTYPE="StructureElement"/>
+      <FIELD NAME="Procedures" REFTYPE="StructureProcedure"/>
+      <FIELD NAME="Rules"      REFTYPE="Rule"/>
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Rules" OPTIONAL="TRUE">
+          <REPEAT TARGET="Rules">
+            <ELEMENTREF NAME="Rule" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Procedures" OPTIONAL="TRUE">
+          <REPEAT TARGET="Procedures">
+            <ELEMENTREF NAME="StructureProcedure" />
+          </REPEAT>
+        </ENCLOSED>
+        <REPEAT TARGET="Elements">
+          <ELEMENTREF NAME="StructureElement" />
+        </REPEAT>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----------------- -->
+  <!-- Structure Element -->
+  <!-- ----------------- -->
+  <ELEMENT NAME="StructureElement" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="TypeName" TYPE="PCHAR"/>
+      <FIELD NAME="Default"  TYPE="PCHAR"/>
+      <FIELD NAME="Mode"     ENUMTYPE="VariableModeEnumType"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="TypeName" TARGET="TypeName"/>
+      <ATTR NAME="Default"  TARGET="Default" OPTIONAL="TRUE" DEFAULT=""/>
+      <ATTR NAME="Mode"     TARGET="Mode"    OPTIONAL="TRUE" DEFAULT="Internal"/>
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- ------------------- -->
+  <!-- Structure Procedure -->
+  <!-- ------------------- -->
+  <ELEMENT NAME="StructureProcedure" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="StateMachine" REFTYPE="StateMachine" />
+      <FIELD NAME="Rules"        REFTYPE="Rule" />
+      <FIELD NAME="Parameters"   REFTYPE="Parameter" />
+    </FIELDS>
+    <FORMULA>
+       <CONCAT>
+         <ENCLOSED NAME="Parameters" OPTIONAL="TRUE" >
+           <REPEAT TARGET="Parameters">
+             <ELEMENTREF NAME="Parameter"/>
+           </REPEAT>
+         </ENCLOSED>
+        <ENCLOSED NAME="Rules" OPTIONAL="TRUE">
+          <REPEAT TARGET="Rules">
+            <ELEMENTREF NAME="Rule" />
+          </REPEAT>
+        </ENCLOSED>
+        <ELEMENTREF NAME="StateMachine" TARGET="StateMachine" OPTIONAL="TRUE" />
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- --------------- -->
+  <!-- Collection Type -->
+  <!-- --------------- -->
+  <ELEMENT NAME="Collection" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <FIELDS>
+      <FIELD NAME="TypeName" TYPE="PCHAR"/>
+      <FIELD NAME="MaxSize" TYPE="INTEGER" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="TypeName" TARGET="TypeName" />
+      <ATTR NAME="MaxSize" TARGET="MaxSize" OPTIONAL="TRUE" DEFAULT="10"/>
+    </ATTRIBUTES>
+  </ELEMENT>
+  
+  <!-- -------- -->
+  <!-- Function -->
+  <!-- -------- -->
+  <ELEMENT NAME="Function" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <FIELDS>
+      <FIELD NAME="Parameters"    REFTYPE="Parameter"/>
+      <FIELD NAME="Cases"         REFTYPE="Case"/>
+      <FIELD NAME="TypeName"      TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Type" TARGET="TypeName" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Parameters" OPTIONAL="TRUE" >
+          <REPEAT TARGET="Parameters">
+            <ELEMENTREF NAME="Parameter"/>
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Cases" >
+          <REPEAT TARGET="Cases">
+            <ELEMENTREF NAME="Case"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------- -->
+  <!-- Parameter  -->
+  <!-- ---------- -->
+  <ELEMENT NAME="Parameter" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="TypeName" TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Type" TARGET="TypeName" />
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- ----- -->
+  <!-- Case  -->
+  <!-- ----- -->
+  <ELEMENT NAME="Case" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="PreConditions" REFTYPE="PreCondition" />
+      <FIELD NAME="Expression"    TYPE="PCHAR" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="PreConditions" OPTIONAL="TRUE" >
+          <REPEAT TARGET="PreConditions">
+            <ELEMENTREF NAME="PreCondition"/>
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Expression">
+          <PCDATA TARGET="Expression" />
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------- -->
+  <!-- Procedure  -->
+  <!-- ---------- -->
+  <ELEMENT NAME="Procedure" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="StateMachine" REFTYPE="StateMachine" />
+      <FIELD NAME="Rules"        REFTYPE="Rule" />
+			<FIELD NAME="Parameters"	 REFTYPE="Parameter" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Parameters" OPTIONAL="TRUE" >
+          <REPEAT TARGET="Parameters">
+            <ELEMENTREF NAME="Parameter"/> 
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Rules" OPTIONAL="TRUE">
+          <REPEAT TARGET="Rules">
+            <ELEMENTREF NAME="Rule" />
+          </REPEAT>
+        </ENCLOSED>
+        <ELEMENTREF NAME="StateMachine" TARGET="StateMachine" OPTIONAL="TRUE" />
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------- -->
+  <!-- State Machine -->
+  <!-- ------------- -->
+  <ELEMENT NAME="StateMachine" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <FIELDS>
+      <FIELD NAME="InitialState" TYPE="PCHAR" />
+      <FIELD NAME="States"       REFTYPE="State" MODE="DEFAULT" />
+      <FIELD NAME="Rules"        REFTYPE="Rule"  MODE="DEFAULT" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="InitialState" TARGET="InitialState" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="States" OPTIONAL="TRUE">
+          <REPEAT TARGET="States">
+            <ELEMENTREF NAME="State" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Rules" OPTIONAL="TRUE">
+          <REPEAT TARGET="Rules">
+            <ELEMENTREF NAME="Rule" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----- -->
+  <!-- State -->
+  <!-- ----- -->
+  <ELEMENT NAME="State" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="StateMachine" REFTYPE="StateMachine" />
+      <FIELD NAME="Width"        TYPE="INTEGER" />
+      <FIELD NAME="Height"       TYPE="INTEGER" />
+      <FIELD NAME="X"            TYPE="INTEGER" />
+      <FIELD NAME="Y"            TYPE="INTEGER" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="X"      TARGET="X"      OPTIONAL="TRUE" DEFAULT="0" />
+      <ATTR NAME="Y"      TARGET="Y"      OPTIONAL="TRUE" DEFAULT="0" />
+      <ATTR NAME="Width"  TARGET="Width"  OPTIONAL="TRUE" DEFAULT="0" />
+      <ATTR NAME="Height" TARGET="Height" OPTIONAL="TRUE" DEFAULT="0" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ELEMENTREF NAME="StateMachine" TARGET="StateMachine" OPTIONAL="TRUE" />
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+  
+  <!-- -------- -->
+  <!-- Variable -->
+  <!-- -------- -->
+  <ELEMENT NAME="Variable" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="TypeName"     TYPE="PCHAR" />
+      <FIELD NAME="DefaultValue" TYPE="PCHAR" />
+      <FIELD NAME="VariableMode" ENUMTYPE="VariableModeEnumType"/>
+      <FIELD NAME="SubVariables" REFTYPE="Variable" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Type"         TARGET="TypeName" OPTIONAL="TRUE" />
+      <ATTR NAME="DefaultValue" TARGET="DefaultValue" OPTIONAL="TRUE"/>
+      <ATTR NAME="VariableMode" TARGET="VariableMode" OPTIONAL="TRUE" DEFAULT="Internal"/>
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="SubVariables" OPTIONAL="TRUE">
+          <REPEAT TARGET="SubVariables">
+            <ELEMENTREF NAME="Variable"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---- -->
+  <!-- Rule -->
+  <!-- ---- -->
+  <ELEMENT NAME="Rule" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="Priority"      ENUMTYPE="RulePriority" />
+      <FIELD NAME="Conditions"    REFTYPE="RuleCondition" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Priority" TARGET="Priority" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="SubRules" OPTIONAL="TRUE" >
+          <PCDATA />
+        </ENCLOSED>
+        <ENCLOSED NAME="Conditions" OPTIONAL="TRUE" >
+          <REPEAT TARGET="Conditions" >
+            <ELEMENTREF NAME="RuleCondition" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+  
+  <!-- -------------- -->
+  <!-- Rule condition -->
+  <!-- -------------- -->
+  <ELEMENT NAME="RuleCondition" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="PreConditions" REFTYPE="PreCondition" />
+      <FIELD NAME="Actions" REFTYPE="Action" />
+      <FIELD NAME="SubRules" REFTYPE="Rule" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="PreConditions" OPTIONAL="TRUE">
+          <CONCAT>
+            <REPEAT TARGET="PreConditions" >
+              <ELEMENTREF NAME="PreCondition" />
+            </REPEAT>
+          </CONCAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Actions" OPTIONAL="TRUE">
+          <CONCAT>
+            <REPEAT TARGET="Actions" >
+              <ELEMENTREF NAME="Action" />
+            </REPEAT>
+          </CONCAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="SubRules" OPTIONAL="TRUE" >
+          <REPEAT TARGET="SubRules" >
+            <ELEMENTREF NAME="Rule" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------- -->
+  <!-- Pre-Condition -->
+  <!-- ------------- -->
+  <ELEMENT NAME="PreCondition" BASECLASS="ModelElement" MAIN="TRUE">
+    <FIELDS>
+      <FIELD NAME="Condition" TYPE="PCHAR"/>
+    </FIELDS>
+    <FORMULA>
+      <PCDATA TARGET="Condition" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------ -->
+  <!-- Action -->
+  <!-- ------ -->
+  <ELEMENT NAME="Action" BASECLASS="ModelElement" MAIN="TRUE">
+    <FIELDS>
+      <FIELD NAME="Expression" TYPE="PCHAR"/>
+    </FIELDS>
+    <FORMULA>
+      <PCDATA TARGET="Expression" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------- -->
+  <!-- Test Frame -->
+  <!-- ---------- -->
+  <ELEMENT NAME="Frame" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="SubSequences" REFTYPE="SubSequence" MODE="DEFAULT"/>
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="SubSequences" OPTIONAL="TRUE" >
+          <REPEAT TARGET="SubSequences">
+            <ELEMENTREF NAME="SubSequence"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----------------- -->
+  <!-- Test Sub sequence -->
+  <!-- ----------------- -->
+  <ELEMENT NAME="SubSequence" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="D_LRBG"     TYPE="PCHAR" />
+      <FIELD NAME="Level"      TYPE="PCHAR" />
+      <FIELD NAME="Mode"       TYPE="PCHAR" />
+      <FIELD NAME="NID_LRBG"   TYPE="PCHAR" />
+      <FIELD NAME="Q_DIRLRBG"  TYPE="PCHAR" />
+      <FIELD NAME="Q_DIRTRAIN" TYPE="PCHAR" />
+      <FIELD NAME="Q_DLRBG"    TYPE="PCHAR" />
+      <FIELD NAME="RBC_ID"     TYPE="PCHAR" />
+      <FIELD NAME="RBCPhone"   TYPE="PCHAR" />
+      <FIELD NAME="TestCases" REFTYPE="TestCase" MODE="DEFAULT"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="D_LRBG"     TARGET="D_LRBG"     OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="Level"      TARGET="Level"      OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="Mode"       TARGET="Mode"       OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="NID_LRBG"   TARGET="NID_LRBG"   OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="Q_DIRLRBG"  TARGET="Q_DIRLRBG"  OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="Q_DIRTRAIN" TARGET="Q_DIRTRAIN" OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="Q_DLRBG"    TARGET="Q_DLRBG"    OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="RBC_ID"     TARGET="RBC_ID"     OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="RBCPhone"   TARGET="RBCPhone"   OPTIONAL="TRUE" DEFAULT="" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="TestCases" OPTIONAL="TRUE">
+          <REPEAT TARGET="TestCases">
+            <ELEMENTREF NAME="TestCase"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+  
+  <!-- --------- -->
+  <!-- Test Case -->
+  <!-- --------- -->
+  <ELEMENT NAME="TestCase" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <FIELDS>
+      <FIELD NAME="Feature" TYPE="INTEGER" />
+      <FIELD NAME="Case"    TYPE="INTEGER" />
+      <FIELD NAME="Steps"   REFTYPE="Step" MODE="DEFAULT"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Feature" TARGET="Feature" OPTIONAL="TRUE" DEFAULT="9999" />
+      <ATTR NAME="Case"    TARGET="Case"    OPTIONAL="TRUE" DEFAULT="9999" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Steps" OPTIONAL="TRUE" >
+          <REPEAT TARGET="Steps">
+            <ELEMENTREF NAME="Step"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---- -->
+  <!-- Step -->
+  <!-- ---- -->
+  <ELEMENT NAME="Step" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="TCS_Order"           TYPE="INTEGER" />
+      <FIELD NAME="Distance"            TYPE="INTEGER" />
+      <FIELD NAME="Description"         TYPE="PCHAR" />
+      <FIELD NAME="Comment"             TYPE="PCHAR" />
+      <FIELD NAME="UserComment"         TYPE="PCHAR" />
+      <FIELD NAME="IO"                  ENUMTYPE="ST_IO" />
+      <FIELD NAME="Interface"           ENUMTYPE="ST_INTERFACE" />
+      <FIELD NAME="LevelIN"             ENUMTYPE="ST_LEVEL" />
+      <FIELD NAME="LevelOUT"            ENUMTYPE="ST_LEVEL" />
+      <FIELD NAME="ModeIN"              ENUMTYPE="ST_MODE" />
+      <FIELD NAME="ModeOUT"             ENUMTYPE="ST_MODE" />
+      <FIELD NAME="TranslationRequired" TYPE="BOOLEAN" />
+      <FIELD NAME="Translated"          TYPE="BOOLEAN" />
+      <FIELD NAME="SubSteps"            REFTYPE="SubStep" />
+      <FIELD NAME="Messages"            REFTYPE="DBMessage" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="TCS_Order"           TARGET="TCS_Order"           OPTIONAL="TRUE" DEFAULT="0" />
+      <ATTR NAME="Distance"            TARGET="Distance"            OPTIONAL="TRUE" DEFAULT="0" />
+      <ATTR NAME="IO"                  TARGET="IO"                  OPTIONAL="TRUE" DEFAULT="NA" />
+      <ATTR NAME="LevelIN"             TARGET="LevelIN"             OPTIONAL="TRUE" DEFAULT="NA" />
+      <ATTR NAME="LevelOUT"            TARGET="LevelOUT"            OPTIONAL="TRUE" DEFAULT="NA" />
+      <ATTR NAME="ModeIN"              TARGET="ModeIN"              OPTIONAL="TRUE" DEFAULT="NA" />
+      <ATTR NAME="ModeOUT"             TARGET="ModeOUT"             OPTIONAL="TRUE" DEFAULT="NA" />
+      <ATTR NAME="TranslationRequired" TARGET="TranslationRequired" OPTIONAL="TRUE" DEFAULT="TRUE" />
+      <ATTR NAME="Translated"          TARGET="Translated"          OPTIONAL="TRUE" DEFAULT="FALSE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Description" OPTIONAL="TRUE">
+          <PCDATA TARGET="Description" />
+        </ENCLOSED>
+        <ENCLOSED NAME="Comment" OPTIONAL="TRUE">
+          <PCDATA TARGET="Comment" />
+        </ENCLOSED>
+        <ENCLOSED NAME="UserComment" OPTIONAL="TRUE">
+          <PCDATA TARGET="UserComment" />
+        </ENCLOSED>
+        <ENCLOSED NAME="SubSteps" OPTIONAL="TRUE">
+          <REPEAT TARGET="SubSteps">
+            <ELEMENTREF NAME="SubStep"/>
+          </REPEAT>
+        </ENCLOSED>
+	<ENCLOSED NAME="Messsages" OPTIONAL="TRUE">
+          <REPEAT TARGET="Messages">
+            <ELEMENTREF NAME="DBMessage"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------- -->
+  <!-- SubStep -->
+  <!-- ------- -->
+  <ELEMENT NAME="SubStep" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Actions"      REFTYPE="Action" />
+      <FIELD NAME="Expectations" REFTYPE="Expectation" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+	<ENCLOSED NAME="Actions" OPTIONAL="TRUE">
+          <REPEAT TARGET="Actions">
+            <ELEMENTREF NAME="Action"/>
+          </REPEAT>
+        </ENCLOSED>
+	<ENCLOSED NAME="Expectations" OPTIONAL="TRUE">
+          <REPEAT TARGET="Expectations">
+            <ELEMENTREF NAME="Expectation"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+  
+  <!-- ----------- -->
+  <!-- Expectation -->
+  <!-- ----------- -->
+  <ELEMENT NAME="Expectation" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Variable" TYPE="PCHAR"/>
+      <FIELD NAME="Value"    TYPE="PCHAR"/>
+      <FIELD NAME="Blocking" TYPE="BOOLEAN"/>
+      <FIELD NAME="DeadLine" TYPE="INTEGER"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Variable" TARGET="Variable"/>
+      <ATTR NAME="Blocking" TARGET="Blocking" OPTIONAL="TRUE" DEFAULT="FALSE"/>
+      <ATTR NAME="DeadLine" TARGET="DeadLine" OPTIONAL="TRUE" DEFAULT="0"/>
+    </ATTRIBUTES>
+    <FORMULA>
+      <PCDATA TARGET="Value" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------- -->
+  <!-- DB Message -->
+  <!-- ---------- -->
+  <ELEMENT NAME="DBMessage" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="MessageOrder" TYPE="INTEGER" />
+      <FIELD NAME="MessageType"  ENUMTYPE="DBMessageType" />
+      <FIELD NAME="Fields"       REFTYPE="DBField" MODE="DEFAULT" />
+      <FIELD NAME="Packets"      REFTYPE="DBPacket" MODE="DEFAULT" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="MessageOrder" TARGET="MessageOrder" OPTIONAL="TRUE" DEFAULT="0" />
+      <ATTR NAME="MessageType"  TARGET="MessageTYPE"  OPTIONAL="TRUE" DEFAULT="EUROBALISE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Fields" OPTIONAL="TRUE" >
+          <REPEAT TARGET="Fields">
+            <ELEMENTREF NAME="DBField"/>
+          </REPEAT>
+        </ENCLOSED>
+	<ENCLOSED NAME="Packets" OPTIONAL="TRUE" >
+          <REPEAT TARGET="Packets">
+            <ELEMENTREF NAME="DBPacket"/>
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- --------- -->
+  <!-- DB Packet -->
+  <!-- --------- -->
+  <ELEMENT NAME="DBPacket" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Fields" REFTYPE="DBField" MODE="DEFAULT" />
+    </FIELDS>
+    <FORMULA>
+      <ENCLOSED NAME="Fields" OPTIONAL="TRUE" >
+        <REPEAT TARGET="Fields">
+          <ELEMENTREF NAME="DBField"/>
+        </REPEAT>
+      </ENCLOSED>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- -------- -->
+  <!-- DB Field -->
+  <!-- -------- -->
+  <ELEMENT NAME="DBField" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Variable" TYPE="PCHAR" />
+      <FIELD NAME="Value"    TYPE="INTEGER" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Value" TARGET="Value" OPTIONAL="TRUE" DEFAULT="0" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <ENCLOSED NAME="Variable" OPTIONAL="TRUE">
+	<PCDATA TARGET="Variable" />
+      </ENCLOSED>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------------------- -->
+  <!-- Translation dictionary -->
+  <!-- ---------------------- -->
+  <ELEMENT NAME="TranslationDictionary" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Folders"      REFTYPE="Folder" />
+      <FIELD NAME="Translations" REFTYPE="Translation" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Folders" OPTIONAL="TRUE">
+          <REPEAT TARGET="Folders">
+	    <ELEMENTREF NAME="Folder" />
+  	  </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Translations" OPTIONAL="TRUE">
+          <REPEAT TARGET="Translations">
+            <ELEMENTREF NAME="Translation" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------------ -->
+  <!-- Translation folder -->
+  <!-- ------------------ -->
+  <ELEMENT NAME="Folder" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Folders"      REFTYPE="Folder" />
+      <FIELD NAME="Translations" REFTYPE="Translation" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Folders" OPTIONAL="TRUE">
+          <REPEAT TARGET="Folders">
+            <ELEMENTREF NAME="Folder" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Translations" OPTIONAL="TRUE">
+          <REPEAT TARGET="Translations">
+            <ELEMENTREF NAME="Translation" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----------- -->
+  <!-- Translation -->
+  <!-- ----------- -->
+  <ELEMENT NAME="Translation" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="SourceTexts"   REFTYPE="SourceText" />
+      <FIELD NAME="Implemented"   TYPE="BOOLEAN" />
+      <FIELD NAME="SubSteps"      REFTYPE="SubStep" />
+      <FIELD NAME="Comment"       TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="Implemented" TARGET="Implemented" OPTIONAL="TRUE" DEFAULT="FALSE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="SourceTexts" OPTIONAL="TRUE">
+          <REPEAT TARGET="SourceTexts">
+            <ELEMENTREF NAME="SourceText"/>
+          </REPEAT>
+        </ENCLOSED>
+	<ENCLOSED NAME="SubSteps" OPTIONAL="TRUE">
+          <REPEAT TARGET="SubSteps">
+            <ELEMENTREF NAME="SubStep"/>
+          </REPEAT>
+        </ENCLOSED>
+	<ENCLOSED NAME="Comment" OPTIONAL="TRUE">
+          <PCDATA TARGET="Comment" />
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----------- -->
+  <!-- Source text -->
+  <!-- ----------- -->
+  <ELEMENT NAME="SourceText" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+  </ELEMENT>
+
+  <!-- ------------------- -->
+  <!-- Shortcut dictionary -->
+  <!-- ------------------- -->
+  <ELEMENT NAME="ShortcutDictionary" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Folders"   REFTYPE="ShortcutFolder" />
+      <FIELD NAME="Shortcuts" REFTYPE="Shortcut" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Folders" OPTIONAL="TRUE">
+          <REPEAT TARGET="Folders">
+	    <ELEMENTREF NAME="ShortcutFolder" />
+  	  </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Shortcuts" OPTIONAL="TRUE">
+          <REPEAT TARGET="Shortcuts">
+            <ELEMENTREF NAME="Shortcut" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- --------------- -->
+  <!-- Shortcut folder -->
+  <!-- --------------- -->
+  <ELEMENT NAME="ShortcutFolder" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Folders"   REFTYPE="ShortcutFolder" />
+      <FIELD NAME="Shortcuts" REFTYPE="Shortcut" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="Folders" OPTIONAL="TRUE">
+          <REPEAT TARGET="Folders">
+            <ELEMENTREF NAME="ShortcutFolder" />
+          </REPEAT>
+        </ENCLOSED>
+        <ENCLOSED NAME="Shortcuts" OPTIONAL="TRUE">
+          <REPEAT TARGET="Shortcuts">
+            <ELEMENTREF NAME="Shortcut" />
+          </REPEAT>
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- -------- -->
+  <!-- Shortcut -->
+  <!-- -------- -->
+  <ELEMENT NAME="Shortcut" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="ShortcutName" TYPE="PCHAR" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="ShortcutName" OPTIONAL="TRUE">
+       	  <PCDATA TARGET="ShortcutName" />
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------- -->
+  <!-- Specification -->
+  <!-- ------------- -->
+  <ELEMENT NAME="Specification" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Version" TYPE="PCHAR"/>
+      <FIELD NAME="Chapters" REFTYPE="Chapter" MODE="DEFAULT"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="version" TARGET="Version" OPTIONAL="TRUE"/>
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <REPEAT TARGET="Chapters">
+          <ELEMENTREF NAME="Chapter"/>
+        </REPEAT>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------- -->
+  <!-- Chapter -->
+  <!-- ------- -->
+  <ELEMENT NAME="Chapter" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="Id" TYPE="PCHAR"/>
+      <FIELD NAME="Paragraphs" REFTYPE="Paragraph" MODE="DEFAULT"/>
+      <FIELD NAME="TypeSpecs" REFTYPE="TypeSpec" MODE="DEFAULT"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="id" TARGET="Id"/>
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <REPEAT TARGET="Paragraphs">
+          <ELEMENTREF NAME="Paragraph"/>
+        </REPEAT>
+        <REPEAT TARGET="TypeSpecs" >
+          <ELEMENTREF NAME="TypeSpec" />
+        </REPEAT>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- --------- -->
+  <!-- Paragraph -->
+  <!-- --------- -->
+  <ELEMENT NAME="Paragraph" BASEELEMENT="ReferencesParagraph" BASECLASS="DataDictionary.ReferencesParagraph" MAIN="TRUE">
+    <FIELDS>
+      <FIELD NAME="Id"                   TYPE="PCHAR" />
+      <FIELD NAME="Type"                 ENUMTYPE="Paragraph_type" />
+      <FIELD NAME="Scope"                ENUMTYPE="Paragraph_scope" />
+      <FIELD NAME="Bl"                   TYPE="PCHAR" />
+      <FIELD NAME="Optional"             TYPE="BOOLEAN" />
+      <FIELD NAME="TypeSpecs"            REFTYPE="TypeSpec" />
+      <FIELD NAME="Text"                 TYPE="PCHAR" />     
+      <FIELD NAME="Version"              TYPE="PCHAR" />
+      <FIELD NAME="Reviewed"             TYPE="BOOLEAN" />
+      <FIELD NAME="ImplementationStatus" ENUMTYPE="SPEC_IMPLEMENTED_ENUM" />
+      <FIELD NAME="Paragraphs"           REFTYPE="Paragraph" />
+      <FIELD NAME="Revision"             REFTYPE="ParagraphRevision" />
+      <FIELD NAME="Message"              REFTYPE="Message" />
+      <FIELD NAME="MoreInfoRequired"     TYPE="BOOLEAN" />
+      <FIELD NAME="SpecIssue"            TYPE="BOOLEAN" />
+      <FIELD NAME="FunctionalBlock"      TYPE="BOOLEAN" />
+      <FIELD NAME="FunctionalBlockName"  TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="id"                  TARGET="Id"/>
+      <ATTR NAME="type"                TARGET="Type" OPTIONAL="TRUE" DEFAULT="REQUIREMENT" />
+      <ATTR NAME="scope"               TARGET="Scope" OPTIONAL="TRUE" DEFAULT="OBU_AND_TRACK" />
+      <ATTR NAME="bl"                  TARGET="Bl" OPTIONAL="TRUE" DEFAULT=""/>
+      <ATTR NAME="optional"            TARGET="Optional" OPTIONAL="TRUE" DEFAULT="TRUE" />
+      <ATTR NAME="name"                TARGET="Name" OPTIONAL="TRUE" DEFAULT="" />
+      <ATTR NAME="reviewed"            TARGET="Reviewed" OPTIONAL="TRUE" DEFAULT="FALSE" />
+      <ATTR NAME="status"              TARGET="ImplementationStatus" OPTIONAL="TRUE" DEFAULT="NA" />
+      <ATTR NAME="version"             TARGET="Version" OPTIONAL="TRUE" DEFAULT="3.0.0"/>
+      <ATTR NAME="infoRequired"        TARGET="MoreInfoRequired" OPTIONAL="TRUE" DEFAULT="FALSE" />
+      <ATTR NAME="specIssue"           TARGET="SpecIssue" OPTIONAL="TRUE" DEFAULT="FALSE" />
+      <ATTR NAME="functionalBlock"     TARGET="FunctionalBlock" OPTIONAL="TRUE" DEFAULT="FALSE" />
+      <ATTR NAME="functionalBlockName" TARGET="FunctionalBlockName" OPTIONAL="TRUE" DEFAULT=""/>
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <PCDATA TARGET="Text"/> 
+        <ELEMENTREF NAME="Message" TARGET="Message" OPTIONAL="TRUE" />
+        <ELEMENTREF NAME="ParagraphRevision" TARGET="Revision" OPTIONAL="TRUE" />
+        <ENCLOSED NAME="Sub" OPTIONAL="TRUE">
+          <REPEAT TARGET="Paragraphs">
+            <ELEMENTREF NAME="Paragraph"/>
+          </REPEAT>
+        </ENCLOSED>
+        <REPEAT TARGET="TypeSpecs" >
+          <ELEMENTREF NAME="TypeSpec" />
+        </REPEAT>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------- -->
+  <!-- Message -->
+  <!-- ------- -->
+  <ELEMENT NAME="Message" TAG="Message" >
+    <FIELDS>
+      <FIELD NAME="Description" TYPE="PCHAR" />
+      <FIELD NAME="Media" ENUMTYPE="Message_media" />
+      <FIELD NAME="Bl" TYPE="PCHAR" />
+      <FIELD NAME="MsgVariables" REFTYPE="MsgVariable" MODE="DEFAULT" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="description" TARGET="Description" />
+      <ATTR NAME="media" TARGET="Media" />
+      <ATTR NAME="bl" TARGET="Bl" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <REPEAT TARGET="MsgVariables" >
+        <ELEMENTREF NAME="MsgVariable" />
+      </REPEAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------------- -->
+  <!-- Message variable -->
+  <!-- ---------------- -->
+  <ELEMENT NAME="MsgVariable" TAG="MsgVariable" >
+    <FIELDS>
+      <FIELD NAME="Name" TYPE="PCHAR" />
+      <FIELD NAME="Length" TYPE="PCHAR" />
+      <FIELD NAME="Comment" TYPE="PCHAR" />
+      <FIELD NAME="Bl" TYPE="PCHAR" />
+      <FIELD NAME="MsgVariables" REFTYPE="MsgVariable" MODE="DEFAULT" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="name" TARGET="Name" />
+      <ATTR NAME="length" TARGET="Length" OPTIONAL="TRUE" />
+      <ATTR NAME="comment" TARGET="Comment" />
+      <ATTR NAME="bl" TARGET="Bl" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <REPEAT TARGET="MsgVariables" >
+        <ELEMENTREF NAME="MsgVariable" />
+      </REPEAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- --------------------- -->
+  <!-- Type of specification -->
+  <!-- --------------------- -->
+  <ELEMENT NAME="TypeSpec" TAG="TypeSpec" >
+    <FIELDS>
+      <FIELD NAME="Length" TYPE="INTEGER" />
+      <FIELD NAME="Minimum_value" TYPE="PCHAR" />
+      <FIELD NAME="Maximum_value" TYPE="PCHAR" />
+      <FIELD NAME="Resolution_formula" TYPE="PCHAR" />
+      <FIELD NAME="Id" TYPE="PCHAR" />
+      <FIELD NAME="Ertms-type" ENUMTYPE="TypeSpec_ertms-type" />
+      <FIELD NAME="Bl" TYPE="PCHAR" />
+      <FIELD NAME="Values" REFTYPE="Values" />
+      <FIELD NAME="Char-value" REFTYPE="char-value" />
+      <FIELD NAME="Description" TYPE="PCHAR" />
+      <FIELD NAME="Short-description" TYPE="PCHAR" />
+      <FIELD NAME="Reference" TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="length" TARGET="Length" />
+      <ATTR NAME="minimum_value" TARGET="Minimum_value" OPTIONAL="TRUE" />
+      <ATTR NAME="maximum_value" TARGET="Maximum_value" OPTIONAL="TRUE" />
+      <ATTR NAME="resolution_formula" TARGET="Resolution_formula" OPTIONAL="TRUE" />
+      <ATTR NAME="id" TARGET="Id" OPTIONAL="TRUE" />
+      <ATTR NAME="ertms-type" TARGET="Ertms-type" OPTIONAL="TRUE" />
+      <ATTR NAME="bl" TARGET="Bl" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="short-description" OPTIONAL="TRUE" >
+          <META NAME="COMMENT" >
+            Target field is short-description
+          </META>
+          <PCDATA TARGET="Short-description" />
+        </ENCLOSED>
+        <ENCLOSED NAME="Description" OPTIONAL="TRUE" >
+          <META NAME="COMMENT" >
+            Target field is Description
+          </META>
+          <PCDATA TARGET="Description" OPTIONAL="TRUE" />
+        </ENCLOSED>
+        <ENCLOSED NAME="reference" OPTIONAL="TRUE" >
+          <META NAME="COMMENT" >
+            Target field is reference
+          </META>
+          <PCDATA TARGET="reference" />
+        </ENCLOSED>
+        <DISJUNCT>
+          <ELEMENTREF TARGET="Values" NAME="Values" OPTIONAL="TRUE" />
+          <ELEMENTREF TARGET="char-value" NAME="char-value" OPTIONAL="TRUE" />
+        </DISJUNCT>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------ -->
+  <!-- Values -->
+  <!-- ------ -->
+  <ELEMENT NAME="Values" TAG="Values" >
+    <FIELDS>
+      <FIELD NAME="Resolution-formula" REFTYPE="resolution-formula" />
+      <FIELD NAME="Special-or-reserved-values" REFTYPE="special-or-reserved-values" />
+      <FIELD NAME="Special-or-reserved-value" REFTYPE="special-or-reserved-value" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ELEMENTREF TARGET="Resolution-formula" NAME="resolution-formula" OPTIONAL="TRUE" />
+	<DISJUNCT>
+	  <ELEMENTREF TARGET="Special-or-reserved-values" NAME="special-or-reserved-values" OPTIONAL="TRUE" />
+	  <ELEMENTREF TARGET="Special-or-reserved-value" NAME="special-or-reserved-value" OPTIONAL="TRUE" />
+	</DISJUNCT>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- -------------------------- -->
+  <!-- Special or reserved values -->
+  <!-- -------------------------- -->
+  <ELEMENT NAME="special-or-reserved-values" TAG="special-or-reserved-values" >
+    <FIELDS>
+      <FIELD NAME="Special-or-reserved-values" REFTYPE="special-or-reserved-value" MODE="DEFAULT" />
+    </FIELDS>
+    <FORMULA>
+      <REPEAT TARGET="Special-or-reserved-values" ATLEASTONE="TRUE" >
+        <ELEMENTREF NAME="special-or-reserved-value" />
+      </REPEAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------------------- -->
+  <!-- Special or reserved value -->
+  <!-- ------------------------- -->
+  <ELEMENT NAME="special-or-reserved-value" TAG="special-or-reserved-value" >
+    <FIELDS>
+      <FIELD NAME="Mask" REFTYPE="mask" />
+      <FIELD NAME="Match" REFTYPE="match" />
+      <FIELD NAME="Match-range" REFTYPE="match-range" />
+      <FIELD NAME="Meaning" REFTYPE="meaning" />
+      <FIELD NAME="Value" REFTYPE="value" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+	<ELEMENTREF TARGET="Mask" NAME="mask" OPTIONAL="TRUE" />
+        <DISJUNCT>
+          <ELEMENTREF TARGET="Match" NAME="match" OPTIONAL="TRUE" />
+          <ELEMENTREF TARGET="Match-range" NAME="match-range" OPTIONAL="TRUE" />
+        </DISJUNCT>
+        <ELEMENTREF TARGET="Meaning" NAME="meaning" OPTIONAL="TRUE" />
+        <ELEMENTREF TARGET="Value" NAME="value" OPTIONAL="TRUE" />
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---- -->
+  <!-- Mask -->
+  <!-- ---- -->
+  <ELEMENT NAME="mask" TAG="mask" >
+    <FIELDS>
+      <FIELD NAME="Value" TYPE="PCHAR" />
+    </FIELDS>
+    <FORMULA>
+      <PCDATA TARGET="Value" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----- -->
+  <!-- Match -->
+  <!-- ----- -->
+  <ELEMENT NAME="match" TAG="match" >
+    <FIELDS>
+      <FIELD NAME="Value" TYPE="PCHAR" />
+    </FIELDS>
+    <FORMULA>
+      <PCDATA TARGET="Value" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------- -->
+  <!-- Meaning -->
+  <!-- ------- -->
+  <ELEMENT NAME="meaning" TAG="meaning" >
+    <FIELDS>
+      <FIELD NAME="Type" ENUMTYPE="meaning_type" />
+      <FIELD NAME="Bl" TYPE="PCHAR" />
+      <FIELD NAME="Value" TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="type" TARGET="Type" />
+      <ATTR NAME="bl" TARGET="Bl" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <PCDATA TARGET="Value" OPTIONAL="TRUE" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----------- -->
+  <!-- Match range -->
+  <!-- ----------- -->
+  <ELEMENT NAME="match-range" TAG="match-range" >
+    <FIELDS>
+      <FIELD NAME="Minimum" TYPE="PCHAR" />
+      <FIELD NAME="Maximum" ENUMTYPE="maximum_Value" />
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <ENCLOSED NAME="minimum" >
+          <META NAME="COMMENT" >
+						Target field is minimum
+          </META>
+          <PCDATA TARGET="Minimum" />
+        </ENCLOSED>
+        <ENCLOSED NAME="maximum" >
+          <META NAME="COMMENT" >
+						Target field is maximum
+          </META>
+          <PCDATA TARGET="Maximum" />
+        </ENCLOSED>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------------ -->
+  <!-- Resolution formula -->
+  <!-- ------------------ -->
+  <ELEMENT NAME="resolution-formula" TAG="resolution-formula" >
+    <FIELDS>
+      <FIELD NAME="Units" ENUMTYPE="resolution-formula_units" />
+      <FIELD NAME="Value" ENUMTYPE="resolution-formula_Value" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="units" TARGET="Units" OPTIONAL="TRUE" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <PCDATA TARGET="Value" OPTIONAL="TRUE" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ----- -->
+  <!-- Value -->
+  <!-- ----- -->
+  <ELEMENT NAME="value" TAG="value" >
+    <FIELDS>
+      <FIELD NAME="Units" TYPE="PCHAR" />
+      <FIELD NAME="Value" TYPE="INTEGER" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="units" TARGET="Units" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <PCDATA TARGET="Value" />
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ---------- -->
+  <!-- Char value -->
+  <!-- ---------- -->
+  <ELEMENT NAME="char-value" TAG="char-value" >
+    <FIELDS>
+      <FIELD NAME="Encoding" TYPE="PCHAR" />
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="encoding" TARGET="Encoding" />
+    </ATTRIBUTES>
+  </ELEMENT>
+
+  <!-- ------------------ -->
+  <!-- Paragraph Revision -->
+  <!-- ------------------ -->
+  <ELEMENT NAME="ParagraphRevision" BASECLASS="ModelElement" MAIN="TRUE">
+    <FIELDS>
+      <FIELD NAME="Text" TYPE="PCHAR"/>
+      <FIELD NAME="Version" TYPE="PCHAR"/>
+    </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="version" TARGET="Version" />
+    </ATTRIBUTES>
+    <FORMULA>
+      <CONCAT>
+        <PCDATA TARGET="Text"/>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------------- -->
+  <!-- Enum Paragraph type -->
+  <!-- ------------------- -->
+  <ENUM NAME="Paragraph_type" >
+    <ENUMVALUE NAME="TITLE" />
+    <ENUMVALUE NAME="DEFINITION" />
+    <ENUMVALUE NAME="NOTE" />
+    <ENUMVALUE NAME="DELETED" />
+    <ENUMVALUE NAME="REQUIREMENT" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="TABLE_HEADER" />
+    <ENUMVALUE NAME="PROBLEM" />
+  </ENUM>
+
+  <!-- -------------------- -->
+  <!-- Enum Paragraph scope -->
+  <!-- -------------------- -->
+  <ENUM NAME="Paragraph_scope" >
+    <ENUMVALUE NAME="OBU_AND_TRACK" USEASNULL="TRUE" />
+    <ENUMVALUE NAME="TRACK" />
+    <ENUMVALUE NAME="OBU" />
+  </ENUM>
+
+  <!-- ------------------ -->
+  <!-- Enum Message media -->
+  <!-- ------------------ -->
+  <ENUM NAME="Message_media" >
+    <ENUMVALUE NAME="Balise, RBC" OVERRIDE="aBalise_RBC" />
+    <ENUMVALUE NAME="Any" />
+    <ENUMVALUE NAME="RBC" />
+    <ENUMVALUE NAME="Balise" />
+    <ENUMVALUE NAME="Balise, loop, RIU" OVERRIDE="aBalise_loop_RIU" />
+    <ENUMVALUE NAME="Loop" />
+    <ENUMVALUE NAME="Balise, RBC, RIU" OVERRIDE="aBalise_RBC_RIU" />
+    <ENUMVALUE NAME="Any " USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="RIU" />
+    <ENUMVALUE NAME="RBC, RIU" OVERRIDE="aRBC_RIU" />
+    <ENUMVALUE NAME="Balise, Loop" OVERRIDE="aBalise_loop" />
+  </ENUM>
+
+  <!-- --------------- -->
+  <!-- Enum ERTMS type -->
+  <!-- --------------- -->
+  <ENUM NAME="TypeSpec_ertms-type" >
+    <ENUMVALUE NAME="distance" />
+    <ENUMVALUE NAME="gradient" />
+    <ENUMVALUE NAME="length" />
+    <ENUMVALUE NAME="miscellaneous" />
+    <ENUMVALUE NAME="class-number" />
+    <ENUMVALUE NAME="identity-number" />
+    <ENUMVALUE NAME="qualifier" />
+    <ENUMVALUE NAME="time-or-date" />
+    <ENUMVALUE NAME="speed" />
+    <ENUMVALUE NAME="text" />
+  </ENUM>
+
+  <!-- ----------------- -->
+  <!-- Enum Meaning type -->
+  <!-- ----------------- -->
+  <ENUM NAME="meaning_type" >
+    <ENUMVALUE NAME="invalid" />
+    <ENUMVALUE NAME="enum" />
+    <ENUMVALUE NAME="unknown" />
+    <ENUMVALUE NAME="infinite" />
+  </ENUM>
+
+  <!-- ------------------ -->
+  <!-- Enum Maximum value -->
+  <!-- ------------------ -->
+  <ENUM NAME="maximum_Value" >
+    <ENUMVALUE NAME="11" />
+    <ENUMVALUE NAME="15" />
+    <ENUMVALUE NAME="127" />
+    <ENUMVALUE NAME="1022" />
+    <ENUMVALUE NAME="255" />
+    <ENUMVALUE NAME="7" />
+    <ENUMVALUE NAME="1.55" />
+    <ENUMVALUE NAME="126" />
+    <ENUMVALUE NAME="E" />
+    <ENUMVALUE NAME="254" />
+    <ENUMVALUE NAME="125" />
+  </ENUM>
+
+  <!-- ----------------------------- -->
+  <!-- Enum Resolution formula units -->
+  <!-- ----------------------------- -->
+  <ENUM NAME="resolution-formula_units" >
+    <ENUMVALUE NAME="m/s2" OVERRIDE="m/s2" />
+    <ENUMVALUE NAME="q_scale" OVERRIDE="q_scale" />
+    <ENUMVALUE NAME="%" OVERRIDE="percent" />
+    <ENUMVALUE NAME="byte" />
+    <ENUMVALUE NAME="bit" />
+    <ENUMVALUE NAME="text-string-element" OVERRIDE="text-string-element" />
+    <ENUMVALUE NAME="m" OVERRIDE="m" />
+    <ENUMVALUE NAME="A" OVERRIDE="A" />
+    <ENUMVALUE NAME="s" OVERRIDE="s" />
+    <ENUMVALUE NAME="ms" OVERRIDE="ms" />
+    <ENUMVALUE NAME="km/h" OVERRIDE="km/h" />
+  </ENUM>
+
+  <!-- ----------------------------- -->
+  <!-- Enum Resolution formula value -->
+  <!-- ----------------------------- -->
+  <ENUM NAME="resolution-formula_Value" >
+    <ENUMVALUE NAME="0.05" />
+    <ENUMVALUE NAME="1" />
+    <ENUMVALUE NAME="10" />
+    <ENUMVALUE NAME="0.02" />
+    <ENUMVALUE NAME="integers" />
+    <ENUMVALUE NAME="Numbers" />
+    <ENUMVALUE NAME="Binary Coded Decimal" />
+    <ENUMVALUE NAME="Number" />
+    <ENUMVALUE NAME="Bitset" />
+    <ENUMVALUE NAME="5" />
+  </ENUM>
+
+  <!-- ------------------- -->
+  <!-- Enum Variable mode  -->
+  <!-- ------------------- -->
+  <ENUM NAME="VariableModeEnumType">
+    <ENUMVALUE NAME="Incoming"/>
+    <ENUMVALUE NAME="Outgoing"/>
+    <ENUMVALUE NAME="Internal" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="InOut"/>
+    <ENUMVALUE NAME="Constant"/>
+  </ENUM>
+
+  <!-- ----------------- -->
+  <!-- Enum Message Type -->
+  <!-- ----------------- -->
+  <ENUM NAME="MessageEnumType">
+    <ENUMVALUE NAME="Eurobalise"/>
+    <ENUMVALUE NAME="Euroloop"/>
+    <!-- radio - train to track -->
+    <ENUMVALUE NAME="ValidatedTrainData"/>
+    <ENUMVALUE NAME="RequestForShunting"/>
+    <ENUMVALUE NAME="MARequest"/>
+    <ENUMVALUE NAME="TrainPositionReport"/>
+    <ENUMVALUE NAME="RequestToShortenMAIsGranted"/>
+    <ENUMVALUE NAME="RequestToShortenMAIsRejected"/>
+    <ENUMVALUE NAME="Acknowledgement"/>
+    <ENUMVALUE NAME="AcknowledgementOfEmergencyStop"/>
+    <ENUMVALUE NAME="TrackAheadFreeGranted"/>
+    <ENUMVALUE NAME="EndOfMission"/>
+    <ENUMVALUE NAME="RadioInFillRequest"/>
+    <ENUMVALUE NAME="Train_NoCompatibleVersionSupported"/>
+    <ENUMVALUE NAME="Train_InitiationOfACommunicationSession"/>
+    <ENUMVALUE NAME="Train_TerminationOfACommunicationSession"/>
+    <ENUMVALUE NAME="SoMPositionReport"/>
+    <ENUMVALUE NAME="Train_SessionEstablished"/>
+    <!-- radio - track to train -->
+    <ENUMVALUE NAME="SRAuthorization"/>
+    <ENUMVALUE NAME="MovementAuthority"/>
+    <ENUMVALUE NAME="RecognitionOfExitFromTripMode"/>
+    <ENUMVALUE NAME="AcknowledgementOfTrainData"/>
+    <ENUMVALUE NAME="RequestToShortenMA"/>
+    <ENUMVALUE NAME="ConditionalEmergencyStop"/>
+    <ENUMVALUE NAME="UnconditionalEmergencyStop"/>
+    <ENUMVALUE NAME="RevocationOfEmergencyStop"/>
+    <ENUMVALUE NAME="GeneralMessage"/>
+    <ENUMVALUE NAME="SHRefused"/>
+    <ENUMVALUE NAME="SHAuthorized"/>
+    <ENUMVALUE NAME="RBCRIUSystemVersion"/>
+    <ENUMVALUE NAME="MAWithShiftedLocationReference"/>
+    <ENUMVALUE NAME="TrackAheadFreeRequest"/>
+    <ENUMVALUE NAME="InFillMA"/>
+    <ENUMVALUE NAME="Track_InitiationOfACommunicationSession"/>
+    <ENUMVALUE NAME="AcknowledgementOfTerminationOfACommunicationSession"/>
+    <ENUMVALUE NAME="TrainRejected"/>
+    <ENUMVALUE NAME="TrainAccepted"/>
+    <ENUMVALUE NAME="SomPositionReportConfirmedByRBC"/>
+    <ENUMVALUE NAME="AssignmentOfCoordinateSystem"/>
+  </ENUM>
+
+  <!-- ---------------------- -->
+  <!-- Enum Message Direction -->
+  <!-- ---------------------- -->
+  <ENUM NAME="MessageDirectionEnumType">
+    <ENUMVALUE NAME="TrainToTrack"/>
+    <ENUMVALUE NAME="TrackToTrain"/>
+  </ENUM>
+
+  <!-- ------------------------------- -->
+  <!-- Enum Specification Implemented  -->
+  <!-- ------------------------------- -->
+  <ENUM NAME="SPEC_IMPLEMENTED_ENUM">
+    <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="Implemented"/>
+    <ENUMVALUE NAME="NotImplementable"/>
+    <ENUMVALUE NAME="NewRevisionAvailable"/>
+  </ENUM>
+
+  <!-- ----------------- -->
+  <!-- Enum IO for step  -->
+  <!-- ----------------- -->
+  <ENUM NAME="ST_IO">
+    <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="In"/>
+    <ENUMVALUE NAME="Out"/>
+  </ENUM>
+
+  <!-- ------------------------ -->
+  <!-- Enum Interface for step  -->
+  <!-- ------------------------ -->
+  <ENUM NAME="ST_INTERFACE">
+    <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="DMI"/>
+    <ENUMVALUE NAME="RTM"/>
+    <ENUMVALUE NAME="JRU"/>
+    <ENUMVALUE NAME="TIU"/>
+  </ENUM>
+
+  <!-- -------------------- -->
+  <!-- Enum Level for step  -->
+  <!-- -------------------- -->
+  <ENUM NAME="ST_LEVEL">
+    <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="L0"/>
+    <ENUMVALUE NAME="L1"/>
+    <ENUMVALUE NAME="LSTM"/>
+    <ENUMVALUE NAME="L2"/>
+    <ENUMVALUE NAME="L3"/>
+  </ENUM>
+
+  <!-- ------------------- -->
+  <!-- Enum Mode for step  -->
+  <!-- ------------------- -->
+  <ENUM NAME="ST_MODE">
+    <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="IS"/>
+    <ENUMVALUE NAME="NP"/>
+    <ENUMVALUE NAME="SF"/>
+    <ENUMVALUE NAME="SL"/>
+    <ENUMVALUE NAME="SB"/>
+    <ENUMVALUE NAME="SH"/>
+    <ENUMVALUE NAME="FS"/>
+    <ENUMVALUE NAME="UF"/>
+    <ENUMVALUE NAME="SR"/>
+    <ENUMVALUE NAME="OS"/>
+    <ENUMVALUE NAME="TR"/>
+    <ENUMVALUE NAME="PT"/>
+    <ENUMVALUE NAME="NL"/>
+    <ENUMVALUE NAME="SN"/>
+    <ENUMVALUE NAME="RE"/>
+    <ENUMVALUE NAME="LS"/>
+    <ENUMVALUE NAME="PSH"/>
+  </ENUM>
+
+  <!-- ----------------------- -->
+  <!-- Enum Priority for step  -->
+  <!-- ----------------------- -->
+  <ENUM NAME="RulePriority">
+    <ENUMVALUE NAME="Verification"/>
+    <ENUMVALUE NAME="UpdateINTERNAL"/>
+    <ENUMVALUE NAME="Processing" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="UpdateOUT"/>
+    <ENUMVALUE NAME="CleanUp"/>
+  </ENUM>
+
+  <!-- ----------------------- -->
+  <!-- Enum Priority for step  -->
+  <!-- ----------------------- -->
+  <ENUM NAME="PrecisionEnum">
+    <ENUMVALUE NAME="IntegerPrecision" USEASNULL="TRUE"/>
+    <ENUMVALUE NAME="DoublePrecision"/>
+  </ENUM>
+
+  <!-- ------------------- -->
+  <!-- Enum DBMessage type -->
+  <!-- ------------------- -->
+  <ENUM NAME="DBMessageType" >
+    <ENUMVALUE NAME="EUROBALISE" />
+    <ENUMVALUE NAME="EUROLOOP" />
+    <ENUMVALUE NAME="EURORADIO" />
+  </ENUM>
+
+</SYSTEM>

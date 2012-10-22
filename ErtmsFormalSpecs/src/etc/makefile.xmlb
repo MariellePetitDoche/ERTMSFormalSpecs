@@ -1,0 +1,28 @@
+#
+# Makefile used to create data object thanks to XMLBooster
+# Depends on the following variables
+#  META : the name of the meta definition file, without .xmlb extension
+#
+XMLBOOSTER_ROOT=/cygdrive/c/yafl/xmlb
+XMLB_CALL=${XMLBOOSTER_ROOT}/XmlB2.exe -CFG=../../../tools/xmlb/xmlbcfg.xml
+
+.phony: all clean 
+.default: all
+
+all: bin/$(META).dll
+
+$(META).xmlb : $(SAMPLES)
+	@-$(XMLB_CALL) -GBE $@ $(SAMPLES) 
+	 
+bin/$(META).dll : $(META).xmlb 
+	@banner $(META)
+	@make clean
+	@-mkdir generated
+	@-mkdir bin
+	@-$(XMLB_CALL) -TARGETDIR=generated -CSHARP $<
+	@$(BUILD)
+
+clean:
+	@echo Cleaning $(META)
+	@rm -rf bin/$(META).dll	
+
