@@ -22,6 +22,7 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
     {
         /************************************************************/
         public static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static bool debug = false;
 
 
         public static QuadraticSpeedDistanceCurve Build_A_Safe_Backward(AccelerationSpeedDistanceSurface A_V_D, FlatSpeedDistanceCurve MRSP)
@@ -46,7 +47,8 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
             SiDistance current_position = SiDistance.Zero;
             SiSpeed current_speed = SiSpeed.MaxValue;
 
-            Log.DebugFormat("  Search the position of the minimal speed in the MRSP");
+            if (debug)
+                Log.DebugFormat("  Search the position of the minimal speed in the MRSP");
             for (int i = 0; i < MRSP.SegmentCount; i++)
             {
                 ConstantCurveSegment<SiDistance, SiSpeed> segment = MRSP[i];
@@ -55,11 +57,13 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
                     current_speed = segment.Y;
                     current_position = segment.X.X1;
 
-                    Log.DebugFormat("    new start position V={0,7:F2} at={1,7:F2} ", current_speed.ToUnits(), current_position.ToUnits());
+                    if (debug)
+                        Log.DebugFormat("    new start position V={0,7:F2} at={1,7:F2} ", current_speed.ToUnits(), current_position.ToUnits());
                 }
             }
 
-            Log.DebugFormat("    end position is at={0,7:F2} ", end_position.ToUnits());
+            if (debug)
+                Log.DebugFormat("    end position is at={0,7:F2} ", end_position.ToUnits());
 
             /*************************************************************************/
             /* Starting from the right side of curves, go back to the left side.     */
@@ -67,9 +71,12 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
             /*************************************************************************/
             while (current_position > end_position)
             {
-                Log.DebugFormat("#######################################################");
-                Log.DebugFormat("### Loop {0}  #########################################", debugging_counter);
-                Log.DebugFormat("#######################################################");
+                if (debug)
+                {
+                    Log.DebugFormat("#######################################################");
+                    Log.DebugFormat("### Loop {0}  #########################################", debugging_counter);
+                    Log.DebugFormat("#######################################################");
+                }
 
                 /************************************************************ 
                   Based on current speed and position, search on wich tile
@@ -99,11 +106,14 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
                                                                                  current_speed,
                                                                                  current_position);
 
-                Log.DebugFormat("  current_acceleration = {0,7:F2} from a_tile {1}", current_acceleration.ToUnits(), current_tile.ToString());
-                Log.DebugFormat("  current_speed        = {0,7:F2} ", current_speed.ToUnits());
-                Log.DebugFormat("  current_position     = {0,7:F2} ", current_position.ToUnits());
+                if (debug)
+                {
+                    Log.DebugFormat("  current_acceleration = {0,7:F2} from a_tile {1}", current_acceleration.ToUnits(), current_tile.ToString());
+                    Log.DebugFormat("  current_speed        = {0,7:F2} ", current_speed.ToUnits());
+                    Log.DebugFormat("  current_position     = {0,7:F2} ", current_position.ToUnits());
 
-                Log.DebugFormat("  --> current_curve    = {0} ", current_curve.ToString());
+                    Log.DebugFormat("  --> current_curve    = {0} ", current_curve.ToString());
+                }
 
 
                 /********************************************************************/
@@ -119,10 +129,12 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
                 /* 1) The distance at wich our temporary arc intersects the top (V2) segment of the AVD tile */
                 {
                     SiDistance d = current_curve.IntersectAt(current_tile.V.X.X1);
-                    Log.DebugFormat("  intersection with tile (V_TOP) at {0,7:F2} ", d.ToUnits());
+                    if (debug)
+                        Log.DebugFormat("  intersection with tile (V_TOP) at {0,7:F2} ", d.ToUnits());
                     if (d >= next_position)
                     {
-                        Log.DebugFormat("  --> case_1  next_position {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), d.ToUnits());
+                        if (debug)
+                            Log.DebugFormat("  --> case_1  next_position {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), d.ToUnits());
                         next_position = d;
                     }
                 }
@@ -130,23 +142,27 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
                 /* 2) The distance at wich our temporary arc intersects the left (D0) segment of the AVD tile */
                 {
                     SiDistance d = current_tile.D.X.X0;
-                    Log.DebugFormat("  intersection with tile (D0)    at {0,7:F2} ", d.ToUnits());
+                    if (debug)
+                        Log.DebugFormat("  intersection with tile (D0)    at {0,7:F2} ", d.ToUnits());
                     if (d >= next_position)
                     {
-                        Log.DebugFormat("  --> case_2  next_position {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), d.ToUnits());
+                        if (debug)
+                            Log.DebugFormat("  --> case_2  next_position {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), d.ToUnits());
                         next_position = d;
                     }
                 }
 
                 /*Since the MRSP is continous, the following cannot fail. */
                 ConstantCurveSegment<SiDistance, SiSpeed> speed_limit_here = MRSP.Intersect(current_position - new SiDistance(0.1), current_curve);
-                Log.DebugFormat("  MRSP segment          {0} ", speed_limit_here.ToString());
+                if (debug)
+                    Log.DebugFormat("  MRSP segment          {0} ", speed_limit_here.ToString());
 
                 /* 3) Do we hit the vertical segment of the MRSP ? */
                 {
                     if (speed_limit_here.X.X0 >= next_position)
                     {
-                        Log.DebugFormat("  --> case_3  next_position {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), speed_limit_here.X.X0.ToUnits());
+                        if (debug)
+                            Log.DebugFormat("  --> case_3  next_position {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), speed_limit_here.X.X0.ToUnits());
                         next_position = speed_limit_here.X.X0;
                     }
                 }
@@ -159,13 +175,15 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
                         SiDistance d = current_curve.IntersectAt(speed_limit_here.Y);
                         if (d >= next_position)
                         {
-                            Log.DebugFormat("  --> case_4a next_d        {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), d.ToUnits());
+                            if (debug)
+                                Log.DebugFormat("  --> case_4a next_d        {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), d.ToUnits());
                             next_position = d;
                         }
                     }
                     else
                     {
-                        Log.DebugFormat("  --> case_4b next_acc_0    {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), speed_limit_here.X.X0.ToUnits());
+                        if (debug)
+                            Log.DebugFormat("  --> case_4b next_acc_0    {0,7:F2} -> {1,7:F2}", next_position.ToUnits(), speed_limit_here.X.X0.ToUnits());
                         current_acceleration = SiAcceleration.Zero;
                         next_position = speed_limit_here.X.X0;
                     }
