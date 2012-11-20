@@ -1,4 +1,4 @@
-// ------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
@@ -214,10 +214,10 @@ namespace GUI.ExcelImport
             this.CB_Select.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CB_Select.Location = new System.Drawing.Point(13, 81);
             this.CB_Select.Name = "CB_Select";
-            this.CB_Select.Size = new System.Drawing.Size(69, 17);
+            this.CB_Select.Size = new System.Drawing.Size(81, 17);
             this.CB_Select.TabIndex = 12;
             this.CB_Select.Tag = "GLOBAL_FILTER";
-            this.CB_Select.Text = "Select all";
+            this.CB_Select.Text = "Deselect all";
             this.CB_Select.UseVisualStyleBackColor = true;
             this.CB_Select.CheckedChanged += new System.EventHandler(this.CB_Select_CheckedChanged);
             // 

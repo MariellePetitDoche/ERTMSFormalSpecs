@@ -1,4 +1,4 @@
-// ------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
@@ -119,6 +119,7 @@ namespace GUI.ExcelImport
             {
                 if (cb.Checked)
                 {
+                    cb.Text = "Deselect all";
                     foreach (Control control in AllControls)
                     {
                         if (control is System.Windows.Forms.CheckBox)
@@ -133,6 +134,7 @@ namespace GUI.ExcelImport
                 }
                 else
                 {
+                    cb.Text = "Select all";
                     foreach (Control control in AllControls)
                     {
                         if (control is System.Windows.Forms.CheckBox)
