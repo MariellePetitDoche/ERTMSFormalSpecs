@@ -1,4 +1,4 @@
-// ------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
@@ -199,6 +199,21 @@ namespace Importers
                                 Expectation expectation = new Expectation();
                                 expectation.Expression = String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_EBI\n    (\n        Vest  => {0:0.0#},\n        aTarget => Kernel.MA.EndOfMovementAuthority()\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)", Math.Round(speedValues[i], 2), Math.Round(ebiValues[i], 2));
                                 ebiSubStep.AddModelElement(expectation);
+                            }
+                        }
+                    }
+                    if (TheConfig.FillSBI1)
+                    {
+                        SubStep sbi1SubStep = new SubStep();
+                        sbi1SubStep.Name = "SBI1";
+                        TheConfig.TheStep.AddModelElement(sbi1SubStep);
+                        for (int i = 0; i < sbi1Values.Count; i++)
+                        {
+                            if (sbi1Values[i] != -1)
+                            {
+                                Expectation expectation = new Expectation();
+                                expectation.Expression = String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_SBI1\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)", Math.Round(speedValues[i], 2), Math.Round(sbi1Values[i], 2));
+                                sbi1SubStep.AddModelElement(expectation);
                             }
                         }
                     }
