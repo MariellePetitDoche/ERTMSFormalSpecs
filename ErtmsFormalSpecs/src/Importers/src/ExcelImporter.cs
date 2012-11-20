@@ -217,6 +217,81 @@ namespace Importers
                             }
                         }
                     }
+                    if (TheConfig.FillSBI2)
+                    {
+                        SubStep sbi2SubStep = new SubStep();
+                        sbi2SubStep.Name = "SBI2";
+                        TheConfig.TheStep.AddModelElement(sbi2SubStep);
+                        for (int i = 0; i < sbi2Values.Count; i++)
+                        {
+                            if (sbi2Values[i] != -1)
+                            {
+                                Expectation expectation = new Expectation();
+                                expectation.Expression = String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_SBI2\n    (\n        Vest  => {0:0.0#},\n        aTarget => Kernel.MA.EndOfMovementAuthority()\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)", Math.Round(speedValues[i], 2), Math.Round(sbi2Values[i], 2));
+                                sbi2SubStep.AddModelElement(expectation);
+                            }
+                        }
+                    }
+                    if (TheConfig.FillFLOI)
+                    {
+                        SubStep floiSubStep = new SubStep();
+                        floiSubStep.Name = "FLOI";
+                        TheConfig.TheStep.AddModelElement(floiSubStep);
+                        for (int i = 0; i < floiValues.Count; i++)
+                        {
+                            if (floiValues[i] != -1)
+                            {
+                                Expectation expectation = new Expectation();
+                                expectation.Expression = String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_FLOI\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)", Math.Round(speedValues[i], 2), Math.Round(floiValues[i], 2));
+                                floiSubStep.AddModelElement(expectation);
+                            }
+                        }
+                    }
+                    if (TheConfig.FillWarning)
+                    {
+                        SubStep warningSubStep = new SubStep();
+                        warningSubStep.Name = "Warning";
+                        TheConfig.TheStep.AddModelElement(warningSubStep);
+                        for (int i = 0; i < warningValues.Count; i++)
+                        {
+                            if (warningValues[i] != -1)
+                            {
+                                Expectation expectation = new Expectation();
+                                expectation.Expression = String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_W\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)", Math.Round(speedValues[i], 2), Math.Round(warningValues[i], 2));
+                                warningSubStep.AddModelElement(expectation);
+                            }
+                        }
+                    }
+                    if (TheConfig.FillPermitted)
+                    {
+                        SubStep permittedSubStep = new SubStep();
+                        permittedSubStep.Name = "Permitted";
+                        TheConfig.TheStep.AddModelElement(permittedSubStep);
+                        for (int i = 0; i < permittedValues.Count; i++)
+                        {
+                            if (permittedValues[i] != -1)
+                            {
+                                Expectation expectation = new Expectation();
+                                expectation.Expression = String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_P\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)", Math.Round(speedValues[i], 2), Math.Round(permittedValues[i], 2));
+                                permittedSubStep.AddModelElement(expectation);
+                            }
+                        }
+                    }
+                    if (TheConfig.FillIndication)
+                    {
+                        SubStep indicationSubStep = new SubStep();
+                        indicationSubStep.Name = "Indication";
+                        TheConfig.TheStep.AddModelElement(indicationSubStep);
+                        for (int i = 0; i < indicationValues.Count; i++)
+                        {
+                            if (indicationValues[i] != -1)
+                            {
+                                Expectation expectation = new Expectation();
+                                expectation.Expression = String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_I\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)", Math.Round(speedValues[i], 2), Math.Round(indicationValues[i], 2));
+                                indicationSubStep.AddModelElement(expectation);
+                            }
+                        }
+                    }
                 }
                 else
                 {
