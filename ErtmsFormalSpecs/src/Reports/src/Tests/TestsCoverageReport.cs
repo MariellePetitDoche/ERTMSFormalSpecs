@@ -245,24 +245,27 @@ namespace Report.Tests
             {
                 foreach (Step step in aTestCase.Steps)
                 {
-                    AddSubParagraph(String.Format("Step {0}", step.Name));
-
-                    DataDictionary.Tests.SubStep firstSubStep = step.SubSteps[0] as DataDictionary.Tests.SubStep;
-                    DataDictionary.Tests.SubStep lastSubStep = step.SubSteps[step.SubSteps.Count - 1] as DataDictionary.Tests.SubStep;
-                    int start = runner.EventTimeLine.GetSubStepActivationTime(firstSubStep);
-                    int end = runner.EventTimeLine.GetNextSubStepActivationTime(lastSubStep);
-                    List<RuleCondition> activatedRules = runner.EventTimeLine.GetActivatedRulesInRange(start, end);
-
-                    CreateStepTable(runner, step, aTestCase.Dictionary.ImplementedRules.Count, activatedRules, aReportConfig);
-                    if (aReportConfig.AddLog)
+                    if (step.SubSteps.Count > 0)
                     {
-                        List<DataDictionary.Tests.Runner.Events.ModelEvent> events = runner.EventTimeLine.GetEventsInRange((uint)start, (uint)end);
-                        foreach (ModelEvent ev in events)
+                        AddSubParagraph(String.Format("Step {0}", step.Name));
+
+                        DataDictionary.Tests.SubStep firstSubStep = step.SubSteps[0] as DataDictionary.Tests.SubStep;
+                        DataDictionary.Tests.SubStep lastSubStep = step.SubSteps[step.SubSteps.Count - 1] as DataDictionary.Tests.SubStep;
+                        int start = runner.EventTimeLine.GetSubStepActivationTime(firstSubStep);
+                        int end = runner.EventTimeLine.GetNextSubStepActivationTime(lastSubStep);
+                        List<RuleCondition> activatedRules = runner.EventTimeLine.GetActivatedRulesInRange(start, end);
+
+                        CreateStepTable(runner, step, aTestCase.Dictionary.ImplementedRules.Count, activatedRules, aReportConfig);
+                        if (aReportConfig.AddLog)
                         {
-                            AddCode(ev.ToString());
+                            List<DataDictionary.Tests.Runner.Events.ModelEvent> events = runner.EventTimeLine.GetEventsInRange((uint)start, (uint)end);
+                            foreach (ModelEvent ev in events)
+                            {
+                                AddCode(ev.ToString());
+                            }
                         }
+                        CloseSubParagraph();
                     }
-                    CloseSubParagraph();
                 }
             }
             CloseSubParagraph();

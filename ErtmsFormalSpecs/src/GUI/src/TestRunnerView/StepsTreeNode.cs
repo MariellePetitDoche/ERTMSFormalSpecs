@@ -106,8 +106,9 @@ namespace GUI.TestRunnerView
             if (SourceNode is StepTreeNode)
             {
                 StepTreeNode step = SourceNode as StepTreeNode;
-                createStep(step.Item);
                 step.Delete();
+
+                createStep(step.Item);
             }
         }
     }

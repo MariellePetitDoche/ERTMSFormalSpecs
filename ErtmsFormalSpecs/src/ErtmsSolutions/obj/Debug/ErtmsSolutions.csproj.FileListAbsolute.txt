@@ -1,0 +1,12 @@
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\ErtmsSolutions\bin\Debug\ErtmsSolutions.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\ErtmsSolutions\bin\Debug\ErtmsSolutions.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\ErtmsSolutions\bin\Debug\log4net.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\ErtmsSolutions\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\ErtmsSolutions\obj\Debug\ErtmsSolutions.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\ErtmsSolutions\obj\Debug\ErtmsSolutions.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\ErtmsSolutions\bin\Debug\ErtmsSolutions.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\ErtmsSolutions\bin\Debug\ErtmsSolutions.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\ErtmsSolutions\bin\Debug\log4net.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\ErtmsSolutions\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\ErtmsSolutions\obj\Debug\ErtmsSolutions.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\ErtmsSolutions\obj\Debug\ErtmsSolutions.pdb

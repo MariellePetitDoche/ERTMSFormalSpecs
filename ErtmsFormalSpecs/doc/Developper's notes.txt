@@ -1,0 +1,8 @@
+5.4.3.2
+  D32 : If train position data is invalid, go to A34
+  A34 : If train position data is unknown or invalid, ...
+  S10 : Level change is not handled by the state diagram
+  S10 : Following E10, E12, E15... is not implemented
+  S12 : Transformed in invalid or unknown
+  S2  : What to do when the driver removes an existing inhibition ?
+  S3  : What to do if the RBC id is valid ? 

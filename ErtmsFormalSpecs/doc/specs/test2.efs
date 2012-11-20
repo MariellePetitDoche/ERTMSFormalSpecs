@@ -1,0 +1,669 @@
+<Dictionary
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="DataDictionary.xsd"
+>
+<Specification
+ Name="Requirements"
+>
+</Specification><NameSpaces>
+<NameSpace
+ Name="Apply"
+>
+<Structures>
+<Structure
+ NeedsRequirement="FALSE"
+ Name="S1"
+>
+<StructureElement
+ TypeName="Integer"
+ Default=""
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="E1"
+>
+</StructureElement><StructureElement
+ TypeName="Integer"
+ Default=""
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="E2"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="S1"
+ MaxSize="4"
+ Default="[S1{E1=&gt;4, E2=&gt;5}, S1{E1=&gt;3, E2=&gt;7}]"
+ NeedsRequirement="FALSE"
+ Name="Col"
+>
+</Collection></Collections>
+<Procedures>
+<Procedure
+ NeedsRequirement="FALSE"
+ Name="Proc"
+>
+<Parameters>
+<Parameter
+ Type="S1"
+ Name="p"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ NeedsRequirement="FALSE"
+ Name="R1"
+>
+<PreConditions></PreConditions>
+<Actions></Actions>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ NeedsRequirement="FALSE"
+ Name="Always"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action>V2 &lt;- p.E2</Action>
+<Action>V1 &lt;- p.E1</Action>
+</Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+<StateMachine
+ InitialState=""
+ NeedsRequirement="FALSE"
+>
+</StateMachine></Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Integer"
+ DefaultValue="0"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="V1"
+>
+</Variable><Variable
+ Type="Integer"
+ DefaultValue="0"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="V2"
+>
+</Variable><Variable
+ Type="Col"
+ DefaultValue="[S1{E1=&gt;4, E2=&gt;5}, S1{E1=&gt;3, E2=&gt;7}]"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="Val"
+>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ NeedsRequirement="FALSE"
+ Name="Apply"
+>
+<PreConditions></PreConditions>
+<Actions></Actions>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ NeedsRequirement="FALSE"
+ Name="Always"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action>APPLY Proc(X) ON Val</Action>
+<Action>INSERT S1{
+  E1 =&gt; (LAST_IN Val).E1 + 1,
+  E2 =&gt; (LAST_IN Val).E2 + 1
+} IN Val</Action>
+<Action>REMOVE FIRST IN Val </Action>
+</Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace><NameSpace
+ Name="Graph"
+>
+<Ranges>
+<Range
+ MinValue="0.0"
+ MaxValue="100.0"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+>
+<SpecialValues>
+<EnumValue
+ Value="100.0"
+ Name="MaxSpeed"
+>
+</EnumValue></SpecialValues>
+</Range><Range
+ MinValue="0.0"
+ MaxValue="100.0"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Acceleration"
+>
+</Range><Range
+ MinValue="0.0"
+ MaxValue="100000.0"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Distance"
+>
+</Range></Ranges>
+<Structures>
+<Structure
+ NeedsRequirement="FALSE"
+ Name="TSR"
+>
+<StructureElement
+ TypeName="Double"
+ Default="0.0"
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="Start"
+>
+</StructureElement><StructureElement
+ TypeName="Double"
+ Default="0.0"
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="End"
+>
+</StructureElement><StructureElement
+ TypeName="Double"
+ Default="0.0"
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="TSR"
+ Default="[
+  TSR { Start =&gt; 100.0, End =&gt; 150.0, Speed =&gt; 10.0 },
+  TSR { Start =&gt; 300.0, End =&gt; 450.0, Speed =&gt; 10.0 }, 
+  TSR { Start =&gt; 600.0, End =&gt; 1000.0, Speed =&gt; 15.0 } 
+]"
+ NeedsRequirement="FALSE"
+ Name="TSRs"
+>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="Speed"
+ NeedsRequirement="FALSE"
+ Name="TSRsSpeedRestriction"
+>
+<Parameters>
+<Parameter
+ Type="Distance"
+ Name="Distance"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+>
+<Expression>(REDUCE TSRs 
+    USING  
+        MIN ( First =&gt; FUNCTION d : Double =&gt; TSRSpeedRestriction( TSR =&gt; X, Distance =&gt; d ), 
+                  Second =&gt; RESULT  )
+INITIAL_VALUE MaxSpeedFunction)  ( Distance )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Speed"
+ NeedsRequirement="FALSE"
+ Name="MaxSpeedFunction"
+>
+<Parameters>
+<Parameter
+ Type="Double"
+ Name="Distance"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+>
+<Expression>Speed..MaxSpeed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Speed"
+ NeedsRequirement="FALSE"
+ Name="TSRSpeedRestriction"
+>
+<Parameters>
+<Parameter
+ Type="TSR"
+ Name="TSR"
+>
+</Parameter><Parameter
+ Type="Distance"
+ Name="Distance"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Inside TSR"
+>
+<PreConditions>
+<PreCondition>TSR.Start &lt;= Distance</PreCondition>
+<PreCondition>Distance &lt; TSR.End</PreCondition>
+</PreConditions>
+<Expression>TSR.Speed</Expression>
+</Case><Case
+ Name="Before TSR"
+>
+<PreConditions>
+<PreCondition>Distance &lt; TSR.Start</PreCondition>
+</PreConditions>
+<Expression>Speed.MaxSpeed</Expression>
+</Case><Case
+ Name="After TSR"
+>
+<PreConditions>
+<PreCondition>TSR.End &lt;= Distance</PreCondition>
+</PreConditions>
+<Expression>Speed.MaxSpeed</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="TSRs"
+ DefaultValue="[
+  TSR { Start =&gt; 100.0, End =&gt; 550.0, Speed =&gt; 40.0 },
+  TSR { Start =&gt; 300.0, End =&gt; 350.0, Speed =&gt; 10.0 }, 
+  TSR { Start =&gt; 600.0, End =&gt; 1000.0, Speed =&gt; 15.0 } 
+]"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="TSRs"
+>
+</Variable></Variables>
+</NameSpace><NameSpace
+ Name="Enum"
+>
+<Enumerations>
+<Enum
+ Default="E1.Ev1"
+ NeedsRequirement="FALSE"
+ Name="E1"
+>
+<Values>
+<EnumValue
+ Value="0"
+ Name="Ev1"
+>
+</EnumValue><EnumValue
+ Value="1"
+ Name="Ev2"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
+<Structures>
+<Structure
+ NeedsRequirement="FALSE"
+ Name="S1"
+>
+<StructureElement
+ TypeName="E1"
+ Default="E1.Ev1"
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="E"
+>
+</StructureElement></Structure><Structure
+ NeedsRequirement="FALSE"
+ Name="S2"
+>
+<StructureElement
+ TypeName="C1"
+ Default="[ S1 { E =&gt; E1.Ev1 } ]"
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="C"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="Enum.S1"
+ MaxSize="0"
+ Default="[]"
+ NeedsRequirement="FALSE"
+ Name="C1"
+>
+</Collection></Collections>
+<Variables>
+<Variable
+ Type="E1"
+ DefaultValue="E1.Ev1"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="E"
+>
+</Variable><Variable
+ Type="S2"
+ DefaultValue="S2 { S =&gt; S1 { E =&gt; E1.Ev2 } }"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="S"
+>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ NeedsRequirement="FALSE"
+ Name="&lt;Rule1&gt;"
+>
+<PreConditions></PreConditions>
+<Actions></Actions>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ NeedsRequirement="FALSE"
+ Name="&lt;RuleCondition1&gt;"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action>E &lt;- E1.Ev2</Action>
+<Action>S &lt;- S2 { C =&gt; [ S1 { E =&gt; E1.Ev2 } ] }</Action>
+</Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace><NameSpace
+ Name="Collection"
+>
+<Structures>
+<Structure
+ NeedsRequirement="FALSE"
+ Name="S1"
+>
+<StructureElement
+ TypeName="Integer"
+ Default="0"
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="X"
+>
+</StructureElement><StructureElement
+ TypeName="Integer"
+ Default="0"
+ Mode="Incoming"
+ NeedsRequirement="FALSE"
+ Name="Y"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="S1"
+ MaxSize="0"
+ Default="[s1, s2, s3]"
+ NeedsRequirement="FALSE"
+ Name="C1"
+>
+</Collection></Collections>
+<Variables>
+<Variable
+ Type="S1"
+ DefaultValue="S1 { 
+  X =&gt; 1,
+  Y =&gt; 1
+}"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="s1"
+>
+</Variable><Variable
+ Type="S1"
+ DefaultValue="S1 { 
+  X =&gt; 2,
+  Y =&gt; 4
+}"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="s2"
+>
+</Variable><Variable
+ Type="S1"
+ DefaultValue="S1 { 
+  X =&gt; 1,
+  Y =&gt; 7
+}"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="s3"
+>
+</Variable><Variable
+ Type="C1"
+ DefaultValue="[s1, s2, s3]"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="c1"
+>
+</Variable></Variables>
+</NameSpace><NameSpace
+ Name="Stabilize"
+>
+<Variables>
+<Variable
+ Type="Double"
+ DefaultValue="0.0"
+ VariableMode="Internal"
+ NeedsRequirement="FALSE"
+ Name="V"
+>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ NeedsRequirement="FALSE"
+ Name="Stabilize"
+>
+<PreConditions></PreConditions>
+<Actions></Actions>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ NeedsRequirement="FALSE"
+ Name="Stabilize"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action>V &lt;- 
+  STABILIZE PREVIOUS - PREVIOUS / 2.0 
+  INITIAL_VALUE 5.0 
+  STOP_CONDITION PREVIOUS - CURRENT &lt; 0.5</Action>
+</Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace></NameSpaces>
+<Tests>
+<Frame
+ Name="Some tests"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Sequence1"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Test case1"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ Name="Step1"
+>
+<Expectations>
+<Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+>NOT Before ( Collection.s1, Collection.s1, Collection.c1 )</Expectation><Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+>Before ( Collection.s1, Collection.s2, Collection.c1 )</Expectation><Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+>NOT Before ( Collection.s2, Collection.s1, Collection.c1 )</Expectation></Expectations>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame></Tests>
+<TranslationDictionary
+>
+<Translations>
+<Translation
+>
+<SourceTexts>
+<SourceText
+ Name="The power of the on-board is switched on.
+The on-board equipment changes to SB mode."
+>
+</SourceText></SourceTexts>
+<Actions>
+<Action>Kernel.PowerOn &lt;- Boolean.True</Action>
+</Actions>
+</Translation><Translation
+>
+<SourceTexts>
+<SourceText
+ Name="Setup test sequence"
+>
+</SourceText></SourceTexts>
+<Actions>
+<Action>EURORADIO.RBCIdOrPhoneNumber.DataState &lt;- DataState.Valid</Action>
+<Action>EURORADIO.RBCIdOrPhoneNumber.ID &lt;- &apos;%RBC_ID&apos;</Action>
+<Action>EURORADIO.RBCIdOrPhoneNumber.PhoneNumber &lt;- &apos;%RBCPhone&apos;</Action>
+<Action>Kernel.Level.DataState &lt;- DataState.Valid</Action>
+<Action>Kernel.Level.Value &lt;- %Level</Action>
+<Action>Kernel.Mode &lt;- %Mode</Action>
+<Action>Kernel.TrainData &lt;- DataState.Valid</Action>
+<Action>Kernel.TrainPositionData.DataState &lt;- DataState.Valid</Action>
+<Action>Kernel.TrainPositionData.D_LRBG &lt;- %D_LRBG</Action>
+<Action>Kernel.TrainPositionData.NID_LRBG &lt;- %NID_LRBG</Action>
+<Action>Kernel.TrainPositionData.Q_DIR_LRBG &lt;- %Q_DIRLRBG</Action>
+<Action>Kernel.TrainPositionData.Q_DIRTRAIN &lt;- %Q_DIRTRAIN</Action>
+<Action>Kernel.TrainPositionData.Q_DLRBG &lt;- %Q_DLRBG</Action>
+<Action>Kernel.TrainRunningNumber.Value &lt;- &apos;TR007&apos;</Action>
+<Action>Kernel.TrainRunningNumber.DataState &lt;- Default.DataState.Valid</Action>
+</Actions>
+</Translation><Translation
+>
+<SourceTexts>
+<SourceText
+ Name="The new current mode SB is RECORDED on JRU"
+>
+</SourceText></SourceTexts>
+<Expectations>
+<Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+ Name="Expectation"
+>JRU.jru1.ReportModeChange.Mode == %Step_ModeIN</Expectation><Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+ Name="Expectation..."
+>JRU.jru1.ReportModeChange.Request == Request.Request</Expectation></Expectations>
+<PostActions>
+<Action>JRU.jru1.ReportLevelChange.Request &lt;- Request.Response</Action>
+</PostActions>
+</Translation><Translation
+>
+<SourceTexts>
+<SourceText
+ Name="Driver opens desk"
+>
+</SourceText></SourceTexts>
+<Actions>
+<Action>TIU.DeskOpen &lt;- True</Action>
+</Actions>
+</Translation><Translation
+>
+<SourceTexts>
+<SourceText
+ Name="The actual mode SB is DISPLAYED"
+>
+</SourceText></SourceTexts>
+<Expectations>
+<Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+ Name="Expectation"
+>DMI.DisplayMode == Mode.SB</Expectation></Expectations>
+</Translation><Translation
+>
+<SourceTexts>
+<SourceText
+ Name="The on-board equipment requires the driver to enter a Driver ID 
+There is NO initial Driver ID value displayed"
+>
+</SourceText></SourceTexts>
+<Expectations>
+<Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+ Name=""
+>DMI.RequestDriverId.RequestState == Request.Request</Expectation></Expectations>
+</Translation><Translation
+>
+<SourceTexts>
+<SourceText
+ Name="The driver enters a correct Driver ID"
+>
+</SourceText></SourceTexts>
+<Actions>
+<Action>DMI.RequestDriverId.RequestState &lt;- Request.Response</Action>
+<Action>DMI.RequestDriverId.DriverID &lt;- &apos;Henry&apos;</Action>
+</Actions>
+</Translation><Translation
+>
+<SourceTexts>
+<SourceText
+ Name="Train tries to set up a safe connection."
+>
+</SourceText></SourceTexts>
+<Expectations>
+<Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+ Name=""
+>EURORADIO.RequestOpenRbcSession.RequestState == Request.Request</Expectation></Expectations>
+</Translation></Translations>
+</TranslationDictionary></Dictionary>

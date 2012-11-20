@@ -46,7 +46,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override ReturnValue InnerGetTypedElement(InterpretationContext context)
         {
-            ReturnValue retVal = null;
+            ReturnValue retVal;
 
             PrepareIteration(context);
             retVal = getExpressionTypes(context);

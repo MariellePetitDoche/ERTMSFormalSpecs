@@ -1,0 +1,10 @@
+:Base ispp.hlp
+1 Inno Setup Preprocessor Reference
+2 Introduction=isppoverview
+2 Documentation conventions=docconv
+2 Directives=directives
+2 Visibility of identifiers=visibility
+2 User defined macros=macros
+2 Expressions=expressions
+2 Built-in functions=funcs
+2 Predefined and internally defined variables=predefinedvars

@@ -1,0 +1,10 @@
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\XmlBooster.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\XmlBooster.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\XmlBooster\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\XmlBooster\obj\Debug\XmlBooster.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\XmlBooster\obj\Debug\XmlBooster.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\XmlBooster.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\XmlBooster.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\XmlBooster\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\XmlBooster\obj\Debug\XmlBooster.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\XmlBooster\obj\Debug\XmlBooster.pdb

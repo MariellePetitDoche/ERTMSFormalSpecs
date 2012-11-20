@@ -182,6 +182,10 @@ namespace GUI.TestRunnerView
             return retVal;
         }
 
+        /// <summary>
+        /// Handles the drop event
+        /// </summary>
+        /// <param name="SourceNode"></param>
         public override void AcceptDrop(BaseTreeNode SourceNode)
         {
             base.AcceptDrop(SourceNode);

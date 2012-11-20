@@ -1,0 +1,10 @@
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\DataDictionary.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\DataDictionary.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\DataDictionary\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\DataDictionary\obj\Debug\DataDictionary.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\DataDictionary\obj\Debug\DataDictionary.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\DataDictionary.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\DataDictionary.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\DataDictionary\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\DataDictionary\obj\Debug\DataDictionary.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\DataDictionary\obj\Debug\DataDictionary.pdb

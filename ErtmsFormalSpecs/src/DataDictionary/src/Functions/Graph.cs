@@ -504,9 +504,18 @@ namespace DataDictionary.Functions
                 {
                     retVal = -1;
                 }
+                else if (Start > other.Start)
+                {
+                    retVal = 1;
+                }
                 else
                 {
-                    if (Start > other.Start)
+                    // Same start, compare the ends
+                    if (End < other.End)
+                    {
+                        retVal = -1;
+                    }
+                    else if (End > other.End)
                     {
                         retVal = 1;
                     }

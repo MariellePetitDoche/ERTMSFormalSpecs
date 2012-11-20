@@ -33,6 +33,7 @@ Source: ..\..\bin\Reports.dll; DestDir: {app}\bin; Flags: ignoreversion
 Source: ..\..\bin\Utils.dll; DestDir: {app}\bin; Flags: ignoreversion
 Source: ..\..\bin\XmlBooster.dll; DestDir: {app}\bin; Flags: ignoreversion
 Source: ..\..\bin\log4net.dll; DestDir: {app}\bin; Flags: ignoreversion
+Source: ..\etc\logconfig.xml; DestDir: {app}\bin; Flags: ignoreversion
 
 ; also provide the pdb files
 Source: ..\..\bin\GUI.pdb; DestDir: {app}\bin; 

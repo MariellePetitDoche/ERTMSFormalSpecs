@@ -439,22 +439,6 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The predefined empty double to double function
-        /// </summary>
-        private Functions.PredefinedFunctions.EmptyDoubleToDoubleFunction emptyDoubleToDoublePredefinedFunction;
-        public Functions.PredefinedFunctions.EmptyDoubleToDoubleFunction EmptyDoubleToDoublePredefinedFunction
-        {
-            get
-            {
-                if (emptyDoubleToDoublePredefinedFunction == null)
-                {
-                    emptyDoubleToDoublePredefinedFunction = new Functions.PredefinedFunctions.EmptyDoubleToDoubleFunction(this);
-                }
-                return emptyDoubleToDoublePredefinedFunction;
-            }
-        }
-
-        /// <summary>
         /// The predefined RoundToMultiple function
         /// </summary>
         private Functions.PredefinedFunctions.RoundToMultiple roundToMultiplePredefinedFunction;
@@ -567,7 +551,6 @@ namespace DataDictionary
                     predefinedFunctions[MinSurfacePredefinedFunction.Name] = MinSurfacePredefinedFunction;
                     predefinedFunctions[MaxPredefinedFunction.Name] = MaxPredefinedFunction;
                     predefinedFunctions[TargetsPredefinedFunction.Name] = TargetsPredefinedFunction;
-                    predefinedFunctions[EmptyDoubleToDoublePredefinedFunction.Name] = EmptyDoubleToDoublePredefinedFunction;
                     predefinedFunctions[RoundToMultiplePredefinedFunction.Name] = RoundToMultiplePredefinedFunction;
                     predefinedFunctions[DecelerationProfilePredefinedFunction.Name] = DecelerationProfilePredefinedFunction;
                     predefinedFunctions[BeforePredefinedFunction.Name] = BeforePredefinedFunction;

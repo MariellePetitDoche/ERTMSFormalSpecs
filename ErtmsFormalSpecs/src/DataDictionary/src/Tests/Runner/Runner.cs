@@ -824,7 +824,10 @@ namespace DataDictionary.Tests.Runner
                         foreach (SubStep subStep in step.SubSteps)
                         {
                             SetupSubStep(subStep);
-                            RunForExpectations(true);
+                            if (!subStep.getSkipEngine())
+                            {
+                                RunForExpectations(true);
+                            }
                         }
                     }
                 }
@@ -840,16 +843,25 @@ namespace DataDictionary.Tests.Runner
         {
             while (EventTimeLine.CurrentTime < targetTime)
             {
+                SubStep subStep = null;
                 if (ActiveBlockingExpectations().Count == 0)
                 {
                     NextSubStep();
-                    SubStep subStep = CurrentSubStep();
+                    subStep = CurrentSubStep();
                     if (subStep != null)
                     {
                         SetupSubStep(subStep);
                     }
                 }
-                Cycle();
+
+                if (subStep == null || !subStep.getSkipEngine())
+                {
+                    Cycle();
+                }
+                else
+                {
+                    EventTimeLine.CurrentTime += Step;
+                }
             }
         }
 

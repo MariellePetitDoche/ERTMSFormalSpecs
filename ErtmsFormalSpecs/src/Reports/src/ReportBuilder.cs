@@ -49,39 +49,51 @@ namespace Report
         /// <returns></returns>
         public bool BuildTestsReport(TestsCoverageReportConfig aReportConfig)
         {
+            bool retVal = false;
+
+            Log.Info("Creating test report");
             Document document = new Document();
             document.Info.Title = "EFS Test report";
             document.Info.Author = "ERTMS Solutions";
             document.Info.Subject = "Test report";
 
             TestsCoverageReport report = new TestsCoverageReport(document);
+            Log.Info("..gathering requirement coverage");
             report.CreateRequirementCoverageArticle(aReportConfig);
             HashSet<DataDictionary.Rules.RuleCondition> activatedRules = new HashSet<DataDictionary.Rules.RuleCondition>();
-            if (aReportConfig.Dictionary != null) /* We generate a full report */
+            if (aReportConfig.TestCase != null) /* We generate a report for a selected test case */
             {
+                Log.Info("..creating test case report " + aReportConfig.TestCase.Name);
+                EFSSystem.Runner = new DataDictionary.Tests.Runner.Runner(aReportConfig.TestCase.SubSequence);
+                aReportConfig.Dictionary = aReportConfig.TestCase.Dictionary;
+                report.CreateTestCaseSection(EFSSystem.Runner, aReportConfig.TestCase, aReportConfig, activatedRules, true);
+            }
+            else if (aReportConfig.SubSequence != null) /* We generate a report of a selected sub sequence */
+            {
+                Log.Info("..creating sub sequence report " + aReportConfig.SubSequence.Name);
+                aReportConfig.Dictionary = aReportConfig.SubSequence.Dictionary;
+                report.CreateSubSequenceSection(aReportConfig.SubSequence, aReportConfig, activatedRules, true);
+            }
+            else if (aReportConfig.Frame != null) /* We generate a report for a selected frame */
+            {
+                Log.Info("..creating frame report " + aReportConfig.Frame.Name);
+                aReportConfig.Dictionary = aReportConfig.Frame.Dictionary;
+                report.CreateFrameArticle(aReportConfig.Frame, aReportConfig, activatedRules);
+            }
+            else if (aReportConfig.Dictionary != null) /* We generate a full report */
+            {
+                Log.Info("..creating dictionary report ");
                 foreach (Frame frame in aReportConfig.Dictionary.Tests)
                 {
                     report.CreateFrameArticle(frame, aReportConfig, activatedRules);
                 }
             }
-            else if (aReportConfig.Frame != null) /* We generate a report for a selected frame */
-            {
-                aReportConfig.Dictionary = aReportConfig.Frame.Dictionary;
-                report.CreateFrameArticle(aReportConfig.Frame, aReportConfig, activatedRules);
-            }
-            else if (aReportConfig.SubSequence != null) /* We generate a report of a selected sub sequence */
-            {
-                aReportConfig.Dictionary = aReportConfig.SubSequence.Dictionary;
-                report.CreateSubSequenceSection(aReportConfig.SubSequence, aReportConfig, activatedRules, true);
-            }
-            else if (aReportConfig.TestCase != null) /* We generate a report for a selected test case */
-            {
-                EFSSystem.Runner = new DataDictionary.Tests.Runner.Runner(aReportConfig.TestCase.SubSequence);
-                aReportConfig.Dictionary = aReportConfig.TestCase.Dictionary;
-                report.CreateTestCaseSection(EFSSystem.Runner, aReportConfig.TestCase, aReportConfig, activatedRules, true);
-            }
 
-            return GenerateOutputFile(document, aReportConfig);
+            Log.Info("..generating output file");
+            retVal = GenerateOutputFile(document, aReportConfig);
+            Log.Info("Done!");
+
+            return retVal;
         }
 
         /// <summary>
@@ -92,6 +104,9 @@ namespace Report
         /// <returns></returns>
         public bool BuildSpecsReport(SpecCoverageReportConfig aReportConfig)
         {
+            bool retVal = false;
+
+            Log.Info("Creating spec report");
             Document document = new Document();
             document.Info.Title = "EFS Specification report";
             document.Info.Author = "ERTMS Solutions";
@@ -100,22 +115,30 @@ namespace Report
             SpecCoverageReport report = new SpecCoverageReport(document);
             if (aReportConfig.AddSpecification)
             {
+                Log.Info("..generating specifications");
                 report.CreateSpecificationArticle(aReportConfig);
             }
             if (aReportConfig.AddCoveredParagraphs)
             {
+                Log.Info("..generating covered paragraphs");
                 report.CreateCoveredRequirementsArticle(aReportConfig);
             }
             if (aReportConfig.AddNonCoveredParagraphs)
             {
+                Log.Info("..generating non covered paragraphs");
                 report.CreateNonCoveredRequirementsArticle(aReportConfig);
             }
             if (aReportConfig.AddReqRelated)
             {
+                Log.Info("..generating req related");
                 report.CreateReqRelatedArticle(aReportConfig);
             }
 
-            return GenerateOutputFile(document, aReportConfig);
+            Log.Info("..generating output file");
+            retVal = GenerateOutputFile(document, aReportConfig);
+            Log.Info("Done!");
+
+            return retVal;
         }
 
 
@@ -127,6 +150,9 @@ namespace Report
         /// <returns></returns>
         public bool BuildSpecIssuesReport(SpecIssuesReportConfig aReportConfig)
         {
+            bool retVal = false;
+
+            Log.Info("Creating spec issues report");
             Document document = new Document();
             document.Info.Title = "EFS Specification issues report";
             document.Info.Author = "ERTMS Solutions";
@@ -135,14 +161,21 @@ namespace Report
             SpecIssuesReport report = new SpecIssuesReport(document);
             if (aReportConfig.AddSpecIssues)
             {
+                Log.Info("..generating spec issues");
                 report.CreateSpecIssuesArticle(aReportConfig);
             }
             if (aReportConfig.AddDesignChoices)
             {
+                Log.Info("..generating design choices");
                 report.CreateDesignChoicesArticle(aReportConfig);
             }
 
-            return GenerateOutputFile(document, aReportConfig);
+            Log.Info("..generating output file");
+            retVal = GenerateOutputFile(document, aReportConfig);
+            Log.Info("Done!");
+
+            return retVal;
+
         }
 
         /// <summary>
@@ -153,6 +186,9 @@ namespace Report
         /// <returns></returns>
         public bool BuildModelReport(ModelReportConfig aReportConfig)
         {
+            bool retVal = false;
+
+            Log.Info("Generating model report");
             Document document = new Document();
             document.Info.Title = "EFS Model report";
             document.Info.Author = "ERTMS Solutions";
@@ -164,11 +200,17 @@ namespace Report
                 CreateNamespaceSection(report, nameSpace, aReportConfig);
             }
 
-            return GenerateOutputFile(document, aReportConfig);
+            Log.Info("..generating output file");
+            retVal = GenerateOutputFile(document, aReportConfig);
+            Log.Info("Done!");
+
+            return retVal;
         }
 
         public void CreateNamespaceSection(ModelReport report, DataDictionary.Types.NameSpace aNameSpace, ModelReportConfig aReportConfig)
         {
+            Log.Info("..generating name space " + aNameSpace.Name);
+
             if (!aNameSpace.FullName.StartsWith("Messages"))
             {
                 report.AddSubParagraph("Namespace " + aNameSpace.FullName);
@@ -223,10 +265,16 @@ namespace Report
         /// <returns></returns>
         private bool GenerateOutputFile(Document document, ReportConfig aReportConfig)
         {
+            Log.Info("creating renderer");
             PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always);
             pdfRenderer.Document = document;
+
+            Log.Info("rendering document");
             pdfRenderer.RenderDocument();
+
+            Log.Info("saving document");
             pdfRenderer.PdfDocument.Save(aReportConfig.FileName);
+
             return true;
         }
     }

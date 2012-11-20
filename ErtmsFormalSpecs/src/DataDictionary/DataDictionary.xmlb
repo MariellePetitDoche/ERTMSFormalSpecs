@@ -744,9 +744,13 @@
   <!-- ------- -->
   <ELEMENT NAME="SubStep" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
     <FIELDS>
-      <FIELD NAME="Actions"      REFTYPE="Action" />
-      <FIELD NAME="Expectations" REFTYPE="Expectation" />
+      <FIELD NAME="Actions"        REFTYPE="Action" />
+      <FIELD NAME="Expectations"   REFTYPE="Expectation" />
+      <FIELD NAME="SkipEngine"     TYPE="BOOLEAN" />
     </FIELDS>
+    <ATTRIBUTES>
+      <ATTR NAME="SkipEngine" TARGET="SkipEngine" OPTIONAL="TRUE" DEFAULT="FALSE" />
+    </ATTRIBUTES>
     <FORMULA>
       <CONCAT>
 	<ENCLOSED NAME="Actions" OPTIONAL="TRUE">

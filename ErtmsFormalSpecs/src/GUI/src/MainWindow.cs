@@ -158,7 +158,7 @@ namespace GUI
         /// <summary>
         /// The application version number
         /// </summary>
-        private string versionNumber = "0.5";
+        private string versionNumber = "0.9";
 
         /// <summary>
         /// Create the main window

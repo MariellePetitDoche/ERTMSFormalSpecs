@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.IO;
 
 namespace GUI.TestRunnerView
 {
@@ -34,6 +33,13 @@ namespace GUI.TestRunnerView
             public ItemEditor()
                 : base()
             {
+            }
+
+            [Category("Description")]
+            public bool SkipEngine
+            {
+                get { return Item.getSkipEngine(); }
+                set { Item.setSkipEngine(value); }
             }
         }
 

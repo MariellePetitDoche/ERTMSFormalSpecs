@@ -84,7 +84,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 {
                     res--;
                 }
-                retVal = new Values.DoubleValue(this, res);
+                retVal = new Values.DoubleValue(ReturnType, res);
             }
 
             context.LocalScope.PopContext();

@@ -1,0 +1,10 @@
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\Importer.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\Importer.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\Importers\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\Importers\obj\Debug\Importer.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\Importers\obj\Debug\Importer.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\Importer.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\Importer.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\Importers\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\Importers\obj\Debug\Importer.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\Importers\obj\Debug\Importer.pdb

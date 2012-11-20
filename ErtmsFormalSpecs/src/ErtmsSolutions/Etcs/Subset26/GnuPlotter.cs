@@ -139,7 +139,7 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
 
             Emit_d_V(swd, d0 + d_offset, aSegment.Get(d0) + v_offset);
 
-            if (d1 - d0 > SiDistance.One)
+            /*if (d1 - d0 > SiDistance.One)
             {
                 SiDistance delta = SiDistance.One;
                 SiDistance d = d0 + delta;
@@ -149,7 +149,7 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
 
                     d += delta;
                 } while (d < d1);
-            }
+            }*/
 
             Emit_d_V(swd, d1 + d_offset, aSegment.Get(d1) + v_offset);
         }

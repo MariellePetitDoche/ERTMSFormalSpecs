@@ -130,11 +130,12 @@ namespace DataDictionary.Tests
             }
             else
             {
+                retVal = true;
                 foreach (SubStep subStep in SubSteps)
                 {
-                    if (subStep.IsEmpty())
+                    if (!subStep.IsEmpty())
                     {
-                        retVal = true;
+                        retVal = false;
                         break;
                     }
                 }

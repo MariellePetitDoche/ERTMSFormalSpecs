@@ -15,11 +15,8 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.IO;
 
 namespace GUI.TestRunnerView
 {
@@ -292,7 +289,10 @@ namespace GUI.TestRunnerView
                 foreach (DataDictionary.Tests.SubStep subStep in Item.SubSteps)
                 {
                     runner.SetupSubStep(subStep);
-                    runner.Cycle();
+                    if (!subStep.getSkipEngine())
+                    {
+                        runner.Cycle();
+                    }
                 }
                 window.MDIWindow.Refresh();
             }
@@ -316,9 +316,29 @@ namespace GUI.TestRunnerView
                 foreach (DataDictionary.Tests.SubStep subStep in Item.SubSteps)
                 {
                     runner.SetupSubStep(subStep);
-                    runner.RunForExpectations(true);
+                    if (!subStep.getSkipEngine())
+                    {
+                        runner.RunForExpectations(true);
+                    }
                 }
                 window.MDIWindow.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Imports a set of expectations from the ERA braking curves simulation tool
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void ImportBrakingCurvesHandler(object sender, EventArgs args)
+        {
+            CheckRunner();
+
+            Window window = BaseForm as Window;
+            if (window != null)
+            {
+                ExcelImport.Frm_ExcelImport excelImport = new ExcelImport.Frm_ExcelImport(this.Item);
+                excelImport.ShowDialog();
             }
         }
 
@@ -337,6 +357,8 @@ namespace GUI.TestRunnerView
             retVal.Add(new MenuItem("Run once", new EventHandler(RunHandler)));
             retVal.Add(new MenuItem("Run until expectation reached", new EventHandler(RunForExpectationsHandler)));
             retVal.Add(new MenuItem("-"));
+            retVal.Add(new MenuItem("Import braking curves verification set", new EventHandler(ImportBrakingCurvesHandler)));
+            retVal.Add(new MenuItem("-"));
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
 
             return retVal;
@@ -352,8 +374,10 @@ namespace GUI.TestRunnerView
             if (SourceNode is SubStepTreeNode)
             {
                 SubStepTreeNode subStep = SourceNode as SubStepTreeNode;
-                createSubStep(subStep.Item);
+
                 subStep.Delete();
+
+                createSubStep(subStep.Item);
             }
         }
     }

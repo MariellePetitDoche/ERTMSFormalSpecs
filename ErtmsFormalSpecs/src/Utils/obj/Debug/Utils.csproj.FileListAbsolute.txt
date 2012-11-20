@@ -1,0 +1,10 @@
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\Utils.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\bin\Utils.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\Utils\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\Utils\obj\Debug\Utils.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecs\src\Utils\obj\Debug\Utils.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\Utils.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\bin\Utils.pdb
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\Utils\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\Utils\obj\Debug\Utils.dll
+C:\Users\Laurent\Desktop\ERTMS\ErtmsFormalSpecsNoCVS\src\Utils\obj\Debug\Utils.pdb

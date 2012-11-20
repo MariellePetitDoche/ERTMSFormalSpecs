@@ -10,6 +10,7 @@ DEPENDANCIES+=$(DIR_EXEC)/PdfSharp.Charting.dll
 DEPENDANCIES+=$(DIR_EXEC)/MigraDoc.Rendering.dll 
 DEPENDANCIES+=$(DIR_EXEC)/MigraDoc.DocumentObjectModel.dll 
 DEPENDANCIES+=$(DIR_EXEC)/log4net.dll
+DEPENDANCIES+=$(DIR_EXEC)/Microsoft.Office.Interop.Excel.dll
 DEPENDANCIES+=InnoInstaller5
 
 all: $(DIR_EXEC) $(DEPENDANCIES)
@@ -48,6 +49,10 @@ $(DIR_EXEC)/log4net.dll: log4net-1.2.11-bin-newkey.zip
 	@unzip -u -o -q $<
 	@echo "---- Copying log4net.dll "
 	@cp log4net-1.2.11/bin/net/4.0/release/log4net.dll ../bin
+	
+$(DIR_EXEC)/Microsoft.Office.Interop.Excel.dll: Microsoft.Office.Interop.Excel.dll
+	@echo "---- Copying $< "
+	@cp $< ../bin
 
 InnoInstaller5: InnoInstaller5.zip
 	@echo "---- Unzipping $< "

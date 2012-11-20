@@ -207,5 +207,21 @@ namespace GUI.TestRunnerView
         {
             return findSubNode(subSequenceName) as SubSequenceTreeNode;
         }
+
+        /// <summary>
+        /// Handles the drop event
+        /// </summary>
+        /// <param name="SourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode SourceNode)
+        {
+            base.AcceptDrop(SourceNode);
+            if (SourceNode is SubSequenceTreeNode)
+            {
+                SubSequenceTreeNode subSequence = SourceNode as SubSequenceTreeNode;
+                subSequence.Delete();
+
+                createSubSequence(subSequence.Item);
+            }
+        }
     }
 }

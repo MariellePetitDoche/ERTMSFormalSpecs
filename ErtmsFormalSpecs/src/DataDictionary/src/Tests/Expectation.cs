@@ -109,7 +109,7 @@ namespace DataDictionary.Tests
         }
 
         /// <summary>
-        /// The precondition expression
+        /// The expectation expression
         /// </summary>
         public string Expression
         {
