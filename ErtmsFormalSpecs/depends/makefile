@@ -1,4 +1,4 @@
-.phony:all clean
+.phony:all remove clean
 .default:all
 
 DIR_EXEC=../bin
@@ -15,8 +15,10 @@ DEPENDANCIES+=InnoInstaller5
 
 all: $(DIR_EXEC) $(DEPENDANCIES)
 
-clean:
+remove:
 	@-rm -rf $(DEPENDANCIES) log4net-1.2.11
+
+clean:
 
 $(DIR_EXEC):
 	@-mkdir $(DIR_EXEC)
