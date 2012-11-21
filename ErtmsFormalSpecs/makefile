@@ -1,4 +1,4 @@
-.PHONY: all release clean
+.PHONY: all release gitclone nightbuild clean
 
 all:
 	@make -C depends all
@@ -8,7 +8,11 @@ release: clean
 	@make -C depends all
 	@make -C src release
 
-nightbuild: release
+gitclone:
+	../tools/Git/bin/git.exe clone https://github.com/stanpinte/ERTMSFormalSpecs.git
+	cp -r ERTMSFormalSpecs/ErtmsFormalSpecs/* .
+
+nightbuild: gitclone release
 	bin/EFSTester.exe doc/specs/subset-026.efs
 	@echo "done."
 
