@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -77,6 +75,12 @@ namespace GUI.DataDictionaryView
         /// <param name="function"></param>
         public FunctionTreeNode AddFunction(DataDictionary.Functions.Function function)
         {
+            // Ensure that functions always have a type
+            if (function.ReturnType == null)
+            {
+                function.ReturnType = function.EFSSystem.BoolType;
+            }
+
             Item.appendFunctions(function);
             FunctionTreeNode retVal = new FunctionTreeNode(function);
             Nodes.Add(retVal);
