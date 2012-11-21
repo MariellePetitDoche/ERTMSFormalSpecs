@@ -377,8 +377,17 @@ namespace GUI
         {
             if (pleaseSaveDictionary != null)
             {
-                pleaseSaveDictionary.save();
-                pleaseSaveDictionary = null;
+                DataDictionary.Util.UnlockAllFiles();
+
+                try
+                {
+                    pleaseSaveDictionary.save();
+                    pleaseSaveDictionary = null;
+                }
+                finally
+                {
+                    DataDictionary.Util.LockAllFiles();
+                }
             }
         }
 

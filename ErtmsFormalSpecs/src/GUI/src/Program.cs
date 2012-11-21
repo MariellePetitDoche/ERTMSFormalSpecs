@@ -14,10 +14,8 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ERTMSFormalSpecs
 {
@@ -30,13 +28,20 @@ namespace ERTMSFormalSpecs
         [STAThread]
         static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            log4net.Config.XmlConfigurator.Configure(new FileInfo("logconfig.xml"));
+                log4net.Config.XmlConfigurator.Configure(new FileInfo("logconfig.xml"));
 
-            GUI.MainWindow window = new GUI.MainWindow();
-            Application.Run(window);
+                GUI.MainWindow window = new GUI.MainWindow();
+                Application.Run(window);
+            }
+            finally
+            {
+                DataDictionary.Util.UnlockAllFiles();
+            }
         }
     }
 }

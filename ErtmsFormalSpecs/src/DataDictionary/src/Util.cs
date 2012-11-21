@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-
+using System.IO;
 using XmlBooster;
 
 namespace DataDictionary
@@ -130,6 +130,100 @@ namespace DataDictionary
         }
 
         /// <summary>
+        /// Holds information about opened files in the system
+        /// </summary>
+        private class FileData
+        {
+            /// <summary>
+            /// The name of the corresponding file
+            /// </summary>
+            public String FileName { get; private set; }
+
+            /// <summary>
+            /// The stream used to lock the file
+            /// </summary>
+            public FileStream Stream { get; private set; }
+
+            /// <summary>
+            /// The length of the lock section
+            /// </summary>
+            private long LockLength { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="fileName"></param>
+            public FileData(String fileName)
+            {
+                FileName = fileName;
+                Lock();
+            }
+
+            /// <summary>
+            /// Locks the corresponding file
+            /// </summary>
+            public void Lock()
+            {
+                if (Stream == null)
+                {
+                    Stream = new FileStream(FileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    LockLength = Stream.Length;
+                    Stream.Lock(0, LockLength);
+                }
+            }
+
+            /// <summary>
+            /// Unlocks the corresponding file
+            /// </summary>
+            public void Unlock()
+            {
+                if (Stream != null)
+                {
+                    Stream.Unlock(0, LockLength);
+                    Stream.Close();
+                    Stream = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Lock all opened files
+        /// </summary>
+        private static List<FileData> openedFiles = new List<FileData>();
+
+        /// <summary>
+        /// Locks a single file
+        /// </summary>
+        /// <param name="filePath"></param>
+        private static void LockFile(String filePath)
+        {
+            FileData data = new FileData(filePath);
+            openedFiles.Add(data);
+        }
+
+        /// <summary>
+        /// Unlocks all files locked by the system
+        /// </summary>
+        public static void UnlockAllFiles()
+        {
+            foreach (FileData data in openedFiles)
+            {
+                data.Unlock();
+            }
+        }
+
+        /// <summary>
+        /// Locks all files loaded in the system
+        /// </summary>
+        public static void LockAllFiles()
+        {
+            foreach (FileData data in openedFiles)
+            {
+                data.Lock();
+            }
+        }
+
+        /// <summary>
         /// Loads a dictionary according to the corresponding specifications
         /// </summary>
         /// <param name="filePath">The path of the file which holds the dictionary data</param>
@@ -151,6 +245,8 @@ namespace DataDictionary
                 Updater updater = new Updater();
                 updater.visit(retVal);
                 retVal.Specifications.ManageTypeSpecs();
+
+                LockFile(filePath);
             }
             catch (XmlBooster.XmlBException excp)
             {
@@ -181,6 +277,8 @@ namespace DataDictionary
 
                 Updater updater = new Updater();
                 updater.visit(retVal);
+
+                LockFile(fileName);
             }
             catch (XmlBooster.XmlBException excp)
             {
@@ -203,6 +301,8 @@ namespace DataDictionary
                 {
                     retVal.setFather(dictionary);
                 }
+
+                LockFile(fileName);
             }
             catch (XmlBooster.XmlBException excp)
             {
