@@ -1,12 +1,12 @@
 .PHONY: all release gitclone nightbuild clean
 
 all:
-	@make -C depends all
-	@make -C src all
+	make -C depends all
+	make -C src all
 
 release: clean
-	@make -C depends all
-	@make -C src release
+	make -C depends all
+	make -C src release
 
 gitclone:
 	-rm -rf ERTMSFormalSpecs
@@ -15,12 +15,12 @@ gitclone:
 
 nightbuild: gitclone release
 	bin/EFSTester.exe doc/specs/subset-026.efs
-	@echo "done."
+	echo "done."
 
 clean:
-	@rm -rf bin
-	@make -C depends clean
-	@make -C src clean
-	@rm -rf bin distrib distrib.zip
-	@mkdir bin
+	-rm -rf bin
+	make -C depends clean
+	make -C src clean
+	rm -rf bin distrib distrib.zip
+	mkdir bin
 

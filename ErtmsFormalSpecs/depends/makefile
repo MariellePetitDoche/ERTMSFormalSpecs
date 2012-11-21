@@ -16,7 +16,7 @@ DEPENDANCIES+=InnoInstaller5
 all: $(DIR_EXEC) $(DEPENDANCIES)
 
 clean:
-	@rm -rf $(DEPENDANCIES) log4net-1.2.11
+	@-rm -rf $(DEPENDANCIES) log4net-1.2.11
 
 $(DIR_EXEC):
 	@-mkdir $(DIR_EXEC)
