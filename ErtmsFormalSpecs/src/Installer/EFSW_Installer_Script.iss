@@ -53,9 +53,9 @@ Source: ..\..\doc\specs\DataDictionary.xsd; DestDir: {app}\doc\specs;
 Source: ..\..\doc\specs\subset-026.efs; DestDir: {app}\doc\specs;
 Source: ..\..\doc\specs\disable shunting.efs; DestDir: {app}\doc\specs;
 Source: ..\..\doc\specs\subset-076.efs; DestDir: {app}\doc\specs;
-Source: ..\..\doc\SpecificationCoverageReport.pdf; DestDir: {app}\doc;
-Source: ..\..\doc\ModelReport.pdf; DestDir: {app}\doc;
-Source: ..\..\doc\TestCoverageReport.pdf; DestDir: {app}\doc;
+;Source: ..\..\doc\SpecificationCoverageReport.pdf; DestDir: {app}\doc;
+;Source: ..\..\doc\ModelReport.pdf; DestDir: {app}\doc;
+;Source: ..\..\doc\TestCoverageReport.pdf; DestDir: {app}\doc;
 
 Source: ..\ertmsFormalSpec.sln; DestDir: {app}\src;
 Source: ..\DataDictionary\*; DestDir: {app}\src\DataDictionary; Excludes: "CVS,obj,.cvsignore"; Flags: recursesubdirs
@@ -70,9 +70,9 @@ Source: ..\XmlBooster\*; DestDir: {app}\src\XmlBooster; Excludes: "CVS,obj.cvsig
 Name: "{group}\docs\Release Notes"; Filename: "{app}\EFSW_Release_Notes.pdf";
 Name: "{group}\docs\User's Manual"; Filename: "{app}\doc\EFSW_User_Guide.pdf";
 Name: "{group}\docs\Technical Design"; Filename: "{app}\doc\EFSW_Technical_Design.pdf";
-Name: "{group}\docs\reports\Specification Report"; Filename: "{app}\doc\SpecificationCoverageReport.pdf";
-Name: "{group}\docs\reports\Model Report"; Filename: "{app}\doc\ModelReport.pdf";
-Name: "{group}\docs\reports\Tests Report"; Filename: "{app}\doc\TestCoverageReport.pdf";
+;Name: "{group}\docs\reports\Specification Report"; Filename: "{app}\doc\SpecificationCoverageReport.pdf";
+;Name: "{group}\docs\reports\Model Report"; Filename: "{app}\doc\ModelReport.pdf";
+;Name: "{group}\docs\reports\Tests Report"; Filename: "{app}\doc\TestCoverageReport.pdf";
 Name: "{group}\EFS Workbench"; Filename: "{app}\bin\GUI.exe";
 Name: "{group}\Uninstall EFS"; Filename: "{app}\unins000.exe";
 

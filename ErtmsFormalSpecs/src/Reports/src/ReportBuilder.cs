@@ -1,3 +1,4 @@
+using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -265,17 +266,28 @@ namespace Report
         /// <returns></returns>
         private bool GenerateOutputFile(Document document, ReportConfig aReportConfig)
         {
-            Log.Info("creating renderer");
-            PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always);
-            pdfRenderer.Document = document;
+            bool retVal = false;
 
-            Log.Info("rendering document");
-            pdfRenderer.RenderDocument();
+            try
+            {
+                Log.Info("creating renderer");
+                PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always);
+                pdfRenderer.Document = document;
 
-            Log.Info("saving document");
-            pdfRenderer.PdfDocument.Save(aReportConfig.FileName);
+                Log.Info("rendering document");
+                pdfRenderer.RenderDocument();
 
-            return true;
+                Log.Info("saving document");
+                pdfRenderer.PdfDocument.Save(aReportConfig.FileName);
+
+                retVal = true;
+            }
+            catch (Exception e)
+            {
+                Log.Error("Cannot render document. Exception message is " + e.Message);
+            }
+
+            return retVal;
         }
     }
 }

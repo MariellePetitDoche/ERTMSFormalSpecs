@@ -18,9 +18,8 @@ nightbuild: gitclone release
 	echo "done."
 
 clean:
-	-rm -rf bin
 	make -C depends clean
 	make -C src clean
-	rm -rf bin distrib distrib.zip
-	mkdir bin
+	rm -rf distrib distrib.zip
+	-mkdir bin
 
