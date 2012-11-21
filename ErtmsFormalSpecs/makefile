@@ -9,6 +9,7 @@ release: clean
 	@make -C src release
 
 gitclone:
+	-rm -rf ERTMSFormalSpecs
 	../tools/Git/bin/git.exe clone https://github.com/stanpinte/ERTMSFormalSpecs.git
 	cp -r ERTMSFormalSpecs/ErtmsFormalSpecs/* .
 
