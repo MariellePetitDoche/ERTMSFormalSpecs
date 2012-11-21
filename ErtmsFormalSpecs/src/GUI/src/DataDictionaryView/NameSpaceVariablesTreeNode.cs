@@ -76,6 +76,12 @@ namespace GUI.DataDictionaryView
         /// <param name="variable"></param>
         public VariableTreeNode AddVariable(DataDictionary.Variables.Variable variable)
         {
+            // Ensure that variables always have a type
+            if (variable.Type == null)
+            {
+                variable.Type = variable.EFSSystem.BoolType;
+            }
+
             Item.appendVariables(variable);
             VariableTreeNode retVal = new VariableTreeNode(variable, new HashSet<DataDictionary.Types.Type>());
             Nodes.Add(retVal);
