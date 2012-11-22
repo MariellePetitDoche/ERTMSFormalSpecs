@@ -28,9 +28,10 @@ namespace EFSTester
         /// <returns>the error code of the program</returns>
         static int Main(string[] args)
         {
+            int retVal = 0;
+
             try
             {
-                int retVal = 0;
 
                 Console.Out.WriteLine("EFS Tester");
 
