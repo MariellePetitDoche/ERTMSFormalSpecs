@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -92,6 +93,24 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                Left.SemanticAnalysis(context, false);
+                Right.SemanticAnalysis(context, false);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the typed element associated to this Expression
         /// </summary>
         /// <param name="instance">The instance on which the value is computed</param>
@@ -111,9 +130,9 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = null;
             ExplanationPart previous = SetupExplanation();
 
             Values.IValue leftValue = null;
@@ -134,7 +153,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(leftValue.Type.PerformArithmericOperation(context, leftValue, Operation, rightValue));
+                                    retVal = leftValue.Type.PerformArithmericOperation(context, leftValue, Operation, rightValue);
                                 }
                                 else
                                 {
@@ -156,9 +175,7 @@ namespace DataDictionary.Interpreter
                                         {
                                             if (rightValue.Type == EFSSystem.BoolType)
                                             {
-                                                Values.BoolValue rb = rightValue as Values.BoolValue;
-
-                                                retVal.Add(rb);
+                                                retVal = rightValue as Values.BoolValue;
                                             }
                                             else
                                             {
@@ -172,7 +189,7 @@ namespace DataDictionary.Interpreter
                                     }
                                     else
                                     {
-                                        retVal.Add(lb);
+                                        retVal = lb;
                                     }
                                 }
                                 else
@@ -195,9 +212,7 @@ namespace DataDictionary.Interpreter
                                         {
                                             if (rightValue.Type == EFSSystem.BoolType)
                                             {
-                                                Values.BoolValue rb = rightValue as Values.BoolValue;
-
-                                                retVal.Add(rb);
+                                                retVal = rightValue as Values.BoolValue;
                                             }
                                             else
                                             {
@@ -211,7 +226,7 @@ namespace DataDictionary.Interpreter
                                     }
                                     else
                                     {
-                                        retVal.Add(lb);
+                                        retVal = lb;
                                     }
                                 }
                                 else
@@ -226,7 +241,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(leftValue.Type.Less(leftValue, rightValue)));
+                                    retVal = EFSSystem.GetBoolean(leftValue.Type.Less(leftValue, rightValue));
                                 }
                                 else
                                 {
@@ -240,7 +255,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) || leftValue.Type.Less(leftValue, rightValue)));
+                                    retVal = EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) || leftValue.Type.Less(leftValue, rightValue));
                                 }
                                 else
                                 {
@@ -254,7 +269,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(leftValue.Type.Greater(leftValue, rightValue)));
+                                    retVal = EFSSystem.GetBoolean(leftValue.Type.Greater(leftValue, rightValue));
                                 }
                                 else
                                 {
@@ -268,7 +283,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) || leftValue.Type.Greater(leftValue, rightValue)));
+                                    retVal = EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue) || leftValue.Type.Greater(leftValue, rightValue));
                                 }
                                 else
                                 {
@@ -282,7 +297,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue)));
+                                    retVal = EFSSystem.GetBoolean(leftValue.Type.CompareForEquality(leftValue, rightValue));
                                 }
                                 else
                                 {
@@ -296,7 +311,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue)));
+                                    retVal = EFSSystem.GetBoolean(!leftValue.Type.CompareForEquality(leftValue, rightValue));
                                 }
                                 else
                                 {
@@ -310,7 +325,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(rightValue.Type.Contains(rightValue, leftValue)));
+                                    retVal = EFSSystem.GetBoolean(rightValue.Type.Contains(rightValue, leftValue));
                                 }
                                 else
                                 {
@@ -324,7 +339,7 @@ namespace DataDictionary.Interpreter
                                 rightValue = Right.GetValue(context);
                                 if (rightValue != null)
                                 {
-                                    retVal.Add(EFSSystem.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue)));
+                                    retVal = EFSSystem.GetBoolean(!rightValue.Type.Contains(rightValue, leftValue));
                                 }
                                 else
                                 {
@@ -435,25 +450,25 @@ namespace DataDictionary.Interpreter
             ReturnValue retVal = new ReturnValue();
 
             ReturnValue lTypes = Left.getExpressionTypes(context);
-            if (lTypes.Empty())
+            if (lTypes.IsEmpty)
             {
                 AddError("Cannot determine expression type (1) for " + Left.ToString());
             }
 
             ReturnValue rTypes = Right.getExpressionTypes(context);
-            if (rTypes.Empty())
+            if (rTypes.IsEmpty)
             {
                 AddError("Cannot determine expression type (2) for " + Right.ToString());
             }
 
-            foreach (Utils.INamable lNamable in lTypes.Values)
+            foreach (ReturnValueElement lelem in lTypes.Values)
             {
-                Types.Type left = lNamable as Types.Type;
+                Types.Type left = lelem.Value as Types.Type;
                 if (left != null)
                 {
-                    foreach (Utils.INamable rNamable in rTypes.Values)
+                    foreach (ReturnValueElement relem in rTypes.Values)
                     {
-                        Types.Type right = rNamable as Types.Type;
+                        Types.Type right = relem.Value as Types.Type;
                         if (right != null)
                         {
                             switch (Operation)

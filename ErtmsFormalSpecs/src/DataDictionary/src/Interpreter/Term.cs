@@ -14,10 +14,11 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class Term : InterpreterTreeNode
+    public class Term : InterpreterTreeNode, IReference
     {
         /// <summary>
         /// The designator of this term
@@ -27,7 +28,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// The literal value of this designator
         /// </summary>
-        public Values.IValue LiteralValue { get; private set; }
+        public Expression LiteralValue { get; private set; }
 
         /// <summary>
         /// Constructor
@@ -46,10 +47,67 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="root">The root element for which this model is built</param>
         /// <param name="literal"></param>
-        public Term(ModelElement root, Values.IValue literal)
+        public Term(ModelElement root, Expression literal)
             : base(root)
         {
             LiteralValue = literal;
+        }
+
+        /// <summary>
+        /// Sets the element referenced by this Deref expression
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <returns></returns>
+        public bool setReference(Utils.INamable reference)
+        {
+            bool retVal = false;
+
+            Variables.IVariable variable = reference as Variables.IVariable;
+            if (variable == null)
+            {
+                // We do not want to hard code reference to variables since they can belong to a structure, 
+                // or be variables available on the stack.
+                Ref = reference;
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// The model element referenced by this designator.
+        /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
+        /// </summary>
+        public INamable Ref { get; private set; }
+
+        /// <summary>
+        /// Indicates whether the semantic analysis has been performed
+        /// </summary>
+        protected bool SemanticAnalysisDone { get; private set; }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = !SemanticAnalysisDone;
+
+            if (!SemanticAnalysisDone)
+            {
+                SemanticAnalysisDone = true;
+                if (Designator != null)
+                {
+                    Designator.SemanticAnalysis(context, type);
+                }
+                else if (LiteralValue != null)
+                {
+                    LiteralValue.SemanticAnalysis(context, type);
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -63,12 +121,12 @@ namespace DataDictionary.Interpreter
 
             if (Designator != null)
             {
-                retVal = Designator.getReferences(context, true);
+                retVal = Designator.getReferences(context, false);
             }
             else if (LiteralValue != null)
             {
-                retVal = new ReturnValue();
-                retVal.Add(LiteralValue);
+                retVal = new ReturnValue(this);
+                retVal.Add(LiteralValue.GetValue(context));
             }
 
             return retVal;
@@ -80,18 +138,18 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which the value must be computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public ReturnValue GetValue(InterpretationContext context)
+        public INamable GetValue(InterpretationContext context)
         {
-            ReturnValue retVal = null;
+            INamable retVal = null;
 
+            SemanticAnalysis(context, false);
             if (Designator != null)
             {
-                retVal = Designator.getReferences(context, false);
+                retVal = Designator.GetValue(context, null);
             }
             else if (LiteralValue != null)
             {
-                retVal = new ReturnValue();
-                retVal.Add(LiteralValue);
+                retVal = LiteralValue.GetValue(context);
             }
 
             return retVal;
@@ -105,9 +163,9 @@ namespace DataDictionary.Interpreter
         {
             if (Designator != null)
             {
-                foreach (Utils.INamable namable in Designator.getReferences(context, true).Values)
+                foreach (ReturnValueElement elem in Designator.getReferences(context, true).Values)
                 {
-                    Types.ITypedElement element = namable as Types.ITypedElement;
+                    Types.ITypedElement element = elem.Value as Types.ITypedElement;
                     if (element != null)
                     {
                         elements.Add(element);
@@ -126,7 +184,7 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.LiteralName;
+                retVal = LiteralValue.ToString();
             }
 
             return retVal;
@@ -134,9 +192,9 @@ namespace DataDictionary.Interpreter
 
         public void Update(Values.IValue source, Values.IValue target)
         {
-            if (LiteralValue == source)
+            if (LiteralValue != null)
             {
-                LiteralValue = target;
+                LiteralValue.Update(source, target);
             }
         }
     }

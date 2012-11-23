@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -76,6 +77,25 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                Expression.SemanticAnalysis(context, false);
+                InitialValue.SemanticAnalysis(context, false);
+                Condition.SemanticAnalysis(context, false);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the typed element associated to this Expression 
         /// </summary>
         /// <param name="instance">The instance on which the value is computed</param>
@@ -94,9 +114,9 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = null;
 
             LastIteration.Value = InitialValue.GetValue(context);
 
@@ -122,7 +142,7 @@ namespace DataDictionary.Interpreter
                 LastIteration.Value = CurrentIteration.Value;
             } while (!stop);
 
-            retVal.Add(CurrentIteration.Value);
+            retVal = CurrentIteration.Value;
 
             return retVal;
         }

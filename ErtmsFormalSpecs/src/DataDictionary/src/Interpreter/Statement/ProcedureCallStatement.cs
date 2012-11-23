@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -35,6 +36,17 @@ namespace DataDictionary.Interpreter.Statement
         {
             Call = call;
             Call.Enclosing = this;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="context"></param>
+        public override void SemanticalAnalysis(InterpretationContext context)
+        {
+            base.SemanticalAnalysis(context);
+
+            Call.SemanticAnalysis(context, false);
         }
 
         /// <summary>
@@ -170,14 +182,11 @@ namespace DataDictionary.Interpreter.Statement
         {
             InterpretationContext retVal = context;
 
-            if (Call.Called is DerefExpression)
+            DerefExpression deref = Call.Called as DerefExpression;
+            if (false && deref != null)
             {
-                DerefExpression deref = Call.Called as DerefExpression;
-                foreach (Utils.INamable namable in deref.Left.InnerGetValue(context).Values)
-                {
-                    retVal = new InterpretationContext(context, namable);
-                    break;
-                }
+                INamable namable = Call.Called.GetValue(context) as INamable;
+                retVal = new InterpretationContext(context, namable);
             }
 
             return retVal;

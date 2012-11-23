@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -55,11 +56,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
-
-            Values.IValue result = EFSSystem.EmptyValue;
+            Values.IValue retVal = EFSSystem.EmptyValue;
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
@@ -71,7 +70,7 @@ namespace DataDictionary.Interpreter.ListOperators
                         IteratorVariable.Value = v;
                         if (conditionSatisfied(context))
                         {
-                            result = v;
+                            retVal = v;
                             break;
                         }
                     }
@@ -80,7 +79,6 @@ namespace DataDictionary.Interpreter.ListOperators
                 EndIteration(context);
             }
 
-            retVal.Add(result);
             return retVal;
         }
 
@@ -91,14 +89,14 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override ReturnValue getExpressionTypes(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ReturnValue retVal = new ReturnValue(this);
 
-            foreach (Utils.INamable namable in ListExpression.getExpressionTypes(context).Values)
+            foreach (ReturnValueElement elem in ListExpression.getExpressionTypes(context).Values)
             {
-                Types.Collection listType = namable as Types.Collection;
+                Types.Collection listType = elem.Value as Types.Collection;
                 if (listType != null)
                 {
-                    retVal.Add(listType.Type);
+                    retVal.Add(null, listType.Type);
                 }
             }
 

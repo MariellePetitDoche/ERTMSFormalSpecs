@@ -29,6 +29,14 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="context"></param>
+        public virtual void SemanticalAnalysis(InterpretationContext context)
+        {
+        }
+
+        /// <summary>
         /// Provides the type of this designator
         /// </summary>
         /// <returns></returns>

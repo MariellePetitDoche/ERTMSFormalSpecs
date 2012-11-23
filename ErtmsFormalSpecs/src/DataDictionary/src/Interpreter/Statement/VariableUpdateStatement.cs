@@ -44,6 +44,18 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="context"></param>
+        public override void SemanticalAnalysis(InterpretationContext context)
+        {
+            base.SemanticalAnalysis(context);
+
+            VariableIdentification.SemanticAnalysis(context, false);
+            Expression.SemanticAnalysis(context, false);
+        }
+
+        /// <summary>
         /// Provides the target of this update statement
         /// </summary>
         public Types.ITypedElement Target

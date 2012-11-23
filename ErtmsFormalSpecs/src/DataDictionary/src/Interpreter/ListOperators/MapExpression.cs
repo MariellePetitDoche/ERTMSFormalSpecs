@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -61,16 +62,16 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            Values.ListValue retVal = null;
 
             InterpretationContext ctxt = new InterpretationContext(context, true);
             Values.ListValue value = ListExpression.GetValue(ctxt) as Values.ListValue;
             if (value != null)
             {
                 PrepareIteration(context);
-                Values.ListValue result = new Values.ListValue((Types.Collection)getExpressionType(context), new List<Values.IValue>());
+                retVal = new Values.ListValue((Types.Collection)getExpressionType(context), new List<Values.IValue>());
                 foreach (Values.IValue v in value.Val)
                 {
                     if (v != EFSSystem.EmptyValue)
@@ -79,14 +80,12 @@ namespace DataDictionary.Interpreter.ListOperators
 
                         if (conditionSatisfied(context))
                         {
-                            result.Val.Add(IteratorExpression.GetValue(context));
+                            retVal.Val.Add(IteratorExpression.GetValue(context));
                         }
                     }
                     NextIteration();
                 }
                 EndIteration(context);
-
-                retVal.Add(result);
             }
 
             return retVal;

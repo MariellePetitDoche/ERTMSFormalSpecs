@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -55,6 +56,27 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                PrepareIteration(context);
+                base.SemanticAnalysis(context, type);
+
+                InitialValue.SemanticAnalysis(context, false);
+                EndIteration(context);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the typed element associated to this Expression 
         /// </summary>
         /// <param name="instance">The instance on which the value is computed</param>
@@ -74,9 +96,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = null;
 
             InterpretationContext ctxt = new InterpretationContext(context, Root);
 
@@ -100,7 +122,11 @@ namespace DataDictionary.Interpreter.ListOperators
                     NextIteration();
                 }
                 EndIteration(ctxt);
-                retVal.Add(AccumulatorVariable.Value);
+                retVal = AccumulatorVariable.Value;
+            }
+            else
+            {
+                AddError("Cannot evaluate list value " + ListExpression.ToString());
             }
 
             return retVal;
@@ -128,14 +154,14 @@ namespace DataDictionary.Interpreter.ListOperators
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public override ReturnValue getCalled(InterpretationContext context)
+        public override ICallable getCalled(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ICallable retVal = null;
 
             Functions.Graph graph = createGraph(context);
             if (graph != null)
             {
-                retVal.Add(graph.Function);
+                retVal = graph.Function;
             }
 
             return retVal;
@@ -160,6 +186,16 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
+        /// Prepares the iteration on the context provided
+        /// </summary>
+        /// <param name="context"></param>
+        protected override void PrepareIteration(InterpretationContext context)
+        {
+            base.PrepareIteration(context);
+            context.LocalScope.setVariable(AccumulatorVariable);
+        }
+
+        /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         public override void checkExpression(InterpretationContext context)
@@ -173,7 +209,6 @@ namespace DataDictionary.Interpreter.ListOperators
                 if (listExpressionType != null)
                 {
                     PrepareIteration(context);
-                    context.LocalScope.setVariable(AccumulatorVariable);
                     IteratorExpression.checkExpression(context);
                     EndIteration(context);
                 }
@@ -226,7 +261,6 @@ namespace DataDictionary.Interpreter.ListOperators
                 if (value != null)
                 {
                     PrepareIteration(context);
-                    context.LocalScope.setVariable(AccumulatorVariable);
                     AccumulatorVariable.Value = graph.Function;
 
                     foreach (Values.IValue v in value.Val)

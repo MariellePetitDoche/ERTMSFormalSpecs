@@ -36,5 +36,24 @@ namespace DataDictionary.Interpreter.ListOperators
             IteratorExpression = iteratorExpression;
             IteratorExpression.Enclosing = this;
         }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                PrepareIteration(context);
+                IteratorExpression.SemanticAnalysis(context, false);
+                EndIteration(context);
+            }
+
+            return retVal;
+        }
     }
 }

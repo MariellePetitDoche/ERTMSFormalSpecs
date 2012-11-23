@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -44,9 +45,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override ReturnValue InnerGetTypedElement(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ReturnValue retVal = new ReturnValue(this);
 
-            retVal.Add(EFSSystem.IntegerType);
+            retVal.Add(null, EFSSystem.IntegerType);
 
             return retVal;
         }
@@ -57,9 +58,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = null;
 
             int count = 0;
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
@@ -80,7 +81,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 }
                 EndIteration(context);
             }
-            retVal.Add(new Values.IntValue(EFSSystem.IntegerType, count));
+            retVal = new Values.IntValue(EFSSystem.IntegerType, count);
 
             return retVal;
         }
@@ -92,9 +93,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override ReturnValue getExpressionTypes(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ReturnValue retVal = new ReturnValue(this);
 
-            retVal.Add(EFSSystem.IntegerType);
+            retVal.Add(null, EFSSystem.IntegerType);
 
             return retVal;
         }

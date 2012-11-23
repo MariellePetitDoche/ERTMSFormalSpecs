@@ -97,7 +97,7 @@ namespace GUI.DataDictionaryView
                     foreach (KeyValuePair<string, DataDictionary.Interpreter.Expression> value in associations)
                     {
                         DataDictionary.Rules.Action action = (DataDictionary.Rules.Action)DataDictionary.Generated.acceptor.getFactory().createAction();
-                        action.Expression = structExpression.Structure.FullName + "." + value.Key + " <- " + value.Value.ToString();
+                        action.Expression = structExpression.Structure.ToString() + "." + value.Key + " <- " + value.Value.ToString();
                         string aString = value.Value.ToString();
                         ActionTreeNode actionTreeNode = new ActionTreeNode(action);
 

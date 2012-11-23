@@ -1,3 +1,4 @@
+using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -14,35 +15,91 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
+    /// <summary>
+    /// Stores the association between a interpreter tree node and a value
+    /// </summary>
+    public class ReturnValueElement
+    {
+        /// <summary>
+        /// The tree node
+        /// </summary>
+        public InterpreterTreeNode Node { get; set; }
+
+        /// <summary>
+        /// The previous return value element in the 
+        /// </summary>
+        public ReturnValueElement PreviousElement { get; set; }
+
+        /// <summary>
+        /// The value
+        /// </summary>
+        public Utils.INamable Value { get; set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="previous"></param>
+        /// <param name="node"></param>
+        public ReturnValueElement(Utils.INamable value, ReturnValueElement previous = null, InterpreterTreeNode node = null)
+        {
+            Node = node;
+            PreviousElement = previous;
+            Value = value;
+        }
+    }
+
     /// <summary>
     /// The possible return values for InnerGetValue
     /// </summary>
     public class ReturnValue
     {
         /// <summary>
+        /// The interpreter tree node on which these values are linked
+        /// </summary>
+        public InterpreterTreeNode Node { get; private set; }
+
+        /// <summary>
         /// The values of this return value
         /// </summary>
-        public List<Utils.INamable> Values { get; private set; }
+        public List<ReturnValueElement> Values { get; private set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ReturnValue(InterpreterTreeNode node)
+        {
+            Node = node;
+            Values = new List<ReturnValueElement>();
+        }
 
         /// <summary>
         /// Constructor
         /// </summary>
         public ReturnValue()
         {
-            Values = new List<Utils.INamable>();
+            Node = null;
+            Values = new List<ReturnValueElement>();
         }
 
         /// <summary>
-        /// Indicates whether the return value is empty (no result)
+        /// Indicates if there is more than one value in the result set
         /// </summary>
-        /// <returns></returns>
-        public bool Empty()
-        {
-            return Values.Count == 0;
-        }
+        public bool IsAmbiguous { get { return Values.Count > 1; } }
+
+        /// <summary>
+        /// Indicates if there is only one value in the result set
+        /// </summary>
+        public bool IsUnique { get { return Values.Count == 1; } }
+
+        /// <summary>
+        /// Indicates if there is no more value in the result set
+        /// </summary>
+        public bool IsEmpty { get { return Values.Count == 0; } }
 
         /// <summary>
         /// Adds a new value in the set of return values
@@ -50,11 +107,52 @@ namespace DataDictionary.Interpreter
         /// <param name="value"></param>
         public void Add(Utils.INamable value)
         {
+            Add(null, value);
+        }
+
+        /// <summary>
+        /// Adds a new value in the set of return values
+        /// </summary>
+        /// <param name="value"></param>
+        public void Add(InterpreterTreeNode node, Utils.INamable value)
+        {
+            bool found = false;
+            foreach (ReturnValueElement element in Values)
+            {
+                if (element.Value == value)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                Add(node, null, value);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new value in the set of return values
+        /// </summary>
+        /// <param name="value"></param>
+        public void Add(InterpreterTreeNode node, ReturnValueElement previous, Utils.INamable value)
+        {
             if (value != null)
             {
-                if (!Values.Contains(value))
+                bool found = false;
+                foreach (ReturnValueElement elem in Values)
                 {
-                    Values.Add(value);
+                    if (elem.Node == node && elem.Value == value)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    Values.Add(new ReturnValueElement(value, previous, node));
                 }
             }
         }
@@ -63,11 +161,11 @@ namespace DataDictionary.Interpreter
         /// Merges the other return value with this one
         /// </summary>
         /// <param name="other"></param>
-        public void Merge(ReturnValue other)
+        public void Merge(InterpreterTreeNode node, ReturnValueElement previous, ReturnValue other)
         {
-            foreach (Utils.INamable value in other.Values)
+            foreach (ReturnValueElement elem in other.Values)
             {
-                Add(value);
+                Add(node, previous, elem.Value);
             }
         }
 
@@ -77,8 +175,9 @@ namespace DataDictionary.Interpreter
 
             if (Values.Count > 0)
             {
-                foreach (Values.IValue value in Values)
+                foreach (ReturnValueElement elem in Values)
                 {
+                    Values.IValue value = elem.Value as Values.IValue;
                     if (retVal != null)
                     {
                         retVal = retVal + ", ";
@@ -96,6 +195,65 @@ namespace DataDictionary.Interpreter
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Indicates whether the value should be filtered out depending on the filter value flag or filter type flag
+        /// </summary>
+        /// <param name="filterOutTypes"></param>
+        /// <param name="filterOutValues"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool filterOut(bool filterOutTypes, bool filterOutValues, INamable value)
+        {
+            bool retVal = false;
+
+            Types.Type theType = value as Types.Type;
+            Types.StructureElement theElement = value as Types.StructureElement;
+            bool isType = theType != null || theElement != null;
+
+            Values.IValue theValue = value as Values.IValue;
+            Parameter theParameter = value as Parameter;
+            bool isValue = theValue != null || theParameter != null;
+            if (isType && isValue)
+            {
+                // Element is both a type and a value. Keep it.
+            }
+            else
+            {
+                if (filterOutTypes && isType)
+                {
+                    retVal = true;
+                }
+
+                // fiterOutValues => isValue
+                if (filterOutValues && isValue)
+                {
+                    retVal = true;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Filters out types or values according to parameters
+        /// </summary>
+        /// <param name="filterOutTypes"></param>
+        /// <param name="filterOutValues"></param>
+        public void filterTypeOrValue(bool filterOutTypes, bool filterOutValues)
+        {
+            List<ReturnValueElement> tmp = new List<ReturnValueElement>();
+
+            foreach (ReturnValueElement element in Values)
+            {
+                if (!filterOut(filterOutTypes, filterOutValues, element.Value))
+                {
+                    tmp.Add(element);
+                }
+            }
+
+            Values = tmp;
         }
     }
 
@@ -244,11 +402,41 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Indicates whether the semantic analysis has been performed for this expression
+        /// </summary>
+        protected bool SemanticAnalysisDone { get; private set; }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public virtual bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = !SemanticAnalysisDone;
+
+            SemanticAnalysisDone = true;
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the typed element associated to this Expression 
         /// </summary>
         /// <param name="context">The context on which the typed element must be found</param>
         /// <returns></returns>
         public abstract ReturnValue InnerGetTypedElement(InterpretationContext context);
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public virtual Types.Type GetType(InterpretationContext context)
+        {
+            return GetTypedElement(context).Type;
+        }
 
         /// <summary>
         /// Provides the typed element referenced by this expression, if any
@@ -259,9 +447,9 @@ namespace DataDictionary.Interpreter
         {
             Types.ITypedElement retVal = null;
 
-            foreach (Utils.INamable namable in InnerGetTypedElement(context).Values)
+            foreach (ReturnValueElement elem in InnerGetTypedElement(context).Values)
             {
-                retVal = namable as Types.ITypedElement;
+                retVal = elem.Value as Types.ITypedElement;
                 if (retVal != null)
                 {
                     break;
@@ -347,7 +535,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public abstract ReturnValue InnerGetValue(InterpretationContext context);
+        public abstract INamable InnerGetValue(InterpretationContext context);
 
         /// <summary>
         /// Provides the variable referenced by this expression, if any
@@ -356,16 +544,8 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public Variables.IVariable GetVariable(InterpretationContext context)
         {
-            Variables.IVariable retVal = null;
-
-            foreach (Utils.INamable namable in InnerGetValue(context).Values)
-            {
-                retVal = namable as Variables.IVariable;
-                if (retVal != null)
-                {
-                    break;
-                }
-            }
+            SemanticAnalysis(context, false);
+            Variables.IVariable retVal = InnerGetValue(context) as Variables.IVariable;
 
             return retVal;
         }
@@ -379,20 +559,15 @@ namespace DataDictionary.Interpreter
         {
             Values.IValue retVal = null;
 
-            foreach (Utils.INamable namable in InnerGetValue(context).Values)
+            SemanticAnalysis(context, false);
+            INamable namable = InnerGetValue(context);
+            retVal = namable as Values.IValue;
+            if (retVal == null)
             {
-                Values.IValue value = namable as Values.IValue;
-                if (value != null)
-                {
-                    retVal = value;
-                    break;
-                }
-
                 Variables.IVariable variable = namable as Variables.IVariable;
                 if (variable != null)
                 {
                     retVal = variable.Value;
-                    break;
                 }
             }
 
@@ -404,9 +579,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public virtual ReturnValue getCalled(InterpretationContext context)
+        public virtual ICallable getCalled(InterpretationContext context)
         {
-            return InnerGetTypedElement(context);
+            return GetValue(context) as ICallable;
         }
 
         /// <summary>
@@ -536,9 +711,9 @@ namespace DataDictionary.Interpreter
         {
             Types.Type retVal = null;
 
-            foreach (Utils.INamable namable in getExpressionTypes(context).Values)
+            foreach (ReturnValueElement elem in getExpressionTypes(context).Values)
             {
-                Types.Type type = namable as Types.Type;
+                Types.Type type = elem.Value as Types.Type;
                 if (type != null)
                 {
                     if (retVal == null)
@@ -587,5 +762,23 @@ namespace DataDictionary.Interpreter
         /// <param name="yParam">The Y axis of this surface</param>
         /// <returns>The surface which corresponds to this expression</returns>
         public abstract Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam);
+    }
+
+    /// <summary>
+    /// Allows to reference a namable
+    /// </summary>
+    public interface IReference
+    {
+        /// <summary>
+        /// Sets the reference for this element. 
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <returns>If reference could be set</returns>
+        bool setReference(Utils.INamable reference);
+
+        /// <summary>
+        /// Provides the referenced element 
+        /// </summary>
+        Utils.INamable Ref { get; }
     }
 }

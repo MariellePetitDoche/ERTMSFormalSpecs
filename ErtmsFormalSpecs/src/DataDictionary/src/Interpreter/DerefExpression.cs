@@ -15,20 +15,151 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class DerefExpression : BinaryExpression
+    public class DerefExpression : Expression, IReference
     {
+        /// <summary>
+        /// Desig elements of this designator
+        /// </summary>
+        public List<Expression> Arguments { get; private set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="left"></param>
         /// <param name="op"></param>
         /// <param name="right"></param>
-        public DerefExpression(ModelElement root, Expression left, Expression right)
-            : base(root, left, BinaryExpression.OPERATOR.DOT, right)
+        public DerefExpression(ModelElement root, List<Expression> arguments)
+            : base(root)
         {
+            Arguments = arguments;
+
+            foreach (Expression expr in Arguments)
+            {
+                expr.Enclosing = this;
+            }
+        }
+
+        /// <summary>
+        /// Sets the element referenced by this Deref expression
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <returns></returns>
+        public bool setReference(Utils.INamable reference)
+        {
+            bool retVal = false;
+
+            Variables.IVariable variable = reference as Variables.IVariable;
+            if (variable == null)
+            {
+                // We do not want to hard code reference to variables since they can belong to a structure, 
+                // or be variables available on the stack.
+                Ref = reference;
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// The model element referenced by this designator.
+        /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
+        /// </summary>
+        public INamable Ref { get; private set; }
+
+        /// <summary>
+        /// Provides the ICallable referenced by this 
+        /// </summary>
+        public ICallable Called { get; private set; }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                Ref = null;
+                Called = null;
+
+                ReturnValue tmp = Arguments[0].InnerGetTypedElement(context);
+                if (tmp.IsEmpty)
+                {
+                    type = true;
+                    tmp.Add(this, Arguments[0].getExpressionType(context));
+                }
+                if (!tmp.IsEmpty)
+                {
+                    for (int i = 1; i < Arguments.Count; i++)
+                    {
+                        ReturnValue tmp2 = tmp;
+                        tmp = new ReturnValue(Arguments[i]);
+
+                        foreach (ReturnValueElement elem in tmp2.Values)
+                        {
+                            InterpretationContext ctxt = new InterpretationContext(context, elem.Value, false);
+                            tmp.Merge(Arguments[i], elem, Arguments[i].InnerGetTypedElement(ctxt));
+                        }
+
+                        if (tmp.IsEmpty)
+                        {
+                            AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
+                        }
+                    }
+                }
+                else
+                {
+                    AddError("Cannot evaluate " + Arguments[0].ToString());
+                }
+
+                // Keep references to called elements
+                foreach (ReturnValueElement element in tmp.Values)
+                {
+                    ICallable callable = element.Value as ICallable;
+                    if (callable != null)
+                    {
+                        if (Called == null)
+                        {
+                            Called = callable;
+                        }
+                        else
+                        {
+                            AddError("Two different elements can be called by designator " + ToString());
+                        }
+                    }
+                }
+
+                tmp.filterTypeOrValue(!type, type);
+                if (tmp.IsUnique)
+                {
+                    // Try to set Ref for this deref expression, 
+                    if (!setReference(tmp.Values[0].Value))
+                    {
+                        // If setting Ref is not possible, disambiguate as much arguments as possible of the Deref expression
+                        ReturnValueElement current = tmp.Values[0];
+
+                        bool referenceSet = false;
+                        while (current != null && !referenceSet)
+                        {
+                            IReference reference = current.Node as IReference;
+                            if (reference != null)
+                            {
+                                referenceSet = reference.setReference(current.Value);
+                            }
+                            current = current.PreviousElement;
+                        }
+                    }
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -40,25 +171,29 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override ReturnValue InnerGetTypedElement(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
-
-            ReturnValue leftParts = Left.InnerGetTypedElement(context);
-            if (!leftParts.Empty())
+            ReturnValue retVal = Arguments[0].InnerGetTypedElement(context);
+            if (!retVal.IsEmpty)
             {
-                foreach (Utils.INamable leftObject in leftParts.Values)
+                for (int i = 1; i < Arguments.Count; i++)
                 {
-                    InterpretationContext ctxt = new InterpretationContext(context, leftObject, false);
-                    retVal.Merge(Right.InnerGetTypedElement(ctxt));
-                }
+                    ReturnValue tmp = retVal;
+                    retVal = new ReturnValue(Arguments[i]);
 
-                if (retVal.Empty())
-                {
-                    AddError("Cannot find " + Right.ToString() + " in " + Left.ToString());
+                    foreach (ReturnValueElement elem in tmp.Values)
+                    {
+                        InterpretationContext ctxt = new InterpretationContext(context, elem.Value, false);
+                        retVal.Merge(Arguments[i], elem, Arguments[i].InnerGetTypedElement(ctxt));
+                    }
+
+                    if (retVal.IsEmpty)
+                    {
+                        AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
+                    }
                 }
             }
             else
             {
-                AddError("Cannot evaluate " + Left.ToString());
+                AddError("Cannot evaluate " + Arguments[0].ToString());
             }
 
             return retVal;
@@ -70,27 +205,33 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
-
-            ReturnValue leftParts = Left.InnerGetValue(context);
-            if (!leftParts.Empty())
+            INamable retVal = null;
+            if (Ref != null)
             {
-                foreach (Utils.INamable leftObject in leftParts.Values)
-                {
-                    InterpretationContext ctxt = new InterpretationContext(context, leftObject, false);
-                    retVal.Merge(Right.InnerGetValue(ctxt));
-                }
-
-                if (retVal.Empty())
-                {
-                    AddError("Cannot find " + Right.ToString() + " in " + Left.ToString());
-                }
+                retVal = Ref;
             }
             else
             {
-                AddError("Cannot evaluate " + Left.ToString());
+                retVal = Arguments[0].InnerGetValue(context);
+                if (retVal != null)
+                {
+                    for (int i = 1; i < Arguments.Count; i++)
+                    {
+                        InterpretationContext ctxt = new InterpretationContext(context, retVal, false);
+                        retVal = Arguments[i].InnerGetValue(ctxt);
+
+                        if (retVal == null)
+                        {
+                            AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
+                        }
+                    }
+                }
+                else
+                {
+                    AddError("Cannot evaluate " + Arguments[0].ToString());
+                }
             }
 
             return retVal;
@@ -102,16 +243,7 @@ namespace DataDictionary.Interpreter
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         public Types.ITypedElement getTypedElement(InterpretationContext context)
         {
-            Types.ITypedElement retVal = null;
-
-            foreach (Utils.INamable namable in InnerGetValue(context).Values)
-            {
-                retVal = namable as Types.ITypedElement;
-                if (retVal != null)
-                {
-                    break;
-                }
-            }
+            Types.ITypedElement retVal = InnerGetValue(context) as Types.ITypedElement;
 
             return retVal;
         }
@@ -141,25 +273,29 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override ReturnValue getExpressionTypes(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
-
-            ReturnValue lType = Left.getExpressionTypes(context);
-            if (lType.Empty())
+            ReturnValue retVal = Arguments[0].getExpressionTypes(context);
+            if (!retVal.IsEmpty)
             {
-                AddError("Cannot determine expression type (4) for " + Left.ToString());
+                for (int i = 1; i < Arguments.Count; i++)
+                {
+                    ReturnValue tmp = retVal;
+                    retVal = new ReturnValue(tmp.Node);
+
+                    foreach (ReturnValueElement elem in tmp.Values)
+                    {
+                        InterpretationContext ctxt = new InterpretationContext(context, elem.Value, false);
+                        retVal.Merge(this, elem, Arguments[i].getExpressionTypes(ctxt));
+                    }
+
+                    if (retVal.IsEmpty)
+                    {
+                        AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
+                    }
+                }
             }
             else
             {
-                foreach (Utils.INamable namable in lType.Values)
-                {
-                    InterpretationContext ctxt = new InterpretationContext(context, deref(namable), false);
-                    retVal.Merge(Right.getExpressionTypes(ctxt));
-                }
-
-                if (retVal.Empty())
-                {
-                    AddError("Cannot find " + Right.ToString() + " in " + Left.ToString());
-                }
+                AddError("Cannot evaluate " + Arguments[0].ToString());
             }
 
             return retVal;
@@ -170,21 +306,13 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public override ReturnValue getCalled(InterpretationContext context)
+        public override ICallable getCalled(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
-
-            ReturnValue leftParts = Left.InnerGetValue(context);
-            if (!leftParts.Empty())
+            if (Called == null)
             {
-                foreach (Utils.INamable leftObject in leftParts.Values)
-                {
-                    InterpretationContext ctxt = new InterpretationContext(context, deref(leftObject), false);
-                    retVal.Merge(Right.getCalled(ctxt));
-                }
+                AddError("Cannot evaluate call to " + ToString());
             }
-
-            return retVal;
+            return Called;
         }
 
         /// <summary>
@@ -206,14 +334,10 @@ namespace DataDictionary.Interpreter
         /// <param name="retVal"></param>
         public override void fillLiterals(List<Values.IValue> retVal)
         {
-            foreach (Utils.INamable namable in InnerGetValue(new InterpretationContext(Root)).Values)
+            Values.IValue value = InnerGetValue(new InterpretationContext(Root)) as Values.IValue;
+            if (value != null)
             {
-                Values.IValue value = namable as Values.IValue;
-
-                if (value != null)
-                {
-                    retVal.Add(value);
-                }
+                retVal.Add(value);
             }
         }
 
@@ -247,7 +371,17 @@ namespace DataDictionary.Interpreter
         {
             string retVal = "";
 
-            retVal = Left.ToString() + Image(Operation) + Right.ToString();
+            bool first = true;
+            foreach (Expression expr in Arguments)
+            {
+                if (!first)
+                {
+                    retVal += ".";
+                }
+                retVal += expr.ToString();
+
+                first = false;
+            }
 
             return retVal;
         }
@@ -258,18 +392,36 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The interpretation context</param>
         public override void checkExpression(InterpretationContext context)
         {
-            Left.checkExpression(context);
+            Arguments[0].checkExpression(context);
 
-            ReturnValue lType = Left.getExpressionTypes(context);
-            if (lType.Empty())
+            checkRightPart(context, 1);
+        }
+
+        /// <summary>
+        /// Checks the right part of the expression, based on the interpretation context for the left part
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="i"></param>
+        private void checkRightPart(InterpretationContext context, int i)
+        {
+            ReturnValue lType = Arguments[i - 1].getExpressionTypes(context);
+            if (!lType.IsEmpty)
             {
-                AddError("Cannot determine refererence of " + Left.ToString());
+                foreach (ReturnValueElement elem in lType.Values)
+                {
+                    InterpretationContext ctxt = new InterpretationContext(context, deref(elem.Value), false);
+                    Arguments[i].checkExpression(ctxt);
+                    if (i < Arguments.Count - 1)
+                    {
+                        checkRightPart(ctxt, i + 1);
+                    }
+                }
             }
-
-            foreach (Utils.INamable namable in lType.Values)
+            else
             {
-                InterpretationContext ctxt = new InterpretationContext(context, deref(namable), false);
-                Right.checkExpression(ctxt);
+                // TODO: handle this. Errors can occur, but the problem lies when there are errors in all branches
+                // Shall be avoided by a decent type analysis
+                // AddError("Cannot determine reference of " + Arguments[i - 1].ToString());
             }
         }
 

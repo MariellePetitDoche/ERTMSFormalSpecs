@@ -275,11 +275,11 @@ namespace DataDictionary.Functions
                 {
                     if (this.FormalParameters.Count >= function.FormalParameters.Count)
                     {
-                        retVal.Add(this);
+                        retVal.Add(null, this);
                     }
                     else
                     {
-                        retVal.Add(function);
+                        retVal.Add(null, function);
                     }
                 }
                 else

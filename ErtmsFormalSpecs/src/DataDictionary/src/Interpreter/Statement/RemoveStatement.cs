@@ -76,6 +76,24 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="context"></param>
+        public override void SemanticalAnalysis(InterpretationContext context)
+        {
+            base.SemanticalAnalysis(context);
+
+            ListExpression.SemanticAnalysis(context, false);
+            if (Condition != null)
+            {
+                context.LocalScope.PushContext();
+                context.LocalScope.setVariable(IteratorVariable);
+                Condition.SemanticAnalysis(context, false);
+                context.LocalScope.PopContext();
+            }
+        }
+
+        /// <summary>
         /// Indicates whether this statement reads the element
         /// </summary>
         /// <param name="element"></param>

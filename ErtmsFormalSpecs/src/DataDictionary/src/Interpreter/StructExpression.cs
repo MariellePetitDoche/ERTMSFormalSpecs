@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -23,7 +24,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// The structure instanciated by this structure expression
         /// </summary>
-        public Types.Structure Structure { get; private set; }
+        public Expression Structure { get; private set; }
 
         /// <summary>
         /// The associations name <-> Expression that is used to initialize this structure
@@ -34,11 +35,31 @@ namespace DataDictionary.Interpreter
         /// Constructor
         /// </summary>
         /// <param name="root"></param>
-        public StructExpression(ModelElement root, Types.Structure structure, Dictionary<string, Expression> associations)
+        public StructExpression(ModelElement root, Expression structure, Dictionary<string, Expression> associations)
             : base(root)
         {
             Structure = structure;
             Associations = associations;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                foreach (Expression expr in Associations.Values)
+                {
+                    expr.SemanticAnalysis(context, false);
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -60,22 +81,30 @@ namespace DataDictionary.Interpreter
         /// <param name="localScope">The local scope used to compute the value of this expression</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            Values.StructureValue retVal = null;
 
-            Values.StructureValue value = new Values.StructureValue(Structure);
-            foreach (KeyValuePair<string, Expression> pair in Associations)
+            Types.Structure structureType = Structure.getExpressionType(context) as Types.Structure;
+            if (structureType != null)
             {
-                Values.IValue val = pair.Value.GetValue(new InterpretationContext(context, Root, true));
-                Variables.Variable var = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
-                var.Name = pair.Key;
-                var.Value = val;
-                var.Enclosing = value;
-                value.set(var);
+                retVal = new Values.StructureValue(structureType);
+
+                foreach (KeyValuePair<string, Expression> pair in Associations)
+                {
+                    Values.IValue val = pair.Value.GetValue(new InterpretationContext(context, Root, true));
+                    Variables.Variable var = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
+                    var.Name = pair.Key;
+                    var.Value = val;
+                    var.Enclosing = retVal;
+                    retVal.set(var);
+                }
+            }
+            else
+            {
+                AddError("Cannot determine structure type for " + ToString());
             }
 
-            retVal.Values.Add(value);
             return retVal;
         }
 
@@ -107,7 +136,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         private string ToString(int indentLevel)
         {
-            string retVal = Structure.FullName;
+            string retVal = Structure.ToString();
             string indentAccolade = "";
             for (int i = 0; i < indentLevel; i++)
             {
@@ -179,9 +208,9 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override ReturnValue getExpressionTypes(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ReturnValue retVal = new ReturnValue(this);
 
-            retVal.Values.Add(Structure);
+            retVal.Add(null, Structure.getExpressionType(context));
 
             return retVal;
         }
@@ -191,40 +220,48 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public override void checkExpression(InterpretationContext context)
         {
-            foreach (KeyValuePair<string, Expression> pair in Associations)
+            Types.Structure structureType = Structure.getExpressionType(context) as Types.Structure;
+            if (structureType != null)
             {
-                string name = pair.Key;
-                Expression expression = pair.Value;
-
-                List<Utils.INamable> targets = new List<Utils.INamable>();
-                Structure.find(name, targets);
-                if (targets.Count > 0)
+                foreach (KeyValuePair<string, Expression> pair in Associations)
                 {
-                    expression.checkExpression(context);
-                    Types.Type type = expression.getExpressionType(context);
-                    if (type != null)
+                    string name = pair.Key;
+                    Expression expression = pair.Value;
+
+                    List<Utils.INamable> targets = new List<Utils.INamable>();
+                    structureType.find(name, targets);
+                    if (targets.Count > 0)
                     {
-                        foreach (Utils.INamable namable in targets)
+                        expression.checkExpression(context);
+                        Types.Type type = expression.getExpressionType(context);
+                        if (type != null)
                         {
-                            Types.ITypedElement element = namable as Types.ITypedElement;
-                            if (element != null && element.Type != null)
+                            foreach (Utils.INamable namable in targets)
                             {
-                                if (!element.Type.Match(type))
+                                Types.ITypedElement element = namable as Types.ITypedElement;
+                                if (element != null && element.Type != null)
                                 {
-                                    AddError("Expression " + expression.ToString() + " type (" + type.FullName + ") does not match the target element " + element.Name + " type (" + element.Type.FullName + ")");
+                                    if (!element.Type.Match(type))
+                                    {
+                                        AddError("Expression " + expression.ToString() + " type (" + type.FullName + ") does not match the target element " + element.Name + " type (" + element.Type.FullName + ")");
+                                    }
                                 }
                             }
+                        }
+                        else
+                        {
+                            AddError("Expression " + expression.ToString() + " type cannot be found");
                         }
                     }
                     else
                     {
-                        AddError("Expression " + expression.ToString() + " type cannot be found");
+                        Root.AddError("Cannot find " + name + " in structure " + Structure.ToString());
                     }
                 }
-                else
-                {
-                    Root.AddError("Cannot find " + name + " in structure " + Structure.FullName);
-                }
+            }
+            else
+            {
+                AddError("Cannot find structure type " + Structure.ToString());
             }
         }
 

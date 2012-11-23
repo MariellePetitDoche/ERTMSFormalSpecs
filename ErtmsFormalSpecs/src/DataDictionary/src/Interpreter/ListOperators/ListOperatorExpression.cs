@@ -78,10 +78,29 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                PrepareIteration(context);
+                ListExpression.SemanticAnalysis(context, false);
+                EndIteration(context);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Prepares the iteration on the context provided
         /// </summary>
         /// <param name="context"></param>
-        protected void PrepareIteration(InterpretationContext context)
+        protected virtual void PrepareIteration(InterpretationContext context)
         {
             context.LocalScope.PushContext();
             context.LocalScope.setVariable(IteratorVariable);
@@ -94,7 +113,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Prepares the next iteration 
         /// </summary>
-        protected void NextIteration()
+        protected virtual void NextIteration()
         {
             PreviousIteratorVariable.Value = IteratorVariable.Value;
         }
@@ -103,7 +122,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// Ends the iteration
         /// </summary>
         /// <param name="context"></param>
-        protected void EndIteration(InterpretationContext context)
+        protected virtual void EndIteration(InterpretationContext context)
         {
             context.LocalScope.PopContext();
         }

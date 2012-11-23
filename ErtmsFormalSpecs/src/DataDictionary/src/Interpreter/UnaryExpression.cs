@@ -15,10 +15,11 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class UnaryExpression : Expression
+    public class UnaryExpression : Expression, IReference
     {
         /// <summary>
         /// The term of this expression
@@ -35,6 +36,57 @@ namespace DataDictionary.Interpreter
         {
             Term = term;
             Term.Enclosing = this;
+        }
+
+        /// <summary>
+        /// Sets the element referenced by this Deref expression
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <returns></returns>
+        public bool setReference(Utils.INamable reference)
+        {
+            bool retVal = false;
+
+            Variables.IVariable variable = reference as Variables.IVariable;
+            if (variable == null)
+            {
+                // We do not want to hard code reference to variables since they can belong to a structure, 
+                // or be variables available on the stack.
+                Ref = reference;
+                retVal = true;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// The model element referenced by this designator.
+        /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
+        /// </summary>
+        public INamable Ref { get; private set; }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                if (Term != null)
+                {
+                    Term.SemanticAnalysis(context, false);
+                }
+                else if (Expression != null)
+                {
+                    Expression.SemanticAnalysis(context, false);
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -92,7 +144,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override ReturnValue InnerGetTypedElement(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ReturnValue retVal = new ReturnValue(this);
 
             if (Term != null)
             {
@@ -100,7 +152,7 @@ namespace DataDictionary.Interpreter
             }
             else if (Expression != null)
             {
-                retVal.Add(Expression.GetTypedElement(context));
+                retVal.Add(null, Expression.GetTypedElement(context));
             }
 
             return retVal;
@@ -112,53 +164,58 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal;
+            INamable retVal = null;
 
-            if (Term != null)
+            if (Ref != null)
             {
-                retVal = Term.GetValue(context);
+                retVal = Ref;
             }
             else
             {
-                if (NOT.CompareTo(UnaryOp) == 0)
+                if (Term != null)
                 {
-                    retVal = new ReturnValue();
-                    Values.BoolValue b = Expression.GetValue(context) as Values.BoolValue;
-                    if (b != null)
-                    {
-                        if (b.Val)
-                        {
-                            retVal.Add(EFSSystem.BoolType.False);
-                        }
-                        else
-                        {
-                            retVal.Add(EFSSystem.BoolType.True);
-                        }
-                    }
-                }
-                else if (MINUS.CompareTo(UnaryOp) == 0)
-                {
-                    retVal = new ReturnValue();
-                    Values.IValue val = Expression.GetValue(context);
-                    Values.IntValue intValue = val as Values.IntValue;
-                    if (intValue != null)
-                    {
-                        retVal.Add(new Values.IntValue(intValue.Type, -intValue.Val));
-                    }
-                    else
-                    {
-                        Values.DoubleValue doubleValue = val as Values.DoubleValue;
-                        if (doubleValue != null)
-                        {
-                            retVal.Add(new Values.DoubleValue(doubleValue.Type, -doubleValue.Val));
-                        }
-                    }
+                    retVal = Term.GetValue(context);
                 }
                 else
                 {
-                    retVal = Expression.InnerGetValue(context);
+                    if (NOT.CompareTo(UnaryOp) == 0)
+                    {
+                        Values.BoolValue b = Expression.GetValue(context) as Values.BoolValue;
+                        if (b != null)
+                        {
+                            if (b.Val)
+                            {
+                                retVal = EFSSystem.BoolType.False;
+                            }
+                            else
+                            {
+                                retVal = EFSSystem.BoolType.True;
+                            }
+                        }
+                    }
+                    else if (MINUS.CompareTo(UnaryOp) == 0)
+                    {
+                        Values.IValue val = Expression.GetValue(context);
+                        Values.IntValue intValue = val as Values.IntValue;
+                        if (intValue != null)
+                        {
+                            retVal = new Values.IntValue(intValue.Type, -intValue.Val);
+                        }
+                        else
+                        {
+                            Values.DoubleValue doubleValue = val as Values.DoubleValue;
+                            if (doubleValue != null)
+                            {
+                                retVal = new Values.DoubleValue(doubleValue.Type, -doubleValue.Val);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        retVal = Expression.InnerGetValue(context);
+                    }
                 }
             }
 
@@ -213,7 +270,7 @@ namespace DataDictionary.Interpreter
         {
             if (Term != null && Term.LiteralValue != null)
             {
-                retVal.Add(Term.LiteralValue);
+                Term.LiteralValue.fillLiterals(retVal);
             }
             else if (Expression != null)
             {
@@ -257,23 +314,23 @@ namespace DataDictionary.Interpreter
             {
                 if (Term != null)
                 {
-                    foreach (Utils.INamable namable in Term.GetTypedElement(context).Values)
+                    foreach (ReturnValueElement elem in Term.GetTypedElement(context).Values)
                     {
-                        Types.ITypedElement element = namable as Types.ITypedElement;
+                        Types.ITypedElement element = elem.Value as Types.ITypedElement;
                         if (element != null)
                         {
                             retVal.Add(element.Type);
                         }
                         else
                         {
-                            Variables.Procedure procedure = namable as Variables.Procedure;
+                            Variables.Procedure procedure = elem.Value as Variables.Procedure;
                             if (procedure != null && procedure.CurrentState != null)
                             {
                                 retVal.Add(procedure.CurrentState.Type);
                             }
                             else
                             {
-                                retVal.Add(namable);
+                                retVal.Add(elem.Value);
                             }
                         }
                     }
@@ -283,9 +340,9 @@ namespace DataDictionary.Interpreter
                     if (NOT.CompareTo(UnaryOp) == 0)
                     {
                         InterpretationContext ctxt = new InterpretationContext(context, true);
-                        foreach (Utils.INamable namable in Expression.getExpressionTypes(ctxt).Values)
+                        foreach (ReturnValueElement elem in Expression.getExpressionTypes(ctxt).Values)
                         {
-                            Types.Type type = namable as Types.Type;
+                            Types.Type type = elem.Value as Types.Type;
                             if (type is Types.BoolType)
                             {
                                 retVal.Add(type);
@@ -299,9 +356,9 @@ namespace DataDictionary.Interpreter
                     else if (MINUS.CompareTo(UnaryOp) == 0)
                     {
                         InterpretationContext ctxt = new InterpretationContext(context, true);
-                        foreach (Utils.INamable namable in Expression.getExpressionTypes(ctxt).Values)
+                        foreach (ReturnValueElement elem in Expression.getExpressionTypes(ctxt).Values)
                         {
-                            Types.Type type = namable as Types.Type;
+                            Types.Type type = elem.Value as Types.Type;
                             if (type == EFSSystem.IntegerType || type == EFSSystem.DoubleType || type is Types.Range)
                             {
                                 retVal.Add(type);

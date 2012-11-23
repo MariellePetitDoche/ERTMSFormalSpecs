@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -55,15 +56,15 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = null;
 
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
                 PrepareIteration(context);
-                Values.BoolValue result = EFSSystem.BoolType.False;
+                retVal = EFSSystem.BoolType.False;
                 foreach (Values.IValue v in value.Val)
                 {
                     if (v != EFSSystem.EmptyValue)
@@ -74,20 +75,19 @@ namespace DataDictionary.Interpreter.ListOperators
                             Values.BoolValue b = Condition.GetValue(context) as Values.BoolValue;
                             if (b != null && b.Val)
                             {
-                                result = EFSSystem.BoolType.True;
+                                retVal = EFSSystem.BoolType.True;
                                 break;
                             }
                         }
                         else
                         {
-                            result = EFSSystem.BoolType.True;
+                            retVal = EFSSystem.BoolType.True;
                             break;
                         }
                     }
                     NextIteration();
                 }
                 EndIteration(context);
-                retVal.Add(result);
             }
 
             return retVal;

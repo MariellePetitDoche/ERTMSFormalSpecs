@@ -184,9 +184,9 @@ namespace DataDictionary.Interpreter
         /// <param name="designator">The designator currently parsed, if any</param>
         /// <param name="root">The root element for which this literal is built</param>
         /// <returns></returns>
-        public IValue EvaluateLiteral()
+        public Expression EvaluateLiteral()
         {
-            IValue retVal = null;
+            Expression retVal = null;
 
             retVal = EvaluateString();
             if (retVal != null)
@@ -214,9 +214,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="root">The root element for which this string is built</param>
         /// <returns></returns>
-        public IValue EvaluateString()
+        public StringExpression EvaluateString()
         {
-            IValue retVal = null;
+            StringExpression retVal = null;
             int backup = Index;
 
             if (LookAhead("'"))
@@ -231,7 +231,7 @@ namespace DataDictionary.Interpreter
                 if (LookAhead("'"))
                 {
                     Match("'");
-                    retVal = new StringValue(EFSSystem.StringType, new String(Buffer, start, Index - start - 1));
+                    retVal = new StringExpression(Root, new String(Buffer, start, Index - start - 1));
                 }
                 else
                 {
@@ -246,9 +246,9 @@ namespace DataDictionary.Interpreter
         /// Evaluates the current input as a integer
         /// </summary>
         /// <returns></returns>
-        public IValue EvaluateInt()
+        public NumberExpression EvaluateInt()
         {
-            IValue retVal = null;
+            NumberExpression retVal = null;
 
             int backup = Index;
 
@@ -289,7 +289,7 @@ namespace DataDictionary.Interpreter
             if (digitFound)
             {
                 string str = new String(Buffer, Index, len);
-                retVal = type.getValue(str);
+                retVal = new NumberExpression(Root, str, type);
                 Index += len;
             }
 
@@ -306,21 +306,21 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="root">the root element for which this list is built</param>
         /// <returns></returns>
-        public IValue EvaluateList()
+        public ListExpression EvaluateList()
         {
-            IValue retVal = null;
+            ListExpression retVal = null;
 
             int backup = Index;
             if (LookAhead("["))
             {
                 Match("[");
-                List<IValue> list = new List<IValue>();
+                List<Expression> list = new List<Expression>();
                 Types.Type elementType = null;
 
                 if (LookAhead("]"))
                 {
                     Match("]");
-                    retVal = new ListValue(EFSSystem.GenericCollection, list);
+                    retVal = new ListExpression(Root, list);
                 }
                 else
                 {
@@ -330,54 +330,23 @@ namespace DataDictionary.Interpreter
                         Expression expression = Expression(0);
                         if (expression != null)
                         {
-                            InterpretationContext context = new InterpretationContext(Root);
+                            list.Add(expression);
 
-                            bool bck = ModelElement.PerformLog;
-                            try
+                            if (LookAhead(","))
                             {
-                                ModelElement.PerformLog = true;
-                                expression.checkExpression(context);
+                                Match(",");
+                                continue;
                             }
-                            finally
+                            else if (LookAhead("]"))
                             {
-                                ModelElement.PerformLog = bck;
-                            }
+                                Match("]");
 
-                            IValue value = expression.GetValue(context);
-                            if (value != null)
-                            {
-                                if (elementType == null)
-                                {
-                                    elementType = value.Type;
-                                }
-
-                                list.Add(value);
-                                if (LookAhead(","))
-                                {
-                                    Match(",");
-                                    continue;
-                                }
-                                else if (LookAhead("]"))
-                                {
-                                    Match("]");
-
-                                    Types.Collection collectionType = (Types.Collection)Generated.acceptor.getFactory().createCollection();
-                                    collectionType.Type = elementType;
-                                    collectionType.Name = "ListOf_" + elementType.FullName;
-                                    collectionType.Enclosing = Root.EFSSystem;
-
-                                    retVal = new ListValue(collectionType, list);
-                                    break;
-                                }
-                                else
-                                {
-                                    Root.AddError("] expected");
-                                    break;
-                                }
+                                retVal = new ListExpression(Root, list);
+                                break;
                             }
                             else
                             {
-                                Root.AddError("Cannot statically evaluate expression " + expression.ToString());
+                                Root.AddError("] expected");
                                 break;
                             }
                         }
@@ -410,74 +379,71 @@ namespace DataDictionary.Interpreter
             Expression structureId = DerefExpression();
             if (structureId != null)
             {
-                Types.Structure structure = structureId.getExpressionType(false) as Types.Structure;
-                if (structure != null)
+                if (LookAhead("{"))
                 {
-                    if (LookAhead("{"))
-                    {
-                        Match("{");
-                        Dictionary<string, Expression> associations = new Dictionary<string, Interpreter.Expression>();
+                    Match("{");
+                    Dictionary<string, Expression> associations = new Dictionary<string, Interpreter.Expression>();
 
-                        if (LookAhead("}"))
+                    if (LookAhead("}"))
+                    {
+                        Match("}");
+                        retVal = new StructExpression(Root, structureId, associations);
+                    }
+                    else
+                    {
+                        while (true)
                         {
-                            Match("}");
-                            retVal = new StructExpression(Root, structure, associations);
-                        }
-                        else
-                        {
-                            while (true)
+                            string id = Identifier();
+                            if (id != null)
                             {
-                                string id = Identifier();
-                                if (id != null)
+                                Match("=>");
+                                Expression expression = Expression(0);
+                                if (expression != null)
                                 {
-                                    Match("=>");
-                                    Expression expression = Expression(0);
-                                    if (expression != null)
-                                    {
-                                        associations[id] = expression;
-                                    }
-                                    else
-                                    {
-                                        Root.AddError("Cannot parse expression after " + id + " => ");
-                                        break;
-                                    }
+                                    associations[id] = expression;
                                 }
                                 else
                                 {
-                                    if (Index < Buffer.Length)
-                                    {
-                                        Root.AddError("Identifier expected, but found " + Buffer[Index]);
-                                    }
-                                    else
-                                    {
-                                        Root.AddError("Identifier expected, but EOF found ");
-                                    }
-                                    break;
-                                }
-                                if (LookAhead(","))
-                                {
-                                    Match(",");
-                                    continue;
-                                }
-                                else if (LookAhead("}"))
-                                {
-                                    Match("}");
-                                    retVal = new StructExpression(Root, structure, associations);
-                                    break;
-                                }
-                                else
-                                {
-                                    if (Index < Buffer.Length)
-                                    {
-                                        Root.AddError(", or } expected, but found " + Buffer[Index]);
-                                    }
-                                    else
-                                    {
-                                        Root.AddError(", or } expected, but EOF found ");
-                                    }
+                                    Root.AddError("Cannot parse expression after " + id + " => ");
                                     break;
                                 }
                             }
+                            else
+                            {
+                                if (Index < Buffer.Length)
+                                {
+                                    Root.AddError("Identifier expected, but found " + Buffer[Index]);
+                                }
+                                else
+                                {
+                                    Root.AddError("Identifier expected, but EOF found ");
+                                }
+                                break;
+                            }
+                            if (LookAhead(","))
+                            {
+                                Match(",");
+                                continue;
+                            }
+                            else if (LookAhead("}"))
+                            {
+                                Match("}");
+                                retVal = new StructExpression(Root, structureId, associations);
+                                break;
+                            }
+                            else
+                            {
+                                if (Index < Buffer.Length)
+                                {
+                                    Root.AddError(", or } expected, but found " + Buffer[Index]);
+                                }
+                                else
+                                {
+                                    Root.AddError(", or } expected, but EOF found ");
+                                }
+                                break;
+                            }
+
                         }
                     }
                 }
@@ -499,21 +465,14 @@ namespace DataDictionary.Interpreter
         {
             Expression retVal = null;
 
+            List<Expression> derefArguments = new List<Expression>();
             string id = Identifier();
             while (id != null)
             {
                 Designator designator = new Interpreter.Designator(Root, id);
                 Term term = new Term(Root, designator);
                 UnaryExpression unaryExpression = new UnaryExpression(Root, term);
-
-                if (retVal == null)
-                {
-                    retVal = unaryExpression;
-                }
-                else
-                {
-                    retVal = new DerefExpression(Root, retVal, unaryExpression);
-                }
+                derefArguments.Add(unaryExpression);
 
                 id = null;
                 if (LookAhead("."))
@@ -521,6 +480,15 @@ namespace DataDictionary.Interpreter
                     Match(".");
                     id = Identifier();
                 }
+            }
+
+            if (derefArguments.Count == 1)
+            {
+                retVal = derefArguments[0];
+            }
+            else if (derefArguments.Count > 1)
+            {
+                retVal = new DerefExpression(Root, derefArguments);
             }
 
             return retVal;
@@ -551,10 +519,10 @@ namespace DataDictionary.Interpreter
             try
             {
                 ModelElement.PerformLog = false;
-                Values.IValue value = EvaluateLiteral();
-                if (value != null)
+                Expression literalValue = EvaluateLiteral();
+                if (literalValue != null)
                 {
-                    retVal = new Term(Root, value);
+                    retVal = new Term(Root, literalValue);
                 }
 
                 if (retVal == null)
@@ -703,26 +671,44 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         private Expression Continuation(Expression expressionLeft)
         {
-            Expression retVal = expressionLeft;
+            Expression current = expressionLeft;
 
+            List<Expression> derefArguments = new List<Expression>();
             while (!Utils.Utils.isEmpty(LookAhead(CONTINUATION_OPERATORS)))
             {
-                if (LookAhead("."))
+                List<Expression> tmp = new List<Expression>();
+                while (LookAhead("."))
                 {
-                    Match(".");
-                    Expression expressionRight = Expression(7);
-                    if (expressionRight != null)
+                    if (current != null)
                     {
-                        retVal = new DerefExpression(Root, retVal, expressionRight);
+                        tmp.Add(current);
                     }
+                    else
+                    {
+                        Root.AddWarning("Invalid deref expression, skipping empty .");
+                    }
+                    Match(".");
+                    current = Expression(7);
                 }
-                else if (LookAhead("("))
+                if (tmp.Count > 0)
                 {
-                    retVal = EvaluateFunctionCallExpression(retVal);
+                    tmp.Add(current);
+                    current = new DerefExpression(Root, tmp);
+                }
+
+                while (LookAhead("("))
+                {
+                    current = EvaluateFunctionCallExpression(current);
                 }
             }
 
-            return retVal;
+            if (derefArguments.Count > 0)
+            {
+                derefArguments.Add(current);
+                current = new DerefExpression(Root, derefArguments);
+            }
+
+            return current;
         }
 
         /// <summary>
@@ -961,7 +947,7 @@ namespace DataDictionary.Interpreter
                     {
                         skipWhiteSpaces();
                         Match(":");
-                        Expression type = DerefExpression();
+                        Expression type = Expression(0);
                         if (type != null)
                         {
                             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();

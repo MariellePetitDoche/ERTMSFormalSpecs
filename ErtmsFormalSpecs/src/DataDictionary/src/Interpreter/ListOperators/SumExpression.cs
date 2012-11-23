@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -57,6 +58,26 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                PrepareIteration(context);
+                Accumulator.SemanticAnalysis(context, false);
+                EndIteration(context);
+            }
+
+            return retVal;
+        }
+
+
+        /// <summary>
         /// Provides the typed element associated to this Expression 
         /// </summary>
         /// <param name="instance">The instance on which the value is computed</param>
@@ -76,9 +97,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = null;
 
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
@@ -107,7 +128,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
                 EndIteration(context);
 
-                retVal.Add(AccumulatorVariable.Value);
+                retVal = AccumulatorVariable.Value;
             }
 
             return retVal;

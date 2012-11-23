@@ -1,3 +1,4 @@
+using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -13,8 +14,8 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -108,6 +109,43 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Provides all the parameters for this call (both named and unnamed)
+        /// </summary>
+        public List<Expression> AllParameters
+        {
+            get
+            {
+                List<Expression> retVal = new List<Expression>();
+
+                retVal.AddRange(ActualParameters);
+                retVal.AddRange(NamedActualParameters.Values);
+
+                return retVal;
+            }
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                Called.SemanticAnalysis(context, false);
+                foreach (Expression actual in AllParameters)
+                {
+                    actual.SemanticAnalysis(context, false);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Adds an expression as a parameter
         /// </summary>
         /// <param name="name">the name of the actual parameter</param>
@@ -138,44 +176,31 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public override ReturnValue getCalled(InterpretationContext context)
+        public override ICallable getCalled(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ICallable retVal = null;
 
-            foreach (Utils.INamable namable in Called.InnerGetValue(context).Values)
+            INamable namable = Called.InnerGetValue(context);
+            retVal = namable as ICallable;
+            if (retVal == null)
             {
-                ICallable callable = namable as ICallable;
-
-                if (callable != null)
+                Types.Range range = namable as Types.Range;
+                if (range != null)
                 {
-                    retVal.Add(callable);
+                    retVal = range.CastFunction;
                 }
                 else
                 {
-                    Types.Range range = namable as Types.Range;
-                    if (range != null)
+                    Variables.IVariable variable = namable as Variables.IVariable;
+                    if (variable != null)
                     {
-                        retVal.Add(range.CastFunction);
-                    }
-                    else
-                    {
-                        Variables.IVariable variable = namable as Variables.IVariable;
-                        if (variable != null)
+                        Functions.Function function = variable.Value as Functions.Function;
+                        if (function != null)
                         {
-                            Functions.Function function = variable.Value as Functions.Function;
-                            if (function != null)
-                            {
-                                retVal.Add(function);
-                            }
+                            retVal = function;
                         }
                     }
                 }
-            }
-
-            if (retVal.Values.Count > 1)
-            {
-                AddError("Two different callabled could be called: " + retVal.Values[0].FullName + " and " + retVal.Values[1].FullName);
-                retVal = new ReturnValue();
             }
 
             return retVal;
@@ -186,16 +211,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public Variables.IProcedure getProcedure(InterpretationContext context)
         {
-            Variables.IProcedure retVal = null;
-
-            foreach (Utils.INamable namable in getCalled(context).Values)
-            {
-                retVal = namable as Variables.IProcedure;
-                if (retVal != null)
-                {
-                    break;
-                }
-            }
+            Variables.IProcedure retVal = getCalled(context) as Variables.IProcedure;
 
             return retVal;
         }
@@ -205,16 +221,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public Functions.Function getFunction(InterpretationContext context)
         {
-            Functions.Function retVal = null;
-
-            foreach (Utils.INamable namable in getCalled(context).Values)
-            {
-                retVal = namable as Functions.Function;
-                if (retVal != null)
-                {
-                    break;
-                }
-            }
+            Functions.Function retVal = getCalled(context) as Functions.Function;
 
             return retVal;
         }
@@ -239,9 +246,9 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which the function call value must be computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = null;
             ExplanationPart previous = SetupExplanation();
 
             Functions.Function function = getFunction(context);
@@ -254,8 +261,8 @@ namespace DataDictionary.Interpreter
                 List<Parameter> parameters = GetPlaceHolders(function, parameterValues);
                 if (parameters == null)
                 {
-                    retVal.Add(function.Evaluate(context, parameterValues));
-                    if (retVal.Empty())
+                    retVal = function.Evaluate(context, parameterValues);
+                    if (retVal == null)
                     {
                         AddError("Call " + function.Name + " ( " + ParameterValues(parameterValues) + " ) returned nothing");
                     }
@@ -265,7 +272,7 @@ namespace DataDictionary.Interpreter
                     Functions.Graph graph = function.createGraphForParameter(context, parameters[0]);
                     if (graph != null)
                     {
-                        retVal.Add(graph.Function);
+                        retVal = graph.Function;
                     }
                     else
                     {
@@ -277,7 +284,7 @@ namespace DataDictionary.Interpreter
                     Functions.Surface surface = function.createSurfaceForParameters(context, parameters[0], parameters[1]);
                     if (surface != null)
                     {
-                        retVal.Add(surface.Function);
+                        retVal = surface.Function;
                     }
                     else
                     {
@@ -420,23 +427,23 @@ namespace DataDictionary.Interpreter
         {
             ReturnValue retVal = new ReturnValue();
 
-            foreach (Utils.INamable namable in Called.InnerGetTypedElement(context).Values)
+            foreach (ReturnValueElement elem in Called.InnerGetTypedElement(context).Values)
             {
-                Interpreter.ICallable callable = namable as Interpreter.ICallable;
+                Interpreter.ICallable callable = elem.Value as Interpreter.ICallable;
                 if (callable != null)
                 {
                     retVal.Add(callable);
                 }
                 else
                 {
-                    Types.Range range = namable as Types.Range;
+                    Types.Range range = elem.Value as Types.Range;
                     if (range != null)
                     {
                         retVal.Add(range.CastFunction);
                     }
                     else
                     {
-                        Variables.IVariable variable = namable as Variables.IVariable;
+                        Variables.IVariable variable = elem.Value as Variables.IVariable;
                         if (variable != null)
                         {
                             DataDictionary.Functions.Function function = variable.Value as DataDictionary.Functions.Function;
@@ -461,15 +468,16 @@ namespace DataDictionary.Interpreter
         {
             ReturnValue retVal = new ReturnValue();
 
-            foreach (ICallable callable in getCalledTypes(context).Values)
+            foreach (ReturnValueElement elem in getCalledTypes(context).Values)
             {
+                ICallable callable = elem.Value as ICallable;
                 if (callable != null)
                 {
                     retVal.Add(callable.ReturnType);
                 }
             }
 
-            if (retVal.Empty())
+            if (retVal.IsEmpty)
             {
                 AddError("Cannot determine the called function for " + ToString());
             }
@@ -567,8 +575,9 @@ namespace DataDictionary.Interpreter
             InterpretationContext ctxt = new InterpretationContext(context, true);
 
             ICallable called = null;
-            foreach (ICallable callable in getCalledTypes(context).Values)
+            foreach (ReturnValueElement elem in getCalledTypes(context).Values)
             {
+                ICallable callable = elem.Value as ICallable;
                 if (callable != null)
                 {
                     if (called == null)

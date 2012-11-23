@@ -41,6 +41,28 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
+        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        {
+            bool retVal = base.SemanticAnalysis(context, type);
+
+            if (retVal)
+            {
+                if (Condition != null)
+                {
+                    PrepareIteration(context);
+                    Condition.SemanticAnalysis(context, false);
+                    EndIteration(context);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Fills the list of typed element used by this expression
         /// </summary>
         /// <param name="elements"></param>
@@ -117,9 +139,9 @@ namespace DataDictionary.Interpreter.ListOperators
             Types.Type conditionType = null;
             if (Condition != null)
             {
-                foreach (Utils.INamable namable in Condition.getExpressionTypes(context).Values)
+                foreach (ReturnValueElement elem in Condition.getExpressionTypes(context).Values)
                 {
-                    conditionType = namable as Types.BoolType;
+                    conditionType = elem.Value as Types.BoolType;
                     if (conditionType != null)
                     {
                         break;

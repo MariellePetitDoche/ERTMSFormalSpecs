@@ -62,7 +62,9 @@ namespace DataDictionary
 
                 if (retVal != null)
                 {
-                    retVal.checkExpression(new Interpreter.InterpretationContext(model));
+                    Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(model);
+                    retVal.SemanticAnalysis(context, false);
+                    retVal.checkExpression(context);
                     Types.Type type = retVal.getExpressionType();
                     if (type == null)
                     {
@@ -95,6 +97,7 @@ namespace DataDictionary
             try
             {
                 retVal = parser.Statement(model, expression);
+                retVal.SemanticalAnalysis(new Interpreter.InterpretationContext(model));
                 retVal.CheckStatement();
             }
             catch (Exception exception)
@@ -305,12 +308,14 @@ namespace DataDictionary
                 {
                     bool found = false;
                     ruleCondition.Messages.Clear();
+                    Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(ruleCondition);
 
                     foreach (Rules.PreCondition preCondition in ruleCondition.PreConditions)
                     {
                         Interpreter.BinaryExpression expression = checkExpression(preCondition, preCondition.Expression) as Interpreter.BinaryExpression;
                         if (expression != null)
                         {
+                            expression.SemanticAnalysis(context, false);
                             if (expression.IsSimpleEquality())
                             {
 
@@ -323,7 +328,7 @@ namespace DataDictionary
                                         // the corresponding action affects the value Request.Disabled to the same variable
                                         if (element.Type.Name.Equals("Request") && expression.Right != null && expression.Right is Interpreter.UnaryExpression)
                                         {
-                                            Values.IValue val2 = ((Interpreter.UnaryExpression)expression.Right).Term.LiteralValue;
+                                            Values.IValue val2 = ((Interpreter.UnaryExpression)expression.Right).Term.LiteralValue.GetValue(context);
                                             if (val2 != null && "Response".CompareTo(val2.Name) == 0)
                                             {
                                                 if (ruleCondition != null)
@@ -338,7 +343,7 @@ namespace DataDictionary
                                                             Interpreter.UnaryExpression updateExpr = update.Expression as Interpreter.UnaryExpression;
                                                             if (updateExpr != null)
                                                             {
-                                                                Values.IValue val3 = updateExpr.Term.LiteralValue;
+                                                                Values.IValue val3 = updateExpr.Term.LiteralValue.GetValue(context);
                                                                 if (val3 != null && val3.Name.CompareTo("Disabled") == 0)
                                                                 {
                                                                     found = true;

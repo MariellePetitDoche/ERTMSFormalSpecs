@@ -13,7 +13,7 @@ gitclone:
 	../tools/Git/bin/git.exe clone https://github.com/stanpinte/ERTMSFormalSpecs.git
 	cp -r ERTMSFormalSpecs/ErtmsFormalSpecs/* .
 
-nightbuild: gitclone release
+nightbuild: release
 	bin/EFSTester.exe doc/specs/subset-026.efs
 	echo "done."
 

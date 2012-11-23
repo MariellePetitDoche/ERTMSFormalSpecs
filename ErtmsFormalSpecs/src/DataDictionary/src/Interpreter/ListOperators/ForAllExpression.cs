@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -55,15 +56,14 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override INamable InnerGetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            INamable retVal = EFSSystem.BoolType.True;
 
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
                 PrepareIteration(context);
-                Values.BoolValue result = EFSSystem.BoolType.True;
                 if (Condition != null)
                 {
                     foreach (Values.IValue v in value.Val)
@@ -73,7 +73,7 @@ namespace DataDictionary.Interpreter.ListOperators
                             IteratorVariable.Value = v;
                             if (!conditionSatisfied(context))
                             {
-                                result = EFSSystem.BoolType.False;
+                                retVal = EFSSystem.BoolType.False;
                                 break;
                             }
                         }
@@ -81,8 +81,6 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                 }
                 EndIteration(context);
-
-                retVal.Add(result);
             }
 
             return retVal;
@@ -95,9 +93,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         public override ReturnValue getExpressionTypes(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ReturnValue retVal = new ReturnValue(this);
 
-            retVal.Add(EFSSystem.BoolType);
+            retVal.Add(null, EFSSystem.BoolType);
 
             return retVal;
         }
