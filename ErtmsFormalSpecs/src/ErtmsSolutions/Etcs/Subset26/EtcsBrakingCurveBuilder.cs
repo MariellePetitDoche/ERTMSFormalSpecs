@@ -27,9 +27,12 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
 
         public static QuadraticSpeedDistanceCurve Build_A_Safe_Backward(AccelerationSpeedDistanceSurface A_V_D, FlatSpeedDistanceCurve MRSP)
         {
-            Log.InfoFormat("#######################################################");
-            Log.InfoFormat("## Build_A_Safe_Backward_Surface#######################");
-            Log.InfoFormat("#######################################################");
+            if (debug)
+            {
+                Log.InfoFormat("#######################################################");
+                Log.InfoFormat("## Build_A_Safe_Backward_Surface#######################");
+                Log.InfoFormat("#######################################################");
+            }
 
             int debugging_counter = 0;
             QuadraticSpeedDistanceCurve result = new QuadraticSpeedDistanceCurve();

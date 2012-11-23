@@ -23,6 +23,7 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
     /******************************************************************************/
     public class FlatSpeedDistanceCurve : Curve<ConstantCurveSegment<SiDistance, SiSpeed>, SiDistance, SiSpeed>
     {
+        private bool debug = false;
 
         /******************************************************************************/
         /**@brief Add a new segment to the curve.                                     */
@@ -49,13 +50,16 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
 
                 SiDistance d_intersection = a_quadratic_segment.IntersectAt(matching_flat_segment.Y);
 
-                Log.DebugFormat(" FlatSD [{0:D2}/{1:D2}] Q:{2} intersects F:{3} at {4,7:F2} d_max:{5,7:F2}",
-                                 i,
-                                 this.SegmentCount,
-                                 a_quadratic_segment.ToString(),
-                                 matching_flat_segment.ToString(),
-                                 d_intersection.ToUnits(),
-                                 d_max.ToUnits());
+                if (debug)
+                {
+                    Log.DebugFormat(" FlatSD [{0:D2}/{1:D2}] Q:{2} intersects F:{3} at {4,7:F2} d_max:{5,7:F2}",
+                                     i,
+                                     this.SegmentCount,
+                                     a_quadratic_segment.ToString(),
+                                     matching_flat_segment.ToString(),
+                                     d_intersection.ToUnits(),
+                                     d_max.ToUnits());
+                }
 
                 if (matching_flat_segment.X.X0 <= d_max)
                 {
