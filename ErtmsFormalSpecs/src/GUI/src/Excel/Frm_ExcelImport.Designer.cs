@@ -56,10 +56,10 @@ namespace GUI.ExcelImport
             this.CB_Permitted = new System.Windows.Forms.CheckBox();
             this.CB_Indication = new System.Windows.Forms.CheckBox();
             this.CB_Select = new System.Windows.Forms.CheckBox();
-            this.CBB_TrainType = new System.Windows.Forms.ComboBox();
             this.CBB_SpeedInterval = new System.Windows.Forms.ComboBox();
-            this.L_TrainType = new System.Windows.Forms.Label();
             this.L_SpeedInterval = new System.Windows.Forms.Label();
+            this.L_Name = new System.Windows.Forms.Label();
+            this.TB_FrameName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // TB_FileName
@@ -221,15 +221,6 @@ namespace GUI.ExcelImport
             this.CB_Select.UseVisualStyleBackColor = true;
             this.CB_Select.CheckedChanged += new System.EventHandler(this.CB_Select_CheckedChanged);
             // 
-            // CBB_TrainType
-            // 
-            this.CBB_TrainType.FormattingEnabled = true;
-            this.CBB_TrainType.Location = new System.Drawing.Point(100, 154);
-            this.CBB_TrainType.Name = "CBB_TrainType";
-            this.CBB_TrainType.Size = new System.Drawing.Size(172, 21);
-            this.CBB_TrainType.TabIndex = 13;
-            this.CBB_TrainType.Text = "Lambda train";
-            // 
             // CBB_SpeedInterval
             // 
             this.CBB_SpeedInterval.FormattingEnabled = true;
@@ -237,16 +228,7 @@ namespace GUI.ExcelImport
             this.CBB_SpeedInterval.Name = "CBB_SpeedInterval";
             this.CBB_SpeedInterval.Size = new System.Drawing.Size(172, 21);
             this.CBB_SpeedInterval.TabIndex = 14;
-            this.CBB_SpeedInterval.Text = "1.0";
-            // 
-            // L_TrainType
-            // 
-            this.L_TrainType.AutoSize = true;
-            this.L_TrainType.Location = new System.Drawing.Point(13, 157);
-            this.L_TrainType.Name = "L_TrainType";
-            this.L_TrainType.Size = new System.Drawing.Size(57, 13);
-            this.L_TrainType.TabIndex = 15;
-            this.L_TrainType.Text = "Train type:";
+            this.CBB_SpeedInterval.Text = "5.0";
             // 
             // L_SpeedInterval
             // 
@@ -257,15 +239,31 @@ namespace GUI.ExcelImport
             this.L_SpeedInterval.TabIndex = 16;
             this.L_SpeedInterval.Text = "Speed interval:";
             // 
+            // L_Name
+            // 
+            this.L_Name.AutoSize = true;
+            this.L_Name.Location = new System.Drawing.Point(13, 158);
+            this.L_Name.Name = "L_Name";
+            this.L_Name.Size = new System.Drawing.Size(35, 13);
+            this.L_Name.TabIndex = 15;
+            this.L_Name.Text = "Name";
+            // 
+            // TB_FrameName
+            // 
+            this.TB_FrameName.Location = new System.Drawing.Point(100, 155);
+            this.TB_FrameName.Name = "TB_FrameName";
+            this.TB_FrameName.Size = new System.Drawing.Size(172, 20);
+            this.TB_FrameName.TabIndex = 17;
+            // 
             // Frm_ExcelImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 242);
+            this.Controls.Add(this.TB_FrameName);
             this.Controls.Add(this.L_SpeedInterval);
-            this.Controls.Add(this.L_TrainType);
+            this.Controls.Add(this.L_Name);
             this.Controls.Add(this.CBB_SpeedInterval);
-            this.Controls.Add(this.CBB_TrainType);
             this.Controls.Add(this.CB_Select);
             this.Controls.Add(this.CB_Indication);
             this.Controls.Add(this.CB_Permitted);
@@ -301,9 +299,9 @@ namespace GUI.ExcelImport
         private System.Windows.Forms.CheckBox CB_Permitted;
         private System.Windows.Forms.CheckBox CB_Indication;
         private System.Windows.Forms.CheckBox CB_Select;
-        private System.Windows.Forms.ComboBox CBB_TrainType;
         private System.Windows.Forms.ComboBox CBB_SpeedInterval;
-        private System.Windows.Forms.Label L_TrainType;
         private System.Windows.Forms.Label L_SpeedInterval;
+        private System.Windows.Forms.Label L_Name;
+        private System.Windows.Forms.TextBox TB_FrameName;
     }
 }

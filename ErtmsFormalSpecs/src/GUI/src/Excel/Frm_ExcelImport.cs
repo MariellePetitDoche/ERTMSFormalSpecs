@@ -24,6 +24,7 @@ using System.Text;
 using System.Windows.Forms;
 using DataDictionary.Tests;
 using System.Globalization;
+using DataDictionary;
 
 
 namespace GUI.ExcelImport
@@ -32,6 +33,22 @@ namespace GUI.ExcelImport
     {
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Importers.ExcelInporterConfig importerConfig;
+
+
+        public Frm_ExcelImport(Dictionary aDictionary)
+        {
+            InitializeComponent();
+            importerConfig.TheDictionary = aDictionary;
+            
+            TB_FrameName.Text = String.Format("Frame__{0}_{1}_{2}__{3}s_{4}m_{5}h", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Second, DateTime.Now.Minute, DateTime.Now.Hour);
+
+            CBB_SpeedInterval.Items.Add("0.1");
+            CBB_SpeedInterval.Items.Add("0.2");
+            CBB_SpeedInterval.Items.Add("0.5");
+            CBB_SpeedInterval.Items.Add("1.0");
+            CBB_SpeedInterval.Items.Add("5.0");
+            CBB_SpeedInterval.Items.Add("10.0");
+        }
 
 
         public Frm_ExcelImport(Step aStep)
@@ -45,9 +62,6 @@ namespace GUI.ExcelImport
             CBB_SpeedInterval.Items.Add("1.0");
             CBB_SpeedInterval.Items.Add("5.0");
             CBB_SpeedInterval.Items.Add("10.0");
-
-            CBB_TrainType.Items.Add("Lambda train");
-            CBB_TrainType.Items.Add("Gamma train");
         }
 
 
@@ -74,7 +88,7 @@ namespace GUI.ExcelImport
         private void Btn_SelectFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            openFileDialog.Title = "Select excel file...";
             openFileDialog.Filter = "Microsof Excel (.xlsm)|*.xlsm";
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
@@ -93,9 +107,9 @@ namespace GUI.ExcelImport
         {
             Hide();
             Double.TryParse(CBB_SpeedInterval.Text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out importerConfig.SpeedInterval);
-            Log.InfoFormat("Parsed speed interval is: {0}, the text is: {1}", importerConfig.SpeedInterval, CBB_SpeedInterval.Text);
 
-            importerConfig.TrainType      = CBB_TrainType.Text;
+            importerConfig.FrameName      = TB_FrameName.Text;
+            importerConfig.FileName       = TB_FileName.Text;
             importerConfig.FillEBD        = CB_EBD.Checked;
             importerConfig.FillSBD        = CB_SBD.Checked;
             importerConfig.FillEBI        = CB_EBI.Checked;
