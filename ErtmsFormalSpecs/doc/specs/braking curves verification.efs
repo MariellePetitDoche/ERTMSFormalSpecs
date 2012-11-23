@@ -13,78 +13,77 @@
 >
 <SubSequences>
 <SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
- Name="Lambda train"
+ Name="Frame__2012_11_23__12s_1m_18h"
 >
 <TestCases>
 <TestCase
  Feature="0"
  Case="0"
  NeedsRequirement="FALSE"
- Name="Train data"
+ Name="Setup"
 >
 <Steps>
 <Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step1 - Setup"
 >
 <SubSteps>
 <SubStep
  SkipEngine="TRUE"
- Name="Initial values"
+ Name="SubStep1 - Setup"
 >
 <Actions>
-<Action>Odometry.NominalDistance &lt;- 0.0</Action>
 <Action>Kernel.Level &lt;- Kernel.LevelData
 {
     Value =&gt; Level.L1,
     DataState =&gt; DataState.Valid
 }</Action>
+<Action>Odometry.NominalDistance &lt;- 0.0</Action>
 </Actions>
-</SubStep><SubStep
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Initialize input"
+>
+<Steps>
+<Step
+ TranslationRequired="FALSE"
+ Name="Step1 - Initialize input"
+>
+<SubSteps>
+<SubStep
  SkipEngine="TRUE"
- Name="Train data"
+ Name="SubStep1 - Train data"
 >
 <Actions>
-<Action>BTM.ActiveAntennaPosition &lt;- 5.0</Action>
-<Action>Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsAllowed &lt;- False</Action>
-<Action>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action>
 <Action>Kernel.TrainData.TrainData.Value.EBModels &lt;- EMPTY</Action>
-<Action>Kernel.TrainData.TrainData.Value.M_rotating_nom &lt;- Default.Percentage.NA</Action>
-<Action>Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action>
-<Action>Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels &lt;- EMPTY</Action>
-<Action>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented &lt;- False</Action>
 <Action>Kernel.TrainData.TrainData.Value.SBModels &lt;- EMPTY</Action>
-<Action>Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented &lt;- False</Action>
+<Action>Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels &lt;- EMPTY</Action>
+<Action>Kernel.TrainData.TrainData.Value.T_brake_emergency &lt;- EMPTY</Action>
+<Action>Kernel.TrainData.TrainData.Value.T_brake_service &lt;- EMPTY</Action>
+<Action>Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action>
+<Action>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action>
 <Action>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
 }</Action>
+<Action>Kernel.TrainData.TrainData.Value.SBCommandIsImplemented &lt;- False</Action>
+<Action>Kernel.TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented &lt;- False</Action>
+<Action>Kernel.TrainData.BrakingParameters.ContributionOfSpecialBrakeIsAllowed &lt;- True</Action>
 <Action>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 700.0</Action>
-<Action>Kernel.TrainData.TrainData.Value.T_brake_emergency &lt;- EMPTY
-</Action>
-<Action>Kernel.TrainData.TrainData.Value.T_brake_service &lt;- EMPTY
-</Action>
+<Action>Kernel.TrainData.TrainData.Value.M_rotating_nom &lt;- Default.Percentage.NA</Action>
+<Action>BTM.ActiveAntennaPosition &lt;- 5.0</Action>
 </Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
- Name="Track data"
+ Name="SubStep2 - Track data"
 >
 <Actions>
+<Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
 <Action>Kernel.MA.MA &lt;- Kernel.MA.MA
 {
     TargetSpeed =&gt; 0.0,
@@ -107,40 +106,40 @@
     LRBGLocation =&gt; 0.0
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
-<Action>Kernel.TrackConditions.AdhFactors &lt;- []</Action>
-<Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.Gradient.Gradients &lt;- 
-[
+<Action>INSERT
     Kernel.Gradient.GradientInfo
     {
         Location =&gt; 0.0,
         Gradient =&gt; 0.0
-    },
+    }
+IN
+    Kernel.Gradient.Gradients</Action>
+<Action>INSERT
     Kernel.Gradient.GradientInfo
     {
         Location =&gt; 4500.0,
         Gradient =&gt; 2.0
-    },
-EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
-]</Action>
+    }
+IN
+    Kernel.Gradient.Gradients</Action>
 </Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
- Name="National values"
+ Name="SubStep3 - National values"
 >
 <Actions>
-<Action>Kernel.NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion &lt;- 0.0</Action>
 <Action>Kernel.NationalValues.ApplicableNationalValues.DataState &lt;- Default.DataState.Valid</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring &lt;- Messages.Q_NVSBTSMPERM.Yes</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy &lt;- Messages.Q_NVINHSMICPERM.Yes</Action>
 <Action>Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond1 &lt;- 1.0</Action>
 <Action>Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond2 &lt;- 0.7</Action>
 <Action>Kernel.NationalValues.ApplicableNationalValues.Value.MaxDecelValueUnderReducedAdhesionCond3 &lt;- 0.7</Action>
-<Action>Kernel.NationalValues.ApplicableNationalValues.Value.PermToInhibitTheCompOfTheSpeedMeasurementInaccuracy &lt;- Messages.Q_NVINHSMICPERM.Yes</Action>
-<Action>Kernel.NationalValues.ApplicableNationalValues.Value.UseServiceBrakeInTargetSpeedMonitoring &lt;- Messages.Q_NVSBTSMPERM.Yes</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.WeightingFactorForAvailableWheelRailAdhesion &lt;- 0.0</Action>
 <Action>Kernel.NationalValues.ApplicableNationalValues.Value.ConfLevelForEmergBrakeSafeDecelerationOnDryRails &lt;- Messages.M_NVEBCL.Confidence_level___99_9999999</Action>
 </Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
- Name="Fixed values"
+ Name="SubStep4 - Fixed values"
 >
 <Actions>
 <Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.dV_ebi_min &lt;- 7.5</Action>
@@ -151,6 +150,8 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
 <Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.dV_sbi_max &lt;- 10.0</Action>
 <Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.V_sbi_min &lt;- 110.0</Action>
 <Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.V_sbi_max &lt;- 210.0</Action>
+<Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.dV_warning_min &lt;- 4.0</Action>
+<Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.dV_warning_max &lt;- 5.0</Action>
 <Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.V_warning_min &lt;- 110.0</Action>
 <Action>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.V_warning_max &lt;- 140.0</Action>
 <Action>Kernel.SpeedAndDistanceMonitoring.TargetSupervision.T_warning &lt;- 2.0</Action>
@@ -161,25 +162,16 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
 </Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
- Name="Brake parameters (lambda)"
+ Name="SubStep5 - Brake parameters"
 >
 <Actions>
 <Action>Kernel.TrainData.TrainData.Value.BrakePercentage &lt;- 100.0</Action>
 </Actions>
 </SubStep><SubStep
  SkipEngine="TRUE"
- Name="Integrated correction factors"
+ Name="SubStep6 - Integrated correction factors"
 >
 <Actions>
-<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 &lt;- 1.01</Action>
-<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 &lt;- 1.33</Action>
-<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorForBrakeBuildUpTime &lt;- 1.0</Action>
-<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0 &lt;- Kernel.NationalValues.KvIntValue_PassengerTrain
-{
-        SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
-        ValueA =&gt; 1.0,
-        ValueB =&gt; 1.0
-}</Action>
 <Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKrInt.Val0 &lt;- Kernel.NationalValues.KrIntValue
 {
     LengthStep =&gt; 0.0,
@@ -190,20 +182,38 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
     LengthStep =&gt; Default.BaseTypes.Length.Infinity,
     Value =&gt; 1.0
 }</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val0 &lt;- Kernel.NationalValues.KvIntValue_PassengerTrain
+{
+    SpeedStep =&gt; 25.0,
+    ValueA =&gt; 1.0,
+    ValueB =&gt; 1.0
+}</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val1 &lt;- Kernel.NationalValues.KvIntValue_PassengerTrain
+{
+    SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
+    ValueA =&gt; 1.0,
+    ValueB =&gt; 1.0
+}</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 &lt;- 1.0</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 &lt;- 1.3</Action>
+<Action>Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorForBrakeBuildUpTime &lt;- 1.0</Action>
 </Actions>
 </SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Verify input"
+>
+<Steps>
+<Step
  TranslationRequired="FALSE"
- Name="Step2 - Setup verification"
+ Name="Step1 - Verify input"
 >
 <SubSteps>
 <SubStep
- Name="Train data"
+ Name="SubStep1 - Train data"
 >
 <Actions>
 <Action>Kernel.TrainData.BrakingParameters.ConversionModel.Initialize()</Action>
@@ -211,133 +221,88 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
 <Expectations>
 <Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() == True</Expectation><Expectation
- Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.TrainData.Value.BrakePercentage == 100.0</Expectation></Expectations>
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() == True</Expectation></Expectations>
 </SubStep><SubStep
- Name="Brake parameters"
+ Name="SubStep2 - Brake parameters"
 >
 <Expectations>
 <Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.kto() == 1.2</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.T_be() == 10.63</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cm0 == 10.63</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.T_bs() == 18.4</Expectation><Expectation
- Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cm0 == 18.4</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cm0 == 10.63</Expectation></Expectations>
+>Kernel.TrainData.BrakingParameters.T_be() == 10.63</Expectation><Expectation
+ Variable=""
+>Kernel.TrainData.BrakingParameters.T_bs() == 18.4</Expectation></Expectations>
 </SubStep><SubStep
- Name="Brake parameters (A_brake_emergency)"
+ Name="SubStep3 - Brake parameters (A_brake_emergency)"
 >
 <Expectations>
 <Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 0.0) == 0.826</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 120.0) == 0.826</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 120.94734) == 0.826</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 121.0) == 0.6171</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 120.94834) == 0.6171</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency.Val1.SpeedStep &gt; 120.948 AND Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency.Val1.SpeedStep &lt; 120.952</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 149.999) == 0.6171</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 149.9) == 0.6171</Expectation><Expectation
- Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 150.0) == 0.5915</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 179.9) == 0.5915</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 179.999) == 0.5915</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 180.0) == 0.58173</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V =&gt; 200.0) == 0.58173</Expectation></Expectations>
+>ERA_BrakingCurvesVerification.Compare
+(
+    Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency.Val1.SpeedStep,
+    Val2 =&gt; 120.95
+)</Expectation></Expectations>
 </SubStep><SubStep
- Name="Brake parameters (A_brake_service)"
+ Name="SubStep4 - Brake parameters (A_brake_service)"
 >
 <Expectations>
 <Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 0.0) == 0.826</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 120.0) == 0.826</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 120.94734) == 0.826</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 121.0) == 0.6171</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 120.94834) == 0.6171</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service.Val1.SpeedStep &gt; 120.948 AND Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service.Val1.SpeedStep &lt; 120.952</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 149.999) == 0.6171</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 149.9) == 0.6171</Expectation><Expectation
- Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 150.0) == 0.5915</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 179.9) == 0.5915</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 179.999) == 0.5915</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
 >Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 180.0) == 0.58173</Expectation><Expectation
  Variable=""
- Blocking="TRUE"
- DeadLine="1000"
->Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V =&gt; 200.0) == 0.58173</Expectation></Expectations>
+>ERA_BrakingCurvesVerification.Compare
+(
+    Val1 =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service.Val1.SpeedStep,
+    Val2 =&gt; 120.95
+)</Expectation></Expectations>
 </SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
+</Step></Steps>
+</TestCase><TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Verify output"
+>
+<Steps>
+<Step
  TranslationRequired="FALSE"
- Name="Step3 - Braking curves verification"
+ Name="Step1 - EBD"
 >
 <SubSteps>
 <SubStep
- Name="EBD"
+ Name="SubStep1 - Verify EBD values"
 >
 <Expectations>
 <Expectation
@@ -565,99 +530,15 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
         Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 658.97 )
     ),
     Val2 =&gt; 120.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 729.87 )
-    ),
-    Val2 =&gt; 125.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 807.43 )
-    ),
-    Val2 =&gt; 130.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 888.04 )
-    ),
-    Val2 =&gt; 135.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 971.69 )
-    ),
-    Val2 =&gt; 140.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1058.38 )
-    ),
-    Val2 =&gt; 145.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1148.12 )
-    ),
-    Val2 =&gt; 150.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1244.8 )
-    ),
-    Val2 =&gt; 155.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1344.65 )
-    ),
-    Val2 =&gt; 160.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1447.66 )
-    ),
-    Val2 =&gt; 165.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1553.85 )
-    ),
-    Val2 =&gt; 170.0
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="SBD"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - SBD"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify SBD values"
 >
 <Expectations>
 <Expectation
@@ -885,135 +766,15 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
         Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 658.97 )
     ),
     Val2 =&gt; 120.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 729.87 )
-    ),
-    Val2 =&gt; 125.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 807.43 )
-    ),
-    Val2 =&gt; 130.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 888.04 )
-    ),
-    Val2 =&gt; 135.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 971.69 )
-    ),
-    Val2 =&gt; 140.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1058.38 )
-    ),
-    Val2 =&gt; 145.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1148.12 )
-    ),
-    Val2 =&gt; 150.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1244.8 )
-    ),
-    Val2 =&gt; 155.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1344.65 )
-    ),
-    Val2 =&gt; 160.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1447.66 )
-    ),
-    Val2 =&gt; 165.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1553.85 )
-    ),
-    Val2 =&gt; 170.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1663.21 )
-    ),
-    Val2 =&gt; 175.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1775.74 )
-    ),
-    Val2 =&gt; 180.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1896.02 )
-    ),
-    Val2 =&gt; 185.0
-)</Expectation><Expectation
- Variable=""
->ERA_BrakingCurvesVerification.Compare
-(
-    Val1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD
-    (
-        Distance =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 2020.37 )
-    ),
-    Val2 =&gt; 190.0
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="EBI"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - EBI"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify EBI values"
 >
 <Expectations>
 <Expectation
@@ -1207,8 +968,14 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
     ),
     Val2 =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1013.31 )
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="SBI1"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - SBI1"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify SBI1 values"
 >
 <Expectations>
 <Expectation
@@ -1338,8 +1105,14 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
     ),
     Val2 =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 658.97 )
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="SBI2"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - SBI2"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify SBI2 values"
 >
 <Expectations>
 <Expectation
@@ -1533,8 +1306,14 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
     ),
     Val2 =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1013.31 )
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="FLOI"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - FLOI"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify FLOI values"
 >
 <Expectations>
 <Expectation
@@ -1709,8 +1488,14 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
     ),
     Val2 =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1013.31 )
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="Warning"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - Warning"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify Warning values"
 >
 <Expectations>
 <Expectation
@@ -1885,8 +1670,14 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
     ),
     Val2 =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1079.97 )
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="Permitted"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - Permitted"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify Permitted values"
 >
 <Expectations>
 <Expectation
@@ -2061,8 +1852,14 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
     ),
     Val2 =&gt; ERA_BrakingCurvesVerification.ConvertTargetDistance ( 1146.64 )
 )</Expectation></Expectations>
-</SubStep><SubStep
- Name="Indication"
+</SubStep></SubSteps>
+</Step><Step
+ TranslationRequired="FALSE"
+ Name="Step1 - Indication"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1 - Verify Indication values"
 >
 <Expectations>
 <Expectation
@@ -2239,42 +2036,6 @@ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMP
 )</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
-</TestCase><TestCase
- Feature="0"
- Case="0"
- NeedsRequirement="FALSE"
- Name="Track data"
->
-</TestCase><TestCase
- Feature="0"
- Case="0"
- NeedsRequirement="FALSE"
- Name="National values"
->
-</TestCase><TestCase
- Feature="0"
- Case="0"
- NeedsRequirement="FALSE"
- Name="Fixed values"
->
-</TestCase><TestCase
- Feature="0"
- Case="0"
- NeedsRequirement="FALSE"
- Name="Brake parameters (lambda)"
->
-</TestCase><TestCase
- Feature="0"
- Case="0"
- NeedsRequirement="FALSE"
- Name="Integrated correction factors"
->
-</TestCase><TestCase
- Feature="0"
- Case="0"
- NeedsRequirement="FALSE"
- Name="Lambda train deceleration"
->
 </TestCase></TestCases>
 </SubSequence></SubSequences>
 </Frame></Tests>
@@ -3031,6 +2792,6 @@ The on-board equipment changes to SB mode."
 </SubStep></SubSteps>
 </Translation></Translations>
 </TranslationDictionary><ShortcutDictionary
- Name="subset-076"
+ Name="braking curves verification"
 >
 </ShortcutDictionary></Dictionary>
