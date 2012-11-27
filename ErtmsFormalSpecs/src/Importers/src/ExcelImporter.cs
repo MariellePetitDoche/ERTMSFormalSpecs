@@ -280,7 +280,7 @@ namespace Importers
             aWorksheet = workbook.Sheets[5] as Worksheet;
 
             Range aRange = aWorksheet.UsedRange;
-            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.BrakePercentage <- 100.0", 0, (double)(aRange.Cells[3, 6] as Range).Value2));
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.BrakePercentage <- {0:0.0#}", (double)(aRange.Cells[3, 6] as Range).Value2));
 
 
 
@@ -480,7 +480,7 @@ namespace Importers
             /// TODO: need to find how these values are activated and deactivated
             double startLocation = (double)(aRange.Cells[9, 2] as Range).Value2;
             double endLocation   = (double)(aRange.Cells[10, 2] as Range).Value2;
-            //addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "INSERT\n    Kernel.TrackConditions.AdhesionFactor\n    {{\n        Distance => {0:0.0},\n        Length => {1:0.0},\n        Value => Messages.M_ADHESION.Slippery_rail\n    }}\nIN\n    Kernel.TrackConditions.AdhFactors", startLocation, endLocation - startLocation));
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "INSERT\n    Kernel.TrackConditions.AdhesionFactor\n    {{\n        Distance => {0:0.0},\n        Length => {1:0.0},\n        Value => Messages.M_ADHESION.Slippery_rail\n    }}\nIN\n    Kernel.TrackConditions.AdhFactors", startLocation, endLocation - startLocation));
 
 
             /* Initializing the gradient profile */
@@ -690,15 +690,20 @@ namespace Importers
                 {
                     if (doubleValue != -1)
                     {
-                        addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V => {0:0.0####}) == {1:0.0####}", (double)(aRange.Cells[i, 9] as Range).Value2 - 0.001, doubleValue));
+                        addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)", (double)(aRange.Cells[i, 9] as Range).Value2 - 0.000000001, doubleValue));
                     }
                     doubleValue = temp;
-                    addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V => {0:0.0####}) == {1:0.0####}", (double)(aRange.Cells[i, 9] as Range).Value2, doubleValue));
+                    double speedValue = (double)(aRange.Cells[i, 9] as Range).Value2;
+                    if (Math.Abs(speedValue - Math.Round(speedValue, 8)) > 0)
+                    {
+                        speedValue += 0.000000001;
+                    }
+                    addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)", speedValue, doubleValue));
                 }
             }
 
             /* Verifying V_lim EBI */
-            addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency.Val1.SpeedStep,\n    Val2 => {0:0.0#}\n)", Math.Round((double)(aRange.Cells[17, 9] as Range).Value2, 2)));
+            addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)", (double)(aRange.Cells[17, 9] as Range).Value2));
 
 
 
@@ -716,15 +721,20 @@ namespace Importers
                 {
                     if (doubleValue != -1)
                     {
-                        addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V => {0:0.0####}) == {1:0.0####}", (double)(aRange.Cells[i, 9] as Range).Value2 - 0.001, doubleValue));
+                        addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)", (double)(aRange.Cells[i, 13] as Range).Value2 - 0.000000001, doubleValue));
                     }
                     doubleValue = temp;
-                    addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V => {0:0.0####}) == {1:0.0####}", (double)(aRange.Cells[i, 13] as Range).Value2, doubleValue));
+                    double speedValue = (double)(aRange.Cells[i, 13] as Range).Value2;
+                    if (Math.Abs(speedValue - Math.Round(speedValue, 8)) > 0)
+                    {
+                        speedValue += 0.000000001;
+                    }
+                    addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)", speedValue, doubleValue));
                 }
             }
 
             /* Verifying V_lim BS */
-            addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service.Val1.SpeedStep,\n    Val2 => {0:0.0#}\n)", Math.Round((double)(aRange.Cells[17, 13] as Range).Value2, 2)));
+            addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)", (double)(aRange.Cells[17, 13] as Range).Value2));
         }
 
 
@@ -763,11 +773,11 @@ namespace Importers
                 for (int i = 2; i <= testRange.Rows.Count; i++)
                 {
                     val = (double)(testRange.Cells[i, 14] as Range).Value2;
-                    if (val >= 125.0)
+                    /*if (val >= 125.0)
                     {
                         /// TODO: investigate the difference between testing the curve values and its limit values
                         break;
-                    }
+                    }*/
                     if (val - lastAddedSpeedValue >= TheConfig.SpeedInterval)
                     {
                         lastAddedSpeedValue = val;
@@ -860,9 +870,23 @@ namespace Importers
                 {
                     fillBrakingCurvesExpectations(aTestCase,
                                      "EBD",
+                                     "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => DistanceForSpeed (\n    Function =>\n        FUNCTION d : Default.BaseTypes.Distance => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD_Target ( Distance => d, aTarget => Kernel.MA.EndOfMovementAuthority() ),\n        Speed => {0:0.0} ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                     speedValues,
+                                     ebdValues);
+
+
+                    /*fillBrakingCurvesExpectations(aTestCase, => first
+                                     "EBD",
                                      "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD\n    (\n        Distance => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n    ),\n    Val2 => {0:0.0#}\n)",
                                      speedValues,
                                      ebdValues);
+
+
+                    fillBrakingCurvesExpectations(aTestCase, => second
+                                     "EBD",
+                                     "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD_Target\n    (\n        Distance => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} ),\n        aTarget => Kernel.MA.EndOfMovementAuthority()\n    ),\n    Val2 => {0:0.0#}\n)",
+                                     speedValues,
+                                     ebdValues);*/
                 }
                 if (TheConfig.FillSBD)
                 {
