@@ -26,6 +26,9 @@ namespace DataDictionary.Functions
     /// </summary>
     public class Graph
     {
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         public class Segment : IComparable<Segment>
         {
             /// <summary>
@@ -1326,15 +1329,29 @@ namespace DataDictionary.Functions
         /// <returns></returns>
         public double SolutionX(double Y)
         {
-            double retVal = double.MaxValue;
+            double retVal  = double.MaxValue;
+            double upY     = double.MaxValue;
+            double downY   = double.MinValue;
+            double upX     = 0;
+            double downX   = 0;
 
             foreach (Segment segment in Segments)
             {
                 double up = segment.Val(segment.Start);
+                if (up < upY && up >= Y)
+                {
+                    upY = up;
+                    upX = segment.Start;
+                }
                 double down = 0;
                 if (segment.End < double.MaxValue)
                 {
-                    down = segment.Val(segment.End - 1);
+                    down = segment.Val(segment.End - 0.0001);
+                    if (down > downY && down <= Y)
+                    {
+                        downY = down;
+                        downX = segment.End;
+                    }
                 }
                 if (up < down)
                 {
@@ -1346,7 +1363,17 @@ namespace DataDictionary.Functions
                 if (Y <= up && Y >= down)
                 {
                     retVal = segment.IntersectsAt(Y);
+                    break;
                 }
+            }
+
+            if(retVal == double.MaxValue)
+            {
+                if (upY != double.MaxValue && downY != double.MinValue)
+                {
+                    retVal = (upX + downX) / 2;
+                }
+                Log.ErrorFormat("Impossible to compute the solution X for the graph");
             }
 
             return retVal;
