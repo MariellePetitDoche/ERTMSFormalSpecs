@@ -49,7 +49,16 @@ namespace DataDictionary
         /// </summary>
         public Specification.Specification Specifications
         {
-            get { return Dictionary.Specifications; }
+            get
+            {
+                Specification.Specification retVal = null;
+                if (Dictionary != null)
+                {
+                    retVal = Dictionary.Specifications;
+                }
+
+                return retVal;
+            }
         }
 
         /// <summary>
@@ -91,7 +100,14 @@ namespace DataDictionary
         {
             get
             {
-                return Specifications.FindParagraph(getId());
+                Specification.Paragraph retVal = null;
+
+                if (Specifications != null)
+                {
+                    retVal = Specifications.FindParagraph(getId());
+                }
+
+                return retVal;
             }
         }
 
