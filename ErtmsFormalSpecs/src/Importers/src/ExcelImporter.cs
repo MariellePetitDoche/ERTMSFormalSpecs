@@ -320,34 +320,48 @@ namespace Importers
                 double b = -1;
                 double tempA, tempB;
                 index = 0;
-                for (int i = 0; i <= 8; i++)
+                for (int i = 0; i <= 9; i++)
                 {
                     tempA = (double)(aRange.Cells[i + 5, 5] as Range).Value2;
                     tempB = (double)(aRange.Cells[i + 31, 5] as Range).Value2;
                     if (a != tempA || b != tempB)
                     {
-                        double speed = (double)(aRange.Cells[i + 6, 4] as Range).Value2;
+                        double speed = (double)(aRange.Cells[i + 5, 4] as Range).Value2;
                         a = tempA;
                         b = tempB;
-                        addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrain\n{{\n    SpeedStep => {1:0.0},\n    ValueA => {2:0.0},\n    ValueB => {3:0.0}\n}}", index, speed, a, b));
+                        addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrain\n{{\n    SpeedStep => {1:0.0},\n    ValueA => {2:0.0#},\n    ValueB => {3:0.0#}\n}}", index, speed, a, b));
                         index++;
                     }
                 }
-                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrain\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    ValueA => {1:0.0},\n    ValueB => {2:0.0}\n}}", index, a, b));
-
-                /* Initializing A_NVP12 */
-                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 <- {0:0.0}", (double)(aRange.Cells[44, 4] as Range).Value2));
-
-                /* Initializing A_NVP23 */
-                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 <- {0:0.0}", (double)(aRange.Cells[44, 6] as Range).Value2));
-
-                /* Initializing Kt_int */
-                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorForBrakeBuildUpTime <- {0:0.0}", (double)(aRange.Cells[47, 4] as Range).Value2));
+                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.Val{0} <- Kernel.NationalValues.KvIntValue_PassengerTrain\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    ValueA => {1:0.0#},\n    ValueB => {2:0.0#}\n}}", index, a, b));
             }
             else  /* Case of freight trains */
             {
-                /// TODO
+                /* Initializing Kv_int */
+                doubleValue = -1;
+                index = 0;
+                for (int i = 0; i <= 9; i++)
+                {
+                    temp = (double)(aRange.Cells[i + 5, 2] as Range).Value2;
+                    if (doubleValue != temp)
+                    {
+                        double speed = (double)(aRange.Cells[i + 5, 1] as Range).Value2;
+                        doubleValue  = temp;
+                        addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val{0} <- Kernel.NationalValues.KvIntValue_FreightTrain\n{{\n    SpeedStep => {1:0.0},\n    Value => {2:0.0#}\n}}", index, speed, doubleValue));
+                        index++;
+                    }
+                }
+                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_FreightTrain.Val{0} <- Kernel.NationalValues.KvIntValue_FreightTrain\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Value => {1:0.0#}\n}}", index, doubleValue));
             }
+
+            /* Initializing A_NVP12 */
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP12 <- {0:0.0}", (double)(aRange.Cells[44, 4] as Range).Value2));
+
+            /* Initializing A_NVP23 */
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorKvInt_PassengerTrain.A_NVP23 <- {0:0.0}", (double)(aRange.Cells[44, 6] as Range).Value2));
+
+            /* Initializing Kt_int */
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.IntegratedCorrectionFactorForBrakeBuildUpTime <- {0:0.0}", (double)(aRange.Cells[47, 4] as Range).Value2));
         }
 
 
@@ -480,7 +494,7 @@ namespace Importers
             /// TODO: need to find how these values are activated and deactivated
             double startLocation = (double)(aRange.Cells[9, 2] as Range).Value2;
             double endLocation   = (double)(aRange.Cells[10, 2] as Range).Value2;
-            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "INSERT\n    Kernel.TrackConditions.AdhesionFactor\n    {{\n        Distance => {0:0.0},\n        Length => {1:0.0},\n        Value => Messages.M_ADHESION.Slippery_rail\n    }}\nIN\n    Kernel.TrackConditions.AdhFactors", startLocation, endLocation - startLocation));
+            //addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "INSERT\n    Kernel.TrackConditions.AdhesionFactor\n    {{\n        Distance => {0:0.0},\n        Length => {1:0.0},\n        Value => Messages.M_ADHESION.Slippery_rail\n    }}\nIN\n    Kernel.TrackConditions.AdhFactors", startLocation, endLocation - startLocation));
 
 
             /* Initializing the gradient profile */
