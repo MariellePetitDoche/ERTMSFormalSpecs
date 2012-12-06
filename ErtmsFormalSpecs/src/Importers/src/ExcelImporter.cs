@@ -66,16 +66,16 @@ namespace Importers
         // Sheet number 2,  name: Track                          \\
         // Sheet number 3,  name: National values                \\
         // Sheet number 4,  name: Fixed values                   \\
-        // Sheet number 5,  name: Brake parameters (lambda)      \\
-        // Sheet number 6,  name: Brake parameters (gamma)       \\
-        // Sheet number 7,  name: Correction factor Kdry_rst     \\
-        // Sheet number 8,  name: Integrated correction factors  \\
-        // Sheet number 9,  name: Lambda train deceleration      \\
-        // Sheet number 10, name: Gamma train deceleration       \\
-        // Sheet number 11, name: Curves Gamma train             \\
-        // Sheet number 12, name: Calc Gamma                     \\
-        // Sheet number 13, name: Curves Lambda train            \\
-        // Sheet number 14, name: Calc Lambda                    \\
+        // Sheet number 5,  name: Brake parameters (lambda)      \\  L
+        // Sheet number 6,  name: Brake parameters (gamma)       \\  G
+        // Sheet number 7,  name: Correction factor Kdry_rst     \\  G
+        // Sheet number 8,  name: Integrated correction factors  \\  L
+        // Sheet number 9,  name: Lambda train deceleration      \\  L
+        // Sheet number 10, name: Gamma train deceleration       \\  G
+        // Sheet number 11, name: Curves Gamma train             \\  G
+        // Sheet number 12, name: Calc Gamma                     \\  G (hidden)
+        // Sheet number 13, name: Curves Lambda train            \\  L
+        // Sheet number 14, name: Calc Lambda                    \\  L (hidden)
 
 
 
@@ -136,7 +136,8 @@ namespace Importers
                     newSubSequence.AddModelElement(aTestCase);
                     if (trainIsGamma)
                     {
-                        verifyInputForGamma(aTestCase, workbook);
+                        /// TODO
+                        /*verifyInputForGamma(aTestCase, workbook);*/
                     }
                     else
                     {
@@ -193,14 +194,81 @@ namespace Importers
 
         private static void initializeInputForGamma(TestCase aTestCase, Workbook workbook)
         {
-            /* FOR THE TRACK DATA */
-            /* Initializing the start of brake inhibition */
-            /// TODO
+            Step aStep = new Step();
+            aStep.Name = "Step1 - Initialize input";
+            aTestCase.AddModelElement(aStep);
 
-            /* Initializing the end of brake inhibition */
-            ///TODO
 
-            throw new NotImplementedException();
+            /*********************************** TRAIN DATA ***********************************/
+            SubStep aSubStep = new SubStep();
+            aSubStep.Name = "SubStep1 - Train data";
+            aSubStep.setSkipEngine(true);
+            aStep.AddModelElement(aSubStep);
+
+            /* This is a gamma train => we have to initialize brake models in the train data */
+            addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.EBModels <- Kernel.TrainData.BrakingParameters.EBModelSet\n{{\n    ModelSet => Kernel.TrainData.BrakingParameters.BrakingModelSet{{}},\n    Kdry_rstValuesSet => Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{{}},\n    Kwet_rstValuesSet => Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{{}}\n}}"));
+            addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.SBModels <- Kernel.TrainData.BrakingParameters.SBModelSet{{}}"));
+            
+            Worksheet aWorksheet = workbook.Sheets[1] as Worksheet;
+            bool isPassengerTrain;
+            importCommonTrainDataInformation(aSubStep, aWorksheet, out isPassengerTrain);
+
+
+
+            /*********************************** TRACK DATA ***********************************/
+            aSubStep = new SubStep();
+            aSubStep.Name = "SubStep2 - Track data";
+            aSubStep.setSkipEngine(true);
+            aStep.AddModelElement(aSubStep);
+
+            aWorksheet = workbook.Sheets[2] as Worksheet;
+            importCommonTrackDataInformation(aSubStep, aWorksheet);
+
+
+
+            /*********************************** NATIONAL VALUES ***********************************/
+            aSubStep = new SubStep();
+            aSubStep.Name = "SubStep3 - National values";
+            aSubStep.setSkipEngine(true);
+            aStep.AddModelElement(aSubStep);
+
+            aWorksheet = workbook.Sheets[3] as Worksheet;
+            importCommonNationalValuesInformation(aSubStep, aWorksheet);
+
+
+
+            /*********************************** FIXED VALUES ***********************************/
+            aSubStep = new SubStep();
+            aSubStep.Name = "SubStep4 - Fixed values";
+            aSubStep.setSkipEngine(true);
+            aStep.AddModelElement(aSubStep);
+
+            aWorksheet = workbook.Sheets[4] as Worksheet;
+            importCommonFixedValuesInformation(aSubStep, aWorksheet);
+
+
+
+            /****************************** BRAKE PARAMETERS (gamma) ******************************/
+            aSubStep = new SubStep();
+            aSubStep.Name = "SubStep5 - Brake parameters";
+            aSubStep.setSkipEngine(true);
+            aStep.AddModelElement(aSubStep);
+
+            aWorksheet = workbook.Sheets[6] as Worksheet;
+            dumpWorksheet(aWorksheet);
+
+            importGammaBrakeParameters(aSubStep, aWorksheet, 2, 8);   // first combination
+            importGammaBrakeParameters(aSubStep, aWorksheet, 3, 20);  // second combination
+
+
+
+            /*************************** CORRECTION FACTOR KDRY_RST ***************************/
+            aSubStep = new SubStep();
+            aSubStep.Name = "SubStep6 - Correction factor kdry_rst";
+            aSubStep.setSkipEngine(true);
+            aStep.AddModelElement(aSubStep);
+
+            aWorksheet = workbook.Sheets[7] as Worksheet;
         }
 
 
@@ -627,6 +695,120 @@ namespace Importers
 
 
 
+        private static void importGammaBrakeParameters(SubStep aSubStep, Worksheet aWorksheet, int brakesCombinationColumnNumber, int dataColumnNumber)
+        {
+            Range aRange = aWorksheet.UsedRange;
+
+            string brakesCombination = "";
+            object obj = (aRange.Cells[7, brakesCombinationColumnNumber] as Range).Value2;
+            brakesCombination += obj == null ? "" : "EddyCurrent";
+            obj = (aRange.Cells[8, brakesCombinationColumnNumber] as Range).Value2;
+            if (brakesCombination == "")
+            {
+                brakesCombination += obj == null ? "" : "Magnetic";
+            }
+            else
+            {
+                brakesCombination += obj == null ? "" : "_Magnetic";
+            }
+            obj = (aRange.Cells[6, brakesCombinationColumnNumber] as Range).Value2;
+            if (brakesCombination == "")
+            {
+                brakesCombination += obj == null ? "" : "Regenerative";
+            }
+            else
+            {
+                brakesCombination += obj == null ? "" : "_Regenerative";
+            }
+
+
+            /* Initializing EB deceleration */
+            double doubleValue = -1;
+            double temp;
+            int    index       = 0;
+            for (int i = 0; i < 14; i+=2)
+            {
+                temp = (double)(aRange.Cells[i + 7, dataColumnNumber + 2] as Range).Value2;
+                if (doubleValue != temp)
+                {
+                    double speed = (double)(aRange.Cells[i + 7, dataColumnNumber] as Range).Value2;
+                    doubleValue = temp;
+                    addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.EBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => {2:0.0###},\n    Acceleration => {3:0.0###}\n}}", brakesCombination, index, speed, doubleValue));
+                    index++;
+                }
+            }
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.EBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Acceleration => {2:0.0###}\n}}", brakesCombination, index, doubleValue));
+
+
+            /* Initializing EB confidence level */
+            /// TODO: how can I recover the value of the confidence level? (should be at the line 21....)
+
+
+            /* Initializing Kdry_rst */
+            addAction(aSubStep,
+                      String.Format(CultureInfo.InvariantCulture,
+                                    "Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.{0}.{1} <- Kernel.TrainData.BrakingParameters.CorrectFactorValue\n{{\n    CF0 => {2:0.0###},\n    CF1 => {3:0.0###},\n    CF2 => {4:0.0###},\n    CF3 => {5:0.0###},\n    CF4 => {6:0.0###},\n    CF5 => {7:0.0###},\n    CF6 => {8:0.0###}\n}}",
+                                    brakesCombination,
+                                    "Cl__99_9999999",   // this value should be provided by the previous step
+                                    (double)(aRange.Cells[23, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[25, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[27, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[29, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[31, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[33, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[35, dataColumnNumber + 2] as Range).Value2));
+
+
+            /* Initializing Kwet_rst */
+            addAction(aSubStep,
+                      String.Format(CultureInfo.InvariantCulture,
+                                    "Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.{0} <- Kernel.TrainData.BrakingParameters.CorrectFactorValue\n{{\n    CF0 => {1:0.0###},\n    CF1 => {2:0.0###},\n    CF2 => {3:0.0###},\n    CF3 => {4:0.0###},\n    CF4 => {5:0.0###},\n    CF5 => {6:0.0###},\n    CF6 => {7:0.0###}\n}}",
+                                    brakesCombination,
+                                    (double)(aRange.Cells[38, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[40, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[42, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[44, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[46, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[48, dataColumnNumber + 2] as Range).Value2,
+                                    (double)(aRange.Cells[50, dataColumnNumber + 2] as Range).Value2));
+
+
+
+            /* Initializing T_brake_emergency */
+            addAction(aSubStep,
+                      String.Format(CultureInfo.InvariantCulture,
+                                    "Kernel.TrainData.TrainData.Value.T_brake_emergency.{0} <- {1:0.0###}",
+                                    brakesCombination,
+                                    (double)(aRange.Cells[52, dataColumnNumber + 3] as Range).Value2));
+
+
+            /* Initializing SB deceleration */
+            doubleValue = -1;
+            index = 0;
+            for (int i = 0; i < 14; i += 2)
+            {
+                temp = (double)(aRange.Cells[i + 54, dataColumnNumber + 2] as Range).Value2;
+                if (doubleValue != temp)
+                {
+                    double speed = (double)(aRange.Cells[i + 7, dataColumnNumber] as Range).Value2;
+                    doubleValue = temp;
+                    addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.SBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => {2:0.0###},\n    Acceleration => {3:0.0###}\n}}", brakesCombination, index, speed, doubleValue));
+                    index++;
+                }
+            }
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.SBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Acceleration => {2:0.0###}\n}}", brakesCombination, index, doubleValue));
+
+
+            /* Initializing T_brake_service */
+            addAction(aSubStep,
+                      String.Format(CultureInfo.InvariantCulture,
+                                    "Kernel.TrainData.TrainData.Value.T_brake_service.{0} <- {1:0.0###}",
+                                    brakesCombination,
+                                    (double)(aRange.Cells[68, dataColumnNumber + 3] as Range).Value2));
+        }
+
+
+
         private static void verifyInputForGamma(TestCase aTestCase, Workbook workbook)
         {
             throw new NotImplementedException();
@@ -1027,7 +1209,7 @@ namespace Importers
         {
             Log.InfoFormat("Dumping the worksheet {0}", aWorksheet.Name);
             Range aRange = aWorksheet.UsedRange;
-            for (int i = 1; i < 20; i++)
+            for (int i = 1; i < 40; i++)
             {
                 for (int j = 1; j <= aRange.Rows.Count; j++)
                 {
