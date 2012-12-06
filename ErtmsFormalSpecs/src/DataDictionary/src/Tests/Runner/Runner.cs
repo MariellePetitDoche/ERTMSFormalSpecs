@@ -407,6 +407,25 @@ namespace DataDictionary.Tests.Runner
                     EvaluateStateMachine(rules, priority, variable);
                     Activation.RegisterRules(activations, rules, variable);
                 }
+                else if (variable.Type is Types.Collection)
+                {
+                    Types.Collection collectionType = variable.Type as Types.Collection;
+                    if (variable.Value != EFSSystem.EmptyValue)
+                    {
+                        ListValue val = variable.Value as ListValue;
+
+                        int i = 1;
+                        foreach (IValue subVal in val.Val)
+                        {
+                            Variables.Variable tmp = new Variables.Variable();
+                            tmp.Name = variable.Name + '[' + i + ']';
+                            tmp.Type = collectionType.Type;
+                            tmp.Value = subVal;
+                            EvaluateVariable(priority, activations, tmp);
+                            i = i + 1;
+                        }
+                    }
+                }
             }
         }
 

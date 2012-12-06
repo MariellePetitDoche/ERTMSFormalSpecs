@@ -35,6 +35,8 @@ namespace DataDictionary.Values
         public StructureValue(Types.Structure structure)
             : base(structure, new Dictionary<string, Utils.INamable>())
         {
+            Enclosing = structure;
+
             foreach (Types.StructureElement element in Structure.Elements)
             {
                 Variables.Variable variable = (Variables.Variable)DataDictionary.Generated.acceptor.getFactory().createVariable();
@@ -75,6 +77,8 @@ namespace DataDictionary.Values
         public StructureValue(StructureValue other)
             : base(other.Structure, new Dictionary<string, Utils.INamable>())
         {
+            Enclosing = other.Structure;
+
             foreach (KeyValuePair<string, Utils.INamable> pair in other.Val)
             {
                 Variables.Variable variable = pair.Value as Variables.Variable;

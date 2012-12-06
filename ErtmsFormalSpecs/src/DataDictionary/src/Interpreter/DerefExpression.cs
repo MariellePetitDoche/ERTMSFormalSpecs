@@ -263,7 +263,7 @@ namespace DataDictionary.Interpreter
             ReturnValue lType = Left.getExpressionTypes(context);
             if (lType.Empty())
             {
-                AddError("Cannot determine refererence of " + Left.ToString());
+                AddError("Cannot determine reference of " + Left.ToString());
             }
 
             foreach (Utils.INamable namable in lType.Values)
