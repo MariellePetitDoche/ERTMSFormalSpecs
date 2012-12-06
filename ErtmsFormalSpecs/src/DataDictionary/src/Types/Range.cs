@@ -637,6 +637,23 @@ namespace DataDictionary.Types
                     retVal.Add(nameSpace.findTypeByName("Distance"));
                 }
             }
+            else
+            {
+                if (IsDouble())
+                {
+                    if (right == EFSSystem.DoubleType)
+                    {
+                        retVal.Add(this);
+                    }
+                }
+                else
+                {
+                    if (right == EFSSystem.IntegerType)
+                    {
+                        retVal.Add(this);
+                    }
+                }
+            }
 
             return retVal;
         }

@@ -1,0 +1,993 @@
+<Dictionary
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="DataDictionary.xsd"
+>
+<Specification
+ version="Test"
+ Name="Requirements"
+>
+</Specification><NameSpaces>
+<NameSpace
+ Name="Default"
+>
+<NameSpaces>
+<NameSpace
+ Name="BaseTypes"
+>
+<Ranges>
+<Range
+ MinValue="-2147483647.0"
+ MaxValue="2147483648.0"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Distance"
+>
+<Comment>Expressed in m</Comment>
+<SpecialValues>
+<EnumValue
+ Value="2147483648.0"
+ Name="Infinity"
+>
+</EnumValue></SpecialValues>
+</Range><Range
+ MinValue="-32768.0"
+ MaxValue="32771.0"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+>
+<Comment>Expressed in km/h</Comment>
+<SpecialValues>
+<EnumValue
+ Value="32769.0"
+ Name="NA"
+>
+</EnumValue><EnumValue
+ Value="32768.0"
+ Name="Infinity"
+>
+</EnumValue><EnumValue
+ Value="200.0"
+ Name="MaxSpeed"
+>
+</EnumValue><EnumValue
+ Value="32770.0"
+ Name="ComputeReleaseSpeedOnBoard"
+>
+</EnumValue><EnumValue
+ Value="32771.0"
+ Name="UseNVForReleaseSpeed"
+>
+</EnumValue></SpecialValues>
+</Range><Range
+ MinValue="0"
+ MaxValue="9999999999"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Time"
+>
+<SpecialValues>
+<EnumValue
+ Value="9999999999.0"
+ Name="Infinity"
+>
+</EnumValue><EnumValue
+ Value="9999999998.0"
+ Name="NA"
+>
+</EnumValue></SpecialValues>
+</Range><Range
+ MinValue="0.0"
+ MaxValue="32769.0"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Length"
+>
+<Comment>Expressed in m</Comment>
+<SpecialValues>
+<EnumValue
+ Value="32769.0"
+ Name="NA"
+>
+</EnumValue><EnumValue
+ Value="32768.0"
+ Name="Infinity"
+>
+</EnumValue></SpecialValues>
+</Range><Range
+ MinValue="0.0"
+ MaxValue="100.0"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Gradient"
+>
+<SpecialValues>
+<EnumValue
+ Value="100.0"
+ Name="Indefinite"
+>
+</EnumValue></SpecialValues>
+</Range><Range
+ MinValue="-32769"
+ MaxValue="32769"
+ Precision="DoublePrecision"
+ Default="0.0"
+ NeedsRequirement="FALSE"
+ Name="Acceleration"
+>
+<Comment>Expressed in m/s/s</Comment>
+<SpecialValues>
+<EnumValue
+ Value="32769.0"
+ Name="NA"
+>
+</EnumValue><EnumValue
+ Value="32768.0"
+ Name="Infinity"
+>
+</EnumValue><EnumValue
+ Value="9.81"
+ Name="g"
+>
+</EnumValue></SpecialValues>
+</Range><Range
+ MinValue="0"
+ MaxValue="32767"
+ Precision="IntegerPrecision"
+ Default="0"
+ NeedsRequirement="FALSE"
+ Name="Number"
+>
+</Range><Range
+ MinValue="0"
+ MaxValue="32767"
+ Precision="IntegerPrecision"
+ Default="0"
+ NeedsRequirement="FALSE"
+ Name="Qualifier"
+>
+</Range><Range
+ MinValue="0"
+ MaxValue="65535"
+ Precision="IntegerPrecision"
+ Default="0"
+ NeedsRequirement="FALSE"
+ Name="IdentityNumber"
+>
+</Range></Ranges>
+<Functions>
+<Function
+ Type="BaseTypes.Length"
+ NeedsRequirement="FALSE"
+ Name="DistanceToLength"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Valid length"
+>
+<PreConditions>
+<PreCondition>Distance &lt; 32768.0</PreCondition>
+<PreCondition>Distance &gt;= 0.0</PreCondition>
+</PreConditions>
+<Expression>Length(Distance)</Expression>
+</Case><Case
+ Name="SpecialValue_Infinity"
+>
+<PreConditions>
+<PreCondition>Distance == 2147483648.0</PreCondition>
+</PreConditions>
+<Expression>32768.0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Distance"
+ NeedsRequirement="FALSE"
+ Name="LengthToDistance"
+>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Length"
+ Name="Length"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="SpecialValue_Infinity"
+>
+<PreConditions>
+<PreCondition>Length &gt;= Length.Infinity</PreCondition>
+</PreConditions>
+<Expression>Distance.Infinity</Expression>
+</Case><Case
+ Name="Valid distance"
+>
+<PreConditions>
+<PreCondition>Length &gt;= 0.0</PreCondition>
+<PreCondition>Length &lt; 32768.0</PreCondition>
+</PreConditions>
+<Expression>Distance(Length)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Length"
+ NeedsRequirement="FALSE"
+ Name="QualifierToLength"
+>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Qualifier"
+ Name="Qualifier"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="ValidQualifier"
+>
+<PreConditions>
+<PreCondition>Qualifier &gt;= 0</PreCondition>
+<PreCondition>Qualifier &lt; 32768</PreCondition>
+</PreConditions>
+<Expression>Length(Qualifier)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Gradient"
+ NeedsRequirement="FALSE"
+ Name="IndefiniteGradientFunction"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Double"
+ Name="Distance"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+>
+<Expression>Gradient.Indefinite</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Gradient"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MinGradient"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Gradient"
+ Name="g1"
+>
+</Parameter><Parameter
+ Type="Gradient"
+ Name="g2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="g1 is indefinite"
+>
+<PreConditions>
+<PreCondition>g1 == Gradient.Indefinite</PreCondition>
+</PreConditions>
+<Expression>g2</Expression>
+</Case><Case
+ Name="g2 is indefinite"
+>
+<PreConditions>
+<PreCondition>g2 == Gradient.Indefinite</PreCondition>
+</PreConditions>
+<Expression>g1</Expression>
+</Case><Case
+ Name="g1 &lt; g2"
+>
+<PreConditions>
+<PreCondition>g1 &lt; g2</PreCondition>
+</PreConditions>
+<Expression>g1</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>g2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Speed"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MinSpeed"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Speed"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Speed"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Speed.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Speed.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Speed"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MaxSpeedFunction"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Double"
+ Name="Distance"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+>
+<Expression>Speed.MaxSpeed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Acceleration"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MinAcceleration"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Acceleration"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Acceleration"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Distance.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Distance.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Distance"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AddDistance"
+>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Distance"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Distance"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 or X2 equal Infinity"
+>
+<PreConditions>
+<PreCondition>X1 == Distance.Infinity OR X2 == Distance.Infinity</PreCondition>
+</PreConditions>
+<Expression>Distance.Infinity</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X1 + X2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Length"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MinLength"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Length"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Length"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Length.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Length.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Distance"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MaxDistance"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Distance"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Distance"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Distance.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Distance.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Speed"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MaxSpeed"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Speed"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Speed"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Speed.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Speed.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Acceleration"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MaxTime"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Time"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Time"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Time.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Time.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Acceleration"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MaxAcceleration"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Acceleration"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Acceleration"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Acceleration.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Acceleration.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Distance"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MinDistance"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Distance"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Distance"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Distance.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Distance.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Speed"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AbsoluteSpeed"
+>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Speed"
+ Name="X"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X is positive"
+>
+<PreConditions>
+<PreCondition>X &gt;= 0.0</PreCondition>
+</PreConditions>
+<Expression>X</Expression>
+</Case><Case
+ Name="X is negative"
+>
+<Expression>- X</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Length"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MaxLength"
+>
+<Comment></Comment>
+<Parameters>
+<Parameter
+ Type="Default.BaseTypes.Length"
+ Name="X1"
+>
+</Parameter><Parameter
+ Type="Default.BaseTypes.Length"
+ Name="X2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 infinite"
+>
+<PreConditions>
+<PreCondition>X1 == Length.Infinity</PreCondition>
+</PreConditions>
+<Expression>X1</Expression>
+</Case><Case
+ Name="X2 infinite"
+>
+<PreConditions>
+<PreCondition>X2 == Length.Infinity</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="X1 &lt; X2"
+>
+<PreConditions>
+<PreCondition>X1 &lt; X2</PreCondition>
+</PreConditions>
+<Expression>X2</Expression>
+</Case><Case
+ Name="Otherwise"
+>
+<Expression>X1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SpeedToMS"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="Val"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+>
+<Expression>Val / 3.6</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SpeedToKmH"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="Val"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+>
+<Expression>Val * 3.6</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="Acceleration"
+ DefaultValue="9.81"
+ VariableMode="Internal"
+ Implemented="TRUE"
+ Verified="TRUE"
+ NeedsRequirement="FALSE"
+ Name="G"
+>
+<Comment>The earth gravity</Comment>
+</Variable></Variables>
+</NameSpace></NameSpaces>
+</NameSpace><NameSpace
+ Name="TestStructure"
+>
+<Ranges>
+<Range
+ MinValue="0"
+ MaxValue="1000"
+ Precision="IntegerPrecision"
+ Default="0"
+ NeedsRequirement="FALSE"
+ Name="Range1"
+>
+</Range></Ranges>
+<Structures>
+<Structure
+ NeedsRequirement="FALSE"
+ Name="Struct1"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ NeedsRequirement="FALSE"
+ Name="Update"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ NeedsRequirement="FALSE"
+ Name="Increase V1"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action>V1 &lt;- Range1(V1 + 1)</Action>
+</Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+<StructureElement
+ TypeName="TestStructure.Range1"
+ Default="0"
+ NeedsRequirement="FALSE"
+ Name="V1"
+>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="Struct1"
+ MaxSize="2"
+ Default="[Struct1{V1=&gt;Range1(0)}, Struct1{V1=&gt;Range1(0)}]"
+ NeedsRequirement="FALSE"
+ Name="Collection1"
+>
+</Collection></Collections>
+<Variables>
+<Variable
+ Type="Collection1"
+ DefaultValue="[
+  TestStructure.Struct1{ V1 =&gt; 0 }, 
+  TestStructure.Struct1{ V1 =&gt; 0 }
+]"
+ NeedsRequirement="FALSE"
+ Name="C"
+>
+</Variable></Variables>
+</NameSpace></NameSpaces>
+<Tests>
+<Frame
+ Name="Structures"
+>
+<SubSequences>
+<SubSequence
+ Name="Activation"
+>
+<TestCases>
+<TestCase
+ Feature="0"
+ Case="0"
+ NeedsRequirement="FALSE"
+ Name="Test rules activation in structures"
+>
+<Steps>
+<Step
+ TranslationRequired="FALSE"
+ Name="Step1"
+>
+<SubSteps>
+<SubStep
+ Name="Sub-step1"
+>
+<Expectations>
+<Expectation
+ Variable=""
+ Blocking="TRUE"
+ DeadLine="1000"
+>(FIRST_IN TestStructure.C).V1 == 5</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame></Tests>
+<TranslationDictionary
+>
+</TranslationDictionary><ShortcutDictionary
+ Name="subset-026"
+>
+<Folders>
+<ShortcutFolder
+ Name="Curves"
+>
+<Shortcuts>
+<Shortcut
+ Name="EBD"
+>
+<ShortcutName>Kernel.SpeedAndDistanceMonitoring.TargetSupervision.EBD</ShortcutName>
+</Shortcut><Shortcut
+ Name="SBD"
+>
+<ShortcutName>Kernel.SpeedAndDistanceMonitoring.TargetSupervision.SBD</ShortcutName>
+</Shortcut><Shortcut
+ Name="GUI"
+>
+<ShortcutName>Kernel.SpeedAndDistanceMonitoring.TargetSupervision.GUI</ShortcutName>
+</Shortcut></Shortcuts>
+</ShortcutFolder><ShortcutFolder
+ Name="Speed resctrictions"
+>
+<Shortcuts>
+<Shortcut
+ Name="EBI"
+>
+<ShortcutName>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.EBI</ShortcutName>
+</Shortcut><Shortcut
+ Name="SBI"
+>
+<ShortcutName>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.SBI</ShortcutName>
+</Shortcut><Shortcut
+ Name="P"
+>
+<ShortcutName>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.P</ShortcutName>
+</Shortcut><Shortcut
+ Name="W"
+>
+<ShortcutName>Kernel.SpeedAndDistanceMonitoring.CeilingSupervision.W</ShortcutName>
+</Shortcut><Shortcut
+ Name="MRSPSpeedRestrictions"
+>
+<ShortcutName>Kernel.MRSP.SpeedRestrictions</ShortcutName>
+</Shortcut><Shortcut
+ Name="TSRSpeedRestrictions"
+>
+<ShortcutName>Kernel.TSR.SpeedRestrictions</ShortcutName>
+</Shortcut><Shortcut
+ Name="LXSpeedRestrictions"
+>
+<ShortcutName>Kernel.LX.SpeedRestrictions</ShortcutName>
+</Shortcut></Shortcuts>
+</ShortcutFolder></Folders>
+<Shortcuts>
+<Shortcut
+ Name="Mode"
+>
+<ShortcutName>Kernel.Mode</ShortcutName>
+</Shortcut><Shortcut
+ Name="HandleModeChange"
+>
+<ShortcutName>Kernel.HandleModeChange</ShortcutName>
+</Shortcut><Shortcut
+ Name="A_safe"
+>
+<ShortcutName>Kernel.TrainData.BrakingParameters.A_safe</ShortcutName>
+</Shortcut></Shortcuts>
+</ShortcutDictionary></Dictionary>

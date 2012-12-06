@@ -361,7 +361,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public Dictionary<string, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
         {
-            InterpretationContext ctxt = new InterpretationContext(Root, context.LocalScope, true);
+            InterpretationContext ctxt = new InterpretationContext(context, true);
             // Compute the unnamed actual parameter values
             Dictionary<string, Values.IValue> retVal = new Dictionary<string, Values.IValue>();
 
