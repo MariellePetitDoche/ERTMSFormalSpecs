@@ -136,8 +136,7 @@ namespace Importers
                     newSubSequence.AddModelElement(aTestCase);
                     if (trainIsGamma)
                     {
-                        /// TODO
-                        /*verifyInputForGamma(aTestCase, workbook);*/
+                        verifyInputForGamma(aTestCase, workbook);
                     }
                     else
                     {
@@ -257,8 +256,8 @@ namespace Importers
             aWorksheet = workbook.Sheets[6] as Worksheet;
             dumpWorksheet(aWorksheet);
 
-            importGammaBrakeParameters(aSubStep, aWorksheet, 2, 8);   // first combination
-            importGammaBrakeParameters(aSubStep, aWorksheet, 3, 20);  // second combination
+            importGammaBrakeParameters(aSubStep, aWorksheet, 2, 8, true);   // first combination
+            importGammaBrakeParameters(aSubStep, aWorksheet, 3, 20, false);  // second combination
 
 
 
@@ -695,30 +694,31 @@ namespace Importers
 
 
 
-        private static void importGammaBrakeParameters(SubStep aSubStep, Worksheet aWorksheet, int brakesCombinationColumnNumber, int dataColumnNumber)
+        private static void importGammaBrakeParameters(SubStep aSubStep, Worksheet aWorksheet, int brakesCombinationColumnNumber, int dataColumnNumber, bool initializeBrakes)
         {
             Range aRange = aWorksheet.UsedRange;
 
             string brakesCombination = "";
             object obj = (aRange.Cells[7, brakesCombinationColumnNumber] as Range).Value2;
-            brakesCombination += obj == null ? "" : "EddyCurrent";
-            obj = (aRange.Cells[8, brakesCombinationColumnNumber] as Range).Value2;
-            if (brakesCombination == "")
+            if (obj != null)
             {
-                brakesCombination += obj == null ? "" : "Magnetic";
+                if(initializeBrakes)
+                    addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.EddyCurrentBrake <- Kernel.TrainData.BrakingParameters.SpecialBrake\n{{\n    IsActive => True,\n    InterfaceStatus => Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both\n}}"));
+                brakesCombination += obj == null ? "" : "EddyCurrent";
             }
-            else
+            obj = (aRange.Cells[8, brakesCombinationColumnNumber] as Range).Value2;
+            if (obj != null)
             {
-                brakesCombination += obj == null ? "" : "_Magnetic";
+                if(initializeBrakes)
+                    addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.MagneticShoeBrake <- Kernel.TrainData.BrakingParameters.SpecialBrake\n{{\n    IsActive => True,\n    InterfaceStatus => Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both\n}}"));
+                brakesCombination += brakesCombination == "" ? "Magnetic" : "_Magnetic";
             }
             obj = (aRange.Cells[6, brakesCombinationColumnNumber] as Range).Value2;
-            if (brakesCombination == "")
+            if (obj != null)
             {
-                brakesCombination += obj == null ? "" : "Regenerative";
-            }
-            else
-            {
-                brakesCombination += obj == null ? "" : "_Regenerative";
+                if(initializeBrakes)
+                    addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.RegenerativeBrake <- Kernel.TrainData.BrakingParameters.SpecialBrake\n{{\n    IsActive => True,\n    InterfaceStatus => Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both\n}}"));
+                brakesCombination += brakesCombination == "" ? "Regenerative" : "_Regenerative";
             }
 
 
@@ -811,7 +811,18 @@ namespace Importers
 
         private static void verifyInputForGamma(TestCase aTestCase, Workbook workbook)
         {
-            throw new NotImplementedException();
+            Step aStep = new Step();
+            aStep.Name = "Step1 - Verify input";
+            aTestCase.AddModelElement(aStep);
+
+
+
+            /*********************************** TRAIN DATA ***********************************/
+            SubStep aSubStep = new SubStep();
+            aSubStep.Name = "SubStep1 - Train data";
+            aStep.AddModelElement(aSubStep);
+
+            addExpectation(aSubStep, "Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() == False");
         }
 
 
