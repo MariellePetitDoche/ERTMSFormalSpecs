@@ -13,15 +13,9 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 
-using System.Drawing;
-using System.Drawing.Design;
 
 namespace GUI
 {
@@ -56,38 +50,10 @@ namespace GUI
         /// Constructor
         /// </summary>
         /// <param name="item"></param>
-        protected ReferencesParagraphTreeNode(T item)
-            : base(item)
+        protected ReferencesParagraphTreeNode(T item, string name = null, bool addRequirements = true)
+            : base(item, name)
         {
             HandleRequirements = true;
-            if (item.Requirements.Count > 0)
-            {
-                ReqReferences = new ReqRefsTreeNode(item);
-                Nodes.Add(ReqReferences);
-            }
-        }
-
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="item"></param>
-        protected ReferencesParagraphTreeNode(string name, T item)
-            : base(name, item)
-        {
-            HandleRequirements = true;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="item"></param>
-        protected ReferencesParagraphTreeNode(string name, T item, bool addRequirements)
-            : base(name, item)
-        {
-            HandleRequirements = addRequirements;
             if (addRequirements && item.Requirements.Count > 0)
             {
                 ReqReferences = new ReqRefsTreeNode(item);

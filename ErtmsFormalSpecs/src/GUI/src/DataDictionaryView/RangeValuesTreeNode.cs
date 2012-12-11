@@ -29,14 +29,12 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public RangeValuesTreeNode(DataDictionary.Types.Range item)
-            : base("Special values", item)
+            : base(item, "Special values")
         {
             foreach (DataDictionary.Constants.EnumValue value in item.SpecialValues)
             {
                 Nodes.Add(new EnumerationValueTreeNode(value));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

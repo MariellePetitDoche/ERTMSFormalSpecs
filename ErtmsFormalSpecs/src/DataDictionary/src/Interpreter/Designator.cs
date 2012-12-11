@@ -164,7 +164,7 @@ namespace DataDictionary.Interpreter
                     {
                         instance = null;
                     }
-                } while (instance != null && !(instance is Variables.Variable) && !(instance is Variables.Procedure));
+                } while (instance != null && !(instance is Variables.IVariable) && !(instance is Values.IValue) && !(instance is Variables.IProcedure));
             }
 
             if (context.GlobalFind)
@@ -173,7 +173,7 @@ namespace DataDictionary.Interpreter
 
                 // Find in the enclosing items
                 // Except the enclosing dictionary since dictionaries are handled in a later step
-                ModelElement current = Root;
+                INamable current = Root;
                 while (current != null)
                 {
                     Utils.ISubDeclarator subDeclarator = current as Utils.ISubDeclarator;
@@ -182,7 +182,15 @@ namespace DataDictionary.Interpreter
                         FillBySubdeclarator(retVal, subDeclarator);
                     }
 
-                    current = current.Enclosing as ModelElement;
+                    IEnclosed enclosed = current as IEnclosed;
+                    if (enclosed != null)
+                    {
+                        current = enclosed.Enclosing as INamable;
+                    }
+                    else
+                    {
+                        current = null;
+                    }
                 }
 
                 // Find in the dictionaries declared in the system

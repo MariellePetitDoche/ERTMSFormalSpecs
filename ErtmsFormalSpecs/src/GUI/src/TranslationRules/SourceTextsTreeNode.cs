@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.TranslationRules
@@ -39,14 +37,12 @@ namespace GUI.TranslationRules
         /// </summary>
         /// <param name="item"></param>
         public SourceTextsTreeNode(DataDictionary.Tests.Translations.Translation item)
-            : base("Source texts", item)
+            : base(item, "Source texts", true)
         {
             foreach (DataDictionary.Tests.Translations.SourceText sourceText in item.SourceTexts)
             {
                 Nodes.Add(new SourceTextTreeNode(sourceText));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

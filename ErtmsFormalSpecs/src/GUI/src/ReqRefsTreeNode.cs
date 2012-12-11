@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI
@@ -42,14 +40,12 @@ namespace GUI
         /// </summary>
         /// <param name="item"></param>
         public ReqRefsTreeNode(DataDictionary.ReferencesParagraph item)
-            : base("Requirements", item)
+            : base(item, "Requirements", true)
         {
             foreach (DataDictionary.ReqRef req in item.Requirements)
             {
                 Nodes.Add(new ReqRefTreeNode(req));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

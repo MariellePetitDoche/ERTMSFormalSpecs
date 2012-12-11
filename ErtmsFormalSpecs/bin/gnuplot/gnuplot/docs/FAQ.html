@@ -1,0 +1,2420 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Gnuplot FAQ</TITLE>
+<META NAME="description" CONTENT="Gnuplot FAQ">
+<META NAME="keywords" CONTENT="faq">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="faq.css">
+
+</HEAD>
+
+<BODY >
+
+<H1 ALIGN="CENTER"><SPAN  CLASS="textbf">Gnuplot</SPAN> FAQ</H1>
+<DIV CLASS="author_info">
+
+</DIV>
+
+<P>
+This document deals with <SPAN  CLASS="textbf">gnuplot</SPAN> version 4.2 which is the
+latest official release as of March 2007.
+        
+<BR>
+Its version is 
+<code>$Revision: 1.32 $</code>, dated
+<code>$Date: 2007/03/12 17:43:14 $</code>.
+
+<P>
+<BR>
+
+<H2><A NAME="SECTION00010000000000000000">
+Contents</A>
+</H2>
+<!--Table of Contents-->
+
+<UL CLASS="TofC">
+<LI><A NAME="tex2html166"
+  HREF="faq.html#SECTION00020000000000000000">0 Meta - Questions</A>
+<UL>
+<LI><A NAME="tex2html167"
+  HREF="faq.html#SECTION00021000000000000000">0.1 Where do I get this document?</A>
+<LI><A NAME="tex2html168"
+  HREF="faq.html#SECTION00022000000000000000">0.2 Where do I send comments about this document?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html169"
+  HREF="faq.html#SECTION00030000000000000000">1 General Information</A>
+<UL>
+<LI><A NAME="tex2html170"
+  HREF="faq.html#SECTION00031000000000000000">1.1 What is gnuplot?</A>
+<LI><A NAME="tex2html171"
+  HREF="faq.html#SECTION00032000000000000000">1.2 How did it come about and why is it called gnuplot?</A>
+<LI><A NAME="tex2html172"
+  HREF="faq.html#SECTION00033000000000000000">1.3 What does gnuplot offer?</A>
+<LI><A NAME="tex2html173"
+  HREF="faq.html#SECTION00034000000000000000">1.4 Is gnuplot suitable for scripting?</A>
+<LI><A NAME="tex2html174"
+  HREF="faq.html#SECTION00035000000000000000">1.5 Can I run gnuplot on my computer?</A>
+<LI><A NAME="tex2html175"
+  HREF="faq.html#SECTION00036000000000000000">1.6 Legalities</A>
+<LI><A NAME="tex2html176"
+  HREF="faq.html#SECTION00037000000000000000">1.7 Does gnuplot have anything to do with the FSF and the GNU
+project?</A>
+<LI><A NAME="tex2html177"
+  HREF="faq.html#SECTION00038000000000000000">1.8 Where do I get further information?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html178"
+  HREF="faq.html#SECTION00040000000000000000">2 Setting it up</A>
+<UL>
+<LI><A NAME="tex2html179"
+  HREF="faq.html#SECTION00041000000000000000">2.1 What is the current version of gnuplot?</A>
+<LI><A NAME="tex2html180"
+  HREF="faq.html#SECTION00042000000000000000">2.2 Where can I get gnuplot?</A>
+<LI><A NAME="tex2html181"
+  HREF="faq.html#SECTION00043000000000000000">2.3 Where can I get current development version of gnuplot?</A>
+<LI><A NAME="tex2html182"
+  HREF="faq.html#SECTION00044000000000000000">2.4 How do I get gnuplot to compile on my system?</A>
+<LI><A NAME="tex2html183"
+  HREF="faq.html#SECTION00045000000000000000">2.5 What documentation is there, and how do I get it?</A>
+<LI><A NAME="tex2html184"
+  HREF="faq.html#SECTION00046000000000000000">2.6 Worked examples</A>
+<LI><A NAME="tex2html185"
+  HREF="faq.html#SECTION00047000000000000000">2.7 How do I modify gnuplot, and apply 'patches'?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html186"
+  HREF="faq.html#SECTION00050000000000000000">3 Working with it.</A>
+<UL>
+<LI><A NAME="tex2html187"
+  HREF="faq.html#SECTION00051000000000000000">3.1 How do I get help?</A>
+<LI><A NAME="tex2html188"
+  HREF="faq.html#SECTION00052000000000000000">3.2 How do I print out my graphs?</A>
+<LI><A NAME="tex2html189"
+  HREF="faq.html#SECTION00053000000000000000">3.3 How do I include my graphs in &lt;word processor&gt;?</A>
+<LI><A NAME="tex2html190"
+  HREF="faq.html#SECTION00054000000000000000">3.4 How do I edit or post-process a gnuplot graph?</A>
+<LI><A NAME="tex2html191"
+  HREF="faq.html#SECTION00055000000000000000">3.5 How do I change symbol size, line thickness and the like?</A>
+<LI><A NAME="tex2html192"
+  HREF="faq.html#SECTION00056000000000000000">3.6 How do I generate plots in GIF format?</A>
+<LI><A NAME="tex2html193"
+  HREF="faq.html#SECTION00057000000000000000">3.7 Can I animate my graphs?</A>
+<LI><A NAME="tex2html194"
+  HREF="faq.html#SECTION00058000000000000000">3.8 How do I plot implicit defined graphs?</A>
+<LI><A NAME="tex2html195"
+  HREF="faq.html#SECTION00059000000000000000">3.9 How to fill an area between two curves</A>
+<LI><A NAME="tex2html196"
+  HREF="faq.html#SECTION000510000000000000000">3.10 Pm3d splot from a datafile does not draw anything</A>
+<LI><A NAME="tex2html197"
+  HREF="faq.html#SECTION000511000000000000000">3.11 Drawing a (color) map, i.e. 2D projection of 3D data</A>
+<LI><A NAME="tex2html198"
+  HREF="faq.html#SECTION000512000000000000000">3.12 How to overlay dots/points scatter plot onto a pm3d map/surface</A>
+<LI><A NAME="tex2html199"
+  HREF="faq.html#SECTION000513000000000000000">3.13 How to draw black contour plot, and contours with labels</A>
+<LI><A NAME="tex2html200"
+  HREF="faq.html#SECTION000514000000000000000">3.14 How to overlay contour plot over pm3d map/surface</A>
+<LI><A NAME="tex2html201"
+  HREF="faq.html#SECTION000515000000000000000">3.15 Color facets with pm3d</A>
+<LI><A NAME="tex2html202"
+  HREF="faq.html#SECTION000516000000000000000">3.16 Palette for printing my color map on color as well as black&amp;white
+printer?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html203"
+  HREF="faq.html#SECTION00060000000000000000">4 Wanted features</A>
+<UL>
+<LI><A NAME="tex2html204"
+  HREF="faq.html#SECTION00061000000000000000">4.1 What's new in gnuplot 3.7, 4.0, 4.2 etc?</A>
+<LI><A NAME="tex2html205"
+  HREF="faq.html#SECTION00062000000000000000">4.2 Does gnuplot support a driver for &lt;graphics format&gt;?</A>
+<LI><A NAME="tex2html206"
+  HREF="faq.html#SECTION00063000000000000000">4.3 Does gnuplot have hidden line removal?</A>
+<LI><A NAME="tex2html207"
+  HREF="faq.html#SECTION00064000000000000000">4.4 Does gnuplot support bar-charts/histograms/boxes?</A>
+<LI><A NAME="tex2html208"
+  HREF="faq.html#SECTION00065000000000000000">4.5 Does gnuplot support pie charts?</A>
+<LI><A NAME="tex2html209"
+  HREF="faq.html#SECTION00066000000000000000">4.6 Does gnuplot quarterly time charts?</A>
+<LI><A NAME="tex2html210"
+  HREF="faq.html#SECTION00067000000000000000">4.7 Can I put multiple pages on one page?</A>
+<LI><A NAME="tex2html211"
+  HREF="faq.html#SECTION00068000000000000000">4.8 Does gnuplot support multiple y-axes on a single plot?</A>
+<LI><A NAME="tex2html212"
+  HREF="faq.html#SECTION00069000000000000000">4.9 Can I put both commands and data into a single file?</A>
+<LI><A NAME="tex2html213"
+  HREF="faq.html#SECTION000610000000000000000">4.10 Can I put Greek letters and super/subscripts into my labels?</A>
+<LI><A NAME="tex2html214"
+  HREF="faq.html#SECTION000611000000000000000">4.11 How do I include accented characters</A>
+<LI><A NAME="tex2html215"
+  HREF="faq.html#SECTION000612000000000000000">4.12 Can I do 1:1 scaling of axes?</A>
+<LI><A NAME="tex2html216"
+  HREF="faq.html#SECTION000613000000000000000">4.13 Can I put different text sizes into my plots?</A>
+<LI><A NAME="tex2html217"
+  HREF="faq.html#SECTION000614000000000000000">4.14 How do I skip data points?</A>
+<LI><A NAME="tex2html218"
+  HREF="faq.html#SECTION000615000000000000000">4.15 How do I plot every nth point?</A>
+<LI><A NAME="tex2html219"
+  HREF="faq.html#SECTION000616000000000000000">4.16 How do I plot a vertical line?</A>
+<LI><A NAME="tex2html220"
+  HREF="faq.html#SECTION000617000000000000000">4.17 How do I plot data files</A>
+<LI><A NAME="tex2html221"
+  HREF="faq.html#SECTION000618000000000000000">4.18 How do I replot multiplot drawing</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html222"
+  HREF="faq.html#SECTION00070000000000000000">5 Miscellaneous</A>
+<UL>
+<LI><A NAME="tex2html223"
+  HREF="faq.html#SECTION00071000000000000000">5.1 I've found a bug, what do I do?</A>
+<LI><A NAME="tex2html224"
+  HREF="faq.html#SECTION00072000000000000000">5.2 Can I use gnuplot routines for my own programs?</A>
+<LI><A NAME="tex2html225"
+  HREF="faq.html#SECTION00073000000000000000">5.3 What extensions have people made to gnuplot? Where can I get
+them?</A>
+<LI><A NAME="tex2html226"
+  HREF="faq.html#SECTION00074000000000000000">5.4 I need an integration, fft, iir-filter,...!</A>
+<LI><A NAME="tex2html227"
+  HREF="faq.html#SECTION00075000000000000000">5.5 Can I do heavy-duty data processing with gnuplot? or
+What is beyond gnuplot?</A>
+<LI><A NAME="tex2html228"
+  HREF="faq.html#SECTION00076000000000000000">5.6 Mouse in my interactive terminal does not work</A>
+<LI><A NAME="tex2html229"
+  HREF="faq.html#SECTION00077000000000000000">5.7 How to use hotkeys in my interactive terminals</A>
+<LI><A NAME="tex2html230"
+  HREF="faq.html#SECTION00078000000000000000">5.8 I have ported gnuplot to another system, or patched it. What
+do I do?</A>
+<LI><A NAME="tex2html231"
+  HREF="faq.html#SECTION00079000000000000000">5.9 I want to help in developing the next version of gnuplot.
+What can I do?</A>
+<LI><A NAME="tex2html232"
+  HREF="faq.html#SECTION000710000000000000000">5.10 Open questions for inclusion into the FAQ?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html233"
+  HREF="faq.html#SECTION00080000000000000000">6 Making life easier</A>
+<UL>
+<LI><A NAME="tex2html234"
+  HREF="faq.html#SECTION00081000000000000000">6.1 How do I plot two functions in non-overlapping regions?</A>
+<LI><A NAME="tex2html235"
+  HREF="faq.html#SECTION00082000000000000000">6.2 How do I run my data through a filter before plotting?</A>
+<LI><A NAME="tex2html236"
+  HREF="faq.html#SECTION00083000000000000000">6.3 How do I make it easier to use gnuplot with L<SUP>A</SUP>TEX?</A>
+<LI><A NAME="tex2html237"
+  HREF="faq.html#SECTION00084000000000000000">6.4 How do I save and restore my settings?</A>
+<LI><A NAME="tex2html238"
+  HREF="faq.html#SECTION00085000000000000000">6.5 How do I plot lines (not grids) using splot?</A>
+<LI><A NAME="tex2html239"
+  HREF="faq.html#SECTION00086000000000000000">6.6 How do I plot a function f(x,y) that is bounded by other functions in the x-y plane?</A>
+<LI><A NAME="tex2html240"
+  HREF="faq.html#SECTION00087000000000000000">6.7 How do I turn off &lt;feature&gt; in a plot?</A>
+<LI><A NAME="tex2html241"
+  HREF="faq.html#SECTION00088000000000000000">6.8 How do I call gnuplot from my own programs?</A>
+<LI><A NAME="tex2html242"
+  HREF="faq.html#SECTION00089000000000000000">6.9 What if I need h-bar (Planck's constant)?</A>
+<LI><A NAME="tex2html243"
+  HREF="faq.html#SECTION000810000000000000000">6.10 What if I need the Solar mass symbol?</A>
+<LI><A NAME="tex2html244"
+  HREF="faq.html#SECTION000811000000000000000">6.11 How do I produce blank output page?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html245"
+  HREF="faq.html#SECTION00090000000000000000">7 Common problems</A>
+<UL>
+<LI><A NAME="tex2html246"
+  HREF="faq.html#SECTION00091000000000000000">7.1 Help! None of my fonts work.</A>
+<LI><A NAME="tex2html247"
+  HREF="faq.html#SECTION00092000000000000000">7.2 Gnuplot is not plotting any points under X11! How come?</A>
+<LI><A NAME="tex2html248"
+  HREF="faq.html#SECTION00093000000000000000">7.3 Why does gnuplot ignore my very small numbers?</A>
+<LI><A NAME="tex2html249"
+  HREF="faq.html#SECTION00094000000000000000">7.4 Gnuplot is not plotting on the screen when run from command line via 'gnuplot filename.gp'</A>
+<LI><A NAME="tex2html250"
+  HREF="faq.html#SECTION00095000000000000000">7.5 My formulas (like 1/3) are giving me nonsense results! What's going on?</A>
+<LI><A NAME="tex2html251"
+  HREF="faq.html#SECTION00096000000000000000">7.6 Set output 'filename' isn't outputting everything it
+should!</A>
+<LI><A NAME="tex2html252"
+  HREF="faq.html#SECTION00097000000000000000">7.7 When using the L<SUP>A</SUP>TEX-terminal, there is an error during
+the L<SUP>A</SUP>TEX-run!</A>
+<LI><A NAME="tex2html253"
+  HREF="faq.html#SECTION00098000000000000000">7.8 I can't find the demos and example files at the URLs in the
+documentation!</A>
+<LI><A NAME="tex2html254"
+  HREF="faq.html#SECTION00099000000000000000">7.9 Calling gnuplot in a pipe or with a gnuplot-script
+doesn't produce a plot!</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html255"
+  HREF="faq.html#SECTION000100000000000000000">8 Credits</A>
+</UL>
+<!--End of Table of Contents-->
+<P>
+
+<H1><A NAME="SECTION00020000000000000000">
+<SPAN CLASS="arabic">0</SPAN> Meta - Questions</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00021000000000000000">
+<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">1</SPAN> Where do I get this document?</A>
+</H2>
+
+<P>
+The newest version of this document is on the web at
+<A NAME="tex2html1"
+  HREF="http://www.gnuplot.info/faq/"><TT>http://www.gnuplot.info/faq/</TT></A>.
+
+<P>
+This document was/is posted sometimes to the newsgroups
+&nbsp;~<A NAME="tex2html2"
+  HREF="news:comp.graphics.apps.gnuplot"><TT>comp.graphics.apps.gnuplot</TT></A>.
+
+<P>
+
+<H2><A NAME="SECTION00022000000000000000">
+<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN> Where do I send comments about this document?</A>
+</H2>
+
+<P>
+Send comments, suggestions etc via email to the developer mailing list
+<A NAME="tex2html3"
+  HREF="mailto:gnuplot-beta@lists.sourceforge.net"><TT>gnuplot-beta@lists.sourceforge.net</TT></A>.
+Please contribute your suggestions with respect to the file <code>faq.tex</code> 
+available from <A NAME="tex2html4"
+  HREF="http://cvs.sourceforge.net/viewcvs.py/gnuplot/faq/"><TT>http://cvs.sourceforge.net/viewcvs.py/gnuplot/faq/</TT></A>.
+
+<P>
+
+<H1><A NAME="SECTION00030000000000000000">
+<SPAN CLASS="arabic">1</SPAN> General Information</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00031000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> What is <SPAN  CLASS="textbf">gnuplot</SPAN>?</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">gnuplot</SPAN> is a command-driven interactive function plotting
+program. It can be used to plot functions and data points in
+both two- and three-dimensional plots in many different
+formats. It is designed primarily for the visual display of
+scientific data.
+<SPAN  CLASS="textbf">gnuplot</SPAN> is copyrighted, but freely distributable;
+you don't have to pay for it.
+
+<P>
+
+<H2><A NAME="SECTION00032000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> How did it come about and why is it called <SPAN  CLASS="textbf">gnuplot</SPAN>?</A>
+</H2>
+
+<P>
+The authors of <SPAN  CLASS="textbf">gnuplot</SPAN> are:
+Thomas Williams, Colin Kelley, Russell Lang, Dave Kotz, John
+Campbell, Gershon Elber, Alexander Woo and many others.
+
+<P>
+The following quote comes from Thomas Williams:
+<BLOCKQUOTE>
+I was taking a differential equation class and Colin was taking
+     Electromagnetics, we both thought it'd be helpful to visualize the
+     mathematics behind them. We were both working as sys admin for an
+     EE VLSI lab, so we had the graphics terminals and the time to do
+     some coding. The posting was better received than we expected, and
+     prompted us to add some, albeit lame, support for file data.
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>Any reference to GNUplot is incorrect. The real name of the program
+     is "<SPAN  CLASS="textbf">gnuplot</SPAN>". You see people use "<SPAN  CLASS="textbf">Gnuplot</SPAN>" quite a bit because many
+     of us have an aversion to starting a sentence with a lower case
+     letter, even in the case of proper nouns and titles. <SPAN  CLASS="textbf">gnuplot</SPAN> is not
+     related to the GNU project or the FSF in any but the most
+     peripheral sense. Our software was designed completely
+     independently and the name "<SPAN  CLASS="textbf">gnuplot</SPAN>" was actually a compromise. I
+     wanted to call it "llamaplot" and Colin wanted to call it "nplot."
+     We agreed that "newplot" was acceptable but, we then discovered
+     that there was an absolutely ghastly pascal program of that name
+     that the Computer Science Dept. occasionally used. I decided that
+     "<SPAN  CLASS="textbf">gnuplot</SPAN>" would make a nice pun and after a fashion Colin agreed.
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION00033000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">3</SPAN> What does <SPAN  CLASS="textbf">gnuplot</SPAN> offer?</A>
+</H2>
+
+<P>
+
+<UL>
+<LI>Plotting two-dimensional functions and data points in many
+different styles (points, lines, error bars)
+</LI>
+<LI>Plotting three-dimensional data points and surfaces in
+many different styles (contour plot, mesh)
+</LI>
+<LI>Algebraic computation in integer, float and complex arithmetic
+</LI>
+<LI>User-defined functions and hot-keys
+</LI>
+<LI>Support for a large number of operating systems, graphics
+file formats and output devices
+</LI>
+<LI>Extensive on-line help
+</LI>
+<LI><SPAN CLASS="logo-TeX">T<SMALL>E</SMALL>X</SPAN>-like text formatting for labels, titles, axes, data points
+</LI>
+<LI>Interactive command line editing and history (most platforms)
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00034000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">4</SPAN> Is <SPAN  CLASS="textbf">gnuplot</SPAN> suitable for scripting?</A>
+</H2>
+
+<P>
+Yes. Gnuplot can read in files containing additional commands during
+an interactive session, or it can be run in batch mode by piping a
+pre-existing file or a stream of commands to stdin. Gnuplot is used
+as a back-end graphics driver by such higher-level mathematical 
+packages as Octave, and can easily be wrapped in a cgi script for
+use as a web-driven plot generator.
+
+<P>
+
+<H2><A NAME="SECTION00035000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">5</SPAN> Can I run <SPAN  CLASS="textbf">gnuplot</SPAN> on my computer?</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> is available for a number of platforms. These are: Unix
+(X11 and NeXTSTEP), Linux, VMS, OS/2, MS-DOS, Amiga, MS-Windows,
+OS-9/68k, Atari ST, BeOS, and Macintosh.
+
+<P>
+Please notify the FAQ-maintainer of any further ports you
+might be aware of.
+
+<P>
+You should be able to compile the <SPAN  CLASS="textbf">gnuplot</SPAN> source more or
+less out of the box on any reasonable standard (ANSI/ISO C, POSIX)
+environment.
+
+<P>
+
+<H2><A NAME="SECTION00036000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">6</SPAN> Legalities</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> is freeware authored by a collection of volunteers, who cannot
+make any legal statement about the compliance or non-compliance of
+<SPAN  CLASS="textbf">gnuplot</SPAN> or its uses. There is also no warranty whatsoever. Use at your
+own risk.
+
+<P>
+Citing from the README of a mathematical subroutine package by R. Freund:
+
+<P>
+<BLOCKQUOTE>
+For all intent and purpose, any description of what the codes are doing
+should be construed as being a note of what we thought the codes did on
+our machine on a particular Tuesday of last year.  If you're really
+lucky, they might do the same for you someday.  Then again, do you
+really feel *that* lucky?
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION00037000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">7</SPAN> Does <SPAN  CLASS="textbf">gnuplot</SPAN> have anything to do with the FSF and the GNU
+project?</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> is neither written nor maintained by the FSF. It is not
+covered by the General Public License, either. It used to be distributed
+by the FSF, however, due to licensing issues it is no longer.
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> is freeware in the sense that you don't have to pay
+for it. However it is not freeware in the sense that you would be
+allowed to distribute a modified version of your <SPAN  CLASS="textbf">gnuplot</SPAN> freely.
+Please read and accept the <TT>Copyright</TT> file in your distribution.
+
+<P>
+
+<H2><A NAME="SECTION00038000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">8</SPAN> Where do I get further information?</A>
+</H2>
+
+<P>
+See the main gnuplot web page <A NAME="tex2html5"
+  HREF="http://www.gnuplot.info"><TT>http://www.gnuplot.info</TT></A>
+and references therein,
+mainly gnuplot links <A NAME="tex2html6"
+  HREF="http://gnuplot.sourceforge.net/links.html"><TT>http://gnuplot.sourceforge.net/links.html</TT></A>.
+
+<P>
+Some documentation and tutorials are available in other languages than English.
+See <A NAME="tex2html7"
+  HREF="http://gnuplot.sourceforge.net/help.html"><TT>http://gnuplot.sourceforge.net/help.html</TT></A>, section "Localized learning pages
+about gnuplot", for the most up-to-date list.
+
+<P>
+
+<H1><A NAME="SECTION00040000000000000000">
+<SPAN CLASS="arabic">2</SPAN> Setting it up</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00041000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">1</SPAN> What is the current version of <SPAN  CLASS="textbf">gnuplot</SPAN>?</A>
+</H2>
+
+<P>
+The current released version of <SPAN  CLASS="textbf">gnuplot</SPAN> is 4.2.
+
+<P>
+
+<H2><A NAME="SECTION00042000000000000000"></A>
+<A NAME="where-get-gnuplot"></A>
+<BR>
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">2</SPAN> Where can I get <SPAN  CLASS="textbf">gnuplot</SPAN>?
+</H2>
+
+<P>
+The best place is definitely <A NAME="tex2html8"
+  HREF="http://www.gnuplot.info"><TT>http://www.gnuplot.info</TT></A>. From there
+you find various pointers to other sites.
+
+<P>
+The source distribution ("gnuplot-4.2.0.tar.gz" or a similar name) is
+available from the official distribution site and its mirrors.
+
+<P>
+The main server is <A NAME="tex2html9"
+  HREF="ftp://ftp.gnuplot.info/pub/gnuplot/"><TT>ftp.gnuplot.info</TT> in <TT>/pub/gnuplot/</TT></A>. This server is
+mirrored by several others, among those are
+
+<UL>
+<LI><A NAME="tex2html10"
+  HREF="ftp://mirror.aarnet.edu.au/pub/gnuplot/"><TT>mirror.aarnet.edu.au</TT> in <TT>/pub/gnuplot/</TT></A>
+</LI>
+<LI><A NAME="tex2html11"
+  HREF="ftp://ftp.dartmouth.edu/pub/gnuplot/"><TT>ftp.dartmouth.edu</TT> in <TT>/pub/gnuplot/</TT></A>
+</LI>
+<LI><A NAME="tex2html12"
+  HREF="ftp://ftp.irisa.fr/pub/gnuplot/"><TT>ftp.irisa.fr</TT> in <TT>/pub/gnuplot/</TT></A>
+</LI>
+<LI><A NAME="tex2html13"
+  HREF="ftp://ftp.gnuplot.vt.edu/pub/gnuplot/"><TT>ftp.gnuplot.vt.edu</TT> in <TT>/pub/gnuplot/</TT></A>
+</LI>
+</UL>
+
+<P>
+As of June 1999, the <SPAN  CLASS="textbf">gnuplot</SPAN> distribution is also mirrored
+at the Comprehensive TeX Archive Network (CTAN) in the
+<TT>graphics/gnuplot</TT> directory. See
+
+<UL>
+<LI><A NAME="tex2html14"
+  HREF="http://www.ctan.org/"><TT>http://www.ctan.org/</TT></A>.
+</LI>
+</UL>
+
+<P>
+The following platform-specific sites below still exist, but may
+or may not still hold gnuplot executables. 
+
+<P>
+
+<UL>
+<LI>Source and binary distributions for the Amiga are available on
+Aminet <A NAME="tex2html15"
+  HREF="ftp://ftp.wustl.edu~aminet/"><TT>ftp.wustl.edu</TT> in <TT>&nbsp;aminet/</TT></A>
+and its mirrors, for example
+ftp.uni-kl.de, oes.orst.edu or ftp.luth.se.
+
+<P>
+</LI>
+<LI>MS-DOS and MS-Windows binaries are available from
+the above servers and are called for example
+gp37dos.zip, gp37dj.zip, gp37w16.zip, gp37mgw.zip, gnuplot3.7cyg.zip.
+OS/2 binaries are called gp37os2.zip.
+
+<P>
+</LI>
+<LI>The NeXTSTEP front end can be found at
+<A NAME="tex2html16"
+  HREF="ftp://next-ftp.peak.org/pub/next/binaries/plotting/Gnuplot1.2_bin.tar.Z"><TT>next-ftp.peak.org</TT> in <TT>/pub/next/binaries/plotting/Gnuplot1.2_bin.tar.Z</TT></A>.
+
+<P>
+</LI>
+<LI>A version for OS-9/68K can be found at
+<A NAME="tex2html17"
+  HREF="ftp://cabrales.cs.wisc.edu/pub/OSK/GRAPHICS/gnuplot32x.tar.Z"><TT>cabrales.cs.wisc.edu</TT> in <TT>/pub/OSK/GRAPHICS/gnuplot32x.tar.Z</TT></A>; it
+includes both an X-Window Systems and a non - X-Window Systems
+version.
+
+<P>
+</LI>
+<LI>Versions for the Atari ST and TT, which include some GEM
+windowing support, are available from
+<A NAME="tex2html18"
+  HREF="ftp://ftp.uni-kl.de/pub/atari/graphics/"><TT>ftp.uni-kl.de</TT> in <TT>/pub/atari/graphics/</TT></A>, as gplt35st.zip
+and gplt35tt.zip. They work best under MiNT.
+
+<P>
+</LI>
+<LI>Executable files, plus documentation in Japanese, exist for the
+X680x0 on
+<A NAME="tex2html19"
+  HREF="ftp://ftp.csis.oita-u.ac.jp/pub/x68k/fj.binaries.x68000/vol2"><TT>ftp.csis.oita-u.ac.jp</TT> in <TT>/pub/x68k/fj.binaries.x68000/vol2</TT></A>.
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00043000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">3</SPAN> Where can I get current development version of <SPAN  CLASS="textbf">gnuplot</SPAN>?</A>
+</H2>
+
+<P>
+The development version of gnuplot is availble as a cvs source tree online for
+direct browsing from <A NAME="tex2html20"
+  HREF="http://www.sourceforge.net/projects/gnuplot/"><TT>http://www.sourceforge.net/projects/gnuplot/</TT></A>, section
+"CVS". You can download all current sources according to the documentation
+therein; for example by a sequence of commands like
+<PRE>
+  cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/gnuplot login
+  cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/gnuplot co -P gnuplot
+</PRE>
+or (in bash)
+<PRE>
+  export CVSROOT=:pserver:anonymous@cvs.sourceforge.net:/cvsroot/gnuplot
+  cvs login
+  cvs -z3 checkout gnuplot
+</PRE>
+
+<P>
+Further, before the <TT>./configure</TT> command of gnuplot compilation phase,
+you have to execute <TT>./prepare</TT> to create the up-to-date configure files.
+
+<P>
+There are no official preliminary binary releases of gnuplot: you have to
+compile it yourself. However, you may find unofficial binary releases for some
+platforms, like OS/2, Windows or Macintosh. 
+
+<P>
+Important note: questions related to the development version should go to
+<A NAME="tex2html21"
+  HREF="mailto:gnuplot-beta@lists.sourceforge.net"><TT>gnuplot-beta@lists.sourceforge.net</TT></A>.
+
+<P>
+
+<H2><A NAME="SECTION00044000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">4</SPAN> How do I get <SPAN  CLASS="textbf">gnuplot</SPAN> to compile on my system?</A>
+</H2>
+
+<P>
+As you would any other installation. Read the files <TT>README.1ST</TT>
+and <TT>README</TT>. 
+
+<P>
+
+<UL>
+<LI>For Unix, use <TT>./configure</TT> (or <TT>./configure -prefix=$HOME/usr</TT>
+for an installation for a single user), <TT>make</TT> and finally
+<TT>make install</TT> or <TT>make install-strip</TT>, the latter for smaller
+executables without debugging information. If you want to make a RPM package,
+then replace the latest step by <TT>checkinstall</TT> or <TT>checkinstall
+make install-strip</TT>, supposing the package <TT>checkinstall</TT> on your
+machine.
+</LI>
+<LI>For DOS, if you are using bash and DJGPP, you can just run <TT>djconfig.sh</TT>.
+</LI>
+<LI>For other platforms, copy the relevant makefile (e.g. <TT>makefile.os2</TT> for
+OS/2, or <TT>makefile.mgw</TT> or <TT>makefile.cyg</TT> for Windows) from
+<TT>config/</TT> to <TT>src/</TT>, optionally update options in the makefile's
+header, then change directory to <TT>src</TT> and run <TT>make</TT>.
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00045000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">5</SPAN> What documentation is there, and how do I get it?</A>
+</H2>
+
+<P>
+The documentation is included in the source distribution. Look
+at the docs subdirectory, where you'll find
+
+<P>
+
+<UL>
+<LI>a Unix man page, which says how to start <SPAN  CLASS="textbf">gnuplot</SPAN>
+</LI>
+<LI>a help file, which also can be printed as a manual
+</LI>
+<LI>a tutorial on using <SPAN  CLASS="textbf">gnuplot</SPAN> with <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>
+</LI>
+<LI>a quick reference summary sheet for <SPAN CLASS="logo-TeX">T<SMALL>E</SMALL>X</SPAN> only
+</LI>
+</UL>
+
+<P>
+The documentation is built during installation if you have <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>
+installed on your system, look in the
+directories <TT>docs</TT> and <TT>tutorial</TT>.
+<TT>make pdf</TT> in the docs subdirectory
+will make a <TT>gnuplot.pdf</TT> hypertext file ready for browsing or printing.
+
+<P>
+Online gnuplot documentation is available at
+<A NAME="tex2html22"
+  HREF="http://gnuplot.sourceforge.net/documentation.html"><TT>http://gnuplot.sourceforge.net/documentation.html</TT></A>.
+
+<P>
+(Obsolete?)
+PostScript copies of the documentation can be ftp'd from
+<A NAME="tex2html23"
+  HREF="ftp://ftp.gnuplot.info/pub/gnuplot"><TT>ftp.gnuplot.info</TT> in <TT>/pub/gnuplot</TT></A>, as <TT>manual.ps.Z</TT> and
+<TT>tutorial.ps.Z</TT>.
+Documentation about <SPAN  CLASS="textbf">gnuplot</SPAN> is available at the <SPAN  CLASS="textbf">gnuplot</SPAN> distribution sites 
+in the files <TT>gpdoc.zip</TT> and <TT>gpdoc2.zip</TT>.
+
+<P>
+
+<H2><A NAME="SECTION00046000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">6</SPAN> Worked examples</A>
+</H2>
+
+<P>
+There is a directory of worked examples in the the source distribution.
+These examples, and the resulting plots, may also be found at
+<A NAME="tex2html24"
+  HREF="http://gnuplot.sourceforge.net/demo/"><TT>http://gnuplot.sourceforge.net/demo/</TT></A>.
+
+<P>
+
+<H2><A NAME="SECTION00047000000000000000">
+<SPAN CLASS="arabic">2</SPAN>.<SPAN CLASS="arabic">7</SPAN> How do I modify <SPAN  CLASS="textbf">gnuplot</SPAN>, and apply 'patches'?</A>
+</H2>
+
+<P>
+For this, you will need to recompile <SPAN  CLASS="textbf">gnuplot</SPAN>.
+
+<P>
+Modifications people make are either done by replacing files,
+such as terminal drivers, or by 'patching'. If a file is a
+replacement, it will probably tell you in its README or in the
+lines at the beginning.
+
+<P>
+To patch a file, you need the <TT>patch</TT> utility, and possibly
+also <TT>automake</TT> and <TT>autoconf</TT>. On many UNIX systems
+these will already be installed; If they aren't, you can find 
+them wherever GNU software is archived. Typical command for applying a patch
+is <code>patch -p0 &lt;newfunctionality.diff</code>.
+
+<P>
+There is repository of contributed patches in the "Patches" section on gnuplot's
+sourceforge site <A NAME="tex2html25"
+  HREF="http://www.sourceforge.net/projects/gnuplot/"><TT>http://www.sourceforge.net/projects/gnuplot/</TT></A>.
+
+<P>
+
+<H1><A NAME="SECTION00050000000000000000">
+<SPAN CLASS="arabic">3</SPAN> Working with it.</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00051000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> How do I get help?</A>
+</H2>
+
+<P>
+Read this document.
+
+<P>
+Give the <code>help</code> command at the initial prompt. After that, keep
+looking through the keywords. Good starting points are <code>plot</code>
+and <code>set</code>.
+
+<P>
+Read the manual, if you have it.
+
+<P>
+Look through the demo subdirectory; it should give you some ideas.
+
+<P>
+Ask your colleagues, the system administrator or the person who
+set up <SPAN  CLASS="textbf">gnuplot</SPAN>.
+
+<P>
+If all these fail, please upgrade to the newest version of <SPAN  CLASS="textbf">gnuplot</SPAN>
+or urge your system-administrator to do so. Then
+post a question to&nbsp;~<A NAME="tex2html26"
+  HREF="news:comp.graphics.apps.gnuplot"><TT>comp.graphics.apps.gnuplot</TT></A>
+or send mail
+to the gatewayed mailing list <A NAME="tex2html27"
+  HREF="mailto:gnuplot-info@lists.sourceforge.net"><TT>gnuplot-info@lists.sourceforge.net</TT></A>.
+Do not forget to cite the version number and the operating system.
+If you want to subscribe to the mailing list, send a mail to
+<A NAME="tex2html28"
+  HREF="mailto:majordomo@lists.sourceforge.net"><TT>majordomo@lists.sourceforge.net</TT></A>
+with the body of the message being
+<code>subscribe info-gnuplot</code>. Please don't do this if you can get
+&nbsp;~<A NAME="tex2html29"
+  HREF="news:comp.graphics.apps.gnuplot"><TT>comp.graphics.apps.gnuplot</TT></A>
+directly. If you post a
+question there, it is considered good form to solicit e-mail
+replies and post a summary.
+
+<P>
+
+<H2><A NAME="SECTION00052000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> How do I print out my graphs?</A>
+</H2>
+
+<P>
+The kind of output produced is determined by the <code>set terminal</code>
+command; for example, <code>set terminal postscript</code> will produce
+the graph in PostScript format. Output can be redirected using
+the <code>set output</code> command.
+
+<P>
+As an example, the following prints out a graph of sin(x) on a
+Unix machine running the X-Window System.
+
+<P>
+<PRE>
+gnuplot&gt; plot [-6:6] sin(x)
+gnuplot&gt; set terminal postscript
+Terminal type set to 'postscript'
+Options are 'landscape monochrome "Courier" 14'
+gnuplot&gt; set output "sin.ps"
+gnuplot&gt; replot
+gnuplot&gt; set output              # set output back to default
+gnuplot&gt; set terminal x11        # ditto for terminal type
+gnuplot&gt; ! lp -ops sin.ps        # print PS File (site dependent)
+request id is lprint-3433 (standard input)
+lp: printed file sin.ps on fg20.rz.uni-karlsruhe.de (5068 Byte)
+!
+gnuplot&gt;
+</PRE>
+
+<P>
+Using the platform-independent way of restoring terminal by <TT>set term
+push/pop</TT> commands, do it by
+<PRE>
+gnuplot&gt; set terminal postscript eps color lw 15 "Helvetica" 20
+gnuplot&gt; set out 'a.eps'
+gnuplot&gt; replot
+gnuplot&gt; set term pop
+</PRE>
+The command <TT>set term pop</TT> without a previous corresponding <TT>set
+term push</TT> switches the terminal back to the startup terminal, e.g. x11, pm or
+win.
+
+<P>
+In Microschrott Windows you click in the upper left
+corner of the graph window and print directly from there.
+
+<P>
+
+<H2><A NAME="SECTION00053000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">3</SPAN> How do I include my graphs in &lt;word processor&gt;?</A>
+</H2>
+
+<P>
+Basically, you save your plot to a file in a format your word
+processor can understand (using <code>set term</code> and <code>set output</code>,
+see above), and then you read in the plot from your word processor. Vector
+formats (PostScript, emf, svg, pdf, <SPAN CLASS="logo-TeX">T<SMALL>E</SMALL>X</SPAN>, <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>, etc) should be preferred,
+as you can scale your graph later to the right size.
+
+<P>
+Details depend on which word processor you use; use <code>set term</code> to get a
+list of available file formats.
+
+<P>
+Many word processors can use Encapsulated PostScript for graphs. 
+This can be generated by the 
+<code>set terminal postscript eps [color]</code>
+command.
+Note that it is a good idea to check and correct the bounding box of the
+graphs in the eps files (manually or by the fixbb script from gnuplot
+webpage), as you have to correct this box for any eps figure produced by
+whichever program.
+Some (most?) word processors do not preview the actual image in the eps
+file, and you have to add the preview image yourself. You can use the GSView
+viewer for this (available for OS/2, Windows and X11), or some Unix ps
+tool. Note that the preview image increases size of the eps file; the
+smallest increase you may get by choosing Tiff 6 Packbits.
+
+<P>
+Some office Windows applications, also OpenOffice.org, 
+can handle vector images produces by the emf terminal.
+OpenOffice.org can also read AutoCAD's dxf format, as well as SVG
+thanks to SVG Import Filter
+<A NAME="tex2html30"
+  HREF="http://www.ipd.uni-karlsruhe.de/~hauma/svg-import/"><TT>http://www.ipd.uni-karlsruhe.de/&nbsp;hauma/svg-import/</TT></A>.
+
+<P>
+With <SPAN CLASS="logo-TeX">T<SMALL>E</SMALL>X</SPAN>, it depends on what you use to print your dvi files.
+If you use dvips or dvi2ps, you can use Encapsulated PostScript. For emTeX
+(popular for OS/2 and MS-DOS), you can use emTeX, otherwise use the <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>
+terminal type, which generates a picture environment. You can also use epslatex
+to separate the graphics and text parts. Other possibilities include pslatex or
+pstex terminals, and metafont or metapost terminals.
+
+<P>
+With <SPAN CLASS="logo-TeX">T<SMALL>E</SMALL>X</SPAN> processed by pdftex or pdflatex, you can use png, jpeg and pdf
+terminal types. You can also use the postscript eps terminal and convert the eps
+file externally to pdf by <code>epstopdf</code>. Another choice is the epslatex
+terminal, after converting the eps part to pdf as above (the <SPAN CLASS="logo-TeX">T<SMALL>E</SMALL>X</SPAN> part can
+remain unchanged).
+
+<P>
+Most word processors can import bitmap images (png, pbm, etc).
+The disadvantage of this approach is that the resolution of your
+plot is limited by the size of the plot at the time it is generated
+by gnuplot, which is generally a much lower resolution than the
+document will eventually be printed in.
+
+<P>
+Under IBM OS/2, MacOS and Micro$oft Windows you can use the clipboard to
+copy your graph and paste it into your favourite word processor.
+
+<P>
+The mif terminal type produces output for FrameMaker.
+
+<P>
+
+<H2><A NAME="SECTION00054000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN> How do I edit or post-process a <SPAN  CLASS="textbf">gnuplot</SPAN> graph?</A>
+</H2>
+
+<P>
+This depends on the terminal type you use.
+
+<P>
+
+<UL>
+<LI>X11 toolkits: You can use the terminal type fig
+and use the <SPAN  CLASS="textbf">xfig</SPAN> drawing program to edit the
+plot afterwards. You can obtain the xfig program from its web site
+<A NAME="tex2html31"
+  HREF="http://www.xfig.org"><TT>http://www.xfig.org</TT></A>. More information about the text-format used
+for fig can be found in the fig-package.
+
+<P>
+You may use the tgif terminal, which creates output suitable for
+reading within <TT>tgif</TT> (<A NAME="tex2html32"
+  HREF="http://bourbon.cs.umd.edu:8001/tgif/"><TT>http://bourbon.cs.umd.edu:8001/tgif/</TT></A>),
+an interactive 2-D drawing tool under X11.
+
+<P>
+</LI>
+<LI>You may use the svg terminal (scalable vector graphics), which can
+be further edited by a svg editor, e.g. 
+<SPAN  CLASS="textbf">Inkscape</SPAN> (<A NAME="tex2html33"
+  HREF="http://www.inkscape.org"><TT>http://www.inkscape.org</TT></A>),
+<SPAN  CLASS="textbf">Sodipodi</SPAN> (<A NAME="tex2html34"
+  HREF="http://sodipodi.sourceforge.net"><TT>http://sodipodi.sourceforge.net</TT></A>),
+<SPAN  CLASS="textbf">Sketch</SPAN> (<A NAME="tex2html35"
+  HREF="http://sketch.sourceforge.net"><TT>http://sketch.sourceforge.net</TT></A>) or
+<SPAN  CLASS="textbf">Dia</SPAN> (<A NAME="tex2html36"
+  HREF="http://www.lysator.liu.se/~alla/dia"><TT>http://www.lysator.liu.se/&nbsp;alla/dia</TT></A>), or loaded
+into <SPAN  CLASS="textbf">OpenOffice.org</SPAN> with an on-fly conversion into OO.o Draw
+primitives.
+
+<P>
+</LI>
+<LI>PostScript or PDF output can be edited directly by tools such
+as Adobe Illustrator or Acrobat, or can be converted to a variety
+of other editable vector formats by the <SPAN  CLASS="textbf">pstoedit</SPAN> package.
+Pstoedit is available at <A NAME="tex2html37"
+  HREF="http://www.pstoedit.net"><TT>http://www.pstoedit.net</TT></A>.
+
+<P>
+</LI>
+<LI>The mif terminal type produces an editable FrameMaker document.
+
+<P>
+</LI>
+<LI>The DXF format is the AutoCAD's format, editable by several
+other applications.
+
+<P>
+</LI>
+<LI>Bitmapped graphics (e.g. png, jpeg, pbm) can be edited using
+tools such as ImageMagick or Gimp.  
+In general, you should use a vector graphics program to post-process
+vector graphic formats, and a pixel-based editing program 
+to post-process pixel graphics.
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00055000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN> How do I change symbol size, line thickness and the like?</A>
+</H2>
+
+<P>
+Gnuplot offers a variety of commands to set line and point properties,
+including color, thickness, point shape, etc.  The command <code>test</code> will
+display a test page for the currently selected terminal type showing
+the available pre-defined combinations of color, size, shape, etc.
+The <code>set style</code> command can be used to define additional combinations.
+
+<P>
+
+<H2><A NAME="SECTION00056000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN> How do I generate plots in GIF format?</A>
+</H2>
+
+<P>
+GIF support is provided by an external library, libgd
+(<A NAME="tex2html38"
+  HREF="http://www.libgd.org"><TT>http://www.libgd.org</TT></A>).
+Old versions of gd (versions 1.2 to 1.4) produce only GIF output. Versions 1.6
+to 2.0.27 did not support GIF output because of patent concerns. However
+versions 1.6 and newer support PNG outputs, and 1.7 and newer support JPEG
+outputs. Version 2.0.28 of the Boutell gd library restored GIF functionality,
+and 2.0.29 added support for GIF animation. If your installation of <SPAN  CLASS="textbf">gnuplot</SPAN> is
+linked to the gd library, you will get support for whatever formats (GIF, PNG,
+JPEG) are in that version of gd.
+
+<P>
+In any case, it is easy to convert from one format to another. To convert a PNG
+output into GIF, you can either use the command line (e.g.
+<code>convert f.png f.gif</code> or <code>nconvert -out gif f.png</code>) or any GUI
+program. Another possibility is to output the image as (encapsulated)
+postscript and convert (export) it into GIF or PNG by ghostscript, e.g.
+<code>convert -density 150 f.eps f.gif</code> or by any ghostscript-based GUI like
+gsview, gv or kghostview.
+
+<P>
+
+<H2><A NAME="SECTION00057000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN> Can I animate my graphs?</A>
+</H2>
+
+<P>
+First have a look at animate.dem in the demo directory
+of <SPAN  CLASS="textbf">gnuplot</SPAN>. Basically, animated graphs are a sequence of
+plots in a suitable format.
+
+<P>
+If your installation of <SPAN  CLASS="textbf">gnuplot</SPAN> is linked with gd 2.0.29 or newer (see
+previous entry), the gif terminal can generate directly an animated GIF.
+
+<P>
+Otherwise, have a look at the tool whirlgif 3.04, available at
+<A NAME="tex2html39"
+  HREF="http://www.danbbs.dk/~dino/whirlgif"><TT>http://www.danbbs.dk/&nbsp;dino/whirlgif</TT></A>. It reads run-length 
+encoded GIF files and packs them into a minimal animation.
+On the web-pages you will find a manual and an example.
+
+<P>
+You can also write a small script to get <SPAN  CLASS="textbf">gnuplot</SPAN> to output a family
+of GIF files, then have it execute some animator such as gifsicle:
+<A NAME="tex2html40"
+  HREF="http://www.lcdf.org/~eddietwo/gifsicle"><TT>http://www.lcdf.org/&nbsp;eddietwo/gifsicle</TT></A>
+or gifmerge
+<A NAME="tex2html41"
+  HREF="http://the-labs.com/GIFMerge"><TT>http://the-labs.com/GIFMerge</TT></A>.
+
+<P>
+mpeg_encode will encode a sequence of images into an mpeg format movie.
+
+<P>
+
+<H2><A NAME="SECTION00058000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN> How do I plot implicit defined graphs?</A>
+</H2>
+
+<P>
+Implicit graphs or curves cannot be plotted directly in <SPAN  CLASS="textbf">gnuplot</SPAN>.
+However there is a workaround. 
+<PRE>
+gnuplot&gt; # An example. Place your definition in the following line:
+gnuplot&gt; f(x,y) = y - x**2 / tan(y)
+gnuplot&gt; set contour base
+gnuplot&gt; set cntrparam levels discrete 0.0
+gnuplot&gt; unset surface
+gnuplot&gt; set table 'curve.dat'
+gnuplot&gt; splot f(x,y)
+gnuplot&gt; unset table
+gnuplot&gt; plot 'curve.dat' w l
+</PRE>
+The trick is to draw the single contour line z=0 of the surface
+z=f(x,y), and store the resulting contour curve to a <SPAN  CLASS="textbf">gnuplot</SPAN> datafile.
+
+<P>
+
+<H2><A NAME="SECTION00059000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN> How to fill an area between two curves</A>
+</H2>
+
+<P>
+A plot with filled area between two given curves requires a parametric plot with
+<code>filledcurves closed</code>.
+The example below demonstrates this for two curves f(x) and g(x) with a tricky
+"folded" parameter <code>t</code>:
+
+<P>
+<PRE>
+set parametric
+f(x)=cos(x)
+g(x)=sin(x)
+xmax=pi/4
+set xrange [0:xmax]
+set trange [0:2*xmax]
+path(t) = ( t&lt;= xmax ? f(t) : g(2*xmax-t) )
+fold(t) = (t &lt;=xmax ? t : 2*xmax - t)
+plot fold(t),path(t) with filledcurves closed
+</PRE>
+
+<P>
+Note that the above code fills area between the two curves, not area satisfying
+inequality g(x)&lt;f(x). If you want the latter, you should use the ternary
+operator in <code>path(t)</code> to return an undefined value (0/0) if the inequality
+is not satisfied.
+
+<P>
+See the documentation for <code>help parametric</code>, <code>help filledcurves</code>, and
+<code>help ternary</code>.
+
+<P>
+
+<H2><A NAME="SECTION000510000000000000000"></A>
+<A NAME="blank1"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">10</SPAN> Pm3d splot from a datafile does not draw anything
+</H2>
+
+<P>
+You do <code>set pm3d; splot 'a.dat'</code> and no plot but colorbox appears.
+Obviously, there is no blank line in between two subsequent scans (isolines) in
+the data file. Add blank lines! If you are curious what this means, then don't
+hesitate to look to files like <code>demo/glass.dat</code> or <code>demo/triangle.dat</code>
+in the gnuplot demo directory.
+
+<P>
+You can find useful the following awk script (call it e.g. <code>addblanks.awk</code>)
+which adds blank lines to a data file whenever number in the first column
+changes:
+<PRE>
+/^[[:blank:]]*#/ {next} # ignore comments (lines starting with #)
+NF &lt; 3 {next} # ignore lines which don't have at least 3 columns
+$1 != prev {printf "\n"; prev=$1} # print blank line
+{print} # print the line
+</PRE>
+Then, either preprocess your data file by command
+<code>awk -f addblanks.awk &lt;a.dat</code> or plot the datafile under a unixish platform
+by <code>gnuplot&gt; splot "&lt;awk -f addblanks.awk a.dat"</code>.
+
+<P>
+
+<H2><A NAME="SECTION000511000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">11</SPAN> Drawing a (color) map, i.e. 2D projection of 3D data</A>
+</H2>
+
+<P>
+Use <TT>set view map; unset surface</TT> or <TT>set pm3d map</TT> rather than
+<TT>set view 180,0</TT>. The latter facilitates drawing matrices or data files
+as maps, even without the necessity for matrix-like data organization
+(gridding). It is possible to decrease the output postscript file size by
+postprocessing it by <TT>pm3dCompress.awk</TT> or
+<TT>pm3dConvertToImage.awk</TT>.
+
+<P>
+Note there is a new plotting style <code>with image</code> for plotting 2D color
+images with support for almost arbitrary text or binary files in "Patches"
+section on gnuplot's sourceforge site
+<A NAME="tex2html42"
+  HREF="http://www.sourceforge.net/projects/gnuplot/"><TT>http://www.sourceforge.net/projects/gnuplot/</TT></A>.
+
+<P>
+
+<H2><A NAME="SECTION000512000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">12</SPAN> How to overlay dots/points scatter plot onto a pm3d map/surface</A>
+</H2>
+
+<P>
+Use the explicit (see also implicit) switch of the pm3d style:
+<PRE>
+gnuplot&gt; set pm3d explicit
+gnuplot&gt; splot x with pm3d, x*y with points
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION000513000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">13</SPAN> How to draw black contour plot, and contours with labels</A>
+</H2>
+
+<P>
+Well, it is very simple even though it is hard to discover: <code>unset clabel</code>.
+<PRE>
+set contour both; set cntr levels 100
+unset clabel
+unset surface
+splot x*y with line lt -1
+pause -1
+splot x*y with line palette
+</PRE>
+
+<P>
+Another solution requires to write contours into a temporary file using the
+table terminal:
+<PRE>
+set contour base; set cntrparam levels 15; unset surface; set view map
+splot x*x+y*y; pause -1
+set table 'contour.dat'
+replot
+unset table
+</PRE>
+Now, for drawing it in 2D, do
+<PRE>
+reset
+plot 'contour.dat' with line -1
+</PRE>
+and for contours in 3D do
+<PRE>
+reset
+# Change single blank lines to double blank lines
+!awk "NF&lt;2{printf\"\n\"}{print}" &lt;contour.dat &gt;contour1.dat
+splot 'contour1.dat' with line -1
+</PRE>
+See also the following question "How to overlay contour plot over pm3d map/surface".
+
+<P>
+Labelling contours by their z-value can be achieved by a suitable script
+generating automatically the appropriate <code>set label</code> commands; you can find
+one at gnuplot scripts page
+<A NAME="tex2html43"
+  HREF="http://gnuplot.sourceforge.net/scripts/index.html#tricks-here"><TT>http://gnuplot.sourceforge.net/scripts/index.html#tricks-here</TT></A>.
+
+<P>
+
+<H2><A NAME="SECTION000514000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">14</SPAN> How to overlay contour plot over pm3d map/surface</A>
+</H2>
+
+<P>
+This requires you to write contours into a temporary file using the table
+terminal, and then use this file in the final drawing without set contours.
+The following example demonstrates this for a map; for surface, remove 
+<code>set pm3d map</code> and put <code>set ticslevel 0</code>.
+<PRE>
+# Write contours of function  x*x-y*y  to a (temporary) file
+set contour base; set cntrparam level 20
+unset surface
+set table 'contour.dat'
+splot x*x-y*y
+unset table
+
+# Change single blank lines to double blank lines
+!awk "NF&lt;2{printf\"\n\"}{print}" &lt;contour.dat &gt;contour1.dat
+
+# Draw the plot
+reset
+set palette gray
+set palette gamma 2.5
+set pm3d map
+set pm3d explicit
+splot x*x+y*y with pm3d, 'contour1.dat' with line lt -1
+!rm contour.dat contour1.dat
+</PRE>
+The last command deletes the two temporary files.
+
+<P>
+
+<H2><A NAME="SECTION000515000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">15</SPAN> Color facets with pm3d</A>
+</H2>
+
+<P>
+It is possible to draw colors facets of a 3D objects, organized in such a file:
+<PRE>
+# triangle 1
+x0 y0 z0 &lt;c0&gt;
+x1 y1 z1 &lt;c1&gt;
+
+x2 y2 z2 &lt;c2&gt;
+x2 y2 z2 &lt;c2&gt;
+
+
+# triangle 2
+x y z
+...
+</PRE>
+
+<P>
+Notice the positioning single and double blank line. <TT>&lt;c&gt;</TT> is an optional
+color.
+
+<P>
+Then plot it by (either of splot's):
+<PRE>
+set pm3d
+set style data pm3d
+splot 'facets.dat'
+splot 'facets_with_color.dat' using 1:2:3:4
+</PRE>
+
+<P>
+Note that you avoid surface lines by <TT>set style data pm3d</TT> or 
+<TT>splot ... with pm3d</TT>.
+
+<P>
+In the above example, pm3d displays triangles as independent surfaces.
+They are plotted one surface after another, as found in the data file.
+Parts overlapping in 2D projection are overdrawn.
+
+<P>
+Gnuplot is not 3D modeling program. Its hidden routines apply for points and
+lines, but not for faces. 
+Without handling the data as a collection of faces, there would be no surface
+anything could be hidden behind.  The 'hidden3d' algorithm works by using the
+input data in two ways: first, to set up a collection of triangles (made from a
+mesh of quadrangles) that form the surface, second as a collection of edges.  It
+then goes through all those edges, checking what parts of them are not hidden
+behind any faces, and draws those.
+
+<P>
+Consequently, gnuplot won't draw your surface or 3D object as a virtual reality.
+It works OK for <TT>set pm3d map</TT> but for true 3D you would be probably more
+happy writing a convertor of your facets into a VRML file.
+
+<P>
+
+<H2><A NAME="SECTION000516000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">16</SPAN> Palette for printing my color map on color as well as black&amp;white
+printer?</A>
+</H2>
+
+<P>
+I think it is this one, for example: <TT>set palette rgbformulae -25,-24,-32</TT>.
+Can somebody prove this?
+
+<P>
+
+<H1><A NAME="SECTION00060000000000000000">
+<SPAN CLASS="arabic">4</SPAN> Wanted features</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00061000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> What's new in <SPAN  CLASS="textbf">gnuplot</SPAN> 3.7, 4.0, 4.2 etc?</A>
+</H2>
+
+<P>
+Too many things to be named here.
+Please refer to the <TT>NEWS</TT> file in the source distribution, or the
+"New features" section in the gnuplot documentation.
+
+<P>
+
+<H2><A NAME="SECTION00062000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Does <SPAN  CLASS="textbf">gnuplot</SPAN> support a driver for &lt;graphics format&gt;?</A>
+</H2>
+
+<P>
+To see a list of the available graphic drivers for your installation of
+<SPAN  CLASS="textbf">gnuplot</SPAN>, type <code>set term</code>.
+
+<P>
+Some graphics drivers are included in the normal distribution,
+but are uncommented by default. If you want to use them, you'll
+have to change file <code>gnuplot/src/term.h</code>, and recompile.
+
+<P>
+
+<H2><A NAME="SECTION00063000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> Does <SPAN  CLASS="textbf">gnuplot</SPAN> have hidden line removal?</A>
+</H2>
+
+<P>
+Yes.
+
+<P>
+
+<H2><A NAME="SECTION00064000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> Does <SPAN  CLASS="textbf">gnuplot</SPAN> support bar-charts/histograms/boxes?</A>
+</H2>
+
+<P>
+Various clustered and stacked histogram styles are supported in <SPAN  CLASS="textbf">gnuplot</SPAN>
+version 4.2 as separate style types.
+
+<P>
+In older <SPAN  CLASS="textbf">gnuplot</SPAN> versions you can use the style <code>with boxes</code> for bar charts.
+To get filled boxes, use <code>set style fill</code>.
+Bernhard Reiter wrote an AWK script to post-process fig-terminal output.
+This may be useful with older versions of <SPAN  CLASS="textbf">gnuplot</SPAN>. Please have a look at
+<A NAME="tex2html44"
+  HREF="http://www.usf.uni-osnabrueck.de/~breiter/tools/gnuplot/barchart.en.html"><TT>http://www.usf.uni-osnabrueck.de/&nbsp;breiter/tools/gnuplot/barchart.en.html</TT></A>.
+
+<P>
+
+<H2><A NAME="SECTION00065000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> Does <SPAN  CLASS="textbf">gnuplot</SPAN> support pie charts?</A>
+</H2>
+
+<P>
+It's not possible in <SPAN  CLASS="textbf">gnuplot</SPAN>, but have a look at
+<A NAME="tex2html45"
+  HREF="http://www.usf.uni-osnabrueck.de/~breiter/tools/piechart/piecharts.en.html"><TT>http://www.usf.uni-osnabrueck.de/&nbsp;breiter/tools/piechart/piecharts.en.html</TT></A>
+<P>
+
+<H2><A NAME="SECTION00066000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> Does <SPAN  CLASS="textbf">gnuplot</SPAN> quarterly time charts?</A>
+</H2>
+
+<P>
+It's not possible in <SPAN  CLASS="textbf">gnuplot</SPAN>, but have a look at
+<A NAME="tex2html46"
+  HREF="http://ricardo.ecn.wfu.edu/~cottrell/qplot"><TT>http://ricardo.ecn.wfu.edu/&nbsp;cottrell/qplot</TT></A>. The corresponding
+file <code>qplot.zip</code> can be obtained from the contrib directory
+on any <SPAN  CLASS="textbf">gnuplot</SPAN> server.
+
+<P>
+
+<H2><A NAME="SECTION00067000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN> Can I put multiple pages on one page?</A>
+</H2>
+
+<P>
+Yes. <code>set multiplot</code>.
+
+<P>
+If you use the postscript terminal and plot one graph per page you can
+use the program mpage (<A NAME="tex2html47"
+  HREF="http://www.mesa.nl/pub/mpage"><TT>http://www.mesa.nl/pub/mpage</TT></A>) to print
+multiple logical pages per physical page. A similar program is
+the psnup program in the psutils package. This package is available at
+any CTAN mirror.
+
+<P>
+
+<H2><A NAME="SECTION00068000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">8</SPAN> Does <SPAN  CLASS="textbf">gnuplot</SPAN> support multiple y-axes on a single plot?</A>
+</H2>
+
+<P>
+Yes. You can have 2 x- and 2 y-axes per plot. The additional axes are called
+x2 and y2. See <code>help plot</code>.
+
+<P>
+
+<H2><A NAME="SECTION00069000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">9</SPAN> Can I put both commands and data into a single file?</A>
+</H2>
+
+<P>
+This is possible by the new <code>plot "-"</code> possibility. The
+<code>plot "-"</code> command allows to read the data to be plot from
+standard input or the current batch job.
+
+<P>
+<PRE>
+gnuplot&gt; plot "-"
+1 1
+2 4
+3 9
+e
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION000610000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">10</SPAN> Can I put Greek letters and super/subscripts into my labels?</A>
+</H2>
+
+<P>
+The enhanced option in some terminals (currently postscript, Presentation
+Manager, png, pdf, and x11) lets you use sub- and superscripts. 
+It also allows to use Greek letters and symbols via symbol fonts, to
+the extent that these are supported by the underlying font libraries
+on your system.  Versions through 2.0.15 of libgd (needed for png and jpeg)
+must be patched in order to handle symbol fonts.
+
+<P>
+You might try using the <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN> terminal type and putting text
+like <code>"\\alpha_{3}"</code> or <code>'\alpha_{3}'</code> .
+If you include your <SPAN  CLASS="textbf">gnuplot</SPAN>-graphs into a <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN> document
+you can use the <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>-package psfrag to typeset any characters
+into your graphs.
+
+<P>
+One more possibility is to use the MetaPost terminal. It supports <SPAN CLASS="logo-TeX">T<SMALL>E</SMALL>X</SPAN>
+syntax and is converted onto encapsulated PostScript by mpost.
+
+<P>
+
+<H2><A NAME="SECTION000611000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">11</SPAN> How do I include accented characters</A>
+</H2>
+
+<P>
+To obtain accented characters like &#252; or n in your labels you should use
+8bit character codes together with the appropriate encoding option.
+See the following example:
+
+<P>
+<PRE>
+gnuplot&gt; set encoding iso_8859_1
+gnuplot&gt; set title "M\374nchner Bierverbrauch \374ber die Jahre"
+gnuplot&gt; plot "bier.dat" u 1:2
+</PRE>
+
+<P>
+Consequently, you can type labels in Czech, French, Hungarian, Russian... by
+means of an appropriate <TT>set encoding</TT>. However, you cannot mix two
+encodings in one file (e.g. accents for west and east latin encodings).
+
+<P>
+A more general solution is to use UTF-8 encoded fonts, and type the 
+UTF-8 characters directly into gnuplot. This works for many terminal types
+but not, unfortunately, PostScript.
+
+<P>
+
+<H2><A NAME="SECTION000612000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">12</SPAN> Can I do 1:1 scaling of axes?</A>
+</H2>
+
+<P>
+Use <code>set size square</code>.
+
+<P>
+
+<H2><A NAME="SECTION000613000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">13</SPAN> Can I put different text sizes into my plots?</A>
+</H2>
+
+<P>
+Some terminals can, others can't. Some allow you to choose a font size for the
+entire plot. Terminals supporting the "enhanced text" mode (like postscript, pm,
+x11, png, pdf) allow you to change fonts and text sizes within a plot. Look at
+the help for these terminals.
+
+<P>
+
+<H2><A NAME="SECTION000614000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">14</SPAN> How do I skip data points?</A>
+</H2>
+
+<P>
+By specifying <TT>?</TT> as a data value, as in
+<PRE>
+        1 2
+        2 3
+        3 ?
+        4 5
+</PRE>
+
+<P>
+See also <TT>set missing</TT>.
+See also <TT>set datafile commentschars</TT> for specifying comment characters in
+data files.
+
+<P>
+
+<H2><A NAME="SECTION000615000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">15</SPAN> How do I plot every nth point?</A>
+</H2>
+
+<P>
+This can be specified with various options for the command <code>plot</code>,
+for example <code>plot 'a.dat' every 2</code>.
+
+<P>
+
+<H2><A NAME="SECTION000616000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">16</SPAN> How do I plot a vertical line?</A>
+</H2>
+
+<P>
+Depending on context, the main methods are:
+
+<UL>
+<LI><code>set arrow .... .... nohead</code> where you have to compute
+explicitly the start and the end of the arrow.
+</LI>
+<LI>generate (inlined) datapoints and plot them
+</LI>
+<LI>switch to parametric mode
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION000617000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">17</SPAN> How do I plot data files</A>
+</H2>
+
+<P>
+Easily: by a command <TT>plot 'a.dat'</TT>. In 3D, use <TT>splot 'a.dat'</TT> -
+but don't forget to put a blank line in between two subsequent scans (isolines),
+otherwise you will get an error that the data is not gridded; see also question 
+<A HREF="#blank1">3.10</A>. If your data are not gridded, then use <TT>set dgrid3d {many
+options}</TT>.
+
+<P>
+
+<H2><A NAME="SECTION000618000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">18</SPAN> How do I replot multiplot drawing</A>
+</H2>
+
+<P>
+You cannot directly: gnuplot supports <code>replot</code> command, not
+<code>remultiplot</code>. You have to write the complete sequence of commands since
+<code>set multiplot</code> till <code>unset multiplot</code> into a script file. Then
+you can <code>load</code> the script into gnuplot as many times as you need for
+replotting the drawing to different terminals or output files.
+
+<P>
+
+<H1><A NAME="SECTION00070000000000000000">
+<SPAN CLASS="arabic">5</SPAN> Miscellaneous</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00071000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> I've found a bug, what do I do?</A>
+</H2>
+
+<P>
+First, try to see whether it actually is a bug, or whether it
+is a feature which may be turned off by some obscure set-command.
+
+<P>
+Next, see whether you have an old version of <SPAN  CLASS="textbf">gnuplot</SPAN>; if you do,
+chances are the bug has been fixed in a newer release.
+
+<P>
+Fixes for bugs reported since the release of the current version are
+held in the <TT>patches</TT> directory at <SPAN  CLASS="textbf">gnuplot</SPAN> distribution sites.
+Before submitting a bug report, please check whether the bug in question
+has already been fixed.
+
+<P>
+If, after checking these things, you still are convinced that there is a
+bug, proceed as follows. If you have a fairly general sort of bug
+report, posting to&nbsp;~<A NAME="tex2html48"
+  HREF="news:comp.graphics.apps.gnuplot"><TT>comp.graphics.apps.gnuplot</TT></A>
+is probably
+the way to go. If you have investigated a problem in detail, especially
+if you have a context or unified diff that fixes the problem, please
+e-email a report to <A NAME="tex2html49"
+  HREF="mailto:gnuplot-bug@lists.sourceforge.net"><TT>gnuplot-bug@lists.sourceforge.net</TT></A>.
+
+<P>
+The bug-gnuplot list is for reporting and collecting bug fixes, the
+&nbsp;~<A NAME="tex2html50"
+  HREF="news:comp.graphics.apps.gnuplot"><TT>comp.graphics.apps.gnuplot</TT></A>
+newsgroup will be more help for
+finding work arounds or actually solving <SPAN  CLASS="textbf">gnuplot</SPAN> related problems. If
+you do send in a bug report, be sure and include the version of <SPAN  CLASS="textbf">gnuplot</SPAN>
+(including patchlevel) as shown by the command <code>show version long</code>,
+terminal driver, operating system, an exact description of the bug and
+input which can reproduce the bug. Failure to indicate these details can
+render a solution to your problem almost impossible. Also, any context
+diffs should be referenced against the latest official version of
+<SPAN  CLASS="textbf">gnuplot</SPAN> if at all possible.
+
+<P>
+
+<H2><A NAME="SECTION00072000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Can I use <SPAN  CLASS="textbf">gnuplot</SPAN> routines for my own programs?</A>
+</H2>
+
+<P>
+On systems supporting pipes, you can pipe commands to <SPAN  CLASS="textbf">gnuplot</SPAN> from other
+programs. Many applications with gnuplot as the graphics engine, like Octave
+(<A NAME="tex2html51"
+  HREF="http://www.octave.org"><TT>http://www.octave.org</TT></A>), uses this method. This also works from a cgi script to
+drive <SPAN  CLASS="textbf">gnuplot</SPAN> from a forms-based web page.
+
+<P>
+John Campbell (<A NAME="tex2html52"
+  HREF="mailto:jdc@nauvax.ucc.nau.edu"><TT>jdc@nauvax.ucc.nau.edu</TT></A>) modified a much earlier
+version of <SPAN  CLASS="textbf">gnuplot</SPAN> (3.5) to be a library of C subroutines callable 
+from a C program.  Gnuplot itself has changed radically since then,
+and we are not aware of any plans to create a similar library based on
+the current version.
+
+<P>
+
+<H2><A NAME="SECTION00073000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> What extensions have people made to <SPAN  CLASS="textbf">gnuplot</SPAN>? Where can I get
+them?</A>
+</H2>
+
+<P>
+Many extensions or patches are available on the "Patches" page of the
+gnuplot development site
+<A NAME="tex2html53"
+  HREF="http://sourceforge.net/tracker/?group_id=2055&amp;atid=302055"><TT>http://sourceforge.net/tracker/?group_id=2055&amp;atid=302055</TT></A>.
+The current development version will generally include some of these
+being debugged for inclusion in a later official release of gnuplot.
+
+<P>
+Older extensions, which may or may not work with the current version,
+are available from <A NAME="tex2html54"
+  HREF="ftp://ftp.ucc.ie/pub/gnuplot/contrib/"><TT>ftp.ucc.ie</TT> in <TT>/pub/gnuplot/contrib/</TT></A>.
+
+<P>
+Some extensions available:
+
+<UL>
+<LI><TT>date-errorbar</TT>: allows dates in the hi/lo fields for 
+errorbars.
+</LI>
+<LI><TT>perltk</TT>: A perl/tk canvas widget.
+</LI>
+<LI><TT>polyg.patch</TT>: Implements a polygon plotting style.
+</LI>
+<LI><TT>xgfe</TT>: graphical front end using the Qt widgets available at
+      <A NAME="tex2html55"
+  HREF="http://www.tug.org/tex-archive/graphics/gnuplot/contrib/"><TT>http://www.tug.org/tex-archive/graphics/gnuplot/contrib/</TT></A>.
+</LI>
+<LI><TT>Gnuplot.py</TT>: A python package to create graphs from
+within python. More information at
+<A NAME="tex2html56"
+  HREF="http://gnuplot-py.sourceforge.net"><TT>http://gnuplot-py.sourceforge.net</TT></A>.
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00074000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">4</SPAN> I need an integration, fft, iir-filter,...!</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> has been and is a plotting program, not a data
+processing or mathematical program suite. Therefore <SPAN  CLASS="textbf">gnuplot</SPAN>
+can't do that. Look into the demo file "bivariat.dem" for a basic
+implementation of an integration.
+
+<P>
+For more sophisticated data-processing read the next section.
+
+<P>
+
+<H2><A NAME="SECTION00075000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">5</SPAN> Can I do heavy-duty data processing with <SPAN  CLASS="textbf">gnuplot</SPAN>? or
+What is beyond <SPAN  CLASS="textbf">gnuplot</SPAN>?</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">gnuplot</SPAN> alone is not suited very well for this. One thing you might try
+is <TT>fudgit</TT>, an interactive multi-purpose fitting program written by
+Martin-D. Lacasse (<TT>isaac@frodo.physics.mcgill.ca</TT>). It can use
+<SPAN  CLASS="textbf">gnuplot</SPAN> as its graphics back end and is available from
+<A NAME="tex2html57"
+  HREF="ftp://ftp.physics.mcgill.ca/pub/Fudgit/fudgit_2.33.tar.Z"><TT>ftp.physics.mcgill.ca</TT> in <TT>/pub/Fudgit/fudgit_2.33.tar.Z</TT></A>
+and from
+the main Linux server, tsx-11.mit.edu and its numerous mirrors around
+the world as <TT>/pub/linux/sources/usr.bin/fudgit-2.33.tar.z</TT>.
+Versions are available for AIX, Data General, HP-UX, IRIX 4, Linux,
+NeXT, Sun3, Sun4, Ultrix, OS/2 and MS-DOS. The MS-DOS version is
+available on simtel20 mirrors (simtel20 itself has closed down) in the
+"math" subdirectory as <code>fudg_231.zip</code>.
+
+<P>
+Carsten Grammes has written a fitting program which has been
+merged into <SPAN  CLASS="textbf">gnuplot</SPAN> 3.7.
+
+<P>
+Michael Courtney has written a program called lsqrft, which uses the
+Levenberg-Marquardt - algorithm for fitting data to a function. It is
+available from
+<A NAME="tex2html58"
+  HREF="ftp://hobbes.nmsu.edu/pub/os2/apps/analysis/lsqrft15.zip"><TT>hobbes.nmsu.edu</TT> in <TT>/pub/os2/apps/analysis/lsqrft15.zip</TT></A>;
+sources, which should compile on Unix, and executables for MS-DOS and
+OS/2 are available.  There is an interface to the OS/2 presentation
+manager.
+
+<P>
+You might also want to look at the applications developed by
+the Software Tools Group (STG) at the National Center for
+Supercomputing Applications. Ftp to ftp.ncsa.uiuc.edu
+and get the file README.BROCHURE for more information.
+
+<P>
+You can also try pgperl, an integration of the PGPLOT plotting
+package with Perl 5. Information can be found at
+<A NAME="tex2html59"
+  HREF="http://www.ast.cam.ac.uk/AAO/local/www/kgb/pgperl"><TT>http://www.ast.cam.ac.uk/AAO/local/www/kgb/pgperl</TT></A>, the source is
+available from <A NAME="tex2html60"
+  HREF="ftp://ftp.ast.cam.ac.uk/pub/kgb/pgperl/"><TT>ftp.ast.cam.ac.uk</TT> in <TT>/pub/kgb/pgperl/</TT></A>
+or
+<A NAME="tex2html61"
+  HREF="ftp://linux.nrao.edu/pub/packages/pgperl/"><TT>linux.nrao.edu</TT> in <TT>/pub/packages/pgperl/</TT></A>.
+
+<P>
+Another possibility is <SPAN  CLASS="textbf">Octave</SPAN>. To quote from its README: Octave is a
+high-level language, primarily intended for numerical computations. Octave is
+licensed under GPL, and in principle, it is a free Matlab clone. It provides a
+convenient command line interface for solving linear and nonlinear problems
+numerically. The latest released version of Octave is always available from
+<A NAME="tex2html62"
+  HREF="http://www.octave.org"><TT>http://www.octave.org</TT></A>. By the way, octave uses <SPAN  CLASS="textbf">gnuplot</SPAN> as its plotting
+engine, so you get a data-processing program on top of <SPAN  CLASS="textbf">gnuplot</SPAN>.
+
+<P>
+Finally, there is <TT>scilab</TT> at <A NAME="tex2html63"
+  HREF="http://www-rocq.inria.fr/scilab/"><TT>http://www-rocq.inria.fr/scilab/</TT></A>
+doing about the same as matlab. It is free but copyrighted
+software.
+
+<P>
+
+<H2><A NAME="SECTION00076000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">6</SPAN> Mouse in my interactive terminal does not work</A>
+</H2>
+
+<P>
+If your mouse is not working, try to hit 'm' in the interactive terminal to
+switch mousing on/off. See below for the list of supported interactive
+terminals.
+
+<P>
+If it still does not run, then either gnuplot has not been configured or
+compiled with mouse support, or you have not properly installed it, or running
+an older version of gnuplot (check your <TT>PATH</TT>).
+
+<P>
+If your gnuplot is running as the plotting engine of Octave under X11, then
+please put <TT>set mouse</TT> into your <TT>$HOME/.gnuplot</TT> (preferred
+than putting <TT>gset mouse</TT> into <TT>$HOME/.octaverc</TT>). This is
+needed only for gnuplot 4.0: according to its <TT>help x11_mouse</TT>,
+gnuplot 4.0 under x11 running through a pipe needs <TT>set mouse</TT> to be
+executed before launching the x11 plot window.
+
+<P>
+
+<H2><A NAME="SECTION00077000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">7</SPAN> How to use hotkeys in my interactive terminals</A>
+</H2>
+
+<P>
+There are several hotkeys available in interactive terminals.
+Currently the following interactive terminals support hotkeys and mousing:
+OS/2 Presentation Manager, X11, Windows, WX, and GGI. Hit 'h' in the terminal
+to get list of hotkeys. 
+See <TT>help new-features</TT> or the <SPAN  CLASS="textbf">Features introduced in version 4.0</SPAN>
+section in the docs for a brief guide over mousing and hotkeys.
+Further, you may read <TT>help mouse</TT> and <TT>help bind</TT> for more
+information.
+
+<P>
+
+<H2><A NAME="SECTION00078000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">8</SPAN> I have ported <SPAN  CLASS="textbf">gnuplot</SPAN> to another system, or patched it. What
+do I do?</A>
+</H2>
+
+<P>
+If your patch is small, mail it to
+<A NAME="tex2html64"
+  HREF="mailto:gnuplot-beta@lists.sourceforge.net"><TT>gnuplot-beta@lists.sourceforge.net</TT></A>,
+with a thorough description of what the patch is supposed to
+do, which version of <SPAN  CLASS="textbf">gnuplot</SPAN> it is relative to, etc. Well, please do it
+always with respect to the current development version of gnuplot (see 'cvs'
+above).
+
+<P>
+Nowadays, the preferred way of submitting, commenting and upgrading patches are
+via 'Patches' section on <A NAME="tex2html65"
+  HREF="http://www.sourceforge.net/projects/gnuplot/"><TT>http://www.sourceforge.net/projects/gnuplot/</TT></A>.
+You may want to send a note to <A NAME="tex2html66"
+  HREF="mailto:gnuplot-beta@lists.sourceforge.net"><TT>gnuplot-beta@lists.sourceforge.net</TT></A>
+for
+more lively discussion.
+
+<P>
+
+<H2><A NAME="SECTION00079000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">9</SPAN> I want to help in developing the next version of <SPAN  CLASS="textbf">gnuplot</SPAN>.
+What can I do?</A>
+</H2>
+
+<P>
+Join the <SPAN  CLASS="textbf">gnuplot</SPAN> beta test mailing list by sending a mail
+containing the line
+<code>subscribe gnuplot-beta</code>
+in the body (not the subject) of the mail to
+<A NAME="tex2html67"
+  HREF="mailto:Majordomo@lists.sourceforge.net"><TT>Majordomo@lists.sourceforge.net</TT></A>.
+
+<P>
+Also check with <A NAME="tex2html68"
+  HREF="http://sourceforge.net/projects/gnuplot"><TT>http://sourceforge.net/projects/gnuplot</TT></A>
+about latest
+source for beta releases for development.
+
+<P>
+
+<H2><A NAME="SECTION000710000000000000000">
+<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">10</SPAN> Open questions for inclusion into the FAQ?</A>
+</H2>
+
+<P>
+Please submit your questions (along with the answer) to 
+<A NAME="tex2html69"
+  HREF="mailto:gnuplot-beta@lists.sourceforge.net"><TT>gnuplot-beta@lists.sourceforge.net</TT></A>.
+
+<P>
+
+<H1><A NAME="SECTION00080000000000000000">
+<SPAN CLASS="arabic">6</SPAN> Making life easier</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00081000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> How do I plot two functions in non-overlapping regions?</A>
+</H2>
+
+<P>
+Use a parametric plot. An example:
+<PRE>
+gnuplot&gt; set parametric
+gnuplot&gt; a=1
+gnuplot&gt; b=3
+gnuplot&gt; c=2
+gnuplot&gt; d=4
+gnuplot&gt; x1(t) = a+(b-a)*t
+gnuplot&gt; x2(t) = c+(d-c)*t
+gnuplot&gt; f1(x) = sin(x)
+gnuplot&gt; f2(x) = x**2/8
+gnuplot&gt; plot [t=0:1] x1(t),f1(x1(t)) title "f1", x2(t), f2(x2(t)) title "f2"
+</PRE>
+
+<P>
+You can also use <SPAN  CLASS="textbf">gnuplot</SPAN>'s ability to ignore mathematically undefined
+expressions: the expression <code>1/0</code> is silently ignored, thus a
+construction like
+<PRE>
+gnuplot&gt; set xran [-10:10]
+gnuplot&gt; plot (abs(x)&gt;0.5?1/0: x**2)
+</PRE>
+plots a quadratic function only for <code>|x| &lt; 0.5</code>.
+
+<P>
+
+<H2><A NAME="SECTION00082000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> How do I run my data through a filter before plotting?</A>
+</H2>
+
+<P>
+If your system supports the popen() function, as Unix does, you
+should be able to run the output through another process, for
+example a short awk program, such as
+
+<P>
+<PRE>
+gnuplot&gt; plot "&lt; awk ' { print $1, $3/$2 } ' file.in"
+</PRE>
+
+<P>
+The plot command is very powerful and is able to do some
+arithmetic on datafiles. See <code>help plot</code>.
+
+<P>
+The above filtering works seamlessly under Unixes and OS/2. It can work under MS
+Windows as well, but that is for experienced users: (A) When gnuplot has been
+compiled by cygwin with the unixish way of <code>./configure</code>; <code>make</code> with
+X11 terminal instead of the 'windows' terminal. You have to run this under an
+X-server. This procedure is out of knowledge for usual users, but powerful
+for others. (B) Compile gnuplot yourself by <code>makefile.mgw</code> or
+<code>makefile.cyg</code> and set <code>PIPES=1</code> therein. The drawback is that
+each <code>wgnuplot.exe</code> will be accompanied by a boring shell box.
+
+<P>
+
+<H2><A NAME="SECTION00083000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> How do I make it easier to use <SPAN  CLASS="textbf">gnuplot</SPAN> with <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>?</A>
+</H2>
+
+<P>
+There is a set of <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN> macros and shell scripts that are meant
+to make your life easier when using <SPAN  CLASS="textbf">gnuplot</SPAN> with <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>. This
+package can be found on <A NAME="tex2html70"
+  HREF="ftp://ftp.dartmouth.edupub/gnuplot/latex.shar"><TT>ftp.dartmouth.edu</TT> in <TT>pub/gnuplot/latex.shar</TT></A>,
+by David Kotz.
+For example, the program "plotskel" can turn a gnuplot-output
+file plot.tex into a skeleton file skel.tex, that has the same
+size as the original plot but contains no graph. With the right
+macros, the skeleton can be used for preliminary <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN> passes,
+reserving the full graph for later passes, saving tremendous
+amounts of time.
+
+<P>
+
+<H2><A NAME="SECTION00084000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">4</SPAN> How do I save and restore my settings?</A>
+</H2>
+
+<P>
+Use the <code>save</code> and <code>load</code> commands for this; see <code>help save</code>
+and <code>help load</code> for details.
+
+<P>
+You can save the current terminal and restore it later without touching the
+filesystem by <TT>set term push</TT> and <TT>set term pop</TT>, respectively.
+
+<P>
+
+<H2><A NAME="SECTION00085000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">5</SPAN> How do I plot lines (not grids) using splot?</A>
+</H2>
+
+<P>
+If the data in a data file for splot is arranged in such a way
+that each one has the same number of data points (using blank
+lines as delimiters, as usual), splot will plot the data with a
+grid. If you want to plot just lines, use a different number of
+data entries (you can do this by doubling the last data point,
+for example). Don't forget to <TT>set parametric</TT> mode, of course.
+
+<P>
+
+<H2><A NAME="SECTION00086000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">6</SPAN> How do I plot a function f(x,y) that is bounded by other
+          functions in the x-y plane?</A>
+</H2>
+
+<P>
+An example:
+<PRE>
+gnuplot&gt; f(x,y) = x**2 + y **2
+gnuplot&gt; x(u) = 3*u
+gnuplot&gt; yu(x) = x**2
+gnuplot&gt; yl(x) = -x**2
+gnuplot&gt; set parametric
+gnuplot&gt; set cont
+gnuplot&gt; splot [0:1] [0:1] u,yl(x(u))+(yu(x(u)) - yl(x(u)))*v,\
+&gt; f(x(u), (yu(x(u)) - yl(x(u)))*v)
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00087000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">7</SPAN> How do I turn off &lt;feature&gt; in a plot?</A>
+</H2>
+
+<P>
+Most gnuplot features are controlled by a corresponding set/unset command.
+If a feature is enabled by default, or by using <code>set &lt;feature&gt;</code>, then you
+should be able to turn it by using <code>set no&lt;feature&gt;</code>. However, the prefered 
+syntax since version 4.0 is <code>unset &lt;feature&gt;</code>.
+
+<P>
+
+<H2><A NAME="SECTION00088000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">8</SPAN> How do I call <SPAN  CLASS="textbf">gnuplot</SPAN> from my own programs?</A>
+</H2>
+
+<P>
+On unix-like systems, commands to gnuplot can be piped via stdin.
+Output from <SPAN  CLASS="textbf">gnuplot</SPAN>'s <code>print</code> command can be read via a named pipe. 
+On M$ Windows platforms, due to the lacking standard
+input (stdin) in GUI programs, you need to use the helper program <TT>pgnuplot</TT>
+which should be included in your gnuplot for M$W distribution package.
+Reading <SPAN  CLASS="textbf">gnuplot</SPAN> output may be impossible.
+
+<P>
+
+<H2><A NAME="SECTION00089000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">9</SPAN> What if I need h-bar (Planck's constant)?</A>
+</H2>
+
+<P>
+The most straightforward way is to use a UTF-8 font, and type in the
+<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$\hbar$"></SPAN> character (Unicode code point #x210F) directly. 
+
+<P>
+This does not work in PostScript, however, so you must use approximations
+like
+<code> @{/=56 -} {/=24 h}</code> or
+<code> {/=8 @{/Symbol=24 -} _{/=14 h}}</code>
+In the latter, the "-" (a long one in /Symbol) is non-spacing and 24-pt.
+The 14-pt "h" is offset by an 8-pt space (which is the space preceding
+the "_") but smaller, since it's written as a subscript.
+But these don't look too much like the hbar we're used to, since the bar
+is horizontal instead of sloped.  I don't see a way to get that.  I
+tried using an accent (character 264 in iso-latin-1 encoding), but I haven't found a
+way to scale and position the pieces correctly. 
+One more possibility would be <code>{/=14 @^{/Symbol=10 -}{/=14 h}}</code>.
+
+<P>
+The reduced Planck's constant can be set very easily by using the
+AMS-LaTeX PostScript fonts which are available from
+<A NAME="tex2html71"
+  HREF="http://www.ams.org/tex/amsfonts.html"><TT>http://www.ams.org/tex/amsfonts.html</TT></A>
+(also included in many LaTeX
+distributions). <SPAN  CLASS="textbf">Gnuplot</SPAN> (confer the help about <code> fontpath</code>) and the
+PostScript interpreter (usually Ghostscript) have to know where the
+file <code> msbm10.pfb</code> (or <code> msbm10.pfa</code>) resides. Use
+<code> {/MSBM10 \175}</code> to produce <code> \hslash</code> which is a "h"
+superimposed by a sloped bar. The standard <code> \hbar</code> (horizontal
+bar) has the octal code 176. Please note that h-bar exists only as an
+italic type.
+
+<P>
+
+<H2><A NAME="SECTION000810000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">10</SPAN> What if I need the Solar mass symbol?</A>
+</H2>
+
+<P>
+As with Planck's constant, the most straightforward way is to use a 
+UTF-8 font, and type in the <SPAN CLASS="MATH"><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$\odot$"></SPAN> character (Unicode code point #x2299) directly. 
+
+<P>
+
+<H2><A NAME="SECTION000811000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">11</SPAN> How do I produce blank output page?</A>
+</H2>
+
+<P>
+Well, you probably don't want a blank page, but page with a just a title 
+(overprinting title in another graph in multiplot page):
+
+<P>
+<PRE>
+reset; unset xtics; unset ytics
+unset border; unset key
+set title 'Title on an empty page'
+plot [][0:1] 2
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00090000000000000000">
+<SPAN CLASS="arabic">7</SPAN> Common problems</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00091000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Help! None of my fonts work.</A>
+</H2>
+
+<P>
+Gnuplot does not do font handling by itself; it must necessarily leave
+that to the individual device support libraries. Unfortunately, this
+means that different terminal types need different help in finding
+fonts. Here are some quick hints. For more detailed information please
+see the gnuplot documentation for the specific terminal type you are
+having problems with.
+
+<P>
+<DL>
+<DT><STRONG>png/jpeg/gif</STRONG></DT>
+<DD>These terminal types use the libgd support library, which
+searches for fonts in the directories given in the environmental variable
+GDFONTPATH. Once you get libgd fontpaths sorted out, you will probably
+want to set a default font for gnuplot.
+For example: <code>setenv GNUPLOT_DEFAULT_GDFONT verdana</code>
+</DD>
+<DT><STRONG>pdf</STRONG></DT>
+<DD>The libpdf support library should have come with an associated
+font configuration file, usually installed as /usr/local/share/pdflib.upr.
+The environmental variable PDFLIBRESOURCE should point to this file.
+</DD>
+<DT><STRONG>post</STRONG></DT>
+<DD>PostScript font names are not resolved until the document
+is printed. Gnuplot does not know what fonts are available to your
+printer, so it will accept any font name you give it. However, it
+is possible to bundle a font with the gnuplot output; please see the
+instructions given by gnuplot's internal command ``help set term
+post fontfile''.
+</DD>
+<DT><STRONG>svg</STRONG></DT>
+<DD>Font handling is viewer-dependent. 
+</DD>
+<DT><STRONG>x11</STRONG></DT>
+<DD>The x11 terminal uses the normal x11 font server mechanism.
+The only tricky bit is that in order to use multi-byte fonts you must
+explicitly say so:
+<PRE>
+set term x11 font "mbfont:sazanami mincho,vera,20"
+</PRE>
+</DD>
+<DT><STRONG>win</STRONG></DT>
+<DD>Right-click in the control window, then select "Choose font"
+from the pull-down menu.
+</DD>
+<DT><STRONG>wxt</STRONG></DT>
+<DD>On linux systems, the wxt terminal can find fonts indexed
+by the fontconfig utility.
+</DD>
+</DL>
+
+<P>
+
+<H2><A NAME="SECTION00092000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">2</SPAN> <SPAN  CLASS="textbf">Gnuplot</SPAN> is not plotting any points under X11! How come?</A>
+</H2>
+On VMS, you need to make several symbols:
+
+<P>
+<PRE>
+        $ gnuplot_x11 :== $disk:[directory]gnuplot_x11
+        $ gnuplot :== $disk:[directory]gnuplot.exe
+        $ def/job GNUPLOT$HELP disk:[directory]gnuplot.hlb
+</PRE>
+
+<P>
+Then run <SPAN  CLASS="textbf">gnuplot</SPAN> from your command line, and use
+<code>set term x11</code>.
+
+<P>
+If you run <SPAN  CLASS="textbf">gnuplot</SPAN> on Unix systems, be sure that the newest
+<code>gnuplot_x11</code> is the first in your search path.
+Command <code>which gnuplot_x11</code> will help you.
+
+<P>
+
+<H2><A NAME="SECTION00093000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">3</SPAN> Why does <SPAN  CLASS="textbf">gnuplot</SPAN> ignore my very small numbers?</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> treats all numbers less than 1e-08 as zero, by default.
+Thus, if you are trying to plot a collection of very small
+numbers, they may be plotted as zero. Worse, if you're plotting
+on a log scale, they will be off scale. Or, if the whole set of
+numbers is "zero", your range may be considered empty:
+
+<P>
+<PRE>
+gnuplot&gt; plot 'test1'
+Warning: empty y range [4.047e-19:3e-11], adjusting to [-1:1]
+gnuplot&gt; set yrange [4e-19:3e-11]
+gnuplot&gt; plot 'test1'
+              ^
+y range is less than `zero`
+</PRE>
+
+<P>
+The solution is to change <SPAN  CLASS="textbf">gnuplot</SPAN>'s idea of "zero":
+<PRE>
+gnuplot&gt; set zero 1e-20
+</PRE>
+
+<P>
+For more information, type <code>help set zero</code>.
+
+<P>
+
+<H2><A NAME="SECTION00094000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">4</SPAN> <SPAN  CLASS="textbf">Gnuplot</SPAN> is not plotting on the screen when run from command
+    line via '<TT>gnuplot filename.gp</TT>'</A>
+</H2>
+
+<P>
+Obviously, it draws (unless there is an error in the script file), but the plot
+dissappears immediately when the script is completed. 
+
+<P>
+Solution 1: Put a <code>pause -1</code> after the plot command in the file, or at the
+file end.
+
+<P>
+Solution 2: Use command <code>gnuplot filename.gp -</code> (yes, dash is the last
+parameter) to stay in the interactive regime when the script completes.
+
+<P>
+Solution 3A: On an X-Window System system, you can also use the <code>-persist</code>
+option, the X11 window is then not closed. Close the X11 window by typing "q"
+when the focus is on it.
+
+<P>
+Solution 3B: On M$ Windows, you can also use either <code>-persist</code> or
+<code>/noend</code>.
+
+<P>
+Solution 4: For OS/2 PM terminal, use <code>set term pm persist</code> or
+<code>set term pm server</code>. For X11 terminal, use <code>set term x11 persist</code>.
+
+<P>
+
+<H2><A NAME="SECTION00095000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">5</SPAN> My formulas (like 1/3) are giving me nonsense results! What's going on?</A>
+</H2>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> does integer, and not floating point, arithmetic on
+integer expressions. For example, the expression 1/3 evaluates
+to zero. If you want floating point expressions, supply
+trailing dots for your floating point numbers. Example:
+
+<P>
+<PRE>
+gnuplot&gt; print 1/3
+                0
+gnuplot&gt; print 1./3.
+                0.333333
+</PRE>
+
+<P>
+This way of evaluating integer expressions is shared by both C and Fortran.
+
+<P>
+
+<H2><A NAME="SECTION00096000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">6</SPAN> Set output 'filename' isn't outputting everything it
+should!</A>
+</H2>
+
+<P>
+You may need to flush the output with a closing <code>set output</code>.
+
+<P>
+
+<H2><A NAME="SECTION00097000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">7</SPAN> When using the <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>-terminal, there is an error during
+the <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>-run!</A>
+</H2>
+
+<P>
+The <SPAN CLASS="logo,LaTeX">L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X</SPAN>2<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$\epsilon$"></SPAN>-core no longer includes the commands
+"<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$\backslash$"></SPAN>Diamond" and "<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$\backslash$"></SPAN>Box"; they are included in the latexsym package.
+Other symbols are taken from the asmsymb package.
+Both of these are part of the base distribution and thus part of any LaTeX
+implementation.  Please remember to include these packages in your LaTeX document.
+
+<P>
+
+<H2><A NAME="SECTION00098000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">8</SPAN> I can't find the demos and example files at the URLs in the
+documentation!</A>
+</H2>
+
+<P>
+The examples have been removed from the NASA site mentioned in older
+documentation. You can find the version 4.0 examples at 
+<A NAME="tex2html72"
+  HREF="http://gnuplot.sourceforge.net/demo"><TT>http://gnuplot.sourceforge.net/demo</TT></A>.  Version 4.2 examples are at
+<A NAME="tex2html73"
+  HREF="http://gnuplot.sourceforge.net/demo_4.2"><TT>http://gnuplot.sourceforge.net/demo_4.2</TT></A>.
+
+<P>
+
+<H2><A NAME="SECTION00099000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">9</SPAN> Calling <SPAN  CLASS="textbf">gnuplot</SPAN> in a pipe or with a <SPAN  CLASS="textbf">gnuplot</SPAN>-script
+doesn't produce a plot!</A>
+</H2>
+
+<P>
+You can call <SPAN  CLASS="textbf">gnuplot</SPAN> by using a short Perl-script like the
+following:
+<PRE>
+#!/usr/local/bin/perl -w
+open (GP, "|/usr/local/bin/gnuplot -persist") or die "no gnuplot";
+# force buffer to flush after each write
+use FileHandle;
+GP-&gt;autoflush(1);
+print GP,"set term x11;plot '/tmp/data.dat' with lines\n";
+close GP
+</PRE>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> closes its plot window on exit. The <code>close GP</code>
+command is executed, and the plot window is closed even before you have
+a chance to look at it.
+
+<P>
+There are three solutions to this: first, use the <code>pause -1</code>
+command in <SPAN  CLASS="textbf">gnuplot</SPAN> before closing the pipe. Second, close the pipe
+only if you are sure that you don't need <SPAN  CLASS="textbf">gnuplot</SPAN> and its plot window
+anymore. Last, you can use the command line option <code>-persist</code>: this
+option leaves the X-Window System plot window open.
+
+<P>
+
+<H1><A NAME="SECTION000100000000000000000">
+<SPAN CLASS="arabic">8</SPAN> Credits</A>
+</H1>
+
+<P>
+<SPAN  CLASS="textbf">Gnuplot</SPAN> 3.7's main contributors are (in alphabetical order)
+Hans-Bernhard Broeker, John Campbell, Robert Cunningham, David Denholm,
+Gershon Elber, Roger Fearick, Carsten Grammes, Lucas Hart, Lars Hecking,
+Thomas Koenig, David Kotz, Ed Kubaitis, Russell Lang, Alexander Lehmann,
+Alexander Mai, Carsten Steger, Tom Tkacik, Jos Van der Woude, James R.
+Van Zandt, and Alex Woo.  Additional substantial contributors to version 4.0
+include Ethan Merritt, Petr Mikul&#237;k and Johannes Zellner.
+
+<P>
+This list was initially compiled by John Fletcher with contributions
+from Russell Lang, John Campbell, David Kotz, Rob Cunningham, Daniel
+Lewart and Alex Woo. Reworked by Thomas Koenig from a draft
+by Alex Woo, with corrections and additions from Alex Woo, John
+Campbell, Russell Lang, David Kotz and many corrections from Daniel
+Lewart.
+Again reworked for <SPAN  CLASS="textbf">gnuplot</SPAN> 3.7 by Alexander Mai and Juergen v.Hagen
+with corrections by Lars Hecking, Hans-Bernhard Broecker and other
+people.
+Revised for <SPAN  CLASS="textbf">gnuplot</SPAN> 4.0 release by Petr Mikul&#237;k and Ethan Merritt.
+Revised for <SPAN  CLASS="textbf">gnuplot</SPAN> 4.2 release by Petr Mikul&#237;k and Ethan Merritt.
+</BODY>
+</HTML>

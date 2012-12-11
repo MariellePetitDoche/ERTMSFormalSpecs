@@ -38,14 +38,12 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public StructureProcedureParametersTreeNode(DataDictionary.Types.StructureProcedure item)
-            : base("Parameters", item)
+            : base("Parameters", item, true)
         {
             foreach (DataDictionary.Parameter parameter in item.FormalParameters)
             {
                 Nodes.Add(new ParameterTreeNode(parameter));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
         }
 
         /// <summary>

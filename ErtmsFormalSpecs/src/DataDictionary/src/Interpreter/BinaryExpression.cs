@@ -645,11 +645,6 @@ namespace DataDictionary.Interpreter
             Functions.Graph leftGraph = Left.createGraphForParameter(context, parameter);
             Functions.Graph rightGraph = Right.createGraphForParameter(context, parameter);
 
-            if (leftGraph == null || rightGraph == null)
-            {
-                System.Diagnostics.Debugger.Break();
-            }
-
             switch (Operation)
             {
                 case Interpreter.BinaryExpression.OPERATOR.ADD:

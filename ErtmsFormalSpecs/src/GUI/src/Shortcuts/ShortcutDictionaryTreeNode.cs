@@ -38,7 +38,7 @@ namespace GUI.Shortcuts
         /// </summary>
         /// <param name="item"></param>
         public ShortcutDictionaryTreeNode(DataDictionary.Shortcuts.ShortcutDictionary item)
-            : base(item.Name, item)
+            : base(item, item.Name, true)
         {
             foreach (DataDictionary.Shortcuts.ShortcutFolder folder in item.Folders)
             {
@@ -49,10 +49,6 @@ namespace GUI.Shortcuts
             {
                 Nodes.Add(new ShortcutTreeNode(shortcut));
             }
-
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
-
             SortSubNodes();
         }
 

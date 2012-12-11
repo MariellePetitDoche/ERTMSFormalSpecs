@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -77,8 +75,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public StructureProcedureTreeNode(string name, DataDictionary.Types.StructureProcedure item)
-            : base(name, item, false)
+        public StructureProcedureTreeNode(string name, DataDictionary.Types.StructureProcedure item, bool isFolder)
+            : base(item, name, isFolder)
         {
         }
 

@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.TestRunnerView
@@ -42,7 +40,7 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="item"></param>
         public ExpectationsTreeNode(DataDictionary.Tests.SubStep item)
-            : base("Expectations", item)
+            : base(item, "Expectations", true)
         {
             foreach (DataDictionary.Tests.Expectation expectation in item.Expectations)
             {

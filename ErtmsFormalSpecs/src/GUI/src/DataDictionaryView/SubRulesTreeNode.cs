@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -28,7 +26,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public SubRulesTreeNode(DataDictionary.Rules.RuleCondition item)
-            : base("Sub rules", item)
+            : base(item, "Sub rules", true)
         {
             foreach (DataDictionary.Rules.Rule rule in item.SubRules)
             {

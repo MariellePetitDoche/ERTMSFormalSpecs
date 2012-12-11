@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 
@@ -39,7 +38,7 @@ namespace GUI.Shortcuts
         /// </summary>
         /// <param name="item"></param>
         public ShortcutFolderTreeNode(DataDictionary.Shortcuts.ShortcutFolder item)
-            : base(item)
+            : base(item, null, true)
         {
 
             foreach (DataDictionary.Shortcuts.ShortcutFolder folder in item.Folders)
@@ -51,9 +50,6 @@ namespace GUI.Shortcuts
             {
                 Nodes.Add(new ShortcutTreeNode(shortcut));
             }
-
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
         }
 
         /// <summary>
@@ -62,7 +58,7 @@ namespace GUI.Shortcuts
         /// <param name="item"></param>
         /// <param name="name"></param>
         public ShortcutFolderTreeNode(string name, DataDictionary.Shortcuts.ShortcutFolder item)
-            : base(name, item)
+            : base(item, name)
         {
         }
 

@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.TestRunnerView
@@ -39,14 +37,12 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="item"></param>
         public TestsTreeNode(DataDictionary.Dictionary item)
-            : base(item)
+            : base(item, null, true)
         {
             foreach (DataDictionary.Tests.Frame frame in item.Tests)
             {
                 Nodes.Add(new FrameTreeNode(frame));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 
@@ -157,10 +153,28 @@ namespace GUI.TestRunnerView
 
             retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
             retVal.Add(new MenuItem("-"));
+            retVal.Add(new MenuItem("Import braking curves verification set", new EventHandler(ImportBrakingCurvesHandler)));
+            retVal.Add(new MenuItem("-"));
             retVal.Add(new MenuItem("Execute", new EventHandler(RunHandler)));
             retVal.Add(new MenuItem("Create report", new EventHandler(ReportHandler)));
 
             return retVal;
+        }
+
+
+        /// <summary>
+        /// Imports a test scenario from the ERA braking curves simulation tool
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void ImportBrakingCurvesHandler(object sender, EventArgs args)
+        {
+            Window window = BaseForm as Window;
+            if (window != null)
+            {
+                ExcelImport.Frm_ExcelImport excelImport = new ExcelImport.Frm_ExcelImport(this.Item);
+                excelImport.ShowDialog();
+            }
         }
     }
 }

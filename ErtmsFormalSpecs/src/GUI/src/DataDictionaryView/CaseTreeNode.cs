@@ -16,9 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using DataDictionary.Functions;
 
@@ -51,7 +48,6 @@ namespace GUI.DataDictionaryView
 
         private PreConditionsTreeNode PreConditions;
 
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -66,10 +62,9 @@ namespace GUI.DataDictionaryView
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="item"></param>
-        public CaseTreeNode(string name, Case item)
-            : base(name, item)
+        public CaseTreeNode(Case aCase, string name, bool isFolder)
+            : base(aCase, name, isFolder)
         {
         }
 

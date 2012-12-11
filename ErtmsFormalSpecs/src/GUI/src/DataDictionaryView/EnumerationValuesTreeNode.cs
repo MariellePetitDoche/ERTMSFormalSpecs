@@ -15,9 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -29,14 +26,12 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public EnumerationValuesTreeNode(DataDictionary.Types.Enum item)
-            : base("Values", item)
+            : base(item, "Values", true)
         {
             foreach (DataDictionary.Constants.EnumValue value in item.Values)
             {
                 Nodes.Add(new EnumerationValueTreeNode(value));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

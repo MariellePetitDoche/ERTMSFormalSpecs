@@ -15,9 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -29,14 +26,12 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public ActionsTreeNode(DataDictionary.Rules.RuleCondition item)
-            : base("Actions", item)
+            : base(item, "Actions", true)
         {
             foreach (DataDictionary.Rules.Action action in item.Actions)
             {
                 Nodes.Add(new ActionTreeNode(action));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             if (Item.EnclosingRule != null && !Item.EnclosingRule.BelongsToAProcedure())
             {
                 SortSubNodes();

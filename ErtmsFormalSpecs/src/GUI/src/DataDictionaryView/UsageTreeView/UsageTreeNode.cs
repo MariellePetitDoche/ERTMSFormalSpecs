@@ -15,16 +15,12 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView.UsageTreeView
 {
     public abstract class UsageTreeNode<T> : DataTreeNode<T>
-        where T : Utils.IModelElement
+        where T : class, Utils.IModelElement
     {
         private class UsageEditor : Editor
         {

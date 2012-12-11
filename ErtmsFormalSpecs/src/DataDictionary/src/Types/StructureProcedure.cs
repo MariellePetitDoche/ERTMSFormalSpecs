@@ -180,6 +180,21 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        /// Provides the enclosing structure
+        /// </summary>
+        public override object Enclosing
+        {
+            get
+            {
+                return Structure;
+            }
+            set
+            {
+                base.Enclosing = value;
+            }
+        }
+
+        /// <summary>
         /// Provides the mode of the variable
         /// </summary>
         public DataDictionary.Generated.acceptor.VariableModeEnumType Mode

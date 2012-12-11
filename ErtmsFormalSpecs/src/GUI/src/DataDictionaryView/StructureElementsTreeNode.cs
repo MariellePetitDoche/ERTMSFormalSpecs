@@ -15,9 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -29,14 +26,12 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public StructureElementsTreeNode(DataDictionary.Types.Structure item)
-            : base("Sub elements", item)
+            : base(item, "Sub elements", true)
         {
             foreach (DataDictionary.Types.StructureElement structureElement in item.Elements)
             {
                 Nodes.Add(new StructureElementTreeNode(structureElement));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

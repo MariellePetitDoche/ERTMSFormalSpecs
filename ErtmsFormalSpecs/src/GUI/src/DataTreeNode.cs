@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Utils;
 
 namespace GUI
 {
@@ -75,29 +76,69 @@ namespace GUI
             }
         }
 
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="value"></param>
-        public BaseTreeNode(Utils.IModelElement value)
-            : base(value.Name)
-        {
-            Model = value;
-            RefreshNode();
-        }
-
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public BaseTreeNode(string name, Utils.IModelElement value)
+        public BaseTreeNode(Utils.IModelElement value, string name = null, bool isFolder = false)
             : base(name)
         {
             Model = value;
-            DefaultName = name;
+
+            if (name != null)
+            {
+                DefaultName = name;
+            }
+            else
+            {
+                DefaultName = value.Name;
+            }
+
+            setImageIndex(isFolder);
             RefreshNode();
+        }
+
+        /// <summary>
+        /// Sets the image index for this node
+        /// </summary>
+        /// <param name="isFolder">Indicates whether this item represents a folder</param>
+        protected virtual void setImageIndex(bool isFolder)
+        {
+            if (ImageIndex == -1)
+            {
+                // Image index not yet selected
+                ImageIndex = BaseTreeView.ModelImageIndex;
+
+                if (isFolder)
+                {
+                    ImageIndex = BaseTreeView.ClosedFolderImageIndex;
+                }
+                else
+                {
+                    Utils.IModelElement element = Model;
+                    while (element != null && ImageIndex == BaseTreeView.ModelImageIndex)
+                    {
+                        element = element.Enclosing as IModelElement;
+                        if (element is DataDictionary.Tests.Frame
+                            || element is DataDictionary.Tests.SubSequence
+                            || element is DataDictionary.Tests.TestCase
+                            || element is DataDictionary.Tests.Step)
+                        {
+                            ImageIndex = BaseTreeView.TestImageIndex;
+                        }
+
+                        if (element is DataDictionary.Specification.Specification
+                            || element is DataDictionary.Specification.Chapter
+                            || element is DataDictionary.Specification.Paragraph)
+                        {
+                            ImageIndex = BaseTreeView.RequirementImageIndex;
+                        }
+                    }
+                }
+            }
+
+            SelectedImageIndex = ImageIndex;
         }
 
         /// <summary>
@@ -649,7 +690,7 @@ namespace GUI
         /// </summary>
         public virtual void HandleExpand()
         {
-            if (ImageIndex != -1)
+            if (ImageIndex == BaseTreeView.ClosedFolderImageIndex)
             {
                 ImageIndex = BaseTreeView.ExpandedFolderImageIndex;
                 SelectedImageIndex = BaseTreeView.ExpandedFolderImageIndex;
@@ -661,7 +702,7 @@ namespace GUI
         /// </summary>
         public virtual void HandleCollapse()
         {
-            if (ImageIndex != -1)
+            if (ImageIndex == BaseTreeView.ExpandedFolderImageIndex)
             {
                 ImageIndex = BaseTreeView.ClosedFolderImageIndex;
                 SelectedImageIndex = BaseTreeView.ClosedFolderImageIndex;
@@ -687,7 +728,7 @@ namespace GUI
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class DataTreeNode<T> : BaseTreeNode
-        where T : Utils.IModelElement
+        where T : class, Utils.IModelElement
     {
         /// <summary>
         /// An editor for an item. It is the responsibility of this class to implement attributes 
@@ -771,22 +812,13 @@ namespace GUI
         /// Constructor
         /// </summary>
         /// <param name="item">The element to be represented by this tree node</param>
-        protected DataTreeNode(T item)
-            : base(item)
+        /// <param name="name">The display name of the node</param>
+        /// <param name="isFolder">Indicates whether this node is a folder</param>
+        protected DataTreeNode(T item, string name = null, bool isFolder = false)
+            : base(item, name, isFolder)
         {
             Item = item;
             RefreshNode();
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="name">The name fo the element to be represented by this tree node</param>
-        /// <param name="item">The element to be represented by this tree node</param>
-        protected DataTreeNode(string name, T item)
-            : base(name, item)
-        {
-            Item = item;
         }
 
         /// <summary>

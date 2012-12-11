@@ -326,23 +326,6 @@ namespace GUI.TestRunnerView
         }
 
         /// <summary>
-        /// Imports a set of expectations from the ERA braking curves simulation tool
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public void ImportBrakingCurvesHandler(object sender, EventArgs args)
-        {
-            CheckRunner();
-
-            Window window = BaseForm as Window;
-            if (window != null)
-            {
-                ExcelImport.Frm_ExcelImport excelImport = new ExcelImport.Frm_ExcelImport(this.Item);
-                excelImport.ShowDialog();
-            }
-        }
-
-        /// <summary>
         /// The menu items for this tree node
         /// </summary>
         /// <returns></returns>
@@ -356,8 +339,6 @@ namespace GUI.TestRunnerView
             retVal.Add(new MenuItem("-"));
             retVal.Add(new MenuItem("Run once", new EventHandler(RunHandler)));
             retVal.Add(new MenuItem("Run until expectation reached", new EventHandler(RunForExpectationsHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Import braking curves verification set", new EventHandler(ImportBrakingCurvesHandler)));
             retVal.Add(new MenuItem("-"));
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
 

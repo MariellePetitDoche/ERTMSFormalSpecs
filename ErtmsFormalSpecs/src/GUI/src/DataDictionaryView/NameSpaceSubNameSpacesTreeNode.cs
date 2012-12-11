@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -29,14 +27,12 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="name"></param>
         public NameSpaceSubNameSpacesTreeNode(DataDictionary.Types.NameSpace item)
-            : base("Namespaces", item)
+            : base(item, "Namespaces", true)
         {
             foreach (DataDictionary.Types.NameSpace nameSpace in item.SubNameSpaces)
             {
                 Nodes.Add(new NameSpaceTreeNode(nameSpace));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 
