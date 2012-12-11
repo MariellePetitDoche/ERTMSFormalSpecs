@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -43,14 +41,12 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="name"></param>
         public NameSpaceProceduresTreeNode(DataDictionary.Types.NameSpace item)
-            : base("Procedures", item)
+            : base(item, "Procedures", true)
         {
             foreach (DataDictionary.Variables.Procedure procedure in item.Procedures)
             {
                 Nodes.Add(new ProcedureTreeNode(procedure));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

@@ -396,7 +396,7 @@ namespace GUI.GraphView
                         finally
                         {
                             stream.Close();
-                            System.IO.File.Delete(display.ImageFileName);
+                            // System.IO.File.Delete(display.ImageFileName);
                         }
                     }
                 }

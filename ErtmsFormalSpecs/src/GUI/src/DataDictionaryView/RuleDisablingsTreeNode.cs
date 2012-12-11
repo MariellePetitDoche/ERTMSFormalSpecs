@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -40,14 +38,12 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="name"></param>
         public RuleDisablingsTreeNode(DataDictionary.Dictionary item)
-            : base("Disabled rules", item)
+            : base(item, "Disabled rules", true)
         {
             foreach (DataDictionary.Rules.RuleDisabling ruleDisabling in item.RuleDisablings)
             {
                 Nodes.Add(new RuleDisablingTreeNode(ruleDisabling));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

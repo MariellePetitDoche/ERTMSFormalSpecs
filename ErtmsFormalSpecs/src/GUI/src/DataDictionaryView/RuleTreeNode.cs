@@ -66,7 +66,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public RuleTreeNode(string name, DataDictionary.Rules.Rule item)
-            : base(name, item, false)
+            : base(item, name, false)
         {
         }
 

@@ -15,13 +15,9 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-using System.Drawing;
-using System.Drawing.Design;
 
 namespace GUI
 {
@@ -75,28 +71,10 @@ namespace GUI
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="item"></param>
-        protected ReqRelatedTreeNode(T item)
-            : base(item)
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="item"></param>
-        protected ReqRelatedTreeNode(T item, string name)
-            : base(name, item)
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        protected ReqRelatedTreeNode(string name, T item, bool addRequirements)
-            : base(name, item, addRequirements)
+        protected ReqRelatedTreeNode(T item = null, string name = null, bool addRequirements = true)
+            : base(item, name, addRequirements)
         {
         }
 

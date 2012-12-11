@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -29,14 +27,12 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="children"></param>
         public RulePreConditionsTreeNode(DataDictionary.Rules.RuleCondition item)
-            : base("Pre conditions", item)
+            : base(item, "Pre conditions", true)
         {
             foreach (DataDictionary.Rules.PreCondition preCondition in item.PreConditions)
             {
                 Nodes.Add(new PreConditionTreeNode(preCondition));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
         }
 
         /// <summary>

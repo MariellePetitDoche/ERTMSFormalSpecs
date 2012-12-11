@@ -13,13 +13,7 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
 {
@@ -45,7 +39,7 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="encounteredTypes">the types that have already been encountered in the path to create this variable </param>
         public SubVariablesTreeNode(DataDictionary.Variables.Variable item, HashSet<DataDictionary.Types.Type> encounteredTypes)
-            : base("Sub variables", item)
+            : base(item, "Sub variables", true)
         {
             foreach (DataDictionary.Variables.IVariable ivariable in item.SubVariables.Values)
             {
@@ -79,10 +73,6 @@ namespace GUI.DataDictionaryView
                     }
                 }
             }
-
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
-
             SortSubNodes();
         }
 

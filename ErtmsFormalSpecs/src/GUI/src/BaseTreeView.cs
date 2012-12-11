@@ -39,8 +39,12 @@ namespace GUI
             }
         }
 
-        public int ClosedFolderImageIndex;
-        public int ExpandedFolderImageIndex;
+        public static int FileImageIndex;
+        public static int ClosedFolderImageIndex;
+        public static int ExpandedFolderImageIndex;
+        public static int RequirementImageIndex;
+        public static int ModelImageIndex;
+        public static int TestImageIndex;
 
         /// <summary>
         /// Constructor
@@ -66,10 +70,17 @@ namespace GUI
             ImageList.Images.Add(GUI.Properties.Resources.file);
             ImageList.Images.Add(GUI.Properties.Resources.folder_closed);
             ImageList.Images.Add(GUI.Properties.Resources.folder_opened);
+            ImageList.Images.Add(GUI.Properties.Resources.req_icon);
+            ImageList.Images.Add(GUI.Properties.Resources.model_icon);
+            ImageList.Images.Add(GUI.Properties.Resources.test_icon);
 
             ImageIndex = 0;
+            FileImageIndex = 0;
             ClosedFolderImageIndex = 1;
             ExpandedFolderImageIndex = 2;
+            RequirementImageIndex = 3;
+            ModelImageIndex = 4;
+            TestImageIndex = 5;
         }
 
         /// <summary>

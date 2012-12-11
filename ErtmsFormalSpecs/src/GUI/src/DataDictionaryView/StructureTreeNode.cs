@@ -15,9 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -47,6 +44,7 @@ namespace GUI.DataDictionaryView
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="item"></param>
         public StructureTreeNode(DataDictionary.Types.Structure item)
             : base(item)
@@ -64,8 +62,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public StructureTreeNode(string name, DataDictionary.Types.Structure item)
-            : base(name, item)
+        public StructureTreeNode(DataDictionary.Types.Structure item, string name, bool isFolder)
+            : base(item, name, isFolder)
         {
         }
 

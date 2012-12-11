@@ -16,9 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using DataDictionary.Functions;
 
@@ -105,8 +102,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public FunctionTreeNode(string name, Function item)
-            : base(name, item, false)
+        public FunctionTreeNode(Function item, string name, bool isFolder = false)
+            : base(item, name, isFolder)
         {
         }
 

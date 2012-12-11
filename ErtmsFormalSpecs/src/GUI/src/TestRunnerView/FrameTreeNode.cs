@@ -15,10 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
 
 namespace GUI.TestRunnerView
 {
@@ -43,14 +40,12 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="item"></param>
         public FrameTreeNode(DataDictionary.Tests.Frame item)
-            : base(item)
+            : base(item, null, true)
         {
             foreach (DataDictionary.Tests.SubSequence subSequence in item.SubSequences)
             {
                 Nodes.Add(new SubSequenceTreeNode(subSequence));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

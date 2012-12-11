@@ -15,9 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -52,7 +49,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public PreConditionTreeNode(DataDictionary.Rules.PreCondition item)
-            : base(item)
+            : base(item, null)
         {
         }
 

@@ -15,13 +15,8 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 
-using System.Drawing;
-using System.Drawing.Design;
 
 namespace GUI.DataDictionaryView
 {
@@ -63,8 +58,8 @@ namespace GUI.DataDictionaryView
         /// Constructor
         /// </summary>
         /// <param name="item"></param>
-        public RuleConditionTreeNode(string name, DataDictionary.Rules.RuleCondition item)
-            : base(name, item, false)
+        public RuleConditionTreeNode(DataDictionary.Rules.RuleCondition item, string name, bool isFolder = false)
+            : base(item, name, false)
         {
         }
 

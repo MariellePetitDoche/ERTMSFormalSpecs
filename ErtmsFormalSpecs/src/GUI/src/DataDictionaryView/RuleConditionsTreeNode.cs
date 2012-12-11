@@ -40,14 +40,12 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public RuleConditionsTreeNode(DataDictionary.Rules.Rule item)
-            : base("Conditions", item)
+            : base(item, "Conditions", true)
         {
             foreach (DataDictionary.Rules.RuleCondition ruleCondition in item.RuleConditions)
             {
                 Nodes.Add(new RuleConditionTreeNode(ruleCondition));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
         }
 
         /// <summary>

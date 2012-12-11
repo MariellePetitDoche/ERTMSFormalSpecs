@@ -15,10 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
 
 namespace GUI.TestRunnerView
 {
@@ -43,7 +40,7 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="item"></param>
         public SubSequenceTreeNode(DataDictionary.Tests.SubSequence item)
-            : base(item)
+            : base(item, null, true)
         {
             foreach (DataDictionary.Tests.TestCase testCase in item.TestCases)
             {

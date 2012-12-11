@@ -15,11 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
-using GUI.DataDictionaryView;
 
 
 namespace GUI.DataDictionaryView
@@ -42,14 +38,12 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public StructureProceduresTreeNode(DataDictionary.Types.Structure item)
-            : base("Procedures", item)
+            : base(item, "Procedures", true)
         {
             foreach (DataDictionary.Types.StructureProcedure procedure in item.Procedures)
             {
                 Nodes.Add(new StructureProcedureTreeNode(procedure));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

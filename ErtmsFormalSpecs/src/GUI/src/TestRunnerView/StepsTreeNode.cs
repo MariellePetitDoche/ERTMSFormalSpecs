@@ -15,10 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
 
 namespace GUI.TestRunnerView
 {
@@ -43,7 +40,7 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="item"></param>
         public StepsTreeNode(DataDictionary.Tests.TestCase item)
-            : base("Steps", item)
+            : base(item, "Steps", true)
         {
             foreach (DataDictionary.Tests.Step step in item.Steps)
             {

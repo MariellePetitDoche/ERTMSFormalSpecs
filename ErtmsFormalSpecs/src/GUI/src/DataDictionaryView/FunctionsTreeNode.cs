@@ -38,14 +38,12 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="name"></param>
         public FunctionsTreeNode(DataDictionary.Types.NameSpace item)
-            : base("Functions", item)
+            : base(item, "Functions", true)
         {
             foreach (DataDictionary.Functions.Function function in item.Functions)
             {
                 Nodes.Add(new FunctionTreeNode(function));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

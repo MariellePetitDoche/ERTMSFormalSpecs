@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.TestRunnerView
@@ -39,14 +37,12 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="item"></param>
         public TestsTreeNode(DataDictionary.Dictionary item)
-            : base(item)
+            : base(item, null, true)
         {
             foreach (DataDictionary.Tests.Frame frame in item.Tests)
             {
                 Nodes.Add(new FrameTreeNode(frame));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 
