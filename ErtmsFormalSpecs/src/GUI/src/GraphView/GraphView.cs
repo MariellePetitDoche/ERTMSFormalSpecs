@@ -71,29 +71,48 @@ namespace GUI.GraphView
                 DataDictionaryView.FunctionTreeNode functionTreeNode = SourceNode as DataDictionaryView.FunctionTreeNode;
                 if (functionTreeNode != null)
                 {
-                    Function function = functionTreeNode.Item;
-                    InterpretationContext context = new InterpretationContext(function);
-                    if (function.FormalParameters.Count == 1)
+                    AddFunction(functionTreeNode.Item);
+                }
+                else
+                {
+                    Shortcuts.ShortcutTreeNode shortcutTreeNode = SourceNode as Shortcuts.ShortcutTreeNode;
+                    if (shortcutTreeNode != null)
                     {
-                        Graph graph = function.createGraph(context);
-                        if (graph != null)
-                        {
-                            Functions.Add(functionTreeNode.Item);
-                            Refresh();
-                        }
+                        AddFunction(shortcutTreeNode.Item.GetReference() as Function);
                     }
-                    else if (function.FormalParameters.Count == 2)
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a new function to this graph
+        /// </summary>
+        /// <param name="function"></param>
+        private void AddFunction(Function function)
+        {
+            if (function != null)
+            {
+                InterpretationContext context = new InterpretationContext(function);
+                if (function.FormalParameters.Count == 1)
+                {
+                    Graph graph = function.createGraph(context);
+                    if (graph != null)
                     {
-                        Surface surface = function.createSurface(context);
-                        if (surface != null)
-                        {
-                            Functions.Add(functionTreeNode.Item);
-                            Refresh();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Cannot add this function to the display view", "Cannot display function", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        Functions.Add(function);
+                        Refresh();
+                    }
+                }
+                else if (function.FormalParameters.Count == 2)
+                {
+                    Surface surface = function.createSurface(context);
+                    if (surface != null)
+                    {
+                        Functions.Add(function);
+                        Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot add this function to the display view", "Cannot display function", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

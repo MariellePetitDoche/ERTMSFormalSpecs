@@ -77,5 +77,14 @@ namespace DataDictionary.Shortcuts
             Name = aNamable.Name;
             ShortcutName = aNamable.FullName;
         }
+
+        /// <summary>
+        /// Provides the model element referenced by this shortcut
+        /// </summary>
+        /// <returns></returns>
+        public Namable GetReference()
+        {
+            return (DataDictionary.Namable)EFSSystem.findByFullName(ShortcutName);
+        }
     }
 }
