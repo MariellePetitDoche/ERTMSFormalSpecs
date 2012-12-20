@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -192,7 +190,7 @@ namespace GUI.SpecificationView
                 window.specBrowserRuleView.Nodes.Clear();
                 foreach (DataDictionary.ReqRef reqRef in Item.Implementations)
                 {
-                    window.specBrowserRuleView.Nodes.Add(new ReqRefTreeNode(reqRef.Model.Name, reqRef));
+                    window.specBrowserRuleView.Nodes.Add(new ReqRefTreeNode(reqRef, reqRef.Model.Name));
                 }
             }
 

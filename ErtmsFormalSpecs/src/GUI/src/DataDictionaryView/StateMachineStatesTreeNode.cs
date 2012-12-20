@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -50,14 +48,12 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="children"></param>
         public StateMachineStatesTreeNode(DataDictionary.Types.StateMachine item)
-            : base("States", item)
+            : base(item, "States", true)
         {
             foreach (DataDictionary.Constants.State state in item.States)
             {
                 Nodes.Add(new StateTreeNode(state));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.TranslationRules
@@ -39,7 +37,7 @@ namespace GUI.TranslationRules
         /// </summary>
         /// <param name="item"></param>
         public TranslationDictionaryTreeNode(DataDictionary.Tests.Translations.TranslationDictionary item)
-            : base("Dictionary", item)
+            : base(item, "Dictionary", true)
         {
             foreach (DataDictionary.Tests.Translations.Folder folder in item.Folders)
             {
@@ -49,8 +47,6 @@ namespace GUI.TranslationRules
             {
                 Nodes.Add(new TranslationTreeNode(translation));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

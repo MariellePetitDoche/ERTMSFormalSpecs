@@ -16,9 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -72,6 +69,7 @@ namespace GUI.DataDictionaryView
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="item"></param>
         public RangeTreeNode(DataDictionary.Types.Range item)
             : base(item)
@@ -85,8 +83,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public RangeTreeNode(string name, DataDictionary.Types.Range item)
-            : base(name, item)
+        public RangeTreeNode(DataDictionary.Types.Range item, string name)
+            : base(item, name)
         {
         }
 

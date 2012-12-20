@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -84,9 +82,11 @@ namespace GUI.DataDictionaryView
 
 
         private EnumerationValuesTreeNode valuesTreeNode;
+
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="item"></param>
         public EnumerationTreeNode(DataDictionary.Types.Enum item)
             : base(item)
@@ -101,8 +101,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public EnumerationTreeNode(string name, DataDictionary.Types.Enum item)
-            : base(name, item)
+        public EnumerationTreeNode(DataDictionary.Types.Enum item, string name, bool isFolder)
+            : base(item, name, isFolder)
         {
         }
 

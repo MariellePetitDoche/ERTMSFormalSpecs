@@ -51,16 +51,13 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="item"></param>
         public SubStepTreeNode(DataDictionary.Tests.SubStep item)
-            : base(item)
+            : base(item, null, true)
         {
             actions = new ActionsTreeNode(item);
             expectations = new ExpectationsTreeNode(item);
 
             Nodes.Add(actions);
             Nodes.Add(expectations);
-
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
         }
 
         /// <summary>

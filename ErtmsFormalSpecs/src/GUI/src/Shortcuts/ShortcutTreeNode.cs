@@ -76,8 +76,7 @@ namespace GUI.Shortcuts
         {
             base.DoubleClickHandler();
 
-            DataDictionary.Namable element = (DataDictionary.Namable)Item.EFSSystem.findByFullName(Item.ShortcutName);
-
+            DataDictionary.Namable element = Item.GetReference();
             if (element != null)
             {
                 MainWindow mainWindow = BaseForm.MDIWindow;

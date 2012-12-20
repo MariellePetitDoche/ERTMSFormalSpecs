@@ -13,10 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GUI.DataDictionaryView
 {
@@ -40,19 +36,10 @@ namespace GUI.DataDictionaryView
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="item"></param>
-        protected TypeTreeNode(T item)
-            : base(item)
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        protected TypeTreeNode(string name, T item)
-            : base(name, item, false)
+        protected TypeTreeNode(T item, string name = null, bool isFolder = false)
+            : base(item, name, isFolder)
         {
         }
     }

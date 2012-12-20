@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -60,7 +58,7 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="children"></param>
         public StateMachineTreeNode(DataDictionary.Types.StateMachine item)
-            : base("State machine", item, true)
+            : base(item, "State machine", true)
         {
             states = new StateMachineStatesTreeNode(item);
             Nodes.Add(states);

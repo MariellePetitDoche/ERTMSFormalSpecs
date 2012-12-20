@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -60,19 +58,10 @@ namespace GUI
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="item"></param>
-        public ReqRefTreeNode(DataDictionary.ReqRef item)
-            : base(item)
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public ReqRefTreeNode(string name, DataDictionary.ReqRef item)
-            : base(name, item)
+        public ReqRefTreeNode(DataDictionary.ReqRef item, string name = null)
+            : base(item, name)
         {
         }
 

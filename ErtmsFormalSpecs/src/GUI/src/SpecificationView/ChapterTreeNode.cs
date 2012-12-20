@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -54,14 +52,12 @@ namespace GUI.SpecificationView
         /// </summary>
         /// <param name="item"></param>
         public ChapterTreeNode(DataDictionary.Specification.Chapter item)
-            : base(item)
+            : base(item, null, true)
         {
             foreach (DataDictionary.Specification.Paragraph paragraph in item.Paragraphs)
             {
                 Nodes.Add(new ParagraphTreeNode(paragraph));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
         }
 
         /// <summary>

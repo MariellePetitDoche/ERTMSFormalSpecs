@@ -15,8 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
@@ -43,14 +41,12 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="name"></param>
         public NameSpaceVariablesTreeNode(DataDictionary.Types.NameSpace item)
-            : base("Variables", item)
+            : base(item, "Variables", true)
         {
             foreach (DataDictionary.Variables.Variable variable in item.Variables)
             {
                 Nodes.Add(new VariableTreeNode(variable, new HashSet<DataDictionary.Types.Type>()));
             }
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
             SortSubNodes();
         }
 

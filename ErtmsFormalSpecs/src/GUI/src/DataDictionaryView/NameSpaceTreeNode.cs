@@ -48,7 +48,7 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="name"></param>
         public NameSpaceTreeNode(DataDictionary.Types.NameSpace item)
-            : base(item)
+            : base(item, null, false)
         {
             subNameSpaces = new NameSpaceSubNameSpacesTreeNode(Item);
             ranges = new RangesTreeNode(Item);
@@ -69,9 +69,6 @@ namespace GUI.DataDictionaryView
             Nodes.Add(procedures);
             Nodes.Add(variables);
             Nodes.Add(rules);
-
-            ImageIndex = 1;
-            SelectedImageIndex = 1;
         }
 
         /// <summary>
@@ -79,8 +76,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         /// <param name="name"></param>
-        public NameSpaceTreeNode(string name, DataDictionary.Types.NameSpace item)
-            : base(name, item)
+        public NameSpaceTreeNode(DataDictionary.Types.NameSpace item, string name, bool isFolder)
+            : base(item, name, isFolder)
         {
         }
 
