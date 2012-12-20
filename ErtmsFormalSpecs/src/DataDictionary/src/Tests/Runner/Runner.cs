@@ -697,29 +697,32 @@ namespace DataDictionary.Tests.Runner
 
                 do
                 {
-                    currentStepIndex += 1;
-                    TestCase testCase = CurrentTestCase();
-                    if (testCase == null)
+                    if (currentStepIndex != REBUILD_CURRENT_SUB_STEP)
                     {
-                        NextTestCase();
-                        testCase = CurrentTestCase();
-                    }
+                        currentStepIndex += 1;
+                        TestCase testCase = CurrentTestCase();
+                        if (testCase == null)
+                        {
+                            NextTestCase();
+                            testCase = CurrentTestCase();
+                        }
 
-                    if (testCase != null && currentStepIndex >= testCase.Steps.Count)
-                    {
-                        NextTestCase();
-                        testCase = CurrentTestCase();
-                        if (testCase != null)
+                        if (testCase != null && currentStepIndex >= testCase.Steps.Count)
                         {
-                            currentStepIndex = 0;
+                            NextTestCase();
+                            testCase = CurrentTestCase();
+                            if (testCase != null)
+                            {
+                                currentStepIndex = 0;
+                            }
+                            else
+                            {
+                                currentTestCaseIndex = NO_MORE_STEP;
+                                currentStepIndex = NO_MORE_STEP;
+                            }
                         }
-                        else
-                        {
-                            currentTestCaseIndex = NO_MORE_STEP;
-                            currentStepIndex = NO_MORE_STEP;
-                        }
+                        step = CurrentStep();
                     }
-                    step = CurrentStep();
                 }
                 while (step != null && step.IsEmpty());
             }
