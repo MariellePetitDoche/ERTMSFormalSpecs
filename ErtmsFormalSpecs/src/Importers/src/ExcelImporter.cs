@@ -207,6 +207,10 @@ namespace Importers
             /* This is a gamma train => we have to initialize brake models in the train data */
             addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.EBModels <- Kernel.TrainData.BrakingParameters.EBModelSet\n{{\n    ModelSet => Kernel.TrainData.BrakingParameters.BrakingModelSet{{}},\n    Kdry_rstValuesSet => Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{{}},\n    Kwet_rstValuesSet => Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{{}}\n}}"));
             addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.SBModels <- Kernel.TrainData.BrakingParameters.SBModelSet{{}}"));
+
+            /* Initializing the maximum train speed */
+            /* I didn't find this value in ERA sheets, but I observed than their P function can exceed 160 km/h => the maximum speed should be greater than 160 km/h */
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.MaximumSpeed <- {0:0.0}", 180.0));
             
             Worksheet aWorksheet = workbook.Sheets[1] as Worksheet;
             bool isPassengerTrain;
