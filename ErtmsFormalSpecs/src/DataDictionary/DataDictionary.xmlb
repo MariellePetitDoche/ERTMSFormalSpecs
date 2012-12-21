@@ -422,7 +422,7 @@
     <FIELDS>
       <FIELD NAME="StateMachine" REFTYPE="StateMachine" />
       <FIELD NAME="Rules"        REFTYPE="Rule" />
-			<FIELD NAME="Parameters"	 REFTYPE="Parameter" />
+      <FIELD NAME="Parameters"	 REFTYPE="Parameter" />
     </FIELDS>
     <FORMULA>
       <CONCAT>
