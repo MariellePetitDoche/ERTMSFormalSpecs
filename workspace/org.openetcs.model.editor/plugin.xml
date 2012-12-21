@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.presentation.ModelModelWizardID"
+            name="%_UI_ModelModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.presentation.ModelModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ModelModelFile.gif">
+         <description>%_UI_ModelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.presentation.ModelEditorID"
+            name="%_UI_ModelEditor_label"
+            icon="icons/full/obj16/ModelModelFile.gif"
+            extensions="model"
+            class="org.openetcs.model.ertmsformalspecs.presentation.ModelEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.presentation.ModelActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.requirements.presentation.RequirementsModelWizardID"
+            name="%_UI_RequirementsModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.requirements.presentation.RequirementsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/RequirementsModelFile.gif">
+         <description>%_UI_RequirementsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.requirements.presentation.RequirementsEditorID"
+            name="%_UI_RequirementsEditor_label"
+            icon="icons/full/obj16/RequirementsModelFile.gif"
+            extensions="requirements"
+            class="org.openetcs.model.ertmsformalspecs.requirements.presentation.RequirementsEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.requirements.presentation.RequirementsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.requirements.messages.presentation.MessagesModelWizardID"
+            name="%_UI_MessagesModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.requirements.messages.presentation.MessagesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MessagesModelFile.gif">
+         <description>%_UI_MessagesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.requirements.messages.presentation.MessagesEditorID"
+            name="%_UI_MessagesEditor_label"
+            icon="icons/full/obj16/MessagesModelFile.gif"
+            extensions="messages"
+            class="org.openetcs.model.ertmsformalspecs.requirements.messages.presentation.MessagesEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.requirements.messages.presentation.MessagesActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.types.presentation.TypesModelWizardID"
+            name="%_UI_TypesModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.types.presentation.TypesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/TypesModelFile.gif">
+         <description>%_UI_TypesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.types.presentation.TypesEditorID"
+            name="%_UI_TypesEditor_label"
+            icon="icons/full/obj16/TypesModelFile.gif"
+            extensions="types"
+            class="org.openetcs.model.ertmsformalspecs.types.presentation.TypesEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.types.presentation.TypesActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.customization.presentation.CustomizationModelWizardID"
+            name="%_UI_CustomizationModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.customization.presentation.CustomizationModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/CustomizationModelFile.gif">
+         <description>%_UI_CustomizationModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.customization.presentation.CustomizationEditorID"
+            name="%_UI_CustomizationEditor_label"
+            icon="icons/full/obj16/CustomizationModelFile.gif"
+            extensions="customization"
+            class="org.openetcs.model.ertmsformalspecs.customization.presentation.CustomizationEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.customization.presentation.CustomizationActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.behaviour.presentation.BehaviourModelWizardID"
+            name="%_UI_BehaviourModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.behaviour.presentation.BehaviourModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/BehaviourModelFile.gif">
+         <description>%_UI_BehaviourModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.behaviour.presentation.BehaviourEditorID"
+            name="%_UI_BehaviourEditor_label"
+            icon="icons/full/obj16/BehaviourModelFile.gif"
+            extensions="behaviour"
+            class="org.openetcs.model.ertmsformalspecs.behaviour.presentation.BehaviourEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.behaviour.presentation.BehaviourActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.test.presentation.TestModelWizardID"
+            name="%_UI_TestModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.test.presentation.TestModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/TestModelFile.gif">
+         <description>%_UI_TestModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.test.presentation.TestEditorID"
+            name="%_UI_TestEditor_label"
+            icon="icons/full/obj16/TestModelFile.gif"
+            extensions="test"
+            class="org.openetcs.model.ertmsformalspecs.test.presentation.TestEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.test.presentation.TestActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.translation.presentation.TranslationModelWizardID"
+            name="%_UI_TranslationModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.translation.presentation.TranslationModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/TranslationModelFile.gif">
+         <description>%_UI_TranslationModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.translation.presentation.TranslationEditorID"
+            name="%_UI_TranslationEditor_label"
+            icon="icons/full/obj16/TranslationModelFile.gif"
+            extensions="translation"
+            class="org.openetcs.model.ertmsformalspecs.translation.presentation.TranslationEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.translation.presentation.TranslationActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.openetcs.model.ertmsformalspecs.shortcut.presentation.ShortcutModelWizardID"
+            name="%_UI_ShortcutModelWizard_label"
+            class="org.openetcs.model.ertmsformalspecs.shortcut.presentation.ShortcutModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ShortcutModelFile.gif">
+         <description>%_UI_ShortcutModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.openetcs.model.ertmsformalspecs.shortcut.presentation.ShortcutEditorID"
+            name="%_UI_ShortcutEditor_label"
+            icon="icons/full/obj16/ShortcutModelFile.gif"
+            extensions="shortcut"
+            class="org.openetcs.model.ertmsformalspecs.shortcut.presentation.ShortcutEditor"
+            contributorClass="org.openetcs.model.ertmsformalspecs.shortcut.presentation.ShortcutActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
