@@ -305,25 +305,25 @@ namespace DataDictionary.Tests.Runner
                 SubStep subStep = CurrentSubStep();
                 if (subStep != null)
                 {
-                    subStep.AddError("Errors where raised while evaluating this sub step. See model view for more informations");
+                    subStep.AddError("Errors were raised while evaluating this sub step. See model view for more informations");
                 }
                 else
                 {
                     Step step = CurrentStep();
                     if (step != null)
                     {
-                        step.AddError("Errors where raised while evaluating this step. See model view for more informations");
+                        step.AddError("Errors were raised while evaluating this step. See model view for more informations");
                     }
                     else
                     {
                         TestCase testCase = CurrentTestCase();
                         if (testCase != null)
                         {
-                            testCase.AddError("Errors where raised while evaluating this test case. See model view for more informations");
+                            testCase.AddError("Errors were raised while evaluating this test case. See model view for more informations");
                         }
                         else
                         {
-                            SubSequence.AddError("Errors where raised while evaluating this sub sequence. See model view for more informations");
+                            SubSequence.AddError("Errors were raised while evaluating this sub sequence. See model view for more informations");
                         }
                     }
                 }
