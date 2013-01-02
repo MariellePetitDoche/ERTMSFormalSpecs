@@ -531,7 +531,7 @@ namespace Importers
             }
             else
             {
-                addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.M_rotating_nom <- {0:0.0}", (double)(aRange.Cells[23, 4] as Range).Value2));
+                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.M_rotating_nom <- {0:0.0}", (double)(aRange.Cells[23, 4] as Range).Value2));
             }
 
 
