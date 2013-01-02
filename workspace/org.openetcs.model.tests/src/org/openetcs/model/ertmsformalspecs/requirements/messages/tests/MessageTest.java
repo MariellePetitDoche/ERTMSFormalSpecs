@@ -1,0 +1,89 @@
+/**
+ */
+package org.openetcs.model.ertmsformalspecs.requirements.messages.tests;
+
+import junit.framework.TestCase;
+
+import junit.textui.TestRunner;
+
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Message;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesFactory;
+
+/**
+ * <!-- begin-user-doc -->
+ * A test case for the model object '<em><b>Message</b></em>'.
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class MessageTest extends TestCase {
+
+	/**
+	 * The fixture for this Message test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Message fixture = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static void main(String[] args) {
+		TestRunner.run(MessageTest.class);
+	}
+
+	/**
+	 * Constructs a new Message test case with the given name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MessageTest(String name) {
+		super(name);
+	}
+
+	/**
+	 * Sets the fixture for this Message test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void setFixture(Message fixture) {
+		this.fixture = fixture;
+	}
+
+	/**
+	 * Returns the fixture for this Message test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Message getFixture() {
+		return fixture;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see junit.framework.TestCase#setUp()
+	 * @generated
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		setFixture(MessagesFactory.eINSTANCE.createMessage());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see junit.framework.TestCase#tearDown()
+	 * @generated
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		setFixture(null);
+	}
+
+} //MessageTest
