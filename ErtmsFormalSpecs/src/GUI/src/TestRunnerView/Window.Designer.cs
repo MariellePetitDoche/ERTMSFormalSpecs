@@ -262,8 +262,8 @@ namespace GUI.TestRunnerView
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(58, 22);
-            this.toolStripLabel2.Text = "Sequence";
+            this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
+            this.toolStripLabel2.Text = "Sub sequence";
             this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
             // 
             // subSequenceSelectorComboBox
@@ -321,6 +321,7 @@ namespace GUI.TestRunnerView
             this.testBrowserTreeView.AllowDrop = true;
             this.testBrowserTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.testBrowserTreeView.ImageIndex = 0;
+            this.testBrowserTreeView.LabelEdit = true;
             this.testBrowserTreeView.Location = new System.Drawing.Point(0, 0);
             this.testBrowserTreeView.Name = "testBrowserTreeView";
             this.testBrowserTreeView.Root = null;
