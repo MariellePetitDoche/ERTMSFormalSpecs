@@ -126,9 +126,12 @@ namespace GUI.TestRunnerView
             Window window = BaseForm as Window;
             if (window != null)
             {
-                DataDictionary.Tests.Runner.Runner runner = window.getRunner(Item.SubSequence);
-                DataDictionary.Tests.Step lastStep = (DataDictionary.Tests.Step)Item.Steps[Item.Steps.Count - 1];
-                runner.RunUntilStep(lastStep);
+                DataDictionary.Tests.SubSequence subSequence = Item.Enclosing as DataDictionary.Tests.SubSequence;
+                if (subSequence != null)
+                {
+                    DataDictionary.Tests.Runner.Runner runner = new DataDictionary.Tests.Runner.Runner(subSequence);
+                    runner.RunUntilStep(null);
+                }
             }
         }
 
