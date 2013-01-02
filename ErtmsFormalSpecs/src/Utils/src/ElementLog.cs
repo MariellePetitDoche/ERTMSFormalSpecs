@@ -42,6 +42,16 @@ namespace Utils
         }
 
         /// <summary>
+        /// Indicates if this log concerns a failed expectation (in that case, this is not a model error)
+        /// </summary>
+        private bool failedExpectation;
+        public bool FailedExpectation
+        {
+            get { return failedExpectation; }
+            set { failedExpectation = value; }
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="message"></param>
@@ -49,6 +59,7 @@ namespace Utils
         {
             Level = level;
             Log = message;
+            FailedExpectation = false;
         }
 
         /// <summary>
