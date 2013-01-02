@@ -180,9 +180,9 @@ namespace DataDictionary.Rules
             get
             {
                 bool retVal = getImplemented();
-                foreach (RuleCondition ruleConditon in RuleConditions)
+                foreach (RuleCondition ruleCondition in RuleConditions)
                 {
-                    foreach (Rule rule in ruleConditon.SubRules)
+                    foreach (Rule rule in ruleCondition.SubRules)
                     {
                         retVal = retVal && rule.ImplementationCompleted;
                     }
