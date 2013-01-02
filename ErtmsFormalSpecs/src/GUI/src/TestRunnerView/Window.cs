@@ -177,6 +177,7 @@ namespace GUI.TestRunnerView
                         }
                     }
                     frameToolStripComboBox.Text = selectedFrame;
+                    frameToolStripComboBox.ToolTipText = selectedFrame;
 
                     if (Frame == null || frameToolStripComboBox.Text.CompareTo(Frame.Name) != 0)
                     {
