@@ -159,7 +159,12 @@ namespace GUI.TestRunnerView
             }
 
             MainWindow.RefreshModel();
-            System.Windows.Forms.MessageBox.Show(Item.SubSequences.Count + " subsequences executed, " + failed + " subsequence(s) failed.\nTest duration : " + Math.Round(span.TotalSeconds) + " seconds", "Execution report");
+            string runtimeErrors = "";
+            if (Utils.ModelElement.ErrorCount > 0)
+            {
+                runtimeErrors += "Errors were raised while executing sub sequences(s).\n";
+            }
+            System.Windows.Forms.MessageBox.Show(Item.SubSequences.Count + " sub sequence(s) executed, " + failed + " sub sequence(s) failed.\n" + runtimeErrors + "Test duration : " + Math.Round(span.TotalSeconds) + " seconds", "Execution report");
         }
 
         /// <summary>
