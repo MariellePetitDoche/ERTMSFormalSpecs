@@ -217,11 +217,11 @@ namespace Utils
             {
                 if (log.Level == ElementLog.LevelEnum.Error)
                 {
+                    if (!log.FailedExpectation)  // if this is a failed expectation, this is not a model error
+                    {
+                        ErrorCount += 1;
+                    }
                     // System.Diagnostics.Debugger.Break();
-                }
-                if (!log.FailedExpectation)  // if this is a failed expectation, this is not a model error
-                {
-                    ErrorCount += 1;
                 }
                 foreach (ElementLog other in Messages)
                 {
