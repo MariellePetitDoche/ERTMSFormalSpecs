@@ -176,7 +176,7 @@ namespace GUI.TranslationRules
                 TestRunnerView.StepTreeNode step = SourceNode as TestRunnerView.StepTreeNode;
 
                 DataDictionary.Tests.Translations.SourceText sourceText = (DataDictionary.Tests.Translations.SourceText)DataDictionary.Generated.acceptor.getFactory().createSourceText();
-                sourceText.setName(step.Item.getDescription());
+                sourceText.Name = step.Item.getDescription();
                 Item.appendSourceTexts(sourceText);
                 createSourceText(sourceText);
             }

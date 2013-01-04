@@ -101,7 +101,7 @@ namespace GUI.TranslationRules
             DataDictionary.Tests.Translations.Translation translation = (DataDictionary.Tests.Translations.Translation)DataDictionary.Generated.acceptor.getFactory().createTranslation();
             DataDictionary.Tests.Translations.SourceText sourceText = (DataDictionary.Tests.Translations.SourceText)DataDictionary.Generated.acceptor.getFactory().createSourceText();
 
-            sourceText.setName(step.getDescription());
+            sourceText.Name = step.getDescription();
             translation.appendSourceTexts(sourceText);
             createTranslation(translation);
         }
