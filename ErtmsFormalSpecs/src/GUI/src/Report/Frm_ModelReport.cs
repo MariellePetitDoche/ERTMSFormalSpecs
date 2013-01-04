@@ -227,6 +227,7 @@ namespace GUI.Report
 
             reportConfig.AddVariables = CB_AddVariables.Checked;
             reportConfig.AddVariablesDetails = CB_AddVariablesDetails.Checked;
+            reportConfig.InOutFilter = CB_InOutFilter.Checked;
 
             reportConfig.AddRules = CB_AddRules.Checked;
             reportConfig.AddRulesDetails = CB_AddRulesDetails.Checked;

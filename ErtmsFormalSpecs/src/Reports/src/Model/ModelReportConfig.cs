@@ -60,6 +60,7 @@ namespace Report.Model
 
         public bool AddVariables { set; get; }
         public bool AddVariablesDetails { set; get; }
+        public bool InOutFilter { set; get; }
 
         public bool AddRules { set; get; }
         public bool AddRulesDetails { set; get; }

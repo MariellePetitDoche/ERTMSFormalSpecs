@@ -242,7 +242,7 @@ namespace Report
                 }
                 if (aReportConfig.AddVariables)
                 {
-                    report.CreateVariablesSection(aNameSpace, aReportConfig.AddVariablesDetails);
+                    report.CreateVariablesSection(aNameSpace, aReportConfig.AddVariablesDetails, aReportConfig.InOutFilter);
                 }
                 if (aReportConfig.AddRules)
                 {
