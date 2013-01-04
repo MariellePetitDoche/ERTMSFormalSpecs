@@ -87,15 +87,6 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The parameter name
-        /// </summary>
-        public override string Name
-        {
-            get { return getName(); }
-            set { setName(value); }
-        }
-
-        /// <summary>
         /// The parameter value
         /// </summary>
         public Values.IValue theValue;
