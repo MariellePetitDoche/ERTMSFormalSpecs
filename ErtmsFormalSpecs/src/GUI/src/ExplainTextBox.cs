@@ -22,7 +22,7 @@ namespace GUI
         /// Constructor
         /// </summary>
         public ExplainTextBox()
-            : base()
+            : base(false)
         {
         }
 
