@@ -66,7 +66,7 @@ namespace GUI.TestRunnerView
             this.subSequenceSelectorComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripCurrentStepTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.messageRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.messageRichTextBox = new GUI.MyRichTextBox(true);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.testBrowserTreeView = new GUI.TestRunnerView.TestTreeView();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
@@ -76,12 +76,12 @@ namespace GUI.TestRunnerView
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.descriptionTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.editTextBox = new GUI.MyRichTextBox();
+            this.editTextBox = new GUI.MyRichTextBox(false);
             this.explainTextBox = new System.Windows.Forms.RichTextBox();
             this.timeLineTabPage = new System.Windows.Forms.TabPage();
             this.evcTimeLineControl = new GUI.TestRunnerView.TimeLineControl.TimeLineControl();
             this.commentsTabPage = new System.Windows.Forms.TabPage();
-            this.commentsRichTextBox = new GUI.MyRichTextBox();
+            this.commentsRichTextBox = new GUI.MyRichTextBox(false);
             this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();

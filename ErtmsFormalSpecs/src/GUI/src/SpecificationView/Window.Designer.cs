@@ -59,12 +59,12 @@ namespace GUI.SpecificationView
             this.propertyGrid = new GUI.MyPropertyGrid();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.specTabPage = new System.Windows.Forms.TabPage();
-            this.specBrowserTextView = new GUI.MyRichTextBox();
+            this.specBrowserTextView = new GUI.MyRichTextBox(false);
             this.commentsTabPage = new System.Windows.Forms.TabPage();
-            this.commentsRichTextBox = new GUI.MyRichTextBox();
+            this.commentsRichTextBox = new GUI.MyRichTextBox(false);
             this.implementationTabPage = new System.Windows.Forms.TabPage();
             this.specBrowserRuleView = new GUI.SpecificationView.SpecificationTreeView();
-            this.messagesRichTextBox = new GUI.MyRichTextBox();
+            this.messagesRichTextBox = new GUI.MyRichTextBox(true);
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();

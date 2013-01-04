@@ -53,37 +53,41 @@ namespace GUI.DataDictionaryView
             this.nextInfoToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dataDictTree = new GUI.DataDictionaryView.DataDictionaryTreeView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.dataDictPropertyGrid = new GUI.MyPropertyGrid();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.messagesRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.messagesRichTextBox = new GUI.MyRichTextBox(true);
             this.tabControl = new System.Windows.Forms.TabControl();
             this.descriptionTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.requirementsTextBox = new GUI.MyRichTextBox();
+            this.expressionTabPage = new System.Windows.Forms.TabPage();
+            this.commentTabPage = new System.Windows.Forms.TabPage();
+            this.usageTabPage = new System.Windows.Forms.TabPage();
+            this.dataDictTree = new GUI.DataDictionaryView.DataDictionaryTreeView();
+            this.dataDictPropertyGrid = new GUI.MyPropertyGrid();
+            this.requirementsTextBox = new GUI.MyRichTextBox(false);
             this.ruleExplainTextBox = new GUI.RuleExplainTextBox();
             this.stateDiagramPanel = new GUI.StateDiagram.StatePanel(this.components);
-            this.expressionTabPage = new System.Windows.Forms.TabPage();
-            this.expressionTextBox = new GUI.MyRichTextBox();
-            this.commentTabPage = new System.Windows.Forms.TabPage();
-            this.commentRichTextBox = new GUI.MyRichTextBox();
-            this.usageTabPage = new System.Windows.Forms.TabPage();
+            this.expressionTextBox = new GUI.MyRichTextBox(false);
+            this.commentRichTextBox = new GUI.MyRichTextBox(false);
             this.usageTreeView = new GUI.DataDictionaryView.UsageTreeView.UsageTreeView();
             this.toolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.descriptionTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -172,17 +176,6 @@ namespace GUI.DataDictionaryView
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 5;
             // 
-            // dataDictTree
-            // 
-            this.dataDictTree.AllowDrop = true;
-            this.dataDictTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataDictTree.Location = new System.Drawing.Point(0, 0);
-            this.dataDictTree.Name = "dataDictTree";
-            this.dataDictTree.Root = null;
-            this.dataDictTree.Selected = null;
-            this.dataDictTree.Size = new System.Drawing.Size(221, 548);
-            this.dataDictTree.TabIndex = 3;
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -219,16 +212,6 @@ namespace GUI.DataDictionaryView
             this.splitContainer4.Size = new System.Drawing.Size(702, 222);
             this.splitContainer4.SplitterDistance = 348;
             this.splitContainer4.TabIndex = 5;
-            // 
-            // dataDictPropertyGrid
-            // 
-            this.dataDictPropertyGrid.AllowDrop = true;
-            this.dataDictPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataDictPropertyGrid.Location = new System.Drawing.Point(0, 0);
-            this.dataDictPropertyGrid.Name = "dataDictPropertyGrid";
-            this.dataDictPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.dataDictPropertyGrid.Size = new System.Drawing.Size(348, 222);
-            this.dataDictPropertyGrid.TabIndex = 4;
             // 
             // groupBox1
             // 
@@ -297,6 +280,66 @@ namespace GUI.DataDictionaryView
             this.splitContainer3.SplitterWidth = 3;
             this.splitContainer3.TabIndex = 0;
             // 
+            // expressionTabPage
+            // 
+            this.expressionTabPage.Controls.Add(this.expressionTextBox);
+            this.expressionTabPage.Location = new System.Drawing.Point(4, 22);
+            this.expressionTabPage.Margin = new System.Windows.Forms.Padding(2);
+            this.expressionTabPage.Name = "expressionTabPage";
+            this.expressionTabPage.Padding = new System.Windows.Forms.Padding(2);
+            this.expressionTabPage.Size = new System.Drawing.Size(694, 297);
+            this.expressionTabPage.TabIndex = 0;
+            this.expressionTabPage.Text = "Expression";
+            this.expressionTabPage.UseVisualStyleBackColor = true;
+            // 
+            // commentTabPage
+            // 
+            this.commentTabPage.Controls.Add(this.commentRichTextBox);
+            this.commentTabPage.Location = new System.Drawing.Point(4, 22);
+            this.commentTabPage.Margin = new System.Windows.Forms.Padding(2);
+            this.commentTabPage.Name = "commentTabPage";
+            this.commentTabPage.Padding = new System.Windows.Forms.Padding(2);
+            this.commentTabPage.Size = new System.Drawing.Size(694, 297);
+            this.commentTabPage.TabIndex = 2;
+            this.commentTabPage.Text = "Comment";
+            this.commentTabPage.UseVisualStyleBackColor = true;
+            // 
+            // usageTabPage
+            // 
+            this.usageTabPage.Controls.Add(this.usageTreeView);
+            this.usageTabPage.Location = new System.Drawing.Point(4, 22);
+            this.usageTabPage.Margin = new System.Windows.Forms.Padding(2);
+            this.usageTabPage.Name = "usageTabPage";
+            this.usageTabPage.Padding = new System.Windows.Forms.Padding(2);
+            this.usageTabPage.Size = new System.Drawing.Size(694, 297);
+            this.usageTabPage.TabIndex = 3;
+            this.usageTabPage.Text = "Usage";
+            this.usageTabPage.UseVisualStyleBackColor = true;
+            // 
+            // dataDictTree
+            // 
+            this.dataDictTree.AllowDrop = true;
+            this.dataDictTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataDictTree.ImageIndex = 0;
+            this.dataDictTree.LabelEdit = true;
+            this.dataDictTree.Location = new System.Drawing.Point(0, 0);
+            this.dataDictTree.Name = "dataDictTree";
+            this.dataDictTree.Root = null;
+            this.dataDictTree.Selected = null;
+            this.dataDictTree.SelectedImageIndex = 0;
+            this.dataDictTree.Size = new System.Drawing.Size(221, 548);
+            this.dataDictTree.TabIndex = 3;
+            // 
+            // dataDictPropertyGrid
+            // 
+            this.dataDictPropertyGrid.AllowDrop = true;
+            this.dataDictPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataDictPropertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.dataDictPropertyGrid.Name = "dataDictPropertyGrid";
+            this.dataDictPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.dataDictPropertyGrid.Size = new System.Drawing.Size(348, 222);
+            this.dataDictPropertyGrid.TabIndex = 4;
+            // 
             // requirementsTextBox
             // 
             this.requirementsTextBox.AcceptsTab = true;
@@ -333,18 +376,6 @@ namespace GUI.DataDictionaryView
             this.stateDiagramPanel.TabIndex = 0;
             this.stateDiagramPanel.Visible = false;
             // 
-            // expressionTabPage
-            // 
-            this.expressionTabPage.Controls.Add(this.expressionTextBox);
-            this.expressionTabPage.Location = new System.Drawing.Point(4, 22);
-            this.expressionTabPage.Margin = new System.Windows.Forms.Padding(2);
-            this.expressionTabPage.Name = "expressionTabPage";
-            this.expressionTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.expressionTabPage.Size = new System.Drawing.Size(694, 297);
-            this.expressionTabPage.TabIndex = 0;
-            this.expressionTabPage.Text = "Expression";
-            this.expressionTabPage.UseVisualStyleBackColor = true;
-            // 
             // expressionTextBox
             // 
             this.expressionTextBox.AllowDrop = true;
@@ -356,18 +387,6 @@ namespace GUI.DataDictionaryView
             this.expressionTextBox.TabIndex = 0;
             this.expressionTextBox.Text = "";
             this.expressionTextBox.TextChanged += new System.EventHandler(this.expressionTextBox_TextChanged);
-            // 
-            // commentTabPage
-            // 
-            this.commentTabPage.Controls.Add(this.commentRichTextBox);
-            this.commentTabPage.Location = new System.Drawing.Point(4, 22);
-            this.commentTabPage.Margin = new System.Windows.Forms.Padding(2);
-            this.commentTabPage.Name = "commentTabPage";
-            this.commentTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.commentTabPage.Size = new System.Drawing.Size(694, 297);
-            this.commentTabPage.TabIndex = 2;
-            this.commentTabPage.Text = "Comment";
-            this.commentTabPage.UseVisualStyleBackColor = true;
             // 
             // commentRichTextBox
             // 
@@ -381,27 +400,18 @@ namespace GUI.DataDictionaryView
             this.commentRichTextBox.Text = "";
             this.commentRichTextBox.TextChanged += new System.EventHandler(this.commentTextBox_TextChanged);
             // 
-            // usageTabPage
-            // 
-            this.usageTabPage.Controls.Add(this.usageTreeView);
-            this.usageTabPage.Location = new System.Drawing.Point(4, 22);
-            this.usageTabPage.Margin = new System.Windows.Forms.Padding(2);
-            this.usageTabPage.Name = "usageTabPage";
-            this.usageTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.usageTabPage.Size = new System.Drawing.Size(694, 297);
-            this.usageTabPage.TabIndex = 3;
-            this.usageTabPage.Text = "Usage";
-            this.usageTabPage.UseVisualStyleBackColor = true;
-            // 
             // usageTreeView
             // 
             this.usageTreeView.AllowDrop = true;
             this.usageTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.usageTreeView.ImageIndex = 0;
+            this.usageTreeView.LabelEdit = true;
             this.usageTreeView.Location = new System.Drawing.Point(2, 2);
             this.usageTreeView.Margin = new System.Windows.Forms.Padding(2);
             this.usageTreeView.Name = "usageTreeView";
             this.usageTreeView.Root = null;
             this.usageTreeView.Selected = null;
+            this.usageTreeView.SelectedImageIndex = 0;
             this.usageTreeView.Size = new System.Drawing.Size(690, 293);
             this.usageTreeView.TabIndex = 0;
             // 
@@ -422,18 +432,22 @@ namespace GUI.DataDictionaryView
             this.toolStrip.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.descriptionTabPage.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.expressionTabPage.ResumeLayout(false);
             this.commentTabPage.ResumeLayout(false);
@@ -454,7 +468,6 @@ namespace GUI.DataDictionaryView
         private MyRichTextBox expressionTextBox;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage expressionTabPage;
-        private System.Windows.Forms.RichTextBox messagesRichTextBox;
         private System.Windows.Forms.TabPage commentTabPage;
         private MyRichTextBox commentRichTextBox;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
@@ -471,5 +484,6 @@ namespace GUI.DataDictionaryView
         private System.Windows.Forms.ToolStripButton nextInfoToolStripButton;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RichTextBox messagesRichTextBox;
     }
 }
