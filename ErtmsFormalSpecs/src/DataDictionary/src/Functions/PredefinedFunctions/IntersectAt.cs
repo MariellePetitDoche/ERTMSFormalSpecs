@@ -92,7 +92,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             Parameter functionParameter = function.FormalParameters[0] as Parameter;
                             functionParameter.Value = new Values.DoubleValue(EFSSystem.DoubleType, speed);
                             Dictionary<string, Values.IValue> values = new Dictionary<string, Values.IValue>();
-                            values["Vest"] = new Values.DoubleValue(EFSSystem.DoubleType, speed);
+                            values["V"] = new Values.DoubleValue(EFSSystem.DoubleType, speed);
                             Values.IValue solution = function.Evaluate(context, values);
                             double doubleValue = getDoubleValue(solution);
 
