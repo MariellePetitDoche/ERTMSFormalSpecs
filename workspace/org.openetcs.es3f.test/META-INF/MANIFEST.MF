@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test es3f
+Bundle-SymbolicName: org.openetcs.es3f.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.openetcs.es3f.test.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.junit;bundle-version="4.10.0",
+ org.openetcs.es3f;bundle-version="1.0.0",
+ org.eclipse.emf.ecp.core;bundle-version="1.0.0",
+ org.eclipse.emf.ecp.emfstore.core;bundle-version="1.0.0",
+ org.custommonkey.xmlunit;bundle-version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
