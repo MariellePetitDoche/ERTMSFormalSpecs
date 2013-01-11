@@ -75,6 +75,9 @@ public class DictionaryItemProvider
 
 			addNamePropertyDescriptor(object);
 			addCommentPropertyDescriptor(object);
+			addSpecificationPropertyDescriptor(object);
+			addTranslationsPropertyDescriptor(object);
+			addShortcutsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -119,6 +122,72 @@ public class DictionaryItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Specification feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSpecificationPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Dictionary_specification_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Dictionary_specification_feature", "_UI_Dictionary_type"),
+				 ModelPackage.Literals.DICTIONARY__SPECIFICATION,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Translations feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTranslationsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Dictionary_translations_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Dictionary_translations_feature", "_UI_Dictionary_type"),
+				 ModelPackage.Literals.DICTIONARY__TRANSLATIONS,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Shortcuts feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addShortcutsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Dictionary_shortcuts_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Dictionary_shortcuts_feature", "_UI_Dictionary_type"),
+				 ModelPackage.Literals.DICTIONARY__SHORTCUTS,
+				 true,
+				 false,
+				 false,
+				 null,
 				 null,
 				 null));
 	}
