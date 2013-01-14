@@ -67,7 +67,7 @@ public class XtextEmbeddedEditorProvider {
 			public XtextResource createResource() {
 				XtextResourceSet xtextResourceSet = resourceSetProvider.get();
 				ProjectSpace projectSpace = EMFStoreProvider.INSTANCE.getProjectSpace(project);
-				xtextResourceSet.addLoadOption("EMFStoreProject", projectSpace.getProject());
+				xtextResourceSet.addLoadOption("ProjectElements", projectSpace.getProject().getAllModelElements());
 				resource = resourceFactory
 						.createResource(computeUnusedUri(xtextResourceSet));
 				xtextResourceSet.getResources().add(resource);

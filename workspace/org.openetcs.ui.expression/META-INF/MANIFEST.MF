@@ -16,6 +16,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecp.emfstore.core;bundle-version="1.0.0",
  org.eclipse.emf.emfstore.client;bundle-version="0.9.3",
  org.openetcs.model;bundle-version="1.0.0",
- org.xtext.example.mydsl1.ui;bundle-version="1.0.0"
+ org.openetcs.dsl.expression.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

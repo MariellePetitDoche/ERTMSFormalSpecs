@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.openetcs.dsl.ui.internal.ExpressionActivator;
 import org.openetcs.ui.internal.expression.XtextEmbeddedEditorProvider.XtextStuff;
-import org.xtext.example.mydsl.ui.internal.MyDsl1Activator;
 
 import com.google.inject.Injector;
 
@@ -138,7 +138,7 @@ public class ExpressionWidget extends ECPAttributeWidget {
 		saveOptions.put(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
 		saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
 		ProjectSpace projectSpace = EMFStoreProvider.INSTANCE.getProjectSpace(project);
-		resSetresXtext.addLoadOption("EMFStoreProject", projectSpace.getProject());
+		resSetresXtext.addLoadOption("ProjectElements", projectSpace.getProject().getAllModelElements());
 		
 		Map<Object,Object> loadOptions=new HashMap<Object,Object>();
 		loadOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
@@ -162,8 +162,8 @@ public class ExpressionWidget extends ECPAttributeWidget {
 	}
 
 	private Injector getInjector() {
-		return org.xtext.example.mydsl.ui.internal.MyDsl1Activator
+		return ExpressionActivator
 				.getInstance().getInjector(
-						MyDsl1Activator.ORG_XTEXT_EXAMPLE_MYDSL_MYDSL1);
+						ExpressionActivator.ORG_OPENETCS_DSL_EXPRESSION);
 	}
 }
