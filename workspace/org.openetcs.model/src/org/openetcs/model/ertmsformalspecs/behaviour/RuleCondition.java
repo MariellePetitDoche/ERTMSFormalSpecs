@@ -3,7 +3,6 @@
 package org.openetcs.model.ertmsformalspecs.behaviour;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 
 /**

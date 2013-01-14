@@ -4,13 +4,10 @@ package org.openetcs.model.ertmsformalspecs.requirements.messages.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.IMatch;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.Mask;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning;

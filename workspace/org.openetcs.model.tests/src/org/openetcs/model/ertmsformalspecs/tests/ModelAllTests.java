@@ -4,19 +4,13 @@ package org.openetcs.model.ertmsformalspecs.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.behaviour.tests.BehaviourTests;
-
 import org.openetcs.model.ertmsformalspecs.requirements.tests.RequirementsTests;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.tests.ShortcutTests;
-
 import org.openetcs.model.ertmsformalspecs.test.tests.TestTests;
-
 import org.openetcs.model.ertmsformalspecs.translation.tests.TranslationTests;
-
 import org.openetcs.model.ertmsformalspecs.types.tests.TypesTests;
 
 /**

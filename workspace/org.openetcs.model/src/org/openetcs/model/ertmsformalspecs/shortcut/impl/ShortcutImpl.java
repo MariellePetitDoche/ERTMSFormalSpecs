@@ -4,17 +4,12 @@ package org.openetcs.model.ertmsformalspecs.shortcut.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.openetcs.model.ertmsformalspecs.NamedElement;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.Shortcut;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutPackage;

@@ -3,7 +3,6 @@
 package org.openetcs.model.ertmsformalspecs.behaviour;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
 import org.openetcs.model.ertmsformalspecs.StateMachine;
@@ -26,7 +25,7 @@ import org.openetcs.model.ertmsformalspecs.StateMachine;
  * @model
  * @generated
  */
-public interface Rule extends ReqRelated, NamedElement {
+public interface Rule extends NamedElement, ReqRelated {
 	/**
 	 * Returns the value of the '<em><b>Priority</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.openetcs.model.ertmsformalspecs.behaviour.Priority}.

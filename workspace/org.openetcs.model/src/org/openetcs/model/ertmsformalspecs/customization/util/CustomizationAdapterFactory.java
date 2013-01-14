@@ -4,16 +4,13 @@ package org.openetcs.model.ertmsformalspecs.customization.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
-
-import org.openetcs.model.ertmsformalspecs.customization.*;
+import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
+import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
 
 /**
  * <!-- begin-user-doc -->

@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 
 /**
@@ -69,13 +68,22 @@ public interface BehaviourPackage extends EPackage {
 	int RULE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
+	int RULE__COMMENT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
@@ -84,7 +92,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__REQUIREMENTS = ModelPackage.REQ_RELATED__REQUIREMENTS;
+	int RULE__REQUIREMENTS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Implemented</b></em>' attribute.
@@ -93,7 +101,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__IMPLEMENTED = ModelPackage.REQ_RELATED__IMPLEMENTED;
+	int RULE__IMPLEMENTED = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Verified</b></em>' attribute.
@@ -102,7 +110,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__VERIFIED = ModelPackage.REQ_RELATED__VERIFIED;
+	int RULE__VERIFIED = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Needs Requirement</b></em>' attribute.
@@ -111,16 +119,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__NEEDS_REQUIREMENT = ModelPackage.REQ_RELATED__NEEDS_REQUIREMENT;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE__NAME = ModelPackage.REQ_RELATED_FEATURE_COUNT + 0;
+	int RULE__NEEDS_REQUIREMENT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Priority</b></em>' attribute.
@@ -129,7 +128,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__PRIORITY = ModelPackage.REQ_RELATED_FEATURE_COUNT + 1;
+	int RULE__PRIORITY = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Conditions</b></em>' containment reference list.
@@ -138,7 +137,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__CONDITIONS = ModelPackage.REQ_RELATED_FEATURE_COUNT + 2;
+	int RULE__CONDITIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Parent State Machine</b></em>' container reference.
@@ -147,7 +146,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__PARENT_STATE_MACHINE = ModelPackage.REQ_RELATED_FEATURE_COUNT + 3;
+	int RULE__PARENT_STATE_MACHINE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
@@ -156,7 +155,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = ModelPackage.REQ_RELATED_FEATURE_COUNT + 4;
+	int RULE_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleConditionImpl <em>Rule Condition</em>}' class.

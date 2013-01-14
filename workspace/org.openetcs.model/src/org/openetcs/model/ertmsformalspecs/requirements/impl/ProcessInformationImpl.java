@@ -3,13 +3,9 @@
 package org.openetcs.model.ertmsformalspecs.requirements.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.openetcs.model.ertmsformalspecs.impl.CommentedElementImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus;
 import org.openetcs.model.ertmsformalspecs.requirements.ProcessInformation;
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;

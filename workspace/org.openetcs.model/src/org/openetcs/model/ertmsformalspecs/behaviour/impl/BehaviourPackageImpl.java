@@ -7,11 +7,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.Action;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourFactory;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
@@ -19,35 +16,20 @@ import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
 import org.openetcs.model.ertmsformalspecs.behaviour.Priority;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition;
-
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
-
 import org.openetcs.model.ertmsformalspecs.customization.impl.CustomizationPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.impl.RequirementsPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.impl.MessagesPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutPackage;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.impl.ShortcutPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.test.TestPackage;
-
 import org.openetcs.model.ertmsformalspecs.test.impl.TestPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.translation.TranslationPackage;
-
 import org.openetcs.model.ertmsformalspecs.translation.impl.TranslationPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
-
 import org.openetcs.model.ertmsformalspecs.types.impl.TypesPackageImpl;
 
 /**
@@ -417,8 +399,8 @@ public class BehaviourPackageImpl extends EPackageImpl implements BehaviourPacka
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		ruleEClass.getESuperTypes().add(theModelPackage.getReqRelated());
 		ruleEClass.getESuperTypes().add(theModelPackage.getNamedElement());
+		ruleEClass.getESuperTypes().add(theModelPackage.getReqRelated());
 		ruleConditionEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 
 		// Initialize classes and features; add operations and parameters

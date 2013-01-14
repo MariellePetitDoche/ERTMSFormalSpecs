@@ -3,9 +3,7 @@
 package org.openetcs.model.ertmsformalspecs.types;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.openetcs.model.ertmsformalspecs.Procedure;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 
 /**

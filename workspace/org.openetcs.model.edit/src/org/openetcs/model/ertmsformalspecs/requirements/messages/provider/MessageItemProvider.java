@@ -8,11 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,11 +20,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.openetcs.model.ertmsformalspecs.provider.ModelEditPlugin;
-
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.Message;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesFactory;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
@@ -69,6 +63,7 @@ public class MessageItemProvider
 
 			addBaselinePropertyDescriptor(object);
 			addDescriptionPropertyDescriptor(object);
+			addMediaPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -113,6 +108,28 @@ public class MessageItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Media feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMediaPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Message_media_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Message_media_feature", "_UI_Message_type"),
+				 MessagesPackage.Literals.MESSAGE__MEDIA,
+				 true,
+				 false,
+				 false,
+				 null,
 				 null,
 				 null));
 	}

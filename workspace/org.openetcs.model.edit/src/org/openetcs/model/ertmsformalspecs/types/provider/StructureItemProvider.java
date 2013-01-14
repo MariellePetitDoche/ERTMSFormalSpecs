@@ -8,9 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -18,11 +16,9 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.openetcs.model.ertmsformalspecs.ModelFactory;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourFactory;
-
+import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.types.Structure;
 import org.openetcs.model.ertmsformalspecs.types.TypesFactory;
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
@@ -149,7 +145,7 @@ public class StructureItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -165,10 +161,13 @@ public class StructureItemProvider
 				(TypesPackage.Literals.STRUCTURE__PROCEDURES,
 				 ModelFactory.eINSTANCE.createProcedure()));
 
+		Rule rule=BehaviourFactory.eINSTANCE.createRule();
+		rule.getConditions().add(BehaviourFactory.eINSTANCE.createRuleCondition());
+		
 		newChildDescriptors.add
 			(createChildParameter
 				(TypesPackage.Literals.STRUCTURE__RULES,
-				 BehaviourFactory.eINSTANCE.createRule()));
+						rule));
 	}
 
 }

@@ -5,21 +5,15 @@ package org.openetcs.model.ertmsformalspecs.types.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Procedure;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
-
 import org.openetcs.model.ertmsformalspecs.types.Structure;
 import org.openetcs.model.ertmsformalspecs.types.StructureElement;
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;

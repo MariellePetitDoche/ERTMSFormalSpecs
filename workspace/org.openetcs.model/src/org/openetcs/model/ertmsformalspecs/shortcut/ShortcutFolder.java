@@ -3,7 +3,6 @@
 package org.openetcs.model.ertmsformalspecs.shortcut;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 

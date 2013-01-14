@@ -4,19 +4,14 @@ package org.openetcs.model.ertmsformalspecs.behaviour.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
 import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
 import org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition;
-
 import org.openetcs.model.ertmsformalspecs.types.Case;
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
 

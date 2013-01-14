@@ -38,7 +38,7 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Procedure">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/parameters"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/stateMachine"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/stateMachine"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/rules"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Procedure/parentStructure"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Procedure/parentNamespace"/>
@@ -68,7 +68,7 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//State">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//State/parentStateMachine"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//State/stateMachine"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//State/stateMachine"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/height"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/x"/>
@@ -123,8 +123,8 @@
       </genClasses>
       <genClasses ecoreClass="model.ecore#//requirements/Paragraph">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/type"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/scope"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/processInfo"/>
+        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/scope"/>
+        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/processInfo"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/id"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/text"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -132,8 +132,8 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/parentSpecification"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/subParagraphs"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/parentParagraph"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/typeSpec"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/message"/>
+        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/typeSpec"/>
+        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/message"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/version"/>
       </genClasses>
@@ -201,7 +201,7 @@
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/CharValue/encoding"/>
         </genClasses>
         <genClasses ecoreClass="model.ecore#//requirements/messages/TypeValue">
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeValue/resolutionFormula"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeValue/resolutionFormula"/>
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeValue/specialOrReservedValues"/>
         </genClasses>
         <genClasses ecoreClass="model.ecore#//requirements/messages/ResolutionFormula">
@@ -209,10 +209,10 @@
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/ResolutionFormula/value"/>
         </genClasses>
         <genClasses ecoreClass="model.ecore#//requirements/messages/SpecialOrReservedValue">
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/mask"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/match"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/meaning"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/value"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/mask"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/match"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/meaning"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/value"/>
         </genClasses>
         <genClasses ecoreClass="model.ecore#//requirements/messages/SingleValue">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/SingleValue/units"/>
@@ -236,7 +236,7 @@
         <genClasses ecoreClass="model.ecore#//requirements/messages/Message">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Message/description"/>
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/Message/variables"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/Message/media"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/Message/media"/>
         </genClasses>
         <genClasses ecoreClass="model.ecore#//requirements/messages/Media">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Media/balise"/>

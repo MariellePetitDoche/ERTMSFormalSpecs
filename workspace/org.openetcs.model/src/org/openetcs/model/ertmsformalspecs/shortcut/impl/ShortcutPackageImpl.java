@@ -5,44 +5,26 @@ package org.openetcs.model.ertmsformalspecs.shortcut.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.impl.BehaviourPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
-
 import org.openetcs.model.ertmsformalspecs.customization.impl.CustomizationPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.impl.RequirementsPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.impl.MessagesPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.Shortcut;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFactory;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutPackage;
-
 import org.openetcs.model.ertmsformalspecs.test.TestPackage;
-
 import org.openetcs.model.ertmsformalspecs.test.impl.TestPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.translation.TranslationPackage;
-
 import org.openetcs.model.ertmsformalspecs.translation.impl.TranslationPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
-
 import org.openetcs.model.ertmsformalspecs.types.impl.TypesPackageImpl;
 
 /**

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.ecp.editor.attributecontrols">
+      <widget
+            class="org.openetcs.ui.internal.expression.ExpressionControl"
+            name="org.openetcs.ui.control.expression"
+            showLabel="true"
+            type="java.lang.String">
+      </widget>
+   </extension>
+
+</plugin>

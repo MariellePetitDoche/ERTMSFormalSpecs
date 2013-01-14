@@ -4,12 +4,24 @@ package org.openetcs.model.ertmsformalspecs.requirements.messages.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.openetcs.model.ertmsformalspecs.requirements.BaseLinedElement;
-
-import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.IMatch;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Mask;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Match;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Media;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Message;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MessageVariable;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormula;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.SingleValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Value;
 
 /**
  * <!-- begin-user-doc -->

@@ -8,11 +8,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -21,9 +19,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.openetcs.model.ertmsformalspecs.provider.ModelEditPlugin;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesFactory;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue;
@@ -63,8 +59,100 @@ public class SpecialOrReservedValueItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addMaskPropertyDescriptor(object);
+			addMatchPropertyDescriptor(object);
+			addMeaningPropertyDescriptor(object);
+			addValuePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Mask feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMaskPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SpecialOrReservedValue_mask_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SpecialOrReservedValue_mask_feature", "_UI_SpecialOrReservedValue_type"),
+				 MessagesPackage.Literals.SPECIAL_OR_RESERVED_VALUE__MASK,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Match feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMatchPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SpecialOrReservedValue_match_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SpecialOrReservedValue_match_feature", "_UI_SpecialOrReservedValue_type"),
+				 MessagesPackage.Literals.SPECIAL_OR_RESERVED_VALUE__MATCH,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Meaning feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMeaningPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SpecialOrReservedValue_meaning_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SpecialOrReservedValue_meaning_feature", "_UI_SpecialOrReservedValue_type"),
+				 MessagesPackage.Literals.SPECIAL_OR_RESERVED_VALUE__MEANING,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Value feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addValuePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SpecialOrReservedValue_value_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SpecialOrReservedValue_value_feature", "_UI_SpecialOrReservedValue_type"),
+				 MessagesPackage.Literals.SPECIAL_OR_RESERVED_VALUE__VALUE,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**

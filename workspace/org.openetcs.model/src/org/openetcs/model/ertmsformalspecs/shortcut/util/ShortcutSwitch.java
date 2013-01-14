@@ -4,12 +4,11 @@ package org.openetcs.model.ertmsformalspecs.shortcut.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.openetcs.model.ertmsformalspecs.NamedElement;
-
-import org.openetcs.model.ertmsformalspecs.shortcut.*;
+import org.openetcs.model.ertmsformalspecs.shortcut.Shortcut;
+import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder;
+import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutPackage;
 
 /**
  * <!-- begin-user-doc -->

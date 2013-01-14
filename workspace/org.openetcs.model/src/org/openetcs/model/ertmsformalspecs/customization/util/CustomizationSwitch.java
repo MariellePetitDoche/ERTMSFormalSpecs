@@ -4,14 +4,12 @@ package org.openetcs.model.ertmsformalspecs.customization.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
-
-import org.openetcs.model.ertmsformalspecs.customization.*;
+import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
+import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
 
 /**
  * <!-- begin-user-doc -->

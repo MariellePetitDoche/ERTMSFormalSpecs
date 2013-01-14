@@ -2,12 +2,11 @@
  */
 package org.openetcs.model.ertmsformalspecs.behaviour.tests;
 
+import junit.framework.TestCase;
 import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourFactory;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
-
-import org.openetcs.model.ertmsformalspecs.tests.ReqRelatedTest;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +20,15 @@ import org.openetcs.model.ertmsformalspecs.tests.ReqRelatedTest;
  * </p>
  * @generated
  */
-public class RuleTest extends ReqRelatedTest {
+public class RuleTest extends TestCase {
+
+	/**
+	 * The fixture for this Rule test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Rule fixture = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -43,14 +50,23 @@ public class RuleTest extends ReqRelatedTest {
 	}
 
 	/**
+	 * Sets the fixture for this Rule test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void setFixture(Rule fixture) {
+		this.fixture = fixture;
+	}
+
+	/**
 	 * Returns the fixture for this Rule test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	protected Rule getFixture() {
-		return (Rule)fixture;
+		return fixture;
 	}
 
 	/**

@@ -2,12 +2,8 @@
  */
 package org.openetcs.model.ertmsformalspecs.types.tests;
 
-import junit.textui.TestRunner;
-
 import org.openetcs.model.ertmsformalspecs.tests.ReqRelatedTest;
-
 import org.openetcs.model.ertmsformalspecs.types.Type;
-import org.openetcs.model.ertmsformalspecs.types.TypesFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,16 +11,7 @@ import org.openetcs.model.ertmsformalspecs.types.TypesFactory;
  * <!-- end-user-doc -->
  * @generated
  */
-public class TypeTest extends ReqRelatedTest {
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static void main(String[] args) {
-		TestRunner.run(TypeTest.class);
-	}
+public abstract class TypeTest extends ReqRelatedTest {
 
 	/**
 	 * Constructs a new Type test case with the given name.
@@ -45,28 +32,6 @@ public class TypeTest extends ReqRelatedTest {
 	@Override
 	protected Type getFixture() {
 		return (Type)fixture;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see junit.framework.TestCase#setUp()
-	 * @generated
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		setFixture(TypesFactory.eINSTANCE.createType());
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see junit.framework.TestCase#tearDown()
-	 * @generated
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		setFixture(null);
 	}
 
 } //TypeTest

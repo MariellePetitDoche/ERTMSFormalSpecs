@@ -4,13 +4,16 @@ package org.openetcs.model.ertmsformalspecs.requirements.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
-
-import org.openetcs.model.ertmsformalspecs.requirements.*;
+import org.openetcs.model.ertmsformalspecs.requirements.BaseLinedElement;
+import org.openetcs.model.ertmsformalspecs.requirements.FunctionalBlock;
+import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
+import org.openetcs.model.ertmsformalspecs.requirements.ProcessInformation;
+import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
+import org.openetcs.model.ertmsformalspecs.requirements.Scope;
+import org.openetcs.model.ertmsformalspecs.requirements.Specification;
 
 /**
  * <!-- begin-user-doc -->

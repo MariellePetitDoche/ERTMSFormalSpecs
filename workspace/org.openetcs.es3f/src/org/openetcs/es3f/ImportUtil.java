@@ -5,7 +5,6 @@ import java.io.File;
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.ModelFactory;
-import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Namespace;
 
 /**

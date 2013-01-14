@@ -8,7 +8,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -20,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.openetcs.model.ertmsformalspecs.types.util.TypesAdapterFactory;
 
 /**
@@ -69,29 +67,6 @@ public class TypesItemProviderAdapterFactory extends TypesAdapterFactory impleme
 		supportedTypes.add(ITreeItemContentProvider.class);
 		supportedTypes.add(IItemLabelProvider.class);
 		supportedTypes.add(IItemPropertySource.class);
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.openetcs.model.ertmsformalspecs.types.Type} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected TypeItemProvider typeItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.openetcs.model.ertmsformalspecs.types.Type}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createTypeAdapter() {
-		if (typeItemProvider == null) {
-			typeItemProvider = new TypeItemProvider(this);
-		}
-
-		return typeItemProvider;
 	}
 
 	/**
@@ -377,7 +352,6 @@ public class TypesItemProviderAdapterFactory extends TypesAdapterFactory impleme
 	 * @generated
 	 */
 	public void dispose() {
-		if (typeItemProvider != null) typeItemProvider.dispose();
 		if (enumerationItemProvider != null) enumerationItemProvider.dispose();
 		if (enumValueItemProvider != null) enumValueItemProvider.dispose();
 		if (rangeItemProvider != null) rangeItemProvider.dispose();

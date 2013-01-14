@@ -6,12 +6,17 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.openetcs.model.ertmsformalspecs.requirements.*;
+import org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus;
+import org.openetcs.model.ertmsformalspecs.requirements.EParagraphType;
+import org.openetcs.model.ertmsformalspecs.requirements.FunctionalBlock;
+import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
+import org.openetcs.model.ertmsformalspecs.requirements.ProcessInformation;
+import org.openetcs.model.ertmsformalspecs.requirements.RequirementsFactory;
+import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
+import org.openetcs.model.ertmsformalspecs.requirements.Scope;
+import org.openetcs.model.ertmsformalspecs.requirements.Specification;
 
 /**
  * <!-- begin-user-doc -->

@@ -4,22 +4,15 @@ package org.openetcs.model.ertmsformalspecs.customization.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
-
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
 import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
-
 import org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl;
 
 /**

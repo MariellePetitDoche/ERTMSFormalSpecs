@@ -304,7 +304,7 @@
     </eSubpackages>
   </eSubpackages>
   <eSubpackages name="types" nsURI="http://org/openetcs/ertmsformalspecs/types" nsPrefix="org.openetcs.ertmsformalspecs.types">
-    <eClassifiers xsi:type="ecore:EClass" name="Type" eSuperTypes="#//ReqRelated #//DefaultValueElement">
+    <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//ReqRelated #//DefaultValueElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentNamespace" eType="#//Namespace"
           eOpposite="#//Namespace/types"/>
     </eClassifiers>
@@ -371,7 +371,7 @@
   </eSubpackages>
   <eSubpackages name="behaviour" nsURI="http://org/openetcs/ertmsformalspecs/behaviour"
       nsPrefix="org.openetcs.ertmsformalspecs.behaviour">
-    <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//ReqRelated #//NamedElement">
+    <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//NamedElement #//ReqRelated">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="#//behaviour/Priority"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
           eType="#//behaviour/RuleCondition" containment="true"/>

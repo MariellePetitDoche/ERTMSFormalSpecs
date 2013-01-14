@@ -8,11 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,13 +20,11 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourFactory;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
+import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition;
-
 import org.openetcs.model.ertmsformalspecs.provider.ModelEditPlugin;
 
 /**
@@ -180,7 +175,7 @@ public class RuleConditionItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -191,10 +186,13 @@ public class RuleConditionItemProvider
 				(BehaviourPackage.Literals.RULE_CONDITION__ACTIONS,
 				 BehaviourFactory.eINSTANCE.createAction()));
 
+		Rule rule=BehaviourFactory.eINSTANCE.createRule();
+		rule.getConditions().add(BehaviourFactory.eINSTANCE.createRuleCondition());
+		
 		newChildDescriptors.add
 			(createChildParameter
 				(BehaviourPackage.Literals.RULE_CONDITION__SUB_RULES,
-				 BehaviourFactory.eINSTANCE.createRule()));
+						rule));
 
 		newChildDescriptors.add
 			(createChildParameter

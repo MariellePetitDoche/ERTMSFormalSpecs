@@ -6,35 +6,25 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Namespace;
-
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
 import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
-
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
 import org.openetcs.model.ertmsformalspecs.requirements.Specification;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutPackage;
-
 import org.openetcs.model.ertmsformalspecs.test.Frame;
 import org.openetcs.model.ertmsformalspecs.test.TestPackage;
-
 import org.openetcs.model.ertmsformalspecs.translation.TranslationFolder;
 import org.openetcs.model.ertmsformalspecs.translation.TranslationPackage;
 

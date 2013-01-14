@@ -6,7 +6,6 @@ import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.requirements.ProcessInformation;
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsFactory;
-
 import org.openetcs.model.ertmsformalspecs.tests.CommentedElementTest;
 
 /**

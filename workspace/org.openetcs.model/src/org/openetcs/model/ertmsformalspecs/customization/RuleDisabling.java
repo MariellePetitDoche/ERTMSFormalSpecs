@@ -4,7 +4,6 @@ package org.openetcs.model.ertmsformalspecs.customization;
 
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 
 /**

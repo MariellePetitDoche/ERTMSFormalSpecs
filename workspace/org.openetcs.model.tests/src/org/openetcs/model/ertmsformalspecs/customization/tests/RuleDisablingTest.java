@@ -6,7 +6,6 @@ import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationFactory;
 import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
-
 import org.openetcs.model.ertmsformalspecs.tests.ReqRelatedTest;
 
 /**

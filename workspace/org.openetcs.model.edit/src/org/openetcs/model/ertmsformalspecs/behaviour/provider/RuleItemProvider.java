@@ -8,11 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -21,16 +18,13 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourFactory;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
-
 import org.openetcs.model.ertmsformalspecs.provider.ModelEditPlugin;
-import org.openetcs.model.ertmsformalspecs.provider.ReqRelatedItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.openetcs.model.ertmsformalspecs.behaviour.Rule} object.
@@ -39,7 +33,7 @@ import org.openetcs.model.ertmsformalspecs.provider.ReqRelatedItemProvider;
  * @generated
  */
 public class RuleItemProvider
-	extends ReqRelatedItemProvider
+	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -68,6 +62,11 @@ public class RuleItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addCommentPropertyDescriptor(object);
+			addRequirementsPropertyDescriptor(object);
+			addImplementedPropertyDescriptor(object);
+			addVerifiedPropertyDescriptor(object);
+			addNeedsRequirementPropertyDescriptor(object);
 			addPriorityPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -91,6 +90,116 @@ public class RuleItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Comment feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCommentPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_CommentedElement_comment_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_CommentedElement_comment_feature", "_UI_CommentedElement_type"),
+				 ModelPackage.Literals.COMMENTED_ELEMENT__COMMENT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Requirements feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRequirementsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferencesParagraph_requirements_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferencesParagraph_requirements_feature", "_UI_ReferencesParagraph_type"),
+				 ModelPackage.Literals.REFERENCES_PARAGRAPH__REQUIREMENTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Implemented feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addImplementedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReqRelated_implemented_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReqRelated_implemented_feature", "_UI_ReqRelated_type"),
+				 ModelPackage.Literals.REQ_RELATED__IMPLEMENTED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Verified feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addVerifiedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReqRelated_verified_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReqRelated_verified_feature", "_UI_ReqRelated_type"),
+				 ModelPackage.Literals.REQ_RELATED__VERIFIED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Needs Requirement feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNeedsRequirementPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReqRelated_needsRequirement_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReqRelated_needsRequirement_feature", "_UI_ReqRelated_type"),
+				 ModelPackage.Literals.REQ_RELATED__NEEDS_REQUIREMENT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -185,6 +294,10 @@ public class RuleItemProvider
 
 		switch (notification.getFeatureID(Rule.class)) {
 			case BehaviourPackage.RULE__NAME:
+			case BehaviourPackage.RULE__COMMENT:
+			case BehaviourPackage.RULE__IMPLEMENTED:
+			case BehaviourPackage.RULE__VERIFIED:
+			case BehaviourPackage.RULE__NEEDS_REQUIREMENT:
 			case BehaviourPackage.RULE__PRIORITY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

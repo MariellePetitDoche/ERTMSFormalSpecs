@@ -5,11 +5,8 @@ package org.openetcs.model.ertmsformalspecs.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRef;
