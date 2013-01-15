@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.ecp.ui.workbench.menuContributionEnablement">
+      <MenuContributionEnablement
+            enabled="true">
+         <Command
+               commandID="org.eclipse.emf.ecp.ui.wizards.newModelElementWizard">
+         </Command>
+         <Command
+               commandID="org.eclipse.emf.ecp.ui.project.filterModelElements">
+         </Command>
+      </MenuContributionEnablement>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.openetcs.ui.internal.ecp.NewDictionaryHandler"
+            id="org.openetcs.ui.ecp.create.dictionary"
+            name="new Dictionary">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.emf.ecp.ui.ModelExplorerView?after=additions">
+         <command
+               commandId="org.openetcs.ui.ecp.create.dictionary"
+               label="New Dictionary"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.eclipse.emf.ecp.core.ECPProject">
+                        </instanceof>
+                     </iterate>
+                  </and>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
+</plugin>

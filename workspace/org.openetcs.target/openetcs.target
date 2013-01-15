@@ -2,10 +2,10 @@
 <?pde version="3.8"?><target name="openetcs" sequenceNumber="29">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.ecp.ui3x.feature.group" version="1.0.0.201301140503"/>
-<unit id="org.eclipse.emf.ecp.validation.feature.feature.group" version="1.0.0.201301140503"/>
-<unit id="org.eclipse.emf.ecp.feature.group" version="1.0.0.201301140503"/>
-<unit id="org.eclipse.emf.ecp.emfstore.feature.group" version="1.0.0.201301140503"/>
+<unit id="org.eclipse.emf.ecp.ui3x.feature.group" version="1.0.0.201301150503"/>
+<unit id="org.eclipse.emf.ecp.validation.feature.feature.group" version="1.0.0.201301150503"/>
+<unit id="org.eclipse.emf.ecp.feature.group" version="1.0.0.201301150503"/>
+<unit id="org.eclipse.emf.ecp.emfstore.feature.group" version="1.0.0.201301150503"/>
 <repository location="https://hudson.eclipse.org/hudson/job/emf-emfclient-maintenance/lastSuccessfulBuild/artifact/git/ECP2/org.eclipse.emf.ecp.site-feature/target/repository/"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
