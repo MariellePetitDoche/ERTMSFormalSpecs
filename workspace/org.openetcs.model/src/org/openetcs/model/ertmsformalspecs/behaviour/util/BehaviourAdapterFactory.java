@@ -4,17 +4,17 @@ package org.openetcs.model.ertmsformalspecs.behaviour.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
-
-import org.openetcs.model.ertmsformalspecs.behaviour.*;
+import org.openetcs.model.ertmsformalspecs.behaviour.Action;
+import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
+import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
+import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
+import org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition;
 
 /**
  * <!-- begin-user-doc -->
@@ -89,6 +89,10 @@ public class BehaviourAdapterFactory extends AdapterFactoryImpl {
 				return createActionAdapter();
 			}
 			@Override
+			public Adapter caseNamedElement(NamedElement object) {
+				return createNamedElementAdapter();
+			}
+			@Override
 			public Adapter caseCommentedElement(CommentedElement object) {
 				return createCommentedElementAdapter();
 			}
@@ -99,10 +103,6 @@ public class BehaviourAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseReqRelated(ReqRelated object) {
 				return createReqRelatedAdapter();
-			}
-			@Override
-			public Adapter caseNamedElement(NamedElement object) {
-				return createNamedElementAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {

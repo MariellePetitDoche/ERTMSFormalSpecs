@@ -8,14 +8,9 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://org/openetcs/model"
+            uri="http://org/openetcs/ertmsformalspecs"
             class="org.openetcs.model.ertmsformalspecs.ModelPackage"
             genModel="model/model.genmodel"/>
-      <package
-            class="org.openetcs.expression.expression.ExpressionPackage"
-            genModel="model/expression.genmodel"
-            uri="http://org/openetcs/expression">
-      </package>
    </extension>
 
 </plugin>

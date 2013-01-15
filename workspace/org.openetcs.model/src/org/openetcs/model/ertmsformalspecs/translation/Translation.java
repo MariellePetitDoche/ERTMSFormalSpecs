@@ -3,10 +3,8 @@
 package org.openetcs.model.ertmsformalspecs.translation;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
-
 import org.openetcs.model.ertmsformalspecs.test.SubStep;
 
 /**

@@ -3,15 +3,10 @@
 package org.openetcs.model.ertmsformalspecs;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
-
 import org.openetcs.model.ertmsformalspecs.requirements.Specification;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder;
-
 import org.openetcs.model.ertmsformalspecs.test.Frame;
-
 import org.openetcs.model.ertmsformalspecs.translation.TranslationFolder;
 
 /**

@@ -19,7 +19,7 @@ import org.openetcs.model.ertmsformalspecs.ReqRelated;
  * </p>
  *
  * @see org.openetcs.model.ertmsformalspecs.types.TypesPackage#getType()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface Type extends ReqRelated, DefaultValueElement {

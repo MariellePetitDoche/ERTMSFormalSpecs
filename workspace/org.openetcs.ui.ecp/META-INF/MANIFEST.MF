@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ECP UI
+Bundle-SymbolicName: org.openetcs.ui.ecp;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.openetcs.ui.internal.ecp.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecp.ui.workbench;bundle-version="1.0.0",
+ org.openetcs.model;bundle-version="1.0.0",
+ org.eclipse.emf.ecp.core;bundle-version="1.0.0",
+ org.eclipse.emf.ecp.ui;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

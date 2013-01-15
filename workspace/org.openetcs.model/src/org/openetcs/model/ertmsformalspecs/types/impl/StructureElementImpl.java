@@ -3,18 +3,13 @@
 package org.openetcs.model.ertmsformalspecs.types.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.VariableMode;
 import org.openetcs.model.ertmsformalspecs.VariableModeElement;
-
 import org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl;
-
 import org.openetcs.model.ertmsformalspecs.types.StructureElement;
 import org.openetcs.model.ertmsformalspecs.types.TypedElement;
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;

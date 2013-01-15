@@ -4,15 +4,20 @@ package org.openetcs.model.ertmsformalspecs.test.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
-
-import org.openetcs.model.ertmsformalspecs.test.*;
+import org.openetcs.model.ertmsformalspecs.test.Expectation;
+import org.openetcs.model.ertmsformalspecs.test.Frame;
+import org.openetcs.model.ertmsformalspecs.test.Step;
+import org.openetcs.model.ertmsformalspecs.test.SubSequence;
+import org.openetcs.model.ertmsformalspecs.test.SubStep;
+import org.openetcs.model.ertmsformalspecs.test.TestCase;
+import org.openetcs.model.ertmsformalspecs.test.TestField;
+import org.openetcs.model.ertmsformalspecs.test.TestMessage;
+import org.openetcs.model.ertmsformalspecs.test.TestPackage;
+import org.openetcs.model.ertmsformalspecs.test.TestPacket;
 
 /**
  * <!-- begin-user-doc -->

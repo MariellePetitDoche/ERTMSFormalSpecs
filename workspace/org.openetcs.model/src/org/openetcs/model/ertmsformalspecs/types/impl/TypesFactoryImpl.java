@@ -6,12 +6,19 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.openetcs.model.ertmsformalspecs.types.*;
+import org.openetcs.model.ertmsformalspecs.types.Case;
+import org.openetcs.model.ertmsformalspecs.types.Collection;
+import org.openetcs.model.ertmsformalspecs.types.EnumValue;
+import org.openetcs.model.ertmsformalspecs.types.Enumeration;
+import org.openetcs.model.ertmsformalspecs.types.Function;
+import org.openetcs.model.ertmsformalspecs.types.Precision;
+import org.openetcs.model.ertmsformalspecs.types.Range;
+import org.openetcs.model.ertmsformalspecs.types.Structure;
+import org.openetcs.model.ertmsformalspecs.types.StructureElement;
+import org.openetcs.model.ertmsformalspecs.types.TypesFactory;
+import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -57,7 +64,6 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case TypesPackage.TYPE: return createType();
 			case TypesPackage.ENUMERATION: return createEnumeration();
 			case TypesPackage.ENUM_VALUE: return createEnumValue();
 			case TypesPackage.RANGE: return createRange();
@@ -99,16 +105,6 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory {
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Type createType() {
-		TypeImpl type = new TypeImpl();
-		return type;
 	}
 
 	/**

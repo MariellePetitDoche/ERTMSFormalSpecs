@@ -3,7 +3,6 @@
 package org.openetcs.model.ertmsformalspecs.behaviour;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.openetcs.model.ertmsformalspecs.types.Case;
 
 /**

@@ -3,7 +3,6 @@
 package org.openetcs.model.ertmsformalspecs.test.tests;
 
 import junit.framework.TestCase;
-
 import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.test.Frame;

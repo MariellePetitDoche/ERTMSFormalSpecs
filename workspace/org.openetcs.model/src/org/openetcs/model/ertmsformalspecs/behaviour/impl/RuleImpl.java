@@ -6,28 +6,25 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
+import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-import org.openetcs.model.ertmsformalspecs.NamedElement;
+import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
+import org.openetcs.model.ertmsformalspecs.ReqRef;
+import org.openetcs.model.ertmsformalspecs.ReqRelated;
 import org.openetcs.model.ertmsformalspecs.StateMachine;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
 import org.openetcs.model.ertmsformalspecs.behaviour.Priority;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition;
-
-import org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,6 +34,11 @@ import org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getComment <em>Comment</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#isImplemented <em>Implemented</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#isVerified <em>Verified</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#isNeedsRequirement <em>Needs Requirement</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getPriority <em>Priority</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getConditions <em>Conditions</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getParentStateMachine <em>Parent State Machine</em>}</li>
@@ -45,7 +47,7 @@ import org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl;
  *
  * @generated
  */
-public class RuleImpl extends ReqRelatedImpl implements Rule {
+public class RuleImpl extends EObjectImpl implements Rule {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -65,6 +67,96 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComment()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMMENT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComment()
+	 * @generated
+	 * @ordered
+	 */
+	protected String comment = COMMENT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRequirements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ReqRef> requirements;
+
+	/**
+	 * The default value of the '{@link #isImplemented() <em>Implemented</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isImplemented()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IMPLEMENTED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isImplemented() <em>Implemented</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isImplemented()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean implemented = IMPLEMENTED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isVerified() <em>Verified</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isVerified()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean VERIFIED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isVerified() <em>Verified</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isVerified()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean verified = VERIFIED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isNeedsRequirement() <em>Needs Requirement</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNeedsRequirement()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean NEEDS_REQUIREMENT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isNeedsRequirement() <em>Needs Requirement</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNeedsRequirement()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean needsRequirement = NEEDS_REQUIREMENT_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPriority() <em>Priority</em>}' attribute.
@@ -134,6 +226,102 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, BehaviourPackage.RULE__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getComment() {
+		return comment;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComment(String newComment) {
+		String oldComment = comment;
+		comment = newComment;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviourPackage.RULE__COMMENT, oldComment, comment));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<ReqRef> getRequirements() {
+		if (requirements == null) {
+			requirements = new EObjectResolvingEList<ReqRef>(ReqRef.class, this, BehaviourPackage.RULE__REQUIREMENTS);
+		}
+		return requirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isImplemented() {
+		return implemented;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImplemented(boolean newImplemented) {
+		boolean oldImplemented = implemented;
+		implemented = newImplemented;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviourPackage.RULE__IMPLEMENTED, oldImplemented, implemented));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isVerified() {
+		return verified;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVerified(boolean newVerified) {
+		boolean oldVerified = verified;
+		verified = newVerified;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviourPackage.RULE__VERIFIED, oldVerified, verified));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isNeedsRequirement() {
+		return needsRequirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNeedsRequirement(boolean newNeedsRequirement) {
+		boolean oldNeedsRequirement = needsRequirement;
+		needsRequirement = newNeedsRequirement;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviourPackage.RULE__NEEDS_REQUIREMENT, oldNeedsRequirement, needsRequirement));
 	}
 
 	/**
@@ -266,6 +454,16 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 		switch (featureID) {
 			case BehaviourPackage.RULE__NAME:
 				return getName();
+			case BehaviourPackage.RULE__COMMENT:
+				return getComment();
+			case BehaviourPackage.RULE__REQUIREMENTS:
+				return getRequirements();
+			case BehaviourPackage.RULE__IMPLEMENTED:
+				return isImplemented();
+			case BehaviourPackage.RULE__VERIFIED:
+				return isVerified();
+			case BehaviourPackage.RULE__NEEDS_REQUIREMENT:
+				return isNeedsRequirement();
 			case BehaviourPackage.RULE__PRIORITY:
 				return getPriority();
 			case BehaviourPackage.RULE__CONDITIONS:
@@ -287,6 +485,22 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 		switch (featureID) {
 			case BehaviourPackage.RULE__NAME:
 				setName((String)newValue);
+				return;
+			case BehaviourPackage.RULE__COMMENT:
+				setComment((String)newValue);
+				return;
+			case BehaviourPackage.RULE__REQUIREMENTS:
+				getRequirements().clear();
+				getRequirements().addAll((Collection<? extends ReqRef>)newValue);
+				return;
+			case BehaviourPackage.RULE__IMPLEMENTED:
+				setImplemented((Boolean)newValue);
+				return;
+			case BehaviourPackage.RULE__VERIFIED:
+				setVerified((Boolean)newValue);
+				return;
+			case BehaviourPackage.RULE__NEEDS_REQUIREMENT:
+				setNeedsRequirement((Boolean)newValue);
 				return;
 			case BehaviourPackage.RULE__PRIORITY:
 				setPriority((Priority)newValue);
@@ -313,6 +527,21 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 			case BehaviourPackage.RULE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case BehaviourPackage.RULE__COMMENT:
+				setComment(COMMENT_EDEFAULT);
+				return;
+			case BehaviourPackage.RULE__REQUIREMENTS:
+				getRequirements().clear();
+				return;
+			case BehaviourPackage.RULE__IMPLEMENTED:
+				setImplemented(IMPLEMENTED_EDEFAULT);
+				return;
+			case BehaviourPackage.RULE__VERIFIED:
+				setVerified(VERIFIED_EDEFAULT);
+				return;
+			case BehaviourPackage.RULE__NEEDS_REQUIREMENT:
+				setNeedsRequirement(NEEDS_REQUIREMENT_EDEFAULT);
+				return;
 			case BehaviourPackage.RULE__PRIORITY:
 				setPriority(PRIORITY_EDEFAULT);
 				return;
@@ -336,6 +565,16 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 		switch (featureID) {
 			case BehaviourPackage.RULE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case BehaviourPackage.RULE__COMMENT:
+				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
+			case BehaviourPackage.RULE__REQUIREMENTS:
+				return requirements != null && !requirements.isEmpty();
+			case BehaviourPackage.RULE__IMPLEMENTED:
+				return implemented != IMPLEMENTED_EDEFAULT;
+			case BehaviourPackage.RULE__VERIFIED:
+				return verified != VERIFIED_EDEFAULT;
+			case BehaviourPackage.RULE__NEEDS_REQUIREMENT:
+				return needsRequirement != NEEDS_REQUIREMENT_EDEFAULT;
 			case BehaviourPackage.RULE__PRIORITY:
 				return priority != PRIORITY_EDEFAULT;
 			case BehaviourPackage.RULE__CONDITIONS:
@@ -353,9 +592,23 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
+		if (baseClass == CommentedElement.class) {
 			switch (derivedFeatureID) {
-				case BehaviourPackage.RULE__NAME: return ModelPackage.NAMED_ELEMENT__NAME;
+				case BehaviourPackage.RULE__COMMENT: return ModelPackage.COMMENTED_ELEMENT__COMMENT;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReferencesParagraph.class) {
+			switch (derivedFeatureID) {
+				case BehaviourPackage.RULE__REQUIREMENTS: return ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReqRelated.class) {
+			switch (derivedFeatureID) {
+				case BehaviourPackage.RULE__IMPLEMENTED: return ModelPackage.REQ_RELATED__IMPLEMENTED;
+				case BehaviourPackage.RULE__VERIFIED: return ModelPackage.REQ_RELATED__VERIFIED;
+				case BehaviourPackage.RULE__NEEDS_REQUIREMENT: return ModelPackage.REQ_RELATED__NEEDS_REQUIREMENT;
 				default: return -1;
 			}
 		}
@@ -369,9 +622,23 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
+		if (baseClass == CommentedElement.class) {
 			switch (baseFeatureID) {
-				case ModelPackage.NAMED_ELEMENT__NAME: return BehaviourPackage.RULE__NAME;
+				case ModelPackage.COMMENTED_ELEMENT__COMMENT: return BehaviourPackage.RULE__COMMENT;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReferencesParagraph.class) {
+			switch (baseFeatureID) {
+				case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS: return BehaviourPackage.RULE__REQUIREMENTS;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReqRelated.class) {
+			switch (baseFeatureID) {
+				case ModelPackage.REQ_RELATED__IMPLEMENTED: return BehaviourPackage.RULE__IMPLEMENTED;
+				case ModelPackage.REQ_RELATED__VERIFIED: return BehaviourPackage.RULE__VERIFIED;
+				case ModelPackage.REQ_RELATED__NEEDS_REQUIREMENT: return BehaviourPackage.RULE__NEEDS_REQUIREMENT;
 				default: return -1;
 			}
 		}
@@ -390,6 +657,14 @@ public class RuleImpl extends ReqRelatedImpl implements Rule {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", comment: ");
+		result.append(comment);
+		result.append(", implemented: ");
+		result.append(implemented);
+		result.append(", verified: ");
+		result.append(verified);
+		result.append(", needsRequirement: ");
+		result.append(needsRequirement);
 		result.append(", priority: ");
 		result.append(priority);
 		result.append(')');

@@ -5,7 +5,6 @@ package org.openetcs.model.ertmsformalspecs.customization;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 
 /**

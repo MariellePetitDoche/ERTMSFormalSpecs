@@ -8,11 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,15 +20,11 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-
 import org.openetcs.model.ertmsformalspecs.provider.ModelEditPlugin;
-
 import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsFactory;
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesFactory;
 
 /**
@@ -72,9 +65,13 @@ public class ParagraphItemProvider
 			addNamePropertyDescriptor(object);
 			addBaselinePropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
+			addScopePropertyDescriptor(object);
+			addProcessInfoPropertyDescriptor(object);
 			addIdPropertyDescriptor(object);
 			addTextPropertyDescriptor(object);
 			addFunctionalBlockPropertyDescriptor(object);
+			addTypeSpecPropertyDescriptor(object);
+			addMessagePropertyDescriptor(object);
 			addVersionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -147,6 +144,50 @@ public class ParagraphItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Scope feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addScopePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Paragraph_scope_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Paragraph_scope_feature", "_UI_Paragraph_type"),
+				 RequirementsPackage.Literals.PARAGRAPH__SCOPE,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Process Info feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addProcessInfoPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Paragraph_processInfo_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Paragraph_processInfo_feature", "_UI_Paragraph_type"),
+				 RequirementsPackage.Literals.PARAGRAPH__PROCESS_INFO,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Id feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -207,6 +248,50 @@ public class ParagraphItemProvider
 				 true,
 				 false,
 				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Type Spec feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTypeSpecPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Paragraph_typeSpec_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Paragraph_typeSpec_feature", "_UI_Paragraph_type"),
+				 RequirementsPackage.Literals.PARAGRAPH__TYPE_SPEC,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Message feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMessagePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Paragraph_message_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Paragraph_message_feature", "_UI_Paragraph_type"),
+				 RequirementsPackage.Literals.PARAGRAPH__MESSAGE,
+				 true,
+				 false,
+				 false,
 				 null,
 				 null,
 				 null));

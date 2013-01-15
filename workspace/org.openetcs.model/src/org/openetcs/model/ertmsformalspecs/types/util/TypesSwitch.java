@@ -4,17 +4,24 @@ package org.openetcs.model.ertmsformalspecs.types.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
 import org.openetcs.model.ertmsformalspecs.VariableModeElement;
-
-import org.openetcs.model.ertmsformalspecs.types.*;
+import org.openetcs.model.ertmsformalspecs.types.Case;
+import org.openetcs.model.ertmsformalspecs.types.Collection;
+import org.openetcs.model.ertmsformalspecs.types.EnumValue;
+import org.openetcs.model.ertmsformalspecs.types.Enumeration;
+import org.openetcs.model.ertmsformalspecs.types.Function;
+import org.openetcs.model.ertmsformalspecs.types.Range;
+import org.openetcs.model.ertmsformalspecs.types.Structure;
+import org.openetcs.model.ertmsformalspecs.types.StructureElement;
+import org.openetcs.model.ertmsformalspecs.types.Type;
+import org.openetcs.model.ertmsformalspecs.types.TypedElement;
+import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
 
 /**
  * <!-- begin-user-doc -->

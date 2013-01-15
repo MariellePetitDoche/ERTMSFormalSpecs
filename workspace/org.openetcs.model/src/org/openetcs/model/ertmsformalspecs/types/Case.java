@@ -3,9 +3,7 @@
 package org.openetcs.model.ertmsformalspecs.types;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
 
 /**

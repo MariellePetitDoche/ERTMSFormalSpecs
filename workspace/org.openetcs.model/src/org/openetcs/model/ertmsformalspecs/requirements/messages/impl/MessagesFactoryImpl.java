@@ -6,12 +6,27 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Mask;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Match;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Media;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.Message;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MessageVariable;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesFactory;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormula;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.SingleValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeValue;
 
 /**
  * <!-- begin-user-doc -->

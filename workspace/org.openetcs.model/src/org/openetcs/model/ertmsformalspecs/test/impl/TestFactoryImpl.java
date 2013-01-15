@@ -6,12 +6,24 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.openetcs.model.ertmsformalspecs.test.*;
+import org.openetcs.model.ertmsformalspecs.test.Expectation;
+import org.openetcs.model.ertmsformalspecs.test.Frame;
+import org.openetcs.model.ertmsformalspecs.test.Step;
+import org.openetcs.model.ertmsformalspecs.test.StepIO;
+import org.openetcs.model.ertmsformalspecs.test.StepInterface;
+import org.openetcs.model.ertmsformalspecs.test.StepLevel;
+import org.openetcs.model.ertmsformalspecs.test.StepMode;
+import org.openetcs.model.ertmsformalspecs.test.SubSequence;
+import org.openetcs.model.ertmsformalspecs.test.SubStep;
+import org.openetcs.model.ertmsformalspecs.test.TestCase;
+import org.openetcs.model.ertmsformalspecs.test.TestFactory;
+import org.openetcs.model.ertmsformalspecs.test.TestField;
+import org.openetcs.model.ertmsformalspecs.test.TestMessage;
+import org.openetcs.model.ertmsformalspecs.test.TestMessageType;
+import org.openetcs.model.ertmsformalspecs.test.TestPackage;
+import org.openetcs.model.ertmsformalspecs.test.TestPacket;
 
 /**
  * <!-- begin-user-doc -->

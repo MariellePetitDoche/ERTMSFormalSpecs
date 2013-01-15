@@ -5,7 +5,6 @@ package org.openetcs.model.ertmsformalspecs.types.tests;
 import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.tests.ReqRelatedTest;
-
 import org.openetcs.model.ertmsformalspecs.types.StructureElement;
 import org.openetcs.model.ertmsformalspecs.types.TypesFactory;
 

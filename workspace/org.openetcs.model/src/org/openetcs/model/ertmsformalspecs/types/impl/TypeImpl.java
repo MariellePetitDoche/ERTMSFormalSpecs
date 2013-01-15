@@ -4,20 +4,14 @@ package org.openetcs.model.ertmsformalspecs.types.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Namespace;
-
 import org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl;
-
 import org.openetcs.model.ertmsformalspecs.types.Type;
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
 
@@ -35,7 +29,7 @@ import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
  *
  * @generated
  */
-public class TypeImpl extends ReqRelatedImpl implements Type {
+public abstract class TypeImpl extends ReqRelatedImpl implements Type {
 	/**
 	 * The default value of the '{@link #getDefaultValue() <em>Default Value</em>}' attribute.
 	 * <!-- begin-user-doc -->

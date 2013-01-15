@@ -4,15 +4,16 @@ package org.openetcs.model.ertmsformalspecs.behaviour.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
-
-import org.openetcs.model.ertmsformalspecs.behaviour.*;
+import org.openetcs.model.ertmsformalspecs.behaviour.Action;
+import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
+import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
+import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
+import org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition;
 
 /**
  * <!-- begin-user-doc -->
@@ -74,8 +75,8 @@ public class BehaviourSwitch<T> extends Switch<T> {
 			case BehaviourPackage.RULE: {
 				Rule rule = (Rule)theEObject;
 				T result = caseRule(rule);
-				if (result == null) result = caseReqRelated(rule);
 				if (result == null) result = caseNamedElement(rule);
+				if (result == null) result = caseReqRelated(rule);
 				if (result == null) result = caseReferencesParagraph(rule);
 				if (result == null) result = caseCommentedElement(rule);
 				if (result == null) result = defaultCase(theEObject);

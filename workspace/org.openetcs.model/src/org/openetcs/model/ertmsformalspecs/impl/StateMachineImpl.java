@@ -6,23 +6,17 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Procedure;
 import org.openetcs.model.ertmsformalspecs.State;
 import org.openetcs.model.ertmsformalspecs.StateMachine;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 

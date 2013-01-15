@@ -3,12 +3,9 @@
 package org.openetcs.model.ertmsformalspecs.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.openetcs.model.ertmsformalspecs.BaseLine;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 

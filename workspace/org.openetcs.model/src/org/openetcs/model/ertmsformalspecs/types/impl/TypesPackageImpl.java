@@ -7,41 +7,23 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
-
 import org.openetcs.model.ertmsformalspecs.behaviour.impl.BehaviourPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
-
 import org.openetcs.model.ertmsformalspecs.customization.impl.CustomizationPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.impl.RequirementsPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
-
 import org.openetcs.model.ertmsformalspecs.requirements.messages.impl.MessagesPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutPackage;
-
 import org.openetcs.model.ertmsformalspecs.shortcut.impl.ShortcutPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.test.TestPackage;
-
 import org.openetcs.model.ertmsformalspecs.test.impl.TestPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.translation.TranslationPackage;
-
 import org.openetcs.model.ertmsformalspecs.translation.impl.TranslationPackageImpl;
-
 import org.openetcs.model.ertmsformalspecs.types.Case;
 import org.openetcs.model.ertmsformalspecs.types.Collection;
 import org.openetcs.model.ertmsformalspecs.types.EnumValue;
@@ -636,7 +618,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		functionEClass.getESuperTypes().add(this.getTypedElement());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(typeEClass, Type.class, "Type", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(typeEClass, Type.class, "Type", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getType_ParentNamespace(), theModelPackage.getNamespace(), theModelPackage.getNamespace_Types(), "parentNamespace", null, 0, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(typedElementEClass, TypedElement.class, "TypedElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
