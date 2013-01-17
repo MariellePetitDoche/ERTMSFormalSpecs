@@ -20,12 +20,22 @@
             id="org.openetcs.ui.ecp.create.dictionary"
             name="new Dictionary">
       </command>
+      <command
+            defaultHandler="org.openetcs.ui.internal.ecp.CreateProjectFromImportHandler"
+            id="org.openetcs.ui.ecp.importToProject"
+            name="Create new project from model">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.emf.ecp.ui.ModelExplorerView?after=additions">
+         <command
+               commandId="org.openetcs.ui.ecp.importToProject"
+               label="Create new project from model"
+               style="push">
+         </command>
          <command
                commandId="org.openetcs.ui.ecp.create.dictionary"
                label="New Dictionary"
