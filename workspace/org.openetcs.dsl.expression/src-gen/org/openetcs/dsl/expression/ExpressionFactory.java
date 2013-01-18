@@ -32,6 +32,15 @@ public interface ExpressionFactory extends EFactory
   Model createModel();
 
   /**
+   * Returns a new object of class '<em>Phrase</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Phrase</em>'.
+   * @generated
+   */
+  Phrase createPhrase();
+
+  /**
    * Returns a new object of class '<em>Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -39,6 +48,42 @@ public interface ExpressionFactory extends EFactory
    * @generated
    */
   Expression createExpression();
+
+  /**
+   * Returns a new object of class '<em>Statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Statement</em>'.
+   * @generated
+   */
+  Statement createStatement();
+
+  /**
+   * Returns a new object of class '<em>Single Statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Single Statement</em>'.
+   * @generated
+   */
+  SingleStatement createSingleStatement();
+
+  /**
+   * Returns a new object of class '<em>Self Statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Self Statement</em>'.
+   * @generated
+   */
+  SelfStatement createSelfStatement();
+
+  /**
+   * Returns a new object of class '<em>Multi Statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Multi Statement</em>'.
+   * @generated
+   */
+  MultiStatement createMultiStatement();
 
   /**
    * Returns a new object of class '<em>Unary Expression</em>'.
@@ -68,31 +113,58 @@ public interface ExpressionFactory extends EFactory
   Designator createDesignator();
 
   /**
-   * Returns a new object of class '<em>Or</em>'.
+   * Returns a new object of class '<em>Or Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Or</em>'.
+   * @return a new object of class '<em>Or Expression</em>'.
    * @generated
    */
-  Or createOr();
+  OrExpression createOrExpression();
 
   /**
-   * Returns a new object of class '<em>And</em>'.
+   * Returns a new object of class '<em>And Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>And</em>'.
+   * @return a new object of class '<em>And Expression</em>'.
    * @generated
    */
-  And createAnd();
+  AndExpression createAndExpression();
 
   /**
-   * Returns a new object of class '<em>Equality</em>'.
+   * Returns a new object of class '<em>Equality Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Equality</em>'.
+   * @return a new object of class '<em>Equality Expression</em>'.
    * @generated
    */
-  Equality createEquality();
+  EqualityExpression createEqualityExpression();
+
+  /**
+   * Returns a new object of class '<em>Dash Operation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Dash Operation</em>'.
+   * @generated
+   */
+  DashOperation createDashOperation();
+
+  /**
+   * Returns a new object of class '<em>Point Operation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Point Operation</em>'.
+   * @generated
+   */
+  PointOperation createPointOperation();
+
+  /**
+   * Returns a new object of class '<em>Pow Operation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Pow Operation</em>'.
+   * @generated
+   */
+  PowOperation createPowOperation();
 
   /**
    * Returns a new object of class '<em>String Value</em>'.

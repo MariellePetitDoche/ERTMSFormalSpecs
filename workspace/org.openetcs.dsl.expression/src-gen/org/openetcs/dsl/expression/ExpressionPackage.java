@@ -67,13 +67,13 @@ public interface ExpressionPackage extends EPackage
   int MODEL = 0;
 
   /**
-   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * The feature id for the '<em><b>Phrase</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__EXPRESSION = 0;
+  int MODEL__PHRASE = 0;
 
   /**
    * The number of structural features of the '<em>Model</em>' class.
@@ -85,6 +85,25 @@ public interface ExpressionPackage extends EPackage
   int MODEL_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.PhraseImpl <em>Phrase</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.PhraseImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getPhrase()
+   * @generated
+   */
+  int PHRASE = 1;
+
+  /**
+   * The number of structural features of the '<em>Phrase</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PHRASE_FEATURE_COUNT = 0;
+
+  /**
    * The meta object id for the '{@link org.openetcs.dsl.expression.impl.ExpressionImpl <em>Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -92,7 +111,7 @@ public interface ExpressionPackage extends EPackage
    * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getExpression()
    * @generated
    */
-  int EXPRESSION = 1;
+  int EXPRESSION = 2;
 
   /**
    * The number of structural features of the '<em>Expression</em>' class.
@@ -101,7 +120,128 @@ public interface ExpressionPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXPRESSION_FEATURE_COUNT = 0;
+  int EXPRESSION_FEATURE_COUNT = PHRASE_FEATURE_COUNT + 0;
+
+  /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.StatementImpl <em>Statement</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.StatementImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getStatement()
+   * @generated
+   */
+  int STATEMENT = 3;
+
+  /**
+   * The number of structural features of the '<em>Statement</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int STATEMENT_FEATURE_COUNT = PHRASE_FEATURE_COUNT + 0;
+
+  /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.SingleStatementImpl <em>Single Statement</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.SingleStatementImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getSingleStatement()
+   * @generated
+   */
+  int SINGLE_STATEMENT = 4;
+
+  /**
+   * The feature id for the '<em><b>Desgnator</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SINGLE_STATEMENT__DESGNATOR = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SINGLE_STATEMENT__EXPRESSION = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Single Statement</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SINGLE_STATEMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.SelfStatementImpl <em>Self Statement</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.SelfStatementImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getSelfStatement()
+   * @generated
+   */
+  int SELF_STATEMENT = 5;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SELF_STATEMENT__EXPRESSION = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Self Statement</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SELF_STATEMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.MultiStatementImpl <em>Multi Statement</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.MultiStatementImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getMultiStatement()
+   * @generated
+   */
+  int MULTI_STATEMENT = 6;
+
+  /**
+   * The feature id for the '<em><b>Desgnator</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTI_STATEMENT__DESGNATOR = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Expressions</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTI_STATEMENT__EXPRESSIONS = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Multi Statement</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTI_STATEMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.openetcs.dsl.expression.impl.UnaryExpressionImpl <em>Unary Expression</em>}' class.
@@ -111,7 +251,7 @@ public interface ExpressionPackage extends EPackage
    * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getUnaryExpression()
    * @generated
    */
-  int UNARY_EXPRESSION = 2;
+  int UNARY_EXPRESSION = 7;
 
   /**
    * The number of structural features of the '<em>Unary Expression</em>' class.
@@ -130,7 +270,7 @@ public interface ExpressionPackage extends EPackage
    * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getTerm()
    * @generated
    */
-  int TERM = 3;
+  int TERM = 8;
 
   /**
    * The number of structural features of the '<em>Term</em>' class.
@@ -149,7 +289,7 @@ public interface ExpressionPackage extends EPackage
    * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getDesignator()
    * @generated
    */
-  int DESIGNATOR = 4;
+  int DESIGNATOR = 9;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' reference.
@@ -170,14 +310,14 @@ public interface ExpressionPackage extends EPackage
   int DESIGNATOR_FEATURE_COUNT = TERM_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.OrImpl <em>Or</em>}' class.
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.OrExpressionImpl <em>Or Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.openetcs.dsl.expression.impl.OrImpl
-   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getOr()
+   * @see org.openetcs.dsl.expression.impl.OrExpressionImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getOrExpression()
    * @generated
    */
-  int OR = 5;
+  int OR_EXPRESSION = 10;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -186,7 +326,16 @@ public interface ExpressionPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OR__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+  int OR_EXPRESSION__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OR_EXPRESSION__OP = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Right</b></em>' containment reference.
@@ -195,26 +344,26 @@ public interface ExpressionPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OR__RIGHT = EXPRESSION_FEATURE_COUNT + 1;
+  int OR_EXPRESSION__RIGHT = EXPRESSION_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>Or</em>' class.
+   * The number of structural features of the '<em>Or Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OR_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 2;
+  int OR_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
 
   /**
-   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.AndImpl <em>And</em>}' class.
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.AndExpressionImpl <em>And Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.openetcs.dsl.expression.impl.AndImpl
-   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getAnd()
+   * @see org.openetcs.dsl.expression.impl.AndExpressionImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getAndExpression()
    * @generated
    */
-  int AND = 6;
+  int AND_EXPRESSION = 11;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -223,7 +372,16 @@ public interface ExpressionPackage extends EPackage
    * @generated
    * @ordered
    */
-  int AND__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+  int AND_EXPRESSION__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int AND_EXPRESSION__OP = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Right</b></em>' containment reference.
@@ -232,26 +390,26 @@ public interface ExpressionPackage extends EPackage
    * @generated
    * @ordered
    */
-  int AND__RIGHT = EXPRESSION_FEATURE_COUNT + 1;
+  int AND_EXPRESSION__RIGHT = EXPRESSION_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>And</em>' class.
+   * The number of structural features of the '<em>And Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int AND_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 2;
+  int AND_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
 
   /**
-   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.EqualityImpl <em>Equality</em>}' class.
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.EqualityExpressionImpl <em>Equality Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.openetcs.dsl.expression.impl.EqualityImpl
-   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getEquality()
+   * @see org.openetcs.dsl.expression.impl.EqualityExpressionImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getEqualityExpression()
    * @generated
    */
-  int EQUALITY = 7;
+  int EQUALITY_EXPRESSION = 12;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -260,7 +418,16 @@ public interface ExpressionPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EQUALITY__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+  int EQUALITY_EXPRESSION__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EQUALITY_EXPRESSION__OP = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Right</b></em>' containment reference.
@@ -269,16 +436,154 @@ public interface ExpressionPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EQUALITY__RIGHT = EXPRESSION_FEATURE_COUNT + 1;
+  int EQUALITY_EXPRESSION__RIGHT = EXPRESSION_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>Equality</em>' class.
+   * The number of structural features of the '<em>Equality Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EQUALITY_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 2;
+  int EQUALITY_EXPRESSION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.DashOperationImpl <em>Dash Operation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.DashOperationImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getDashOperation()
+   * @generated
+   */
+  int DASH_OPERATION = 13;
+
+  /**
+   * The feature id for the '<em><b>Left</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DASH_OPERATION__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DASH_OPERATION__OP = EXPRESSION_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DASH_OPERATION__RIGHT = EXPRESSION_FEATURE_COUNT + 2;
+
+  /**
+   * The number of structural features of the '<em>Dash Operation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DASH_OPERATION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.PointOperationImpl <em>Point Operation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.PointOperationImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getPointOperation()
+   * @generated
+   */
+  int POINT_OPERATION = 14;
+
+  /**
+   * The feature id for the '<em><b>Left</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POINT_OPERATION__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POINT_OPERATION__OP = EXPRESSION_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POINT_OPERATION__RIGHT = EXPRESSION_FEATURE_COUNT + 2;
+
+  /**
+   * The number of structural features of the '<em>Point Operation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POINT_OPERATION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link org.openetcs.dsl.expression.impl.PowOperationImpl <em>Pow Operation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.openetcs.dsl.expression.impl.PowOperationImpl
+   * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getPowOperation()
+   * @generated
+   */
+  int POW_OPERATION = 15;
+
+  /**
+   * The feature id for the '<em><b>Left</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POW_OPERATION__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POW_OPERATION__OP = EXPRESSION_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POW_OPERATION__RIGHT = EXPRESSION_FEATURE_COUNT + 2;
+
+  /**
+   * The number of structural features of the '<em>Pow Operation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int POW_OPERATION_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.openetcs.dsl.expression.impl.StringValueImpl <em>String Value</em>}' class.
@@ -288,7 +593,7 @@ public interface ExpressionPackage extends EPackage
    * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getStringValue()
    * @generated
    */
-  int STRING_VALUE = 8;
+  int STRING_VALUE = 16;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -316,7 +621,7 @@ public interface ExpressionPackage extends EPackage
    * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getIntegerValue()
    * @generated
    */
-  int INTEGER_VALUE = 9;
+  int INTEGER_VALUE = 17;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -344,7 +649,7 @@ public interface ExpressionPackage extends EPackage
    * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getDoubleValue()
    * @generated
    */
-  int DOUBLE_VALUE = 10;
+  int DOUBLE_VALUE = 18;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -376,15 +681,25 @@ public interface ExpressionPackage extends EPackage
   EClass getModel();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.Model#getExpression <em>Expression</em>}'.
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.Model#getPhrase <em>Phrase</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Expression</em>'.
-   * @see org.openetcs.dsl.expression.Model#getExpression()
+   * @return the meta object for the containment reference '<em>Phrase</em>'.
+   * @see org.openetcs.dsl.expression.Model#getPhrase()
    * @see #getModel()
    * @generated
    */
-  EReference getModel_Expression();
+  EReference getModel_Phrase();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.Phrase <em>Phrase</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Phrase</em>'.
+   * @see org.openetcs.dsl.expression.Phrase
+   * @generated
+   */
+  EClass getPhrase();
 
   /**
    * Returns the meta object for class '{@link org.openetcs.dsl.expression.Expression <em>Expression</em>}'.
@@ -395,6 +710,101 @@ public interface ExpressionPackage extends EPackage
    * @generated
    */
   EClass getExpression();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.Statement <em>Statement</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Statement</em>'.
+   * @see org.openetcs.dsl.expression.Statement
+   * @generated
+   */
+  EClass getStatement();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.SingleStatement <em>Single Statement</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Single Statement</em>'.
+   * @see org.openetcs.dsl.expression.SingleStatement
+   * @generated
+   */
+  EClass getSingleStatement();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.SingleStatement#getDesgnator <em>Desgnator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Desgnator</em>'.
+   * @see org.openetcs.dsl.expression.SingleStatement#getDesgnator()
+   * @see #getSingleStatement()
+   * @generated
+   */
+  EReference getSingleStatement_Desgnator();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.SingleStatement#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see org.openetcs.dsl.expression.SingleStatement#getExpression()
+   * @see #getSingleStatement()
+   * @generated
+   */
+  EReference getSingleStatement_Expression();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.SelfStatement <em>Self Statement</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Self Statement</em>'.
+   * @see org.openetcs.dsl.expression.SelfStatement
+   * @generated
+   */
+  EClass getSelfStatement();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.SelfStatement#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see org.openetcs.dsl.expression.SelfStatement#getExpression()
+   * @see #getSelfStatement()
+   * @generated
+   */
+  EReference getSelfStatement_Expression();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.MultiStatement <em>Multi Statement</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Multi Statement</em>'.
+   * @see org.openetcs.dsl.expression.MultiStatement
+   * @generated
+   */
+  EClass getMultiStatement();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.MultiStatement#getDesgnator <em>Desgnator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Desgnator</em>'.
+   * @see org.openetcs.dsl.expression.MultiStatement#getDesgnator()
+   * @see #getMultiStatement()
+   * @generated
+   */
+  EReference getMultiStatement_Desgnator();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.openetcs.dsl.expression.MultiStatement#getExpressions <em>Expressions</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Expressions</em>'.
+   * @see org.openetcs.dsl.expression.MultiStatement#getExpressions()
+   * @see #getMultiStatement()
+   * @generated
+   */
+  EReference getMultiStatement_Expressions();
 
   /**
    * Returns the meta object for class '{@link org.openetcs.dsl.expression.UnaryExpression <em>Unary Expression</em>}'.
@@ -438,100 +848,262 @@ public interface ExpressionPackage extends EPackage
   EReference getDesignator_Value();
 
   /**
-   * Returns the meta object for class '{@link org.openetcs.dsl.expression.Or <em>Or</em>}'.
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.OrExpression <em>Or Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Or</em>'.
-   * @see org.openetcs.dsl.expression.Or
+   * @return the meta object for class '<em>Or Expression</em>'.
+   * @see org.openetcs.dsl.expression.OrExpression
    * @generated
    */
-  EClass getOr();
+  EClass getOrExpression();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.Or#getLeft <em>Left</em>}'.
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.OrExpression#getLeft <em>Left</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Left</em>'.
-   * @see org.openetcs.dsl.expression.Or#getLeft()
-   * @see #getOr()
+   * @see org.openetcs.dsl.expression.OrExpression#getLeft()
+   * @see #getOrExpression()
    * @generated
    */
-  EReference getOr_Left();
+  EReference getOrExpression_Left();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.Or#getRight <em>Right</em>}'.
+   * Returns the meta object for the attribute '{@link org.openetcs.dsl.expression.OrExpression#getOp <em>Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Op</em>'.
+   * @see org.openetcs.dsl.expression.OrExpression#getOp()
+   * @see #getOrExpression()
+   * @generated
+   */
+  EAttribute getOrExpression_Op();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.OrExpression#getRight <em>Right</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Right</em>'.
-   * @see org.openetcs.dsl.expression.Or#getRight()
-   * @see #getOr()
+   * @see org.openetcs.dsl.expression.OrExpression#getRight()
+   * @see #getOrExpression()
    * @generated
    */
-  EReference getOr_Right();
+  EReference getOrExpression_Right();
 
   /**
-   * Returns the meta object for class '{@link org.openetcs.dsl.expression.And <em>And</em>}'.
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.AndExpression <em>And Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>And</em>'.
-   * @see org.openetcs.dsl.expression.And
+   * @return the meta object for class '<em>And Expression</em>'.
+   * @see org.openetcs.dsl.expression.AndExpression
    * @generated
    */
-  EClass getAnd();
+  EClass getAndExpression();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.And#getLeft <em>Left</em>}'.
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.AndExpression#getLeft <em>Left</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Left</em>'.
-   * @see org.openetcs.dsl.expression.And#getLeft()
-   * @see #getAnd()
+   * @see org.openetcs.dsl.expression.AndExpression#getLeft()
+   * @see #getAndExpression()
    * @generated
    */
-  EReference getAnd_Left();
+  EReference getAndExpression_Left();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.And#getRight <em>Right</em>}'.
+   * Returns the meta object for the attribute '{@link org.openetcs.dsl.expression.AndExpression#getOp <em>Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Op</em>'.
+   * @see org.openetcs.dsl.expression.AndExpression#getOp()
+   * @see #getAndExpression()
+   * @generated
+   */
+  EAttribute getAndExpression_Op();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.AndExpression#getRight <em>Right</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Right</em>'.
-   * @see org.openetcs.dsl.expression.And#getRight()
-   * @see #getAnd()
+   * @see org.openetcs.dsl.expression.AndExpression#getRight()
+   * @see #getAndExpression()
    * @generated
    */
-  EReference getAnd_Right();
+  EReference getAndExpression_Right();
 
   /**
-   * Returns the meta object for class '{@link org.openetcs.dsl.expression.Equality <em>Equality</em>}'.
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.EqualityExpression <em>Equality Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Equality</em>'.
-   * @see org.openetcs.dsl.expression.Equality
+   * @return the meta object for class '<em>Equality Expression</em>'.
+   * @see org.openetcs.dsl.expression.EqualityExpression
    * @generated
    */
-  EClass getEquality();
+  EClass getEqualityExpression();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.Equality#getLeft <em>Left</em>}'.
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.EqualityExpression#getLeft <em>Left</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Left</em>'.
-   * @see org.openetcs.dsl.expression.Equality#getLeft()
-   * @see #getEquality()
+   * @see org.openetcs.dsl.expression.EqualityExpression#getLeft()
+   * @see #getEqualityExpression()
    * @generated
    */
-  EReference getEquality_Left();
+  EReference getEqualityExpression_Left();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.Equality#getRight <em>Right</em>}'.
+   * Returns the meta object for the attribute '{@link org.openetcs.dsl.expression.EqualityExpression#getOp <em>Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Op</em>'.
+   * @see org.openetcs.dsl.expression.EqualityExpression#getOp()
+   * @see #getEqualityExpression()
+   * @generated
+   */
+  EAttribute getEqualityExpression_Op();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.EqualityExpression#getRight <em>Right</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Right</em>'.
-   * @see org.openetcs.dsl.expression.Equality#getRight()
-   * @see #getEquality()
+   * @see org.openetcs.dsl.expression.EqualityExpression#getRight()
+   * @see #getEqualityExpression()
    * @generated
    */
-  EReference getEquality_Right();
+  EReference getEqualityExpression_Right();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.DashOperation <em>Dash Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Dash Operation</em>'.
+   * @see org.openetcs.dsl.expression.DashOperation
+   * @generated
+   */
+  EClass getDashOperation();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.DashOperation#getLeft <em>Left</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Left</em>'.
+   * @see org.openetcs.dsl.expression.DashOperation#getLeft()
+   * @see #getDashOperation()
+   * @generated
+   */
+  EReference getDashOperation_Left();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.openetcs.dsl.expression.DashOperation#getOp <em>Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Op</em>'.
+   * @see org.openetcs.dsl.expression.DashOperation#getOp()
+   * @see #getDashOperation()
+   * @generated
+   */
+  EAttribute getDashOperation_Op();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.DashOperation#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Right</em>'.
+   * @see org.openetcs.dsl.expression.DashOperation#getRight()
+   * @see #getDashOperation()
+   * @generated
+   */
+  EReference getDashOperation_Right();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.PointOperation <em>Point Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Point Operation</em>'.
+   * @see org.openetcs.dsl.expression.PointOperation
+   * @generated
+   */
+  EClass getPointOperation();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.PointOperation#getLeft <em>Left</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Left</em>'.
+   * @see org.openetcs.dsl.expression.PointOperation#getLeft()
+   * @see #getPointOperation()
+   * @generated
+   */
+  EReference getPointOperation_Left();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.openetcs.dsl.expression.PointOperation#getOp <em>Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Op</em>'.
+   * @see org.openetcs.dsl.expression.PointOperation#getOp()
+   * @see #getPointOperation()
+   * @generated
+   */
+  EAttribute getPointOperation_Op();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.PointOperation#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Right</em>'.
+   * @see org.openetcs.dsl.expression.PointOperation#getRight()
+   * @see #getPointOperation()
+   * @generated
+   */
+  EReference getPointOperation_Right();
+
+  /**
+   * Returns the meta object for class '{@link org.openetcs.dsl.expression.PowOperation <em>Pow Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Pow Operation</em>'.
+   * @see org.openetcs.dsl.expression.PowOperation
+   * @generated
+   */
+  EClass getPowOperation();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.PowOperation#getLeft <em>Left</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Left</em>'.
+   * @see org.openetcs.dsl.expression.PowOperation#getLeft()
+   * @see #getPowOperation()
+   * @generated
+   */
+  EReference getPowOperation_Left();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.openetcs.dsl.expression.PowOperation#getOp <em>Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Op</em>'.
+   * @see org.openetcs.dsl.expression.PowOperation#getOp()
+   * @see #getPowOperation()
+   * @generated
+   */
+  EAttribute getPowOperation_Op();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.openetcs.dsl.expression.PowOperation#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Right</em>'.
+   * @see org.openetcs.dsl.expression.PowOperation#getRight()
+   * @see #getPowOperation()
+   * @generated
+   */
+  EReference getPowOperation_Right();
 
   /**
    * Returns the meta object for class '{@link org.openetcs.dsl.expression.StringValue <em>String Value</em>}'.
@@ -630,12 +1202,22 @@ public interface ExpressionPackage extends EPackage
     EClass MODEL = eINSTANCE.getModel();
 
     /**
-     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Phrase</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MODEL__EXPRESSION = eINSTANCE.getModel_Expression();
+    EReference MODEL__PHRASE = eINSTANCE.getModel_Phrase();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.PhraseImpl <em>Phrase</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.PhraseImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getPhrase()
+     * @generated
+     */
+    EClass PHRASE = eINSTANCE.getPhrase();
 
     /**
      * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.ExpressionImpl <em>Expression</em>}' class.
@@ -646,6 +1228,86 @@ public interface ExpressionPackage extends EPackage
      * @generated
      */
     EClass EXPRESSION = eINSTANCE.getExpression();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.StatementImpl <em>Statement</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.StatementImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getStatement()
+     * @generated
+     */
+    EClass STATEMENT = eINSTANCE.getStatement();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.SingleStatementImpl <em>Single Statement</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.SingleStatementImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getSingleStatement()
+     * @generated
+     */
+    EClass SINGLE_STATEMENT = eINSTANCE.getSingleStatement();
+
+    /**
+     * The meta object literal for the '<em><b>Desgnator</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SINGLE_STATEMENT__DESGNATOR = eINSTANCE.getSingleStatement_Desgnator();
+
+    /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SINGLE_STATEMENT__EXPRESSION = eINSTANCE.getSingleStatement_Expression();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.SelfStatementImpl <em>Self Statement</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.SelfStatementImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getSelfStatement()
+     * @generated
+     */
+    EClass SELF_STATEMENT = eINSTANCE.getSelfStatement();
+
+    /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SELF_STATEMENT__EXPRESSION = eINSTANCE.getSelfStatement_Expression();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.MultiStatementImpl <em>Multi Statement</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.MultiStatementImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getMultiStatement()
+     * @generated
+     */
+    EClass MULTI_STATEMENT = eINSTANCE.getMultiStatement();
+
+    /**
+     * The meta object literal for the '<em><b>Desgnator</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MULTI_STATEMENT__DESGNATOR = eINSTANCE.getMultiStatement_Desgnator();
+
+    /**
+     * The meta object literal for the '<em><b>Expressions</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MULTI_STATEMENT__EXPRESSIONS = eINSTANCE.getMultiStatement_Expressions();
 
     /**
      * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.UnaryExpressionImpl <em>Unary Expression</em>}' class.
@@ -686,14 +1348,14 @@ public interface ExpressionPackage extends EPackage
     EReference DESIGNATOR__VALUE = eINSTANCE.getDesignator_Value();
 
     /**
-     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.OrImpl <em>Or</em>}' class.
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.OrExpressionImpl <em>Or Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.openetcs.dsl.expression.impl.OrImpl
-     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getOr()
+     * @see org.openetcs.dsl.expression.impl.OrExpressionImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getOrExpression()
      * @generated
      */
-    EClass OR = eINSTANCE.getOr();
+    EClass OR_EXPRESSION = eINSTANCE.getOrExpression();
 
     /**
      * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
@@ -701,7 +1363,15 @@ public interface ExpressionPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference OR__LEFT = eINSTANCE.getOr_Left();
+    EReference OR_EXPRESSION__LEFT = eINSTANCE.getOrExpression_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute OR_EXPRESSION__OP = eINSTANCE.getOrExpression_Op();
 
     /**
      * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
@@ -709,17 +1379,17 @@ public interface ExpressionPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference OR__RIGHT = eINSTANCE.getOr_Right();
+    EReference OR_EXPRESSION__RIGHT = eINSTANCE.getOrExpression_Right();
 
     /**
-     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.AndImpl <em>And</em>}' class.
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.AndExpressionImpl <em>And Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.openetcs.dsl.expression.impl.AndImpl
-     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getAnd()
+     * @see org.openetcs.dsl.expression.impl.AndExpressionImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getAndExpression()
      * @generated
      */
-    EClass AND = eINSTANCE.getAnd();
+    EClass AND_EXPRESSION = eINSTANCE.getAndExpression();
 
     /**
      * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
@@ -727,7 +1397,15 @@ public interface ExpressionPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference AND__LEFT = eINSTANCE.getAnd_Left();
+    EReference AND_EXPRESSION__LEFT = eINSTANCE.getAndExpression_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute AND_EXPRESSION__OP = eINSTANCE.getAndExpression_Op();
 
     /**
      * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
@@ -735,17 +1413,17 @@ public interface ExpressionPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference AND__RIGHT = eINSTANCE.getAnd_Right();
+    EReference AND_EXPRESSION__RIGHT = eINSTANCE.getAndExpression_Right();
 
     /**
-     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.EqualityImpl <em>Equality</em>}' class.
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.EqualityExpressionImpl <em>Equality Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.openetcs.dsl.expression.impl.EqualityImpl
-     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getEquality()
+     * @see org.openetcs.dsl.expression.impl.EqualityExpressionImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getEqualityExpression()
      * @generated
      */
-    EClass EQUALITY = eINSTANCE.getEquality();
+    EClass EQUALITY_EXPRESSION = eINSTANCE.getEqualityExpression();
 
     /**
      * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
@@ -753,7 +1431,15 @@ public interface ExpressionPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference EQUALITY__LEFT = eINSTANCE.getEquality_Left();
+    EReference EQUALITY_EXPRESSION__LEFT = eINSTANCE.getEqualityExpression_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EQUALITY_EXPRESSION__OP = eINSTANCE.getEqualityExpression_Op();
 
     /**
      * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
@@ -761,7 +1447,109 @@ public interface ExpressionPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference EQUALITY__RIGHT = eINSTANCE.getEquality_Right();
+    EReference EQUALITY_EXPRESSION__RIGHT = eINSTANCE.getEqualityExpression_Right();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.DashOperationImpl <em>Dash Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.DashOperationImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getDashOperation()
+     * @generated
+     */
+    EClass DASH_OPERATION = eINSTANCE.getDashOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DASH_OPERATION__LEFT = eINSTANCE.getDashOperation_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DASH_OPERATION__OP = eINSTANCE.getDashOperation_Op();
+
+    /**
+     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DASH_OPERATION__RIGHT = eINSTANCE.getDashOperation_Right();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.PointOperationImpl <em>Point Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.PointOperationImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getPointOperation()
+     * @generated
+     */
+    EClass POINT_OPERATION = eINSTANCE.getPointOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference POINT_OPERATION__LEFT = eINSTANCE.getPointOperation_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute POINT_OPERATION__OP = eINSTANCE.getPointOperation_Op();
+
+    /**
+     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference POINT_OPERATION__RIGHT = eINSTANCE.getPointOperation_Right();
+
+    /**
+     * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.PowOperationImpl <em>Pow Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.openetcs.dsl.expression.impl.PowOperationImpl
+     * @see org.openetcs.dsl.expression.impl.ExpressionPackageImpl#getPowOperation()
+     * @generated
+     */
+    EClass POW_OPERATION = eINSTANCE.getPowOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference POW_OPERATION__LEFT = eINSTANCE.getPowOperation_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute POW_OPERATION__OP = eINSTANCE.getPowOperation_Op();
+
+    /**
+     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference POW_OPERATION__RIGHT = eINSTANCE.getPowOperation_Right();
 
     /**
      * The meta object literal for the '{@link org.openetcs.dsl.expression.impl.StringValueImpl <em>String Value</em>}' class.

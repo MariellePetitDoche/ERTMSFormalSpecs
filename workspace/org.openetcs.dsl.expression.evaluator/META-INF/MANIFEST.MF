@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Evaluator
+Bundle-SymbolicName: org.openetcs.dsl.expression.evaluator
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.openetcs.dsl.expression.internal.evaluator.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.openetcs.dsl.expression.ui;bundle-version="1.0.0",
+ org.eclipse.ui;bundle-version="3.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.openetcs.dsl.expression.evaluator,
+ org.openetcs.dsl.expression.internal.evaluator;x-internal:=true

@@ -31,6 +31,8 @@ public class ExpressionControl extends MEAttributeControl {
 	    //TODO add more places
 	    if(BehaviourPackage.eINSTANCE.getAction_Expression().equals(feature))
 	    	return 5;
+	    else  if(BehaviourPackage.eINSTANCE.getPreCondition_Condition().equals(feature))
+	    	return 5;
 
 	    return AbstractMEControl.DO_NOT_RENDER;
 	  }

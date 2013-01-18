@@ -10,25 +10,26 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.openetcs.dsl.expression.EqualityExpression;
 import org.openetcs.dsl.expression.Expression;
 import org.openetcs.dsl.expression.ExpressionPackage;
-import org.openetcs.dsl.expression.Or;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Or</b></em>'.
+ * An implementation of the model object '<em><b>Equality Expression</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.openetcs.dsl.expression.impl.OrImpl#getLeft <em>Left</em>}</li>
- *   <li>{@link org.openetcs.dsl.expression.impl.OrImpl#getRight <em>Right</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.impl.EqualityExpressionImpl#getLeft <em>Left</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.impl.EqualityExpressionImpl#getOp <em>Op</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.impl.EqualityExpressionImpl#getRight <em>Right</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class OrImpl extends ExpressionImpl implements Or
+public class EqualityExpressionImpl extends ExpressionImpl implements EqualityExpression
 {
   /**
    * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
@@ -39,6 +40,26 @@ public class OrImpl extends ExpressionImpl implements Or
    * @ordered
    */
   protected Expression left;
+
+  /**
+   * The default value of the '{@link #getOp() <em>Op</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOp()
+   * @generated
+   * @ordered
+   */
+  protected static final String OP_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getOp() <em>Op</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOp()
+   * @generated
+   * @ordered
+   */
+  protected String op = OP_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
@@ -55,7 +76,7 @@ public class OrImpl extends ExpressionImpl implements Or
    * <!-- end-user-doc -->
    * @generated
    */
-  protected OrImpl()
+  protected EqualityExpressionImpl()
   {
     super();
   }
@@ -68,7 +89,7 @@ public class OrImpl extends ExpressionImpl implements Or
   @Override
   protected EClass eStaticClass()
   {
-    return ExpressionPackage.Literals.OR;
+    return ExpressionPackage.Literals.EQUALITY_EXPRESSION;
   }
 
   /**
@@ -92,7 +113,7 @@ public class OrImpl extends ExpressionImpl implements Or
     left = newLeft;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR__LEFT, oldLeft, newLeft);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY_EXPRESSION__LEFT, oldLeft, newLeft);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -109,14 +130,37 @@ public class OrImpl extends ExpressionImpl implements Or
     {
       NotificationChain msgs = null;
       if (left != null)
-        msgs = ((InternalEObject)left).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR__LEFT, null, msgs);
+        msgs = ((InternalEObject)left).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY_EXPRESSION__LEFT, null, msgs);
       if (newLeft != null)
-        msgs = ((InternalEObject)newLeft).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR__LEFT, null, msgs);
+        msgs = ((InternalEObject)newLeft).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY_EXPRESSION__LEFT, null, msgs);
       msgs = basicSetLeft(newLeft, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR__LEFT, newLeft, newLeft));
+      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY_EXPRESSION__LEFT, newLeft, newLeft));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getOp()
+  {
+    return op;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOp(String newOp)
+  {
+    String oldOp = op;
+    op = newOp;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY_EXPRESSION__OP, oldOp, op));
   }
 
   /**
@@ -140,7 +184,7 @@ public class OrImpl extends ExpressionImpl implements Or
     right = newRight;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR__RIGHT, oldRight, newRight);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY_EXPRESSION__RIGHT, oldRight, newRight);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -157,14 +201,14 @@ public class OrImpl extends ExpressionImpl implements Or
     {
       NotificationChain msgs = null;
       if (right != null)
-        msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR__RIGHT, null, msgs);
+        msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY_EXPRESSION__RIGHT, null, msgs);
       if (newRight != null)
-        msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR__RIGHT, null, msgs);
+        msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY_EXPRESSION__RIGHT, null, msgs);
       msgs = basicSetRight(newRight, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR__RIGHT, newRight, newRight));
+      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY_EXPRESSION__RIGHT, newRight, newRight));
   }
 
   /**
@@ -177,9 +221,9 @@ public class OrImpl extends ExpressionImpl implements Or
   {
     switch (featureID)
     {
-      case ExpressionPackage.OR__LEFT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__LEFT:
         return basicSetLeft(null, msgs);
-      case ExpressionPackage.OR__RIGHT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__RIGHT:
         return basicSetRight(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -195,9 +239,11 @@ public class OrImpl extends ExpressionImpl implements Or
   {
     switch (featureID)
     {
-      case ExpressionPackage.OR__LEFT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__LEFT:
         return getLeft();
-      case ExpressionPackage.OR__RIGHT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__OP:
+        return getOp();
+      case ExpressionPackage.EQUALITY_EXPRESSION__RIGHT:
         return getRight();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -213,10 +259,13 @@ public class OrImpl extends ExpressionImpl implements Or
   {
     switch (featureID)
     {
-      case ExpressionPackage.OR__LEFT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__LEFT:
         setLeft((Expression)newValue);
         return;
-      case ExpressionPackage.OR__RIGHT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__OP:
+        setOp((String)newValue);
+        return;
+      case ExpressionPackage.EQUALITY_EXPRESSION__RIGHT:
         setRight((Expression)newValue);
         return;
     }
@@ -233,10 +282,13 @@ public class OrImpl extends ExpressionImpl implements Or
   {
     switch (featureID)
     {
-      case ExpressionPackage.OR__LEFT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__LEFT:
         setLeft((Expression)null);
         return;
-      case ExpressionPackage.OR__RIGHT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__OP:
+        setOp(OP_EDEFAULT);
+        return;
+      case ExpressionPackage.EQUALITY_EXPRESSION__RIGHT:
         setRight((Expression)null);
         return;
     }
@@ -253,12 +305,31 @@ public class OrImpl extends ExpressionImpl implements Or
   {
     switch (featureID)
     {
-      case ExpressionPackage.OR__LEFT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__LEFT:
         return left != null;
-      case ExpressionPackage.OR__RIGHT:
+      case ExpressionPackage.EQUALITY_EXPRESSION__OP:
+        return OP_EDEFAULT == null ? op != null : !OP_EDEFAULT.equals(op);
+      case ExpressionPackage.EQUALITY_EXPRESSION__RIGHT:
         return right != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //OrImpl
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (op: ");
+    result.append(op);
+    result.append(')');
+    return result.toString();
+  }
+
+} //EqualityExpressionImpl
