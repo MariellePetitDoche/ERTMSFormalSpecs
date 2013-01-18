@@ -86,7 +86,7 @@ public interface TypesPackage extends EPackage {
 	int TYPE__NAME = ModelPackage.REQ_RELATED__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -205,7 +205,7 @@ public interface TypesPackage extends EPackage {
 	int ENUMERATION__NAME = TYPE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -378,7 +378,7 @@ public interface TypesPackage extends EPackage {
 	int RANGE__NAME = TYPE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -505,7 +505,7 @@ public interface TypesPackage extends EPackage {
 	int STRUCTURE__NAME = TYPE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -623,7 +623,7 @@ public interface TypesPackage extends EPackage {
 	int STRUCTURE_ELEMENT__NAME = ModelPackage.REQ_RELATED__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -723,7 +723,7 @@ public interface TypesPackage extends EPackage {
 	int COLLECTION__NAME = TYPE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -832,7 +832,7 @@ public interface TypesPackage extends EPackage {
 	int FUNCTION__NAME = TYPE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

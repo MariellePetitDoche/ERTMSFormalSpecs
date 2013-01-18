@@ -89,7 +89,7 @@ public class RuleConditionImpl extends EObjectImpl implements RuleCondition {
 	protected String comment = COMMENT_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference list.
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
@@ -256,7 +256,7 @@ public class RuleConditionImpl extends EObjectImpl implements RuleCondition {
 	 */
 	public EList<ReqRef> getRequirements() {
 		if (requirements == null) {
-			requirements = new EObjectResolvingEList<ReqRef>(ReqRef.class, this, BehaviourPackage.RULE_CONDITION__REQUIREMENTS);
+			requirements = new EObjectContainmentEList<ReqRef>(ReqRef.class, this, BehaviourPackage.RULE_CONDITION__REQUIREMENTS);
 		}
 		return requirements;
 	}
@@ -385,6 +385,8 @@ public class RuleConditionImpl extends EObjectImpl implements RuleCondition {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case BehaviourPackage.RULE_CONDITION__REQUIREMENTS:
+				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 			case BehaviourPackage.RULE_CONDITION__ACTIONS:
 				return ((InternalEList<?>)getActions()).basicRemove(otherEnd, msgs);
 			case BehaviourPackage.RULE_CONDITION__SUB_RULES:

@@ -380,7 +380,7 @@ public interface ModelPackage extends EPackage {
 	int PROCEDURE__COMMENT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -553,7 +553,7 @@ public interface ModelPackage extends EPackage {
 	int REFERENCES_PARAGRAPH__NAME = COMMENTED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -636,7 +636,7 @@ public interface ModelPackage extends EPackage {
 	int REQ_RELATED__NAME = REFERENCES_PARAGRAPH__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -709,7 +709,7 @@ public interface ModelPackage extends EPackage {
 	int STATE_MACHINE__NAME = TypesPackage.TYPE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -983,7 +983,7 @@ public interface ModelPackage extends EPackage {
 	int VARIABLE__COMMENT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1475,10 +1475,10 @@ public interface ModelPackage extends EPackage {
 	EClass getReferencesParagraph();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.openetcs.model.ertmsformalspecs.ReferencesParagraph#getRequirements <em>Requirements</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.openetcs.model.ertmsformalspecs.ReferencesParagraph#getRequirements <em>Requirements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Requirements</em>'.
+	 * @return the meta object for the containment reference list '<em>Requirements</em>'.
 	 * @see org.openetcs.model.ertmsformalspecs.ReferencesParagraph#getRequirements()
 	 * @see #getReferencesParagraph()
 	 * @generated
@@ -2111,7 +2111,7 @@ public interface ModelPackage extends EPackage {
 		EClass REFERENCES_PARAGRAPH = eINSTANCE.getReferencesParagraph();
 
 		/**
-		 * The meta object literal for the '<em><b>Requirements</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Requirements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

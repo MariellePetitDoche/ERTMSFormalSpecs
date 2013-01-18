@@ -22,7 +22,7 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ReferencesParagraph extends CommentedElement, NamedElement {
 	/**
-	 * Returns the value of the '<em><b>Requirements</b></em>' reference list.
+	 * Returns the value of the '<em><b>Requirements</b></em>' containment reference list.
 	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.ReqRef}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -30,9 +30,9 @@ public interface ReferencesParagraph extends CommentedElement, NamedElement {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Requirements</em>' reference list.
+	 * @return the value of the '<em>Requirements</em>' containment reference list.
 	 * @see org.openetcs.model.ertmsformalspecs.ModelPackage#getReferencesParagraph_Requirements()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<ReqRef> getRequirements();

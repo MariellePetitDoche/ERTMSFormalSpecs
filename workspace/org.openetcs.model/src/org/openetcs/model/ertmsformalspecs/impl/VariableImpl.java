@@ -94,7 +94,7 @@ public class VariableImpl extends EObjectImpl implements Variable {
 	protected String comment = COMMENT_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference list.
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
@@ -311,7 +311,7 @@ public class VariableImpl extends EObjectImpl implements Variable {
 	 */
 	public EList<ReqRef> getRequirements() {
 		if (requirements == null) {
-			requirements = new EObjectResolvingEList<ReqRef>(ReqRef.class, this, ModelPackage.VARIABLE__REQUIREMENTS);
+			requirements = new EObjectContainmentEList<ReqRef>(ReqRef.class, this, ModelPackage.VARIABLE__REQUIREMENTS);
 		}
 		return requirements;
 	}
@@ -557,6 +557,8 @@ public class VariableImpl extends EObjectImpl implements Variable {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case ModelPackage.VARIABLE__REQUIREMENTS:
+				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 			case ModelPackage.VARIABLE__PARENT_NAMESPACE:
 				return basicSetParentNamespace(null, msgs);
 			case ModelPackage.VARIABLE__SUB_VARIABLES:

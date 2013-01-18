@@ -66,7 +66,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ReferencesParagraph" abstract="true"
       eSuperTypes="#//CommentedElement #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
-        eType="#//ReqRef"/>
+        eType="#//ReqRef" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReqRef" eSuperTypes="#//CommentedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="paragraph" lowerBound="1"

@@ -94,7 +94,7 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	protected String comment = COMMENT_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference list.
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
@@ -261,7 +261,7 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	 */
 	public EList<ReqRef> getRequirements() {
 		if (requirements == null) {
-			requirements = new EObjectResolvingEList<ReqRef>(ReqRef.class, this, ModelPackage.PROCEDURE__REQUIREMENTS);
+			requirements = new EObjectContainmentEList<ReqRef>(ReqRef.class, this, ModelPackage.PROCEDURE__REQUIREMENTS);
 		}
 		return requirements;
 	}
@@ -513,6 +513,8 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case ModelPackage.PROCEDURE__REQUIREMENTS:
+				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 			case ModelPackage.PROCEDURE__PARAMETERS:
 				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
 			case ModelPackage.PROCEDURE__STATE_MACHINE:

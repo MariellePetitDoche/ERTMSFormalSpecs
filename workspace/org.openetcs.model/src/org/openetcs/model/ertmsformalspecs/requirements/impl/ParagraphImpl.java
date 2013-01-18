@@ -113,7 +113,7 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference list.
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
@@ -299,7 +299,7 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	 */
 	public EList<ReqRef> getRequirements() {
 		if (requirements == null) {
-			requirements = new EObjectResolvingEList<ReqRef>(ReqRef.class, this, RequirementsPackage.PARAGRAPH__REQUIREMENTS);
+			requirements = new EObjectContainmentEList<ReqRef>(ReqRef.class, this, RequirementsPackage.PARAGRAPH__REQUIREMENTS);
 		}
 		return requirements;
 	}
@@ -768,6 +768,8 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case RequirementsPackage.PARAGRAPH__REQUIREMENTS:
+				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 			case RequirementsPackage.PARAGRAPH__SCOPE:
 				return basicSetScope(null, msgs);
 			case RequirementsPackage.PARAGRAPH__PROCESS_INFO:

@@ -84,7 +84,7 @@ public interface CustomizationPackage extends EPackage {
 	int RULE_DISABLING__NAME = ModelPackage.REQ_RELATED__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

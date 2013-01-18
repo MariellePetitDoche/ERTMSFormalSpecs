@@ -5,9 +5,13 @@ package org.openetcs.model.ertmsformalspecs.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
@@ -48,7 +52,7 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 	 */
 	protected String name = NAME_EDEFAULT;
 	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference list.
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRequirements()
@@ -104,9 +108,23 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 	 */
 	public EList<ReqRef> getRequirements() {
 		if (requirements == null) {
-			requirements = new EObjectResolvingEList<ReqRef>(ReqRef.class, this, ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS);
+			requirements = new EObjectContainmentEList<ReqRef>(ReqRef.class, this, ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS);
 		}
 		return requirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS:
+				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
