@@ -40,6 +40,15 @@ public interface ModelFactory extends EFactory {
 	CommentedElement createCommentedElement();
 
 	/**
+	 * Returns a new object of class '<em>Baselines</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Baselines</em>'.
+	 * @generated
+	 */
+	Baselines createBaselines();
+
+	/**
 	 * Returns a new object of class '<em>Base Line</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -128,6 +137,15 @@ public interface ModelFactory extends EFactory {
 	 * @generated
 	 */
 	Variable createVariable();
+
+	/**
+	 * Returns a new object of class '<em>Functional Blocks</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Functional Blocks</em>'.
+	 * @generated
+	 */
+	FunctionalBlocks createFunctionalBlocks();
 
 	/**
 	 * Returns the package supported by this factory.

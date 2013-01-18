@@ -415,7 +415,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getParagraph_TypeSpec() {
+	public EReference getParagraph_TypeSpecs() {
 		return (EReference)paragraphEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -513,7 +513,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		createEReference(paragraphEClass, PARAGRAPH__PARENT_SPECIFICATION);
 		createEReference(paragraphEClass, PARAGRAPH__SUB_PARAGRAPHS);
 		createEReference(paragraphEClass, PARAGRAPH__PARENT_PARAGRAPH);
-		createEReference(paragraphEClass, PARAGRAPH__TYPE_SPEC);
+		createEReference(paragraphEClass, PARAGRAPH__TYPE_SPECS);
 		createEReference(paragraphEClass, PARAGRAPH__MESSAGE);
 		createEReference(paragraphEClass, PARAGRAPH__VERSION);
 
@@ -561,8 +561,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		specificationEClass.getESuperTypes().add(this.getBaseLinedElement());
 		functionalBlockEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 		processInformationEClass.getESuperTypes().add(theModelPackage.getCommentedElement());
-		paragraphEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 		paragraphEClass.getESuperTypes().add(this.getBaseLinedElement());
+		paragraphEClass.getESuperTypes().add(theModelPackage.getReferencesParagraph());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(specificationEClass, Specification.class, "Specification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -595,7 +595,7 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		initEReference(getParagraph_ParentSpecification(), this.getSpecification(), this.getSpecification_Paragraphs(), "parentSpecification", null, 0, 1, Paragraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParagraph_SubParagraphs(), this.getParagraph(), this.getParagraph_ParentParagraph(), "subParagraphs", null, 0, -1, Paragraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParagraph_ParentParagraph(), this.getParagraph(), this.getParagraph_SubParagraphs(), "parentParagraph", null, 0, 1, Paragraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getParagraph_TypeSpec(), theMessagesPackage.getTypeSpec(), null, "typeSpec", null, 0, 1, Paragraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getParagraph_TypeSpecs(), theMessagesPackage.getTypeSpec(), null, "typeSpecs", null, 0, -1, Paragraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParagraph_Message(), theMessagesPackage.getMessage(), null, "message", null, 0, 1, Paragraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParagraph_Version(), theModelPackage.getBaseLine(), null, "version", null, 0, 1, Paragraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

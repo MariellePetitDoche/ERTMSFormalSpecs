@@ -1,0 +1,388 @@
+MODULE GenerateClasses;
+
+VAR 
+  lastID,
+  elements, 
+  enums;
+
+CONST
+  DONOTTRANSLATE := "DoNotTranslate",
+  PACKAGE        := "Package",
+  SOURCEPACKAGE  := "SourcePackage",
+  CLASS          := "Class",
+  TARGETNAME     := "TargetName";
+
+-- Create a valid Java name
+PROCEDURE ValidName ( name )
+BEGIN
+  RESULT := STR.Replace ( name, "-", "_" );
+END ValidName;
+
+-- Retrieves the META named 'name' from the element provided
+PROCEDURE GetMeta ( element, name )
+BEGIN
+  FOR IN element.GetElementChildNodes("META") WHILE RESULT = VOID DO
+    IF X.NAME = name THEN 
+      RESULT := X;
+    END;
+  END;
+END GetMeta;
+
+-- Camel case
+PROCEDURE UpperCaseFirstLetter ( val )
+BEGIN
+  RESULT := STR.UpperCase (val[1]) & val [2..]; 
+END UpperCaseFirstLetter;
+
+-- Retrieves a boolean value from an XML attribute vale
+PROCEDURE BoolValue ( val )
+BEGIN
+  RESULT := FALSE;
+  IF val <> VOID THEN
+    RESULT := val =@ 'TRUE';
+  END;
+END;
+
+-- Provides the field which corresponds to the name provided
+PROCEDURE Field( element, name )
+BEGIN
+  RESULT := VOID;
+  FOR IN element.RecursiveGetElementChildNodes("FIELD") WHILE RESULT = VOID DO
+    IF X.NAME = name THEN 
+      RESULT := X;
+    END;
+  END;
+
+  IF RESULT = VOID AND element!BASEELEMENT <> VOID THEN
+    RESULT := Field ( GetElement ( element!BASEELEMENT ), name );
+  END;
+END Field;
+
+-- Provides the name of the field which corresponds to the name provided
+PROCEDURE TargetName( el )
+VAR
+  meta;
+BEGIN
+  IF el <> VOID THEN
+    RESULT := el.NAME;
+    meta := GetMeta ( el, TARGETNAME );
+    IF meta <> VOID THEN
+      RESULT := meta.GetTextContent;
+    END;
+  END;
+END TargetName;
+
+-- Indicates whether a field should be translated
+PROCEDURE TranslateField ( field )
+BEGIN
+  RESULT := FALSE;
+  IF field <> VOID THEN 
+    RESULT := GetMeta ( field, DONOTTRANSLATE ) = VOID; 
+  END;
+END;
+
+-- Sets all attributes of this element, and recursively for the base element
+PROCEDURE BuildAttributes ( element )
+VAR
+  name, field, fieldname, enum, enumname;
+BEGIN
+  IF element!BASEELEMENT <> VOID THEN
+    BuildAttributes ( GetElement ( element!BASEELEMENT ) );
+  END;
+
+  FOR IN element.RecursiveGetElementChildNodes("ATTR") DO
+    name  := ValidName(X.TARGET);
+    field := Field ( element, name ); 
+    IF TranslateField ( field ) THEN 
+      fieldname := TargetName ( field ); 
+      IF field CAN ENUMTYPE THEN 
+        enum := GetEnum ( field.ENUMTYPE );
+        enumname := TargetName (enum);
+        FILE1.WriteList ({
+`		retVal.set`fieldname`(`enumname`.getByName(get`name`_AsString()));
+        });
+      ELSE
+        FILE1.WriteList ({
+`		retVal.set`fieldname`(get`name`());
+        });
+      END;
+    END;
+  END;
+END BuildAttributes;
+
+PROCEDURE BuildReferences ( element )
+VAR 
+  name, field, type, fieldname, enumname, enum;
+BEGIN
+  IF element!BASEELEMENT <> VOID THEN
+    BuildReferences ( GetElement ( element!BASEELEMENT ) );
+  END;
+   
+  FOR IN element.RecursiveGetElementChildNodes( "ELEMENTREF" ) DO
+    IF X.GetParentNode.GetNodeName = "REPEAT" THEN
+      -- Reference to a list
+      name      := ValidName ( X.GetParentNode.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslateField ( field ) THEN 
+        type      := field!REFTYPE;
+        fieldname := TargetName ( field ); 
+        FILE1.WriteList ({
+`		if ( all`name`() != null )
+`		{
+`			for ( Object obj: all`name`())
+`			{
+`				retVal.get`fieldname`().add(((`type`) obj).convert2EMF( project ));	
+`			}
+`		}
+        });
+      END;
+    ELSE
+      -- Single reference
+      name      := ValidName ( X.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslateField ( field ) THEN 
+        type      := field!REFTYPE;
+        fieldname := TargetName ( field ); 
+        FILE1.WriteList ({
+`		if ( get`name`() != null )
+`		{
+`			retVal.set`fieldname`(((`type`) get`name`()).convert2EMF( project ));	
+`		}
+        });
+      END;
+    END;
+  END;
+
+  FOR IN element.RecursiveGetElementChildNodes( "PCDATA" ) DO
+    IF X CAN TARGET THEN
+      -- Text
+      name      := ValidName ( X.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslateField ( field ) THEN 
+        fieldname := TargetName ( field ); 
+        IF field CAN ENUMTYPE THEN 
+          enum := GetEnum ( field.ENUMTYPE );
+          enumname := TargetName (enum);
+          FILE1.WriteList ({
+`		retVal.set`fieldname`(`enumname`.getByName(get`name`_AsString()));
+          });
+        ELSE
+          FILE1.WriteList ({
+`		retVal.set`fieldname`(get`name`());
+          });
+        END;
+      END;
+    END;
+  END;
+END BuildReferences;
+
+PROCEDURE BuildManualTranslation ( element )
+VAR
+  name, manual, first;
+BEGIN
+  first := TRUE;
+  name := ValidName (element.NAME);
+  manual := FALSE;
+  FOR IN element.RecursiveGetElementChildNodes ( "FIELD" ) DO
+    IF GetMeta ( X, DONOTTRANSLATE ) <> VOID THEN 
+      IF first THEN 
+      FILE1.WriteLn;
+      first := FALSE;
+      END;
+      FILE1.WriteLn ("		// Handles the translation of " & TargetName ( X ) );
+      manual := TRUE;
+    END;
+  END;
+
+  IF manual THEN
+    FILE1.WriteLn ("		ManualTranslation.translate" & name & " ( project, this, retVal );");
+  END;
+END BuildManualTranslation;
+
+-- Generates the class for the corresponding element
+PROCEDURE GenerateClass ( element )
+VAR 
+  name, package, factory, class, sourcepackage, sep, meta;
+BEGIN
+  name := ValidName (element.NAME);
+  lastID := lastID + 1;
+  meta := GetMeta ( element, PACKAGE );
+  IF meta <> VOID THEN
+    -- Custom package
+    package := "org.openetcs.model.ertmsformalspecs." & meta.GetTextContent;
+    factory := UpperCaseFirstLetter ( STR.Words (meta.GetTextContent, ".")[LAST] ) & "Factory";
+  ELSE
+    -- Default package
+    package := "org.openetcs.model.ertmsformalspecs";
+    factory := "ModelFactory";
+  END;
+
+  meta := GetMeta ( element, CLASS );
+  IF meta <> VOID THEN
+    -- Custom class name
+    class := meta.GetTextContent;
+  ELSE
+    -- Default class name
+    class := name;
+  END;
+
+  meta := GetMeta ( element, SOURCEPACKAGE );
+  IF meta <> VOID THEN
+    -- Custom source packate 
+    sourcepackage := meta.GetTextContent;
+    sep := ".";
+  ELSE
+    -- Default source package
+    sourcepackage := "";
+    sep := "";
+  END;
+
+  FILE1.Redirect (STR.Replace(sourcepackage & sep & name, ".", "/" ) & ".java");
+  FILE1.WriteList ({
+`package org.openetcs.es3f.importer`sep``sourcepackage`;
+`
+`import org.eclipse.emf.ecp.core.ECPProject;
+`import org.openetcs.model.ertmsformalspecs.*;
+`import org.openetcs.model.ertmsformalspecs.behaviour.*;
+`import org.openetcs.model.ertmsformalspecs.customization.*;
+`import org.openetcs.model.ertmsformalspecs.requirements.*;
+`import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
+`import org.openetcs.model.ertmsformalspecs.shortcut.*;
+`import org.openetcs.model.ertmsformalspecs.test.*;
+`import org.openetcs.model.ertmsformalspecs.translation.*;
+`import org.openetcs.model.ertmsformalspecs.types.*;
+`import org.openetcs.model.ertmsformalspecs.util.*;
+`import org.openetcs.es3f.importer.utils.*;
+`
+`public class `name`
+`	extends org.openetcs.es3f.importer.generated.`name`
+`{
+`	private static final long serialVersionUID = `lastID`L;
+`
+  });
+
+  IF GetMeta ( element, DONOTTRANSLATE ) = VOID THEN
+    FILE1.WriteList ({
+`	public `package`.`class` convert2EMF( ECPProject project )
+`	{
+    });
+    IF BoolValue ( element!ABSTRACT ) THEN
+      -- Abstract class, do not generate conversion code
+      FILE1.WriteList ({
+`		return null;
+`	}
+      });
+    ELSE
+      -- Concrete class, translate it
+      FILE1.WriteList ({
+`		`package`.`class` retVal = `factory`.eINSTANCE.create`class`();;
+`		
+      });
+      BuildAttributes ( element );
+      BuildReferences ( element );
+      BuildManualTranslation ( element );
+      FILE1.WriteList ({
+`
+`		return retVal;
+`	}
+      });
+    END;
+  END;
+
+  FILE1.WriteList ({
+`}
+  });
+  FILE1.Flush;
+END GenerateClass;
+
+-- Generates the factory
+PROCEDURE GenerateFactory ( doc )
+VAR
+  name, package, meta;
+BEGIN
+  FILE1.Redirect ("Factory.java");
+  FILE1.WriteList ({
+`package org.openetcs.es3f.importer;
+`
+`public class Factory 
+`	extends org.openetcs.es3f.importer.generated.Factory 
+`{
+  });
+
+  FOR IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
+    IF NOT BoolValue ( X!ABSTRACT ) THEN 
+      name := ValidName (X.NAME);
+      package := "org.openetcs.es3f.importer";
+      meta := GetMeta ( X, SOURCEPACKAGE );
+      IF meta <> VOID THEN
+        package := package & "." & meta.GetTextContent;
+      END;
+      FILE1.WriteList ({
+`	@Override
+`	public org.openetcs.es3f.importer.generated.`name` create`name`()
+`	{
+`		return new `package`.`name`();
+`	}
+      });
+    END;
+  END;
+
+  FILE1.WriteList ({
+`}
+  });
+  FILE1.Flush;
+END GenerateFactory;
+
+-- Creates the symbol table for the elements of the system
+PROCEDURE PopulateSymbols( doc )
+BEGIN
+  elements := ASSOC.New;
+  FOR IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
+    elements[X.NAME] := X;
+  END;
+
+  enums := ASSOC.New;
+  FOR IN doc.RecursiveGetElementChildNodes("ENUM") DO
+    enums[X.NAME] := X;
+  END;
+END PopulateSymbols;
+
+-- Provides an element based on its name
+PROCEDURE GetElement ( name )
+BEGIN
+  RESULT := elements[name];
+END GetElement;
+
+-- Provides an element based on its name
+PROCEDURE GetEnum ( name )
+BEGIN
+  RESULT := enums[name];
+END GetEnum;
+
+PROCEDURE TERMINATE;
+VAR 
+  doc;
+BEGIN
+  lastID := 2829494552401902682;
+  OUT.WriteLn ("Starting process");
+  doc := XML.LoadFile ( SYS.Args[1] );
+  OUT.WriteLn ("XML document read");
+  IF doc <> VOID THEN
+    doc := doc.GetDocumentElement;
+
+    OUT.WriteLn ("Populate symbols");
+    PopulateSymbols( doc );
+
+    OUT.WriteLn ("Generate classes");
+    FOR IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
+      GenerateClass ( X );
+    END;
+
+    OUT.WriteLn ("Generate factory");
+    GenerateFactory (doc);
+  ELSE
+    ERR.WriteLn ( "Cannot read file " & SYS.Args[1] );
+  END;
+
+  OUT.WriteLn ("Done");
+END TERMINATE;

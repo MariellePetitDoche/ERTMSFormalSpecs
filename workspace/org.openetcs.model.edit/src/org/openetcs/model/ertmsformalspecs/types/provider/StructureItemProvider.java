@@ -113,7 +113,7 @@ public class StructureItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Structure)object).getComment();
+		String label = ((Structure)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Structure_type") :
 			getString("_UI_Structure_type") + " " + label;

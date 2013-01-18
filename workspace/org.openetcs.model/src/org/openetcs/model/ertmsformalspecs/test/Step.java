@@ -39,7 +39,7 @@ import org.openetcs.model.ertmsformalspecs.NamedElement;
 public interface Step extends NamedElement, CommentedElement {
 	/**
 	 * Returns the value of the '<em><b>Parent Test Case</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getSteps <em>Steps</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getSteps <em>Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Parent Test Case</em>' container reference isn't clear,
@@ -47,13 +47,13 @@ public interface Step extends NamedElement, CommentedElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parent Test Case</em>' container reference.
-	 * @see #setParentTestCase(TestCase)
+	 * @see #setParentTestCase(SingleTestCase)
 	 * @see org.openetcs.model.ertmsformalspecs.test.TestPackage#getStep_ParentTestCase()
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase#getSteps
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getSteps
 	 * @model opposite="steps" transient="false"
 	 * @generated
 	 */
-	TestCase getParentTestCase();
+	SingleTestCase getParentTestCase();
 
 	/**
 	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.test.Step#getParentTestCase <em>Parent Test Case</em>}' container reference.
@@ -63,7 +63,7 @@ public interface Step extends NamedElement, CommentedElement {
 	 * @see #getParentTestCase()
 	 * @generated
 	 */
-	void setParentTestCase(TestCase value);
+	void setParentTestCase(SingleTestCase value);
 
 	/**
 	 * Returns the value of the '<em><b>Tcs Order</b></em>' attribute.

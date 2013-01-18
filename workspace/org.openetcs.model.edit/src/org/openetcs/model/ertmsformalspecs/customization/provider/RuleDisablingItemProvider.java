@@ -102,7 +102,7 @@ public class RuleDisablingItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((RuleDisabling)object).getComment();
+		String label = ((RuleDisabling)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_RuleDisabling_type") :
 			getString("_UI_RuleDisabling_type") + " " + label;

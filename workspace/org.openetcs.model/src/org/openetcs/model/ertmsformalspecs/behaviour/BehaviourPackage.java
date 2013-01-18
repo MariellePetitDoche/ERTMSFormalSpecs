@@ -149,13 +149,22 @@ public interface BehaviourPackage extends EPackage {
 	int RULE__PARENT_STATE_MACHINE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Parent Namespace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__PARENT_NAMESPACE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 8;
+	int RULE_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleConditionImpl <em>Rule Condition</em>}' class.
@@ -177,13 +186,58 @@ public interface BehaviourPackage extends EPackage {
 	int RULE_CONDITION__NAME = ModelPackage.NAMED_ELEMENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONDITION__COMMENT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONDITION__REQUIREMENTS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Implemented</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONDITION__IMPLEMENTED = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Verified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONDITION__VERIFIED = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Needs Requirement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONDITION__NEEDS_REQUIREMENT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Actions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONDITION__ACTIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int RULE_CONDITION__ACTIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Sub Rules</b></em>' containment reference list.
@@ -192,7 +246,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONDITION__SUB_RULES = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int RULE_CONDITION__SUB_RULES = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Preconditions</b></em>' containment reference list.
@@ -201,7 +255,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONDITION__PRECONDITIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int RULE_CONDITION__PRECONDITIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Rule Condition</em>' class.
@@ -210,7 +264,7 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONDITION_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int RULE_CONDITION_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.PreConditionImpl <em>Pre Condition</em>}' class.
@@ -357,6 +411,17 @@ public interface BehaviourPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRule_ParentStateMachine();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.openetcs.model.ertmsformalspecs.behaviour.Rule#getParentNamespace <em>Parent Namespace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parent Namespace</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.behaviour.Rule#getParentNamespace()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_ParentNamespace();
 
 	/**
 	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition <em>Rule Condition</em>}'.
@@ -552,6 +617,14 @@ public interface BehaviourPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE__PARENT_STATE_MACHINE = eINSTANCE.getRule_ParentStateMachine();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent Namespace</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__PARENT_NAMESPACE = eINSTANCE.getRule_ParentNamespace();
 
 		/**
 		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleConditionImpl <em>Rule Condition</em>}' class.

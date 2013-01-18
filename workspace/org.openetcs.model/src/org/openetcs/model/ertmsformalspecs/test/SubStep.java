@@ -3,6 +3,7 @@
 package org.openetcs.model.ertmsformalspecs.test;
 
 import org.eclipse.emf.common.util.EList;
+import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.openetcs.model.ertmsformalspecs.behaviour.Action;
 import org.openetcs.model.ertmsformalspecs.translation.Translation;
@@ -27,7 +28,7 @@ import org.openetcs.model.ertmsformalspecs.translation.Translation;
  * @model
  * @generated
  */
-public interface SubStep extends EObject {
+public interface SubStep extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Parent Step</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.Step#getSubSteps <em>Sub Steps</em>}'.

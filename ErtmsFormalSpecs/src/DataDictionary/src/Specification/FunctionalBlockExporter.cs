@@ -71,12 +71,12 @@ namespace DataDictionary.Specification
         {
             switch (aParagraph.getImplementationStatus())
             {
-                case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented:
+                case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
                     ApplicableParagraphs++;
                     ImplementedParagraphs++;
                     break;
 
-                case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNA:
+                case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
                 case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
                     ApplicableParagraphs++;
                     break;

@@ -11,6 +11,7 @@ import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
 import org.openetcs.model.ertmsformalspecs.VariableModeElement;
+import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.types.Case;
 import org.openetcs.model.ertmsformalspecs.types.Collection;
 import org.openetcs.model.ertmsformalspecs.types.EnumValue;
@@ -87,6 +88,7 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseDefaultValueElement(type);
 				if (result == null) result = caseReferencesParagraph(type);
 				if (result == null) result = caseCommentedElement(type);
+				if (result == null) result = caseNamedElement(type);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -104,6 +106,7 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseDefaultValueElement(enumeration);
 				if (result == null) result = caseReferencesParagraph(enumeration);
 				if (result == null) result = caseCommentedElement(enumeration);
+				if (result == null) result = caseNamedElement(enumeration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -122,6 +125,7 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseDefaultValueElement(range);
 				if (result == null) result = caseReferencesParagraph(range);
 				if (result == null) result = caseCommentedElement(range);
+				if (result == null) result = caseNamedElement(range);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -133,6 +137,7 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseDefaultValueElement(structure);
 				if (result == null) result = caseReferencesParagraph(structure);
 				if (result == null) result = caseCommentedElement(structure);
+				if (result == null) result = caseNamedElement(structure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -145,6 +150,7 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseVariableModeElement(structureElement);
 				if (result == null) result = caseReferencesParagraph(structureElement);
 				if (result == null) result = caseCommentedElement(structureElement);
+				if (result == null) result = caseNamedElement(structureElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -157,6 +163,7 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseDefaultValueElement(collection);
 				if (result == null) result = caseReferencesParagraph(collection);
 				if (result == null) result = caseCommentedElement(collection);
+				if (result == null) result = caseNamedElement(collection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -169,12 +176,14 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = caseDefaultValueElement(function);
 				if (result == null) result = caseReferencesParagraph(function);
 				if (result == null) result = caseCommentedElement(function);
+				if (result == null) result = caseNamedElement(function);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TypesPackage.CASE: {
 				Case case_ = (Case)theEObject;
 				T result = caseCase(case_);
+				if (result == null) result = caseNamedElement(case_);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

@@ -3,6 +3,7 @@
 package org.openetcs.model.ertmsformalspecs;
 
 import org.eclipse.emf.common.util.EList;
+import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.types.Type;
 
 /**
@@ -19,6 +20,7 @@ import org.openetcs.model.ertmsformalspecs.types.Type;
  *   <li>{@link org.openetcs.model.ertmsformalspecs.Namespace#getProcedures <em>Procedures</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.Namespace#getTypes <em>Types</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.Namespace#getVariables <em>Variables</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.Namespace#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
  *
@@ -154,5 +156,21 @@ public interface Namespace extends NamedElement {
 	 * @generated
 	 */
 	EList<Variable> getVariables();
+
+	/**
+	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.behaviour.Rule}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Rules</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Rules</em>' containment reference list.
+	 * @see org.openetcs.model.ertmsformalspecs.ModelPackage#getNamespace_Rules()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Rule> getRules();
 
 } // Namespace

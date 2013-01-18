@@ -7,8 +7,10 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
+import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
+import org.openetcs.model.ertmsformalspecs.customization.*;
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
 import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
 
@@ -77,6 +79,10 @@ public class CustomizationAdapterFactory extends AdapterFactoryImpl {
 				return createCommentedElementAdapter();
 			}
 			@Override
+			public Adapter caseNamedElement(NamedElement object) {
+				return createNamedElementAdapter();
+			}
+			@Override
 			public Adapter caseReferencesParagraph(ReferencesParagraph object) {
 				return createReferencesParagraphAdapter();
 			}
@@ -129,6 +135,20 @@ public class CustomizationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCommentedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.NamedElement <em>Named Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.openetcs.model.ertmsformalspecs.NamedElement
+	 * @generated
+	 */
+	public Adapter createNamedElementAdapter() {
 		return null;
 	}
 

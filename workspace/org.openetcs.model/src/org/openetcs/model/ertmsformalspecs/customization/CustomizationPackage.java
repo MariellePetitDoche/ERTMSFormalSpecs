@@ -75,6 +75,15 @@ public interface CustomizationPackage extends EPackage {
 	int RULE_DISABLING__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_DISABLING__NAME = ModelPackage.REQ_RELATED__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

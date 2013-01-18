@@ -4,6 +4,7 @@ package org.openetcs.model.ertmsformalspecs;
 
 import org.eclipse.emf.common.util.EList;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
+import org.openetcs.model.ertmsformalspecs.types.Type;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +26,7 @@ import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
  * @model
  * @generated
  */
-public interface StateMachine extends ReqRelated {
+public interface StateMachine extends Type {
 	/**
 	 * Returns the value of the '<em><b>Initial State</b></em>' attribute.
 	 * <!-- begin-user-doc -->

@@ -202,6 +202,15 @@ public class BehaviourPackageImpl extends EPackageImpl implements BehaviourPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getRule_ParentNamespace() {
+		return (EReference)ruleEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRuleCondition() {
 		return ruleConditionEClass;
 	}
@@ -346,6 +355,7 @@ public class BehaviourPackageImpl extends EPackageImpl implements BehaviourPacka
 		createEAttribute(ruleEClass, RULE__PRIORITY);
 		createEReference(ruleEClass, RULE__CONDITIONS);
 		createEReference(ruleEClass, RULE__PARENT_STATE_MACHINE);
+		createEReference(ruleEClass, RULE__PARENT_NAMESPACE);
 
 		ruleConditionEClass = createEClass(RULE_CONDITION);
 		createEReference(ruleConditionEClass, RULE_CONDITION__ACTIONS);
@@ -402,12 +412,14 @@ public class BehaviourPackageImpl extends EPackageImpl implements BehaviourPacka
 		ruleEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 		ruleEClass.getESuperTypes().add(theModelPackage.getReqRelated());
 		ruleConditionEClass.getESuperTypes().add(theModelPackage.getNamedElement());
+		ruleConditionEClass.getESuperTypes().add(theModelPackage.getReqRelated());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRule_Priority(), this.getPriority(), "priority", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_Conditions(), this.getRuleCondition(), null, "conditions", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_ParentStateMachine(), theModelPackage.getStateMachine(), theModelPackage.getStateMachine_Rules(), "parentStateMachine", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRule_ParentNamespace(), theModelPackage.getNamespace(), null, "parentNamespace", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ruleConditionEClass, RuleCondition.class, "RuleCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRuleCondition_Actions(), this.getAction(), this.getAction_ParentRuleCondition(), "actions", null, 0, -1, RuleCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

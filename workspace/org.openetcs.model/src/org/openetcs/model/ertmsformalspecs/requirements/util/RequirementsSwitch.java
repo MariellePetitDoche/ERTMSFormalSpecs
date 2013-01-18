@@ -7,6 +7,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
+import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
+import org.openetcs.model.ertmsformalspecs.requirements.*;
 import org.openetcs.model.ertmsformalspecs.requirements.BaseLinedElement;
 import org.openetcs.model.ertmsformalspecs.requirements.FunctionalBlock;
 import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
@@ -109,8 +111,10 @@ public class RequirementsSwitch<T> extends Switch<T> {
 			case RequirementsPackage.PARAGRAPH: {
 				Paragraph paragraph = (Paragraph)theEObject;
 				T result = caseParagraph(paragraph);
-				if (result == null) result = caseNamedElement(paragraph);
 				if (result == null) result = caseBaseLinedElement(paragraph);
+				if (result == null) result = caseReferencesParagraph(paragraph);
+				if (result == null) result = caseCommentedElement(paragraph);
+				if (result == null) result = caseNamedElement(paragraph);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -235,6 +239,21 @@ public class RequirementsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCommentedElement(CommentedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>References Paragraph</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>References Paragraph</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferencesParagraph(ReferencesParagraph object) {
 		return null;
 	}
 

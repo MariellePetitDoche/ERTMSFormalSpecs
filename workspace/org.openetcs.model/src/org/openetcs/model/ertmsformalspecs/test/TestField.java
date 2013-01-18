@@ -2,6 +2,7 @@
  */
 package org.openetcs.model.ertmsformalspecs.test;
 
+import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -23,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface TestField extends EObject {
+public interface TestField extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Parent Message</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.TestMessage#getFields <em>Fields</em>}'.

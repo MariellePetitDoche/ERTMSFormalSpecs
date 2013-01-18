@@ -116,6 +116,29 @@ public class ModelItemProviderAdapterFactory extends ModelAdapterFactory impleme
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.openetcs.model.ertmsformalspecs.Baselines} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BaselinesItemProvider baselinesItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.openetcs.model.ertmsformalspecs.Baselines}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBaselinesAdapter() {
+		if (baselinesItemProvider == null) {
+			baselinesItemProvider = new BaselinesItemProvider(this);
+		}
+
+		return baselinesItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.openetcs.model.ertmsformalspecs.BaseLine} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -346,6 +369,29 @@ public class ModelItemProviderAdapterFactory extends ModelAdapterFactory impleme
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.openetcs.model.ertmsformalspecs.FunctionalBlocks} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected FunctionalBlocksItemProvider functionalBlocksItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.openetcs.model.ertmsformalspecs.FunctionalBlocks}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createFunctionalBlocksAdapter() {
+		if (functionalBlocksItemProvider == null) {
+			functionalBlocksItemProvider = new FunctionalBlocksItemProvider(this);
+		}
+
+		return functionalBlocksItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -446,6 +492,7 @@ public class ModelItemProviderAdapterFactory extends ModelAdapterFactory impleme
 	public void dispose() {
 		if (dictionaryItemProvider != null) dictionaryItemProvider.dispose();
 		if (commentedElementItemProvider != null) commentedElementItemProvider.dispose();
+		if (baselinesItemProvider != null) baselinesItemProvider.dispose();
 		if (baseLineItemProvider != null) baseLineItemProvider.dispose();
 		if (namespaceItemProvider != null) namespaceItemProvider.dispose();
 		if (procedureItemProvider != null) procedureItemProvider.dispose();
@@ -456,6 +503,7 @@ public class ModelItemProviderAdapterFactory extends ModelAdapterFactory impleme
 		if (defaultValueElementItemProvider != null) defaultValueElementItemProvider.dispose();
 		if (variableModeElementItemProvider != null) variableModeElementItemProvider.dispose();
 		if (variableItemProvider != null) variableItemProvider.dispose();
+		if (functionalBlocksItemProvider != null) functionalBlocksItemProvider.dispose();
 	}
 
 }

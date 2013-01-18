@@ -35,6 +35,7 @@ public class ModelTests extends TestSuite {
 		suite.addTestSuite(NamespaceTest.class);
 		suite.addTestSuite(ProcedureTest.class);
 		suite.addTestSuite(ParameterTest.class);
+		suite.addTestSuite(StateMachineTest.class);
 		suite.addTestSuite(StateTest.class);
 		suite.addTestSuite(VariableTest.class);
 		return suite;

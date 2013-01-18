@@ -5,6 +5,8 @@ package org.openetcs.model.ertmsformalspecs.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.openetcs.model.ertmsformalspecs.*;
+import org.openetcs.model.ertmsformalspecs.types.Type;
 import org.openetcs.model.ertmsformalspecs.BaseLine;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
@@ -100,6 +102,12 @@ public class ModelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelPackage.BASELINES: {
+				Baselines baselines = (Baselines)theEObject;
+				T result = caseBaselines(baselines);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ModelPackage.BASE_LINE: {
 				BaseLine baseLine = (BaseLine)theEObject;
 				T result = caseBaseLine(baseLine);
@@ -117,7 +125,10 @@ public class ModelSwitch<T> extends Switch<T> {
 			case ModelPackage.PROCEDURE: {
 				Procedure procedure = (Procedure)theEObject;
 				T result = caseProcedure(procedure);
+				if (result == null) result = caseReqRelated(procedure);
+				if (result == null) result = caseReferencesParagraph(procedure);
 				if (result == null) result = caseNamedElement(procedure);
+				if (result == null) result = caseCommentedElement(procedure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -132,6 +143,7 @@ public class ModelSwitch<T> extends Switch<T> {
 				ReferencesParagraph referencesParagraph = (ReferencesParagraph)theEObject;
 				T result = caseReferencesParagraph(referencesParagraph);
 				if (result == null) result = caseCommentedElement(referencesParagraph);
+				if (result == null) result = caseNamedElement(referencesParagraph);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -147,15 +159,19 @@ public class ModelSwitch<T> extends Switch<T> {
 				T result = caseReqRelated(reqRelated);
 				if (result == null) result = caseReferencesParagraph(reqRelated);
 				if (result == null) result = caseCommentedElement(reqRelated);
+				if (result == null) result = caseNamedElement(reqRelated);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ModelPackage.STATE_MACHINE: {
 				StateMachine stateMachine = (StateMachine)theEObject;
 				T result = caseStateMachine(stateMachine);
+				if (result == null) result = caseType(stateMachine);
 				if (result == null) result = caseReqRelated(stateMachine);
+				if (result == null) result = caseDefaultValueElement(stateMachine);
 				if (result == null) result = caseReferencesParagraph(stateMachine);
 				if (result == null) result = caseCommentedElement(stateMachine);
+				if (result == null) result = caseNamedElement(stateMachine);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -181,13 +197,19 @@ public class ModelSwitch<T> extends Switch<T> {
 			case ModelPackage.VARIABLE: {
 				Variable variable = (Variable)theEObject;
 				T result = caseVariable(variable);
-				if (result == null) result = caseNamedElement(variable);
 				if (result == null) result = caseReqRelated(variable);
 				if (result == null) result = caseTypedElement(variable);
 				if (result == null) result = caseDefaultValueElement(variable);
 				if (result == null) result = caseVariableModeElement(variable);
 				if (result == null) result = caseReferencesParagraph(variable);
+				if (result == null) result = caseNamedElement(variable);
 				if (result == null) result = caseCommentedElement(variable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.FUNCTIONAL_BLOCKS: {
+				FunctionalBlocks functionalBlocks = (FunctionalBlocks)theEObject;
+				T result = caseFunctionalBlocks(functionalBlocks);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -237,6 +259,21 @@ public class ModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCommentedElement(CommentedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Baselines</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Baselines</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBaselines(Baselines object) {
 		return null;
 	}
 
@@ -417,6 +454,36 @@ public class ModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseVariable(Variable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Functional Blocks</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Functional Blocks</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFunctionalBlocks(FunctionalBlocks object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseType(Type object) {
 		return null;
 	}
 

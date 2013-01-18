@@ -105,7 +105,7 @@ public class TypeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Type)object).getComment();
+		String label = ((Type)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Type_type") :
 			getString("_UI_Type_type") + " " + label;

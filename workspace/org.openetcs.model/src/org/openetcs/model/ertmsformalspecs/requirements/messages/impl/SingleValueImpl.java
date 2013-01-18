@@ -52,7 +52,7 @@ public class SingleValueImpl extends EObjectImpl implements SingleValue {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String VALUE_EDEFAULT = null;
+	protected static final int VALUE_EDEFAULT = 0;
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -62,7 +62,7 @@ public class SingleValueImpl extends EObjectImpl implements SingleValue {
 	 * @generated
 	 * @ordered
 	 */
-	protected String value = VALUE_EDEFAULT;
+	protected int value = VALUE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -109,7 +109,7 @@ public class SingleValueImpl extends EObjectImpl implements SingleValue {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue() {
+	public int getValue() {
 		return value;
 	}
 
@@ -118,8 +118,8 @@ public class SingleValueImpl extends EObjectImpl implements SingleValue {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(String newValue) {
-		String oldValue = value;
+	public void setValue(int newValue) {
+		int oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MessagesPackage.SINGLE_VALUE__VALUE, oldValue, value));
@@ -153,7 +153,7 @@ public class SingleValueImpl extends EObjectImpl implements SingleValue {
 				setUnits((String)newValue);
 				return;
 			case MessagesPackage.SINGLE_VALUE__VALUE:
-				setValue((String)newValue);
+				setValue((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -188,7 +188,7 @@ public class SingleValueImpl extends EObjectImpl implements SingleValue {
 			case MessagesPackage.SINGLE_VALUE__UNITS:
 				return UNITS_EDEFAULT == null ? units != null : !UNITS_EDEFAULT.equals(units);
 			case MessagesPackage.SINGLE_VALUE__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+				return value != VALUE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

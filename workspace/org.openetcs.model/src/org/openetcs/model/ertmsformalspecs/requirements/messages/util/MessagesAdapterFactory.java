@@ -7,6 +7,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.openetcs.model.ertmsformalspecs.requirements.BaseLinedElement;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.IMatch;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.Mask;

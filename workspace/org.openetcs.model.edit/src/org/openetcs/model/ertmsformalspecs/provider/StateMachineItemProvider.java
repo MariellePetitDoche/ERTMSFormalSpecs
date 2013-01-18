@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -22,6 +23,7 @@ import org.openetcs.model.ertmsformalspecs.ModelFactory;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.StateMachine;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourFactory;
+import org.openetcs.model.ertmsformalspecs.types.provider.TypeItemProvider;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 
 /**
@@ -31,7 +33,7 @@ import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
  * @generated
  */
 public class StateMachineItemProvider
-	extends ReqRelatedItemProvider
+	extends TypeItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -136,7 +138,7 @@ public class StateMachineItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((StateMachine)object).getComment();
+		String label = ((StateMachine)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_StateMachine_type") :
 			getString("_UI_StateMachine_type") + " " + label;
@@ -188,6 +190,17 @@ public class StateMachineItemProvider
 			(createChildParameter
 				(ModelPackage.Literals.STATE_MACHINE__RULES,
 						rule));
+	}
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return ModelEditPlugin.INSTANCE;
 	}
 
 }

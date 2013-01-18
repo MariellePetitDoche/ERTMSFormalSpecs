@@ -249,23 +249,14 @@ public interface TestPackage extends EPackage {
 	int SUB_SEQUENCE_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
-	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.TestCaseImpl <em>Case</em>}' class.
+	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.SingleTestCaseImpl <em>Single Test Case</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.openetcs.model.ertmsformalspecs.test.impl.TestCaseImpl
-	 * @see org.openetcs.model.ertmsformalspecs.test.impl.TestPackageImpl#getTestCase()
+	 * @see org.openetcs.model.ertmsformalspecs.test.impl.SingleTestCaseImpl
+	 * @see org.openetcs.model.ertmsformalspecs.test.impl.TestPackageImpl#getSingleTestCase()
 	 * @generated
 	 */
-	int TEST_CASE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEST_CASE__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+	int SINGLE_TEST_CASE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -274,7 +265,52 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE__COMMENT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int SINGLE_TEST_CASE__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_TEST_CASE__NAME = ModelPackage.REQ_RELATED__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_TEST_CASE__REQUIREMENTS = ModelPackage.REQ_RELATED__REQUIREMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Implemented</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_TEST_CASE__IMPLEMENTED = ModelPackage.REQ_RELATED__IMPLEMENTED;
+
+	/**
+	 * The feature id for the '<em><b>Verified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_TEST_CASE__VERIFIED = ModelPackage.REQ_RELATED__VERIFIED;
+
+	/**
+	 * The feature id for the '<em><b>Needs Requirement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_TEST_CASE__NEEDS_REQUIREMENT = ModelPackage.REQ_RELATED__NEEDS_REQUIREMENT;
 
 	/**
 	 * The feature id for the '<em><b>Parent Sub Sequence</b></em>' container reference.
@@ -283,7 +319,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE__PARENT_SUB_SEQUENCE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int SINGLE_TEST_CASE__PARENT_SUB_SEQUENCE = ModelPackage.REQ_RELATED_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Feature</b></em>' attribute.
@@ -292,7 +328,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE__FEATURE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int SINGLE_TEST_CASE__FEATURE = ModelPackage.REQ_RELATED_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Case</b></em>' attribute.
@@ -301,7 +337,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE__CASE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int SINGLE_TEST_CASE__CASE = ModelPackage.REQ_RELATED_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Steps</b></em>' containment reference list.
@@ -310,16 +346,16 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE__STEPS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int SINGLE_TEST_CASE__STEPS = ModelPackage.REQ_RELATED_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Case</em>' class.
+	 * The number of structural features of the '<em>Single Test Case</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int SINGLE_TEST_CASE_FEATURE_COUNT = ModelPackage.REQ_RELATED_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.StepImpl <em>Step</em>}' class.
@@ -504,13 +540,22 @@ public interface TestPackage extends EPackage {
 	int SUB_STEP = 4;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUB_STEP__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Parent Step</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUB_STEP__PARENT_STEP = 0;
+	int SUB_STEP__PARENT_STEP = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Actions</b></em>' containment reference list.
@@ -519,7 +564,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUB_STEP__ACTIONS = 1;
+	int SUB_STEP__ACTIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Expectations</b></em>' containment reference list.
@@ -528,7 +573,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUB_STEP__EXPECTATIONS = 2;
+	int SUB_STEP__EXPECTATIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Skip Engine</b></em>' attribute.
@@ -537,7 +582,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUB_STEP__SKIP_ENGINE = 3;
+	int SUB_STEP__SKIP_ENGINE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Parent Translation</b></em>' container reference.
@@ -546,7 +591,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUB_STEP__PARENT_TRANSLATION = 4;
+	int SUB_STEP__PARENT_TRANSLATION = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Sub Step</em>' class.
@@ -555,7 +600,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUB_STEP_FEATURE_COUNT = 5;
+	int SUB_STEP_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl <em>Expectation</em>}' class.
@@ -568,13 +613,22 @@ public interface TestPackage extends EPackage {
 	int EXPECTATION = 5;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPECTATION__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Parent Sub Step</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__PARENT_SUB_STEP = 0;
+	int EXPECTATION__PARENT_SUB_STEP = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Variable</b></em>' attribute.
@@ -583,7 +637,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__VARIABLE = 1;
+	int EXPECTATION__VARIABLE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -592,7 +646,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__VALUE = 2;
+	int EXPECTATION__VALUE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Blocking</b></em>' attribute.
@@ -601,7 +655,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__BLOCKING = 3;
+	int EXPECTATION__BLOCKING = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Deadline</b></em>' attribute.
@@ -610,7 +664,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__DEADLINE = 4;
+	int EXPECTATION__DEADLINE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Expectation</em>' class.
@@ -619,7 +673,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION_FEATURE_COUNT = 5;
+	int EXPECTATION_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.TestMessageImpl <em>Message</em>}' class.
@@ -632,13 +686,22 @@ public interface TestPackage extends EPackage {
 	int TEST_MESSAGE = 6;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_MESSAGE__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Parent Step</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_MESSAGE__PARENT_STEP = 0;
+	int TEST_MESSAGE__PARENT_STEP = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Order</b></em>' attribute.
@@ -647,7 +710,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_MESSAGE__ORDER = 1;
+	int TEST_MESSAGE__ORDER = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Fields</b></em>' containment reference list.
@@ -656,7 +719,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_MESSAGE__FIELDS = 2;
+	int TEST_MESSAGE__FIELDS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Packets</b></em>' containment reference list.
@@ -665,7 +728,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_MESSAGE__PACKETS = 3;
+	int TEST_MESSAGE__PACKETS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Message</em>' class.
@@ -674,7 +737,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_MESSAGE_FEATURE_COUNT = 4;
+	int TEST_MESSAGE_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.TestPacketImpl <em>Packet</em>}' class.
@@ -687,13 +750,22 @@ public interface TestPackage extends EPackage {
 	int TEST_PACKET = 7;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_PACKET__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Parent Message</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PACKET__PARENT_MESSAGE = 0;
+	int TEST_PACKET__PARENT_MESSAGE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Fields</b></em>' containment reference list.
@@ -702,7 +774,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PACKET__FIELDS = 1;
+	int TEST_PACKET__FIELDS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Packet</em>' class.
@@ -711,7 +783,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_PACKET_FEATURE_COUNT = 2;
+	int TEST_PACKET_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.TestFieldImpl <em>Field</em>}' class.
@@ -724,13 +796,22 @@ public interface TestPackage extends EPackage {
 	int TEST_FIELD = 8;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_FIELD__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Parent Message</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_FIELD__PARENT_MESSAGE = 0;
+	int TEST_FIELD__PARENT_MESSAGE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Parent Packet</b></em>' container reference.
@@ -739,7 +820,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_FIELD__PARENT_PACKET = 1;
+	int TEST_FIELD__PARENT_PACKET = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Variable</b></em>' attribute.
@@ -748,7 +829,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_FIELD__VARIABLE = 2;
+	int TEST_FIELD__VARIABLE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -757,7 +838,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_FIELD__VALUE = 3;
+	int TEST_FIELD__VALUE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Field</em>' class.
@@ -766,7 +847,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_FIELD_FEATURE_COUNT = 4;
+	int TEST_FIELD_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.StepIO <em>Step IO</em>}' enum.
@@ -983,58 +1064,58 @@ public interface TestPackage extends EPackage {
 	EReference getSubSequence_TestCases();
 
 	/**
-	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.test.TestCase <em>Case</em>}'.
+	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase <em>Single Test Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Case</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase
+	 * @return the meta object for class '<em>Single Test Case</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase
 	 * @generated
 	 */
-	EClass getTestCase();
+	EClass getSingleTestCase();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getParentSubSequence <em>Parent Sub Sequence</em>}'.
+	 * Returns the meta object for the container reference '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getParentSubSequence <em>Parent Sub Sequence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Parent Sub Sequence</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase#getParentSubSequence()
-	 * @see #getTestCase()
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getParentSubSequence()
+	 * @see #getSingleTestCase()
 	 * @generated
 	 */
-	EReference getTestCase_ParentSubSequence();
+	EReference getSingleTestCase_ParentSubSequence();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getFeature <em>Feature</em>}'.
+	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getFeature <em>Feature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Feature</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase#getFeature()
-	 * @see #getTestCase()
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getFeature()
+	 * @see #getSingleTestCase()
 	 * @generated
 	 */
-	EAttribute getTestCase_Feature();
+	EAttribute getSingleTestCase_Feature();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getCase <em>Case</em>}'.
+	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getCase <em>Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Case</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase#getCase()
-	 * @see #getTestCase()
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getCase()
+	 * @see #getSingleTestCase()
 	 * @generated
 	 */
-	EAttribute getTestCase_Case();
+	EAttribute getSingleTestCase_Case();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getSteps <em>Steps</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getSteps <em>Steps</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Steps</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase#getSteps()
-	 * @see #getTestCase()
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getSteps()
+	 * @see #getSingleTestCase()
 	 * @generated
 	 */
-	EReference getTestCase_Steps();
+	EReference getSingleTestCase_Steps();
 
 	/**
 	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.test.Step <em>Step</em>}'.
@@ -1678,14 +1759,14 @@ public interface TestPackage extends EPackage {
 		EReference SUB_SEQUENCE__TEST_CASES = eINSTANCE.getSubSequence_TestCases();
 
 		/**
-		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.TestCaseImpl <em>Case</em>}' class.
+		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.SingleTestCaseImpl <em>Single Test Case</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.openetcs.model.ertmsformalspecs.test.impl.TestCaseImpl
-		 * @see org.openetcs.model.ertmsformalspecs.test.impl.TestPackageImpl#getTestCase()
+		 * @see org.openetcs.model.ertmsformalspecs.test.impl.SingleTestCaseImpl
+		 * @see org.openetcs.model.ertmsformalspecs.test.impl.TestPackageImpl#getSingleTestCase()
 		 * @generated
 		 */
-		EClass TEST_CASE = eINSTANCE.getTestCase();
+		EClass SINGLE_TEST_CASE = eINSTANCE.getSingleTestCase();
 
 		/**
 		 * The meta object literal for the '<em><b>Parent Sub Sequence</b></em>' container reference feature.
@@ -1693,7 +1774,7 @@ public interface TestPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TEST_CASE__PARENT_SUB_SEQUENCE = eINSTANCE.getTestCase_ParentSubSequence();
+		EReference SINGLE_TEST_CASE__PARENT_SUB_SEQUENCE = eINSTANCE.getSingleTestCase_ParentSubSequence();
 
 		/**
 		 * The meta object literal for the '<em><b>Feature</b></em>' attribute feature.
@@ -1701,7 +1782,7 @@ public interface TestPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TEST_CASE__FEATURE = eINSTANCE.getTestCase_Feature();
+		EAttribute SINGLE_TEST_CASE__FEATURE = eINSTANCE.getSingleTestCase_Feature();
 
 		/**
 		 * The meta object literal for the '<em><b>Case</b></em>' attribute feature.
@@ -1709,7 +1790,7 @@ public interface TestPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TEST_CASE__CASE = eINSTANCE.getTestCase_Case();
+		EAttribute SINGLE_TEST_CASE__CASE = eINSTANCE.getSingleTestCase_Case();
 
 		/**
 		 * The meta object literal for the '<em><b>Steps</b></em>' containment reference list feature.
@@ -1717,7 +1798,7 @@ public interface TestPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TEST_CASE__STEPS = eINSTANCE.getTestCase_Steps();
+		EReference SINGLE_TEST_CASE__STEPS = eINSTANCE.getSingleTestCase_Steps();
 
 		/**
 		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.StepImpl <em>Step</em>}' class.

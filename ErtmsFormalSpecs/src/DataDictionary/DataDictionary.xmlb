@@ -1,15 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <SYSTEM NAME="DataDictionary.Generated"
         IGNOREALIENATTRS="TRUE"
-				ENTITIESINATTR="TRUE">
-  <CSHARPCONFIG USEABSTRACTFACTORY="TRUE"
-                GENERATEWITHCONTROLLERS="TRUE"/>
+	ENTITIESINATTR="TRUE">
 
+  <JAVACONFIG PACKAGE="org.openetcs.es3f.importer.generated" 
+              BASECLASSPREFIX="org.openetcs.es3f.importer" >
+  </JAVACONFIG>
+
+  <CSHARPCONFIG USEABSTRACTFACTORY="TRUE"
+                GENERATEWITHCONTROLLERS="TRUE" >
+  </CSHARPCONFIG>
 
   <!-- ------------------------- -->
   <!-- Elements that have a name -->
   <!-- ------------------------- -->
   <ELEMENT NAME="Namable" ABSTRACT="TRUE" MAIN="TRUE" BASECLASS="ModelElement">
+    <META NAME="SourcePackage">DataDictionary</META>
+    <META NAME="Class">NamedElement</META>
     <FIELDS>
       <FIELD  NAME="Name" TYPE="PCHAR" />
     </FIELDS>
@@ -22,6 +29,7 @@
   <!-- Elements that have a relation with a requirement -->
   <!-- ------------------------------------------------ -->
   <ELEMENT NAME="ReferencesParagraph" ABSTRACT="TRUE" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <META NAME="SourcePackage">DataDictionary</META>
     <FIELDS>
       <FIELD NAME="Requirements" 		REFTYPE="ReqRef" />
       <FIELD NAME="Comment"      		TYPE="PCHAR" />
@@ -43,6 +51,7 @@
   <!-- and which can implement the requirement          -->
   <!-- ------------------------------------------------ -->
   <ELEMENT NAME="ReqRelated" ABSTRACT="TRUE" BASEELEMENT="ReferencesParagraph" BASECLASS="DataDictionary.ReferencesParagraph">
+    <META NAME="SourcePackage">DataDictionary</META>
     <FIELDS>
       <FIELD NAME="Implemented"  		TYPE="BOOLEAN" />
       <FIELD NAME="Verified"     		TYPE="BOOLEAN" />
@@ -62,12 +71,22 @@
     <FIELDS>
       <FIELD NAME="Specification"         REFTYPE="Specification" />
       <FIELD NAME="RuleDisablings"        REFTYPE="RuleDisabling" />
-      <FIELD NAME="NameSpaces"            REFTYPE="NameSpace" />
+      <FIELD NAME="NameSpaces"            REFTYPE="NameSpace" >
+        <META NAME="TargetName">Namespaces</META>
+      </FIELD>
       <FIELD NAME="Tests"                 REFTYPE="Frame"/>
-      <FIELD NAME="TranslationDictionary" REFTYPE="TranslationDictionary"/>
-      <FIELD NAME="ShortcutDictionary"    REFTYPE="ShortcutDictionary"/>
-      <FIELD NAME="Xsi"                   TYPE="PCHAR"/>
-      <FIELD NAME="XsiLocation"           TYPE="PCHAR"/>
+      <FIELD NAME="TranslationDictionary" REFTYPE="TranslationDictionary">
+        <META NAME="TargetName">Translations</META>
+      </FIELD>
+      <FIELD NAME="ShortcutDictionary"    REFTYPE="ShortcutDictionary">
+        <META NAME="TargetName">Shortcuts</META>
+      </FIELD>
+      <FIELD NAME="Xsi"                   TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="XsiLocation"           TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="xmlns:xsi" TARGET="Xsi" />
@@ -101,8 +120,11 @@
   <!-- Disabling of a rule       -->
   <!-- ------------------------- -->
   <ELEMENT NAME="RuleDisabling" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <META NAME="Package">customization</META>
     <FIELDS>
-      <FIELD NAME="Rule" TYPE="PCHAR" />
+      <FIELD NAME="Rule" TYPE="PCHAR" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="Rule" TARGET="Rule" />
@@ -113,15 +135,29 @@
   <!-- NameSpace -->
   <!-- --------- -->
   <ELEMENT NAME="NameSpace" TAG="NameSpace" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Class">Namespace</META>
     <FIELDS>
-      <FIELD NAME="NameSpaces"          REFTYPE="NameSpace"     MODE="DEFAULT"/>
-      <FIELD NAME="Ranges"              REFTYPE="Range"         MODE="DEFAULT"/>
-      <FIELD NAME="Enumerations"        REFTYPE="Enum"          MODE="DEFAULT"/>
-      <FIELD NAME="Structures"          REFTYPE="Structure"     MODE="DEFAULT"/>
-      <FIELD NAME="Collections"         REFTYPE="Collection"    MODE="DEFAULT"/>
-      <FIELD NAME="Functions"           REFTYPE="Function"      MODE="DEFAULT"/>
+      <FIELD NAME="NameSpaces"          REFTYPE="NameSpace"     MODE="DEFAULT">
+        <META NAME="TargetName">SubNamespaces</META>
+      </FIELD>
+      <FIELD NAME="Ranges"              REFTYPE="Range"         MODE="DEFAULT">
+        <META NAME="TargetName">Types</META>
+      </FIELD>
+      <FIELD NAME="Enumerations"        REFTYPE="Enum"          MODE="DEFAULT">
+        <META NAME="TargetName">Types</META>
+      </FIELD>
+      <FIELD NAME="Structures"          REFTYPE="Structure"     MODE="DEFAULT">
+        <META NAME="TargetName">Types</META>
+      </FIELD>
+      <FIELD NAME="Collections"         REFTYPE="Collection"    MODE="DEFAULT">
+        <META NAME="TargetName">Types</META>
+      </FIELD>
+      <FIELD NAME="Functions"           REFTYPE="Function"      MODE="DEFAULT">
+        <META NAME="TargetName">Types</META>
+      </FIELD>
       <FIELD NAME="Procedures"          REFTYPE="Procedure"     MODE="DEFAULT"/>
-      <FIELD NAME="Variables"           REFTYPE="Variable"      MODE="DEFAULT"/>
+      <FIELD NAME="Variables"           REFTYPE="Variable"      MODE="DEFAULT">
+      </FIELD>
       <FIELD NAME="Rules"               REFTYPE="Rule"          MODE="DEFAULT"/>
     </FIELDS>
     <FORMULA>
@@ -180,7 +216,9 @@
   <!-- -------------------------- -->
   <ELEMENT NAME="ReqRef" BASECLASS="ModelElement" MAIN="TRUE">
     <FIELDS>
-      <FIELD NAME="Id"       TYPE="PCHAR"/>
+      <FIELD NAME="Id"       TYPE="PCHAR">
+        <META NAME="DoNotTranslate"/>
+      </FIELD>
       <FIELD NAME="Comment"  TYPE="PCHAR" />
     </FIELDS>
     <ATTRIBUTES>
@@ -198,9 +236,13 @@
   <!-- ----- -->
   <!-- Types -->
   <!-- ----- -->
-  <ELEMENT NAME="Type" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+  <ELEMENT NAME="Type" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated" ABSTRACT="TRUE">
+    <META NAME="Package">types</META>
+    <META NAME="SourcePackage">DataDictionary.Types</META>
     <FIELDS>
-      <FIELD NAME="Default" TYPE="PCHAR" />
+      <FIELD NAME="Default" TYPE="PCHAR">
+        <META NAME="TargetName">DefaultValue</META>
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="Default" TARGET="Default" OPTIONAL="TRUE" />
@@ -211,9 +253,13 @@
   <!-- Enum Type -->
   <!-- --------- -->
   <ELEMENT NAME="Enum" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <META NAME="Package">types</META>
+    <META NAME="Class">Enumeration</META>
     <FIELDS>
       <FIELD NAME="Values"   REFTYPE="EnumValue"/>
-      <FIELD NAME="SubEnums" REFTYPE="Enum"/>
+      <FIELD NAME="SubEnums" REFTYPE="Enum">
+        <META NAME="TargetName">SubEnumerations</META>
+      </FIELD>
     </FIELDS>
     <FORMULA>
       <CONCAT>
@@ -235,6 +281,7 @@
   <!-- Enum Value -->
   <!-- ---------- -->
   <ELEMENT NAME="EnumValue" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">types</META>
     <FIELDS>
       <FIELD NAME="Value"      TYPE="PCHAR"/>
     </FIELDS>
@@ -247,9 +294,14 @@
   <!-- Range Type -->
   <!-- ---------- -->
   <ELEMENT NAME="Range" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <META NAME="Package">types</META>
     <FIELDS>
-      <FIELD NAME="MinValue"      TYPE="PCHAR"/>
-      <FIELD NAME="MaxValue"      TYPE="PCHAR"/>
+      <FIELD NAME="MinValue"      TYPE="PCHAR">
+        <META NAME="TargetName">MinimumValue</META>
+      </FIELD>
+      <FIELD NAME="MaxValue"      TYPE="PCHAR">
+        <META NAME="TargetName">MaximumValue</META>
+      </FIELD>
       <FIELD NAME="SpecialValues" REFTYPE="EnumValue"/>
       <FIELD NAME="Precision"     ENUMTYPE="PrecisionEnum"/>
     </FIELDS>
@@ -273,6 +325,7 @@
   <!-- Structure Type -->
   <!-- -------------- -->
   <ELEMENT NAME="Structure" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <META NAME="Package">types</META>
     <FIELDS>
       <FIELD NAME="Elements"   REFTYPE="StructureElement"/>
       <FIELD NAME="Procedures" REFTYPE="StructureProcedure"/>
@@ -301,10 +354,15 @@
   <!-- Structure Element -->
   <!-- ----------------- -->
   <ELEMENT NAME="StructureElement" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <META NAME="Package">types</META>
     <FIELDS>
       <FIELD NAME="TypeName" TYPE="PCHAR"/>
-      <FIELD NAME="Default"  TYPE="PCHAR"/>
-      <FIELD NAME="Mode"     ENUMTYPE="VariableModeEnumType"/>
+      <FIELD NAME="Default"  TYPE="PCHAR">
+        <META NAME="TargetName">DefaultValue</META>
+      </FIELD>
+      <FIELD NAME="Mode"     ENUMTYPE="VariableModeEnumType">
+        <META NAME="TargetName">VariableMode</META>
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="TypeName" TARGET="TypeName"/>
@@ -317,6 +375,7 @@
   <!-- Structure Procedure -->
   <!-- ------------------- -->
   <ELEMENT NAME="StructureProcedure" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <META NAME="Class">Procedure</META>	
     <FIELDS>
       <FIELD NAME="StateMachine" REFTYPE="StateMachine" />
       <FIELD NAME="Rules"        REFTYPE="Rule" />
@@ -343,9 +402,12 @@
   <!-- Collection Type -->
   <!-- --------------- -->
   <ELEMENT NAME="Collection" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <META NAME="Package">types</META>
     <FIELDS>
       <FIELD NAME="TypeName" TYPE="PCHAR"/>
-      <FIELD NAME="MaxSize" TYPE="INTEGER" />
+      <FIELD NAME="MaxSize" TYPE="INTEGER">
+        <META NAME="TargetName">MaximumSize</META>
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="TypeName" TARGET="TypeName" />
@@ -357,6 +419,7 @@
   <!-- Function -->
   <!-- -------- -->
   <ELEMENT NAME="Function" BASEELEMENT="Type" MAIN="TRUE" BASECLASS="DataDictionary.Types.Type">
+    <META NAME="Package">types</META>
     <FIELDS>
       <FIELD NAME="Parameters"    REFTYPE="Parameter"/>
       <FIELD NAME="Cases"         REFTYPE="Case"/>
@@ -397,6 +460,7 @@
   <!-- Case  -->
   <!-- ----- -->
   <ELEMENT NAME="Case" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">types</META>
     <FIELDS>
       <FIELD NAME="PreConditions" REFTYPE="PreCondition" />
       <FIELD NAME="Expression"    TYPE="PCHAR" />
@@ -523,6 +587,7 @@
   <!-- Rule -->
   <!-- ---- -->
   <ELEMENT NAME="Rule" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <META NAME="Package">behaviour</META>
     <FIELDS>
       <FIELD NAME="Priority"      ENUMTYPE="RulePriority" />
       <FIELD NAME="Conditions"    REFTYPE="RuleCondition" />
@@ -548,8 +613,11 @@
   <!-- Rule condition -->
   <!-- -------------- -->
   <ELEMENT NAME="RuleCondition" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <META NAME="Package">behaviour</META>
     <FIELDS>
-      <FIELD NAME="PreConditions" REFTYPE="PreCondition" />
+      <FIELD NAME="PreConditions" REFTYPE="PreCondition">
+        <META NAME="TargetName">Preconditions</META>
+      </FIELD>
       <FIELD NAME="Actions" REFTYPE="Action" />
       <FIELD NAME="SubRules" REFTYPE="Rule" />
     </FIELDS>
@@ -582,6 +650,7 @@
   <!-- Pre-Condition -->
   <!-- ------------- -->
   <ELEMENT NAME="PreCondition" BASECLASS="ModelElement" MAIN="TRUE">
+    <META NAME="Package">behaviour</META>
     <FIELDS>
       <FIELD NAME="Condition" TYPE="PCHAR"/>
     </FIELDS>
@@ -594,6 +663,7 @@
   <!-- Action -->
   <!-- ------ -->
   <ELEMENT NAME="Action" BASECLASS="ModelElement" MAIN="TRUE">
+    <META NAME="Package">behaviour</META>
     <FIELDS>
       <FIELD NAME="Expression" TYPE="PCHAR"/>
     </FIELDS>
@@ -606,6 +676,7 @@
   <!-- Test Frame -->
   <!-- ---------- -->
   <ELEMENT NAME="Frame" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
     <FIELDS>
       <FIELD NAME="SubSequences" REFTYPE="SubSequence" MODE="DEFAULT"/>
     </FIELDS>
@@ -624,16 +695,31 @@
   <!-- Test Sub sequence -->
   <!-- ----------------- -->
   <ELEMENT NAME="SubSequence" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
     <FIELDS>
-      <FIELD NAME="D_LRBG"     TYPE="PCHAR" />
+      <FIELD NAME="D_LRBG"     TYPE="PCHAR">
+        <META NAME="TargetName">DLRBG</META>
+      </FIELD>
       <FIELD NAME="Level"      TYPE="PCHAR" />
       <FIELD NAME="Mode"       TYPE="PCHAR" />
-      <FIELD NAME="NID_LRBG"   TYPE="PCHAR" />
-      <FIELD NAME="Q_DIRLRBG"  TYPE="PCHAR" />
-      <FIELD NAME="Q_DIRTRAIN" TYPE="PCHAR" />
-      <FIELD NAME="Q_DLRBG"    TYPE="PCHAR" />
-      <FIELD NAME="RBC_ID"     TYPE="PCHAR" />
-      <FIELD NAME="RBCPhone"   TYPE="PCHAR" />
+      <FIELD NAME="NID_LRBG"   TYPE="PCHAR" >
+        <META NAME="TargetName">NidLRBG</META>
+      </FIELD>
+      <FIELD NAME="Q_DIRLRBG"  TYPE="PCHAR" >
+        <META NAME="TargetName">QDirLRBG</META>
+      </FIELD>
+      <FIELD NAME="Q_DIRTRAIN" TYPE="PCHAR" >
+        <META NAME="TargetName">QDirTrain</META>
+      </FIELD>
+      <FIELD NAME="Q_DLRBG"    TYPE="PCHAR" >
+        <META NAME="TargetName">QDLRBG</META>
+      </FIELD>
+      <FIELD NAME="RBC_ID"     TYPE="PCHAR" >
+        <META NAME="TargetName">RbcId</META>
+      </FIELD>
+      <FIELD NAME="RBCPhone"   TYPE="PCHAR" >
+        <META NAME="TargetName">RbcPhone</META>
+      </FIELD>
       <FIELD NAME="TestCases" REFTYPE="TestCase" MODE="DEFAULT"/>
     </FIELDS>
     <ATTRIBUTES>
@@ -662,6 +748,8 @@
   <!-- Test Case -->
   <!-- --------- -->
   <ELEMENT NAME="TestCase" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
+    <META NAME="Package">test</META>
+    <META NAME="Class">SingleTestCase</META>
     <FIELDS>
       <FIELD NAME="Feature" TYPE="INTEGER" />
       <FIELD NAME="Case"    TYPE="INTEGER" />
@@ -686,18 +774,31 @@
   <!-- Step -->
   <!-- ---- -->
   <ELEMENT NAME="Step" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
     <FIELDS>
-      <FIELD NAME="TCS_Order"           TYPE="INTEGER" />
+      <FIELD NAME="TCS_Order"           TYPE="INTEGER">
+        <META NAME="TargetName">TcsOrder</META>
+      </FIELD>
       <FIELD NAME="Distance"            TYPE="INTEGER" />
       <FIELD NAME="Description"         TYPE="PCHAR" />
       <FIELD NAME="Comment"             TYPE="PCHAR" />
       <FIELD NAME="UserComment"         TYPE="PCHAR" />
-      <FIELD NAME="IO"                  ENUMTYPE="ST_IO" />
+      <FIELD NAME="IO"                  ENUMTYPE="ST_IO" >
+        <META NAME="TargetName">Io</META>
+      </FIELD>
       <FIELD NAME="Interface"           ENUMTYPE="ST_INTERFACE" />
-      <FIELD NAME="LevelIN"             ENUMTYPE="ST_LEVEL" />
-      <FIELD NAME="LevelOUT"            ENUMTYPE="ST_LEVEL" />
-      <FIELD NAME="ModeIN"              ENUMTYPE="ST_MODE" />
-      <FIELD NAME="ModeOUT"             ENUMTYPE="ST_MODE" />
+      <FIELD NAME="LevelIN"             ENUMTYPE="ST_LEVEL" >
+        <META NAME="TargetName">LevelIn</META>
+      </FIELD>
+      <FIELD NAME="LevelOUT"            ENUMTYPE="ST_LEVEL" >
+        <META NAME="TargetName">LevelOut</META>
+      </FIELD>
+      <FIELD NAME="ModeIN"              ENUMTYPE="ST_MODE" >
+        <META NAME="TargetName">ModeIn</META>
+      </FIELD>
+      <FIELD NAME="ModeOUT"             ENUMTYPE="ST_MODE" >
+        <META NAME="TargetName">ModeOut</META>
+      </FIELD>
       <FIELD NAME="TranslationRequired" TYPE="BOOLEAN" />
       <FIELD NAME="Translated"          TYPE="BOOLEAN" />
       <FIELD NAME="SubSteps"            REFTYPE="SubStep" />
@@ -743,6 +844,7 @@
   <!-- SubStep -->
   <!-- ------- -->
   <ELEMENT NAME="SubStep" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
     <FIELDS>
       <FIELD NAME="Actions"        REFTYPE="Action" />
       <FIELD NAME="Expectations"   REFTYPE="Expectation" />
@@ -771,11 +873,14 @@
   <!-- Expectation -->
   <!-- ----------- -->
   <ELEMENT NAME="Expectation" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
     <FIELDS>
       <FIELD NAME="Variable" TYPE="PCHAR"/>
       <FIELD NAME="Value"    TYPE="PCHAR"/>
       <FIELD NAME="Blocking" TYPE="BOOLEAN"/>
-      <FIELD NAME="DeadLine" TYPE="INTEGER"/>
+      <FIELD NAME="DeadLine" TYPE="INTEGER">
+        <META NAME="TargetName">Deadline</META>
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="Variable" TARGET="Variable"/>
@@ -791,8 +896,12 @@
   <!-- DB Message -->
   <!-- ---------- -->
   <ELEMENT NAME="DBMessage" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
+    <META NAME="Class">TestMessage</META>
     <FIELDS>
-      <FIELD NAME="MessageOrder" TYPE="INTEGER" />
+      <FIELD NAME="MessageOrder" TYPE="INTEGER" >
+        <META NAME="TargetName">Order</META>
+      </FIELD>
       <FIELD NAME="MessageType"  ENUMTYPE="DBMessageType" />
       <FIELD NAME="Fields"       REFTYPE="DBField" MODE="DEFAULT" />
       <FIELD NAME="Packets"      REFTYPE="DBPacket" MODE="DEFAULT" />
@@ -821,6 +930,8 @@
   <!-- DB Packet -->
   <!-- --------- -->
   <ELEMENT NAME="DBPacket" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
+    <META NAME="Class">TestPacket</META>
     <FIELDS>
       <FIELD NAME="Fields" REFTYPE="DBField" MODE="DEFAULT" />
     </FIELDS>
@@ -837,6 +948,8 @@
   <!-- DB Field -->
   <!-- -------- -->
   <ELEMENT NAME="DBField" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">test</META>
+    <META NAME="Class">TestField</META>
     <FIELDS>
       <FIELD NAME="Variable" TYPE="PCHAR" />
       <FIELD NAME="Value"    TYPE="INTEGER" />
@@ -855,8 +968,12 @@
   <!-- Translation dictionary -->
   <!-- ---------------------- -->
   <ELEMENT NAME="TranslationDictionary" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">translation</META>
+    <META NAME="Class">TranslationFolder</META>
     <FIELDS>
-      <FIELD NAME="Folders"      REFTYPE="Folder" />
+      <FIELD NAME="Folders"      REFTYPE="Folder" >
+        <META NAME="TargetName">SubFolders</META>
+      </FIELD>
       <FIELD NAME="Translations" REFTYPE="Translation" />
     </FIELDS>
     <FORMULA>
@@ -879,8 +996,12 @@
   <!-- Translation folder -->
   <!-- ------------------ -->
   <ELEMENT NAME="Folder" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">translation</META>
+    <META NAME="Class">TranslationFolder</META>
     <FIELDS>
-      <FIELD NAME="Folders"      REFTYPE="Folder" />
+      <FIELD NAME="Folders"      REFTYPE="Folder">
+        <META NAME="TargetName">SubFolders</META>
+      </FIELD>
       <FIELD NAME="Translations" REFTYPE="Translation" />
     </FIELDS>
     <FORMULA>
@@ -903,8 +1024,11 @@
   <!-- Translation -->
   <!-- ----------- -->
   <ELEMENT NAME="Translation" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">translation</META>
     <FIELDS>
-      <FIELD NAME="SourceTexts"   REFTYPE="SourceText" />
+      <FIELD NAME="SourceTexts"   REFTYPE="SourceText" >
+        <META NAME="TargetName">Sources</META>
+      </FIELD>
       <FIELD NAME="Implemented"   TYPE="BOOLEAN" />
       <FIELD NAME="SubSteps"      REFTYPE="SubStep" />
       <FIELD NAME="Comment"       TYPE="PCHAR" />
@@ -935,14 +1059,19 @@
   <!-- Source text -->
   <!-- ----------- -->
   <ELEMENT NAME="SourceText" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">translation</META>
   </ELEMENT>
 
   <!-- ------------------- -->
   <!-- Shortcut dictionary -->
   <!-- ------------------- -->
   <ELEMENT NAME="ShortcutDictionary" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">shortcut</META>
+    <META NAME="Class">ShortcutFolder</META>
     <FIELDS>
-      <FIELD NAME="Folders"   REFTYPE="ShortcutFolder" />
+      <FIELD NAME="Folders"   REFTYPE="ShortcutFolder" >
+        <META NAME="TargetName">SubFolders</META>
+      </FIELD>
       <FIELD NAME="Shortcuts" REFTYPE="Shortcut" />
     </FIELDS>
     <FORMULA>
@@ -965,8 +1094,11 @@
   <!-- Shortcut folder -->
   <!-- --------------- -->
   <ELEMENT NAME="ShortcutFolder" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">shortcut</META>
     <FIELDS>
-      <FIELD NAME="Folders"   REFTYPE="ShortcutFolder" />
+      <FIELD NAME="Folders"   REFTYPE="ShortcutFolder" >
+        <META NAME="TargetName">SubFolders</META>
+      </FIELD>
       <FIELD NAME="Shortcuts" REFTYPE="Shortcut" />
     </FIELDS>
     <FORMULA>
@@ -989,8 +1121,11 @@
   <!-- Shortcut -->
   <!-- -------- -->
   <ELEMENT NAME="Shortcut" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">shortcut</META>
     <FIELDS>
-      <FIELD NAME="ShortcutName" TYPE="PCHAR" />
+      <FIELD NAME="ShortcutName" TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
     </FIELDS>
     <FORMULA>
       <CONCAT>
@@ -1005,9 +1140,14 @@
   <!-- Specification -->
   <!-- ------------- -->
   <ELEMENT NAME="Specification" MAIN="TRUE" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">requirements</META>
     <FIELDS>
-      <FIELD NAME="Version" TYPE="PCHAR"/>
-      <FIELD NAME="Chapters" REFTYPE="Chapter" MODE="DEFAULT"/>
+      <FIELD NAME="Version" TYPE="PCHAR">
+	<META NAME="DoNotTranslate"/>
+      </FIELD>
+      <FIELD NAME="Chapters" REFTYPE="Chapter" MODE="DEFAULT">
+        <META NAME="TargetName">Paragraphs</META>
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="version" TARGET="Version" OPTIONAL="TRUE"/>
@@ -1025,10 +1165,15 @@
   <!-- Chapter -->
   <!-- ------- -->
   <ELEMENT NAME="Chapter" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <META NAME="Package">requirements</META>
+    <META NAME="Class">Paragraph</META>
     <FIELDS>
       <FIELD NAME="Id" TYPE="PCHAR"/>
-      <FIELD NAME="Paragraphs" REFTYPE="Paragraph" MODE="DEFAULT"/>
-      <FIELD NAME="TypeSpecs" REFTYPE="TypeSpec" MODE="DEFAULT"/>
+      <FIELD NAME="Paragraphs" REFTYPE="Paragraph" MODE="DEFAULT">
+        <META NAME="TargetName">SubParagraphs</META>
+      </FIELD>
+      <FIELD NAME="TypeSpecs" REFTYPE="TypeSpec" MODE="DEFAULT">
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="id" TARGET="Id"/>
@@ -1049,24 +1194,50 @@
   <!-- Paragraph -->
   <!-- --------- -->
   <ELEMENT NAME="Paragraph" BASEELEMENT="ReferencesParagraph" BASECLASS="DataDictionary.ReferencesParagraph" MAIN="TRUE">
+    <META NAME="Package">requirements</META>
     <FIELDS>
       <FIELD NAME="Id"                   TYPE="PCHAR" />
       <FIELD NAME="Type"                 ENUMTYPE="Paragraph_type" />
-      <FIELD NAME="Scope"                ENUMTYPE="Paragraph_scope" />
-      <FIELD NAME="Bl"                   TYPE="PCHAR" />
-      <FIELD NAME="Optional"             TYPE="BOOLEAN" />
-      <FIELD NAME="TypeSpecs"            REFTYPE="TypeSpec" />
+      <FIELD NAME="Scope"                ENUMTYPE="Paragraph_scope" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Bl"                   TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Optional"             TYPE="BOOLEAN" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="TypeSpecs"            REFTYPE="TypeSpec" >
+      </FIELD>
       <FIELD NAME="Text"                 TYPE="PCHAR" />     
-      <FIELD NAME="Version"              TYPE="PCHAR" />
-      <FIELD NAME="Reviewed"             TYPE="BOOLEAN" />
-      <FIELD NAME="ImplementationStatus" ENUMTYPE="SPEC_IMPLEMENTED_ENUM" />
-      <FIELD NAME="Paragraphs"           REFTYPE="Paragraph" />
-      <FIELD NAME="Revision"             REFTYPE="ParagraphRevision" />
+      <FIELD NAME="Version"              TYPE="PCHAR" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Reviewed"             TYPE="BOOLEAN" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="ImplementationStatus" ENUMTYPE="SPEC_IMPLEMENTED_ENUM" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Paragraphs"           REFTYPE="Paragraph" >
+        <META NAME="TargetName">SubParagraphs</META>
+      </FIELD>
+      <FIELD NAME="Revision"             REFTYPE="ParagraphRevision">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
       <FIELD NAME="Message"              REFTYPE="Message" />
-      <FIELD NAME="MoreInfoRequired"     TYPE="BOOLEAN" />
-      <FIELD NAME="SpecIssue"            TYPE="BOOLEAN" />
-      <FIELD NAME="FunctionalBlock"      TYPE="BOOLEAN" />
-      <FIELD NAME="FunctionalBlockName"  TYPE="PCHAR" />
+      <FIELD NAME="MoreInfoRequired"     TYPE="BOOLEAN" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="SpecIssue"            TYPE="BOOLEAN" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="FunctionalBlock"      TYPE="BOOLEAN" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="FunctionalBlockName"  TYPE="PCHAR" >
+        <META NAME="DoNotTranslate" />
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="id"                  TARGET="Id"/>
@@ -1104,11 +1275,18 @@
   <!-- Message -->
   <!-- ------- -->
   <ELEMENT NAME="Message" TAG="Message" >
+    <META NAME="Package">requirements.messages</META>
     <FIELDS>
       <FIELD NAME="Description" TYPE="PCHAR" />
-      <FIELD NAME="Media" ENUMTYPE="Message_media" />
-      <FIELD NAME="Bl" TYPE="PCHAR" />
-      <FIELD NAME="MsgVariables" REFTYPE="MsgVariable" MODE="DEFAULT" />
+      <FIELD NAME="Media" ENUMTYPE="Message_media">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Bl" TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="MsgVariables" REFTYPE="MsgVariable" MODE="DEFAULT" >
+        <META NAME="TargetName">Variables</META>
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="description" TARGET="Description" />
@@ -1126,12 +1304,18 @@
   <!-- Message variable -->
   <!-- ---------------- -->
   <ELEMENT NAME="MsgVariable" TAG="MsgVariable" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">MessageVariable</META>
     <FIELDS>
       <FIELD NAME="Name" TYPE="PCHAR" />
       <FIELD NAME="Length" TYPE="PCHAR" />
       <FIELD NAME="Comment" TYPE="PCHAR" />
-      <FIELD NAME="Bl" TYPE="PCHAR" />
-      <FIELD NAME="MsgVariables" REFTYPE="MsgVariable" MODE="DEFAULT" />
+      <FIELD NAME="Bl" TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="MsgVariables" REFTYPE="MsgVariable" MODE="DEFAULT" >
+        <META NAME="TargetName">SubVariables</META>
+      </FIELD>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="name" TARGET="Name" />
@@ -1150,15 +1334,26 @@
   <!-- Type of specification -->
   <!-- --------------------- -->
   <ELEMENT NAME="TypeSpec" TAG="TypeSpec" >
+    <META NAME="Package">requirements.messages</META>
     <FIELDS>
       <FIELD NAME="Length" TYPE="INTEGER" />
-      <FIELD NAME="Minimum_value" TYPE="PCHAR" />
-      <FIELD NAME="Maximum_value" TYPE="PCHAR" />
-      <FIELD NAME="Resolution_formula" TYPE="PCHAR" />
+      <FIELD NAME="Minimum_value" TYPE="PCHAR">
+        <META NAME="TargetName">MinimumValue</META>
+      </FIELD>
+      <FIELD NAME="Maximum_value" TYPE="PCHAR">
+        <META NAME="TargetName">MaximumValue</META>
+      </FIELD>
+      <FIELD NAME="Resolution_formula" TYPE="PCHAR">
+        <META NAME="TargetName">ResolutionFormula</META>
+      </FIELD>
       <FIELD NAME="Id" TYPE="PCHAR" />
       <FIELD NAME="Ertms-type" ENUMTYPE="TypeSpec_ertms-type" />
-      <FIELD NAME="Bl" TYPE="PCHAR" />
-      <FIELD NAME="Values" REFTYPE="Values" />
+      <FIELD NAME="Bl" TYPE="PCHAR" >
+        <META NAME="DoNotTranslate"/>
+      </FIELD>
+      <FIELD NAME="Values" REFTYPE="Values" >
+        <META NAME="DoNotTranslate"/>
+      </FIELD>
       <FIELD NAME="Char-value" REFTYPE="char-value" />
       <FIELD NAME="Description" TYPE="PCHAR" />
       <FIELD NAME="Short-description" TYPE="PCHAR" />
@@ -1204,7 +1399,10 @@
   <!-- ------ -->
   <!-- Values -->
   <!-- ------ -->
-  <ELEMENT NAME="Values" TAG="Values" >
+  <ELEMENT NAME="Values" TAG="Values">
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">Value</META>
+    <META NAME="DoNotTranslate" />
     <FIELDS>
       <FIELD NAME="Resolution-formula" REFTYPE="resolution-formula" />
       <FIELD NAME="Special-or-reserved-values" REFTYPE="special-or-reserved-values" />
@@ -1225,6 +1423,7 @@
   <!-- Special or reserved values -->
   <!-- -------------------------- -->
   <ELEMENT NAME="special-or-reserved-values" TAG="special-or-reserved-values" >
+    <META NAME="DoNotTranslate"/>
     <FIELDS>
       <FIELD NAME="Special-or-reserved-values" REFTYPE="special-or-reserved-value" MODE="DEFAULT" />
     </FIELDS>
@@ -1239,6 +1438,8 @@
   <!-- Special or reserved value -->
   <!-- ------------------------- -->
   <ELEMENT NAME="special-or-reserved-value" TAG="special-or-reserved-value" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">SpecialOrReservedValue</META>
     <FIELDS>
       <FIELD NAME="Mask" REFTYPE="mask" />
       <FIELD NAME="Match" REFTYPE="match" />
@@ -1263,6 +1464,8 @@
   <!-- Mask -->
   <!-- ---- -->
   <ELEMENT NAME="mask" TAG="mask" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">Mask</META>
     <FIELDS>
       <FIELD NAME="Value" TYPE="PCHAR" />
     </FIELDS>
@@ -1275,6 +1478,8 @@
   <!-- Match -->
   <!-- ----- -->
   <ELEMENT NAME="match" TAG="match" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">Match</META>
     <FIELDS>
       <FIELD NAME="Value" TYPE="PCHAR" />
     </FIELDS>
@@ -1287,9 +1492,13 @@
   <!-- Meaning -->
   <!-- ------- -->
   <ELEMENT NAME="meaning" TAG="meaning" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">Meaning</META>
     <FIELDS>
       <FIELD NAME="Type" ENUMTYPE="meaning_type" />
-      <FIELD NAME="Bl" TYPE="PCHAR" />
+      <FIELD NAME="Bl" TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
       <FIELD NAME="Value" TYPE="PCHAR" />
     </FIELDS>
     <ATTRIBUTES>
@@ -1305,9 +1514,13 @@
   <!-- Match range -->
   <!-- ----------- -->
   <ELEMENT NAME="match-range" TAG="match-range" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">MatchRange</META>
     <FIELDS>
       <FIELD NAME="Minimum" TYPE="PCHAR" />
-      <FIELD NAME="Maximum" ENUMTYPE="maximum_Value" />
+      <FIELD NAME="Maximum" ENUMTYPE="maximum_Value">
+        <META NAME="DoNotTranslate"/>
+      </FIELD>
     </FIELDS>
     <FORMULA>
       <CONCAT>
@@ -1331,8 +1544,12 @@
   <!-- Resolution formula -->
   <!-- ------------------ -->
   <ELEMENT NAME="resolution-formula" TAG="resolution-formula" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">ResolutionFormula</META>
     <FIELDS>
-      <FIELD NAME="Units" ENUMTYPE="resolution-formula_units" />
+      <FIELD NAME="Units" ENUMTYPE="resolution-formula_units">
+        <META NAME="TargetName">Unit</META>
+      </FIELD>
       <FIELD NAME="Value" ENUMTYPE="resolution-formula_Value" />
     </FIELDS>
     <ATTRIBUTES>
@@ -1347,6 +1564,8 @@
   <!-- Value -->
   <!-- ----- -->
   <ELEMENT NAME="value" TAG="value" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">SingleValue</META>
     <FIELDS>
       <FIELD NAME="Units" TYPE="PCHAR" />
       <FIELD NAME="Value" TYPE="INTEGER" />
@@ -1363,6 +1582,8 @@
   <!-- Char value -->
   <!-- ---------- -->
   <ELEMENT NAME="char-value" TAG="char-value" >
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="Class">CharValue</META>
     <FIELDS>
       <FIELD NAME="Encoding" TYPE="PCHAR" />
     </FIELDS>
@@ -1375,6 +1596,7 @@
   <!-- Paragraph Revision -->
   <!-- ------------------ -->
   <ELEMENT NAME="ParagraphRevision" BASECLASS="ModelElement" MAIN="TRUE">
+    <META NAME="DoNotTranslate" />
     <FIELDS>
       <FIELD NAME="Text" TYPE="PCHAR"/>
       <FIELD NAME="Version" TYPE="PCHAR"/>
@@ -1393,6 +1615,7 @@
   <!-- Enum Paragraph type -->
   <!-- ------------------- -->
   <ENUM NAME="Paragraph_type" >
+    <META NAME="TargetName">EParagraphType</META>
     <ENUMVALUE NAME="TITLE" />
     <ENUMVALUE NAME="DEFINITION" />
     <ENUMVALUE NAME="NOTE" />
@@ -1415,6 +1638,7 @@
   <!-- Enum Message media -->
   <!-- ------------------ -->
   <ENUM NAME="Message_media" >
+    <META NAME="TargetName">EMessageMedia</META>
     <ENUMVALUE NAME="Balise, RBC" OVERRIDE="aBalise_RBC" />
     <ENUMVALUE NAME="Any" />
     <ENUMVALUE NAME="RBC" />
@@ -1448,6 +1672,7 @@
   <!-- Enum Meaning type -->
   <!-- ----------------- -->
   <ENUM NAME="meaning_type" >
+    <META NAME="TargetName">EMeaningType</META>
     <ENUMVALUE NAME="invalid" />
     <ENUMVALUE NAME="enum" />
     <ENUMVALUE NAME="unknown" />
@@ -1475,6 +1700,7 @@
   <!-- Enum Resolution formula units -->
   <!-- ----------------------------- -->
   <ENUM NAME="resolution-formula_units" >
+    <META NAME="TargetName">ResolutionFormulaUnit</META>
     <ENUMVALUE NAME="m/s2" OVERRIDE="m/s2" />
     <ENUMVALUE NAME="q_scale" OVERRIDE="q_scale" />
     <ENUMVALUE NAME="%" OVERRIDE="percent" />
@@ -1492,6 +1718,7 @@
   <!-- Enum Resolution formula value -->
   <!-- ----------------------------- -->
   <ENUM NAME="resolution-formula_Value" >
+    <META NAME="TargetName">ResolutionFormulaValue</META>
     <ENUMVALUE NAME="0.05" />
     <ENUMVALUE NAME="1" />
     <ENUMVALUE NAME="10" />
@@ -1508,6 +1735,7 @@
   <!-- Enum Variable mode  -->
   <!-- ------------------- -->
   <ENUM NAME="VariableModeEnumType">
+    <META NAME="TargetName">VariableMode</META>
     <ENUMVALUE NAME="Incoming"/>
     <ENUMVALUE NAME="Outgoing"/>
     <ENUMVALUE NAME="Internal" USEASNULL="TRUE"/>
@@ -1573,7 +1801,7 @@
   <!-- ------------------------------- -->
   <!-- Enum Specification Implemented  -->
   <!-- ------------------------------- -->
-  <ENUM NAME="SPEC_IMPLEMENTED_ENUM">
+  <ENUM NAME="SPEC_IMPLEMENTED_ENUM" PREFIX="Impl_">
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="Implemented"/>
     <ENUMVALUE NAME="NotImplementable"/>
@@ -1583,7 +1811,8 @@
   <!-- ----------------- -->
   <!-- Enum IO for step  -->
   <!-- ----------------- -->
-  <ENUM NAME="ST_IO">
+  <ENUM NAME="ST_IO" PREFIX="StIO_">
+    <META NAME="TargetName">StepIO</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="In"/>
     <ENUMVALUE NAME="Out"/>
@@ -1592,7 +1821,7 @@
   <!-- ------------------------ -->
   <!-- Enum Interface for step  -->
   <!-- ------------------------ -->
-  <ENUM NAME="ST_INTERFACE">
+  <ENUM NAME="ST_INTERFACE" PREFIX="StInterface_">
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="DMI"/>
     <ENUMVALUE NAME="RTM"/>
@@ -1603,7 +1832,8 @@
   <!-- -------------------- -->
   <!-- Enum Level for step  -->
   <!-- -------------------- -->
-  <ENUM NAME="ST_LEVEL">
+  <ENUM NAME="ST_LEVEL" PREFIX="StLevel_">
+    <META NAME="TargetName">StepLevel</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="L0"/>
     <ENUMVALUE NAME="L1"/>
@@ -1615,7 +1845,8 @@
   <!-- ------------------- -->
   <!-- Enum Mode for step  -->
   <!-- ------------------- -->
-  <ENUM NAME="ST_MODE">
+  <ENUM NAME="ST_MODE" PREFIX="Mode_">
+    <META NAME="TargetName">StepMode</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="IS"/>
     <ENUMVALUE NAME="NP"/>
@@ -1640,6 +1871,7 @@
   <!-- Enum Priority for step  -->
   <!-- ----------------------- -->
   <ENUM NAME="RulePriority">
+    <META NAME="TargetName">Priority</META>
     <ENUMVALUE NAME="Verification"/>
     <ENUMVALUE NAME="UpdateINTERNAL"/>
     <ENUMVALUE NAME="Processing" USEASNULL="TRUE"/>
@@ -1651,6 +1883,7 @@
   <!-- Enum Priority for step  -->
   <!-- ----------------------- -->
   <ENUM NAME="PrecisionEnum">
+    <META NAME="TargetName">Precision</META>
     <ENUMVALUE NAME="IntegerPrecision" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="DoublePrecision"/>
   </ENUM>

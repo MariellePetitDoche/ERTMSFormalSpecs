@@ -68,6 +68,7 @@ public class RuleItemProvider
 			addVerifiedPropertyDescriptor(object);
 			addNeedsRequirementPropertyDescriptor(object);
 			addPriorityPropertyDescriptor(object);
+			addParentNamespacePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -222,6 +223,28 @@ public class RuleItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Parent Namespace feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addParentNamespacePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Rule_parentNamespace_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Rule_parentNamespace_feature", "_UI_Rule_type"),
+				 BehaviourPackage.Literals.RULE__PARENT_NAMESPACE,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

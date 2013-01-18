@@ -3,6 +3,7 @@
 package org.openetcs.model.ertmsformalspecs.test;
 
 import org.eclipse.emf.common.util.EList;
+import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -22,7 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface TestPacket extends EObject {
+public interface TestPacket extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Parent Message</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.TestMessage#getPackets <em>Packets</em>}'.

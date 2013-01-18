@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -19,6 +20,7 @@ import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Namespace;
 import org.openetcs.model.ertmsformalspecs.Procedure;
 import org.openetcs.model.ertmsformalspecs.Variable;
+import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.types.Type;
 import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
 
@@ -36,6 +38,7 @@ import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.NamespaceImpl#getProcedures <em>Procedures</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.NamespaceImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.NamespaceImpl#getVariables <em>Variables</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.NamespaceImpl#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
  *
@@ -101,6 +104,16 @@ public class NamespaceImpl extends EObjectImpl implements Namespace {
 	 * @ordered
 	 */
 	protected EList<Variable> variables;
+
+	/**
+	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRules()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Rule> rules;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -277,6 +290,18 @@ public class NamespaceImpl extends EObjectImpl implements Namespace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Rule> getRules() {
+		if (rules == null) {
+			rules = new EObjectContainmentEList<Rule>(Rule.class, this, ModelPackage.NAMESPACE__RULES);
+		}
+		return rules;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -321,6 +346,8 @@ public class NamespaceImpl extends EObjectImpl implements Namespace {
 				return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
 			case ModelPackage.NAMESPACE__VARIABLES:
 				return ((InternalEList<?>)getVariables()).basicRemove(otherEnd, msgs);
+			case ModelPackage.NAMESPACE__RULES:
+				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -363,6 +390,8 @@ public class NamespaceImpl extends EObjectImpl implements Namespace {
 				return getTypes();
 			case ModelPackage.NAMESPACE__VARIABLES:
 				return getVariables();
+			case ModelPackage.NAMESPACE__RULES:
+				return getRules();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -401,6 +430,10 @@ public class NamespaceImpl extends EObjectImpl implements Namespace {
 				getVariables().clear();
 				getVariables().addAll((Collection<? extends Variable>)newValue);
 				return;
+			case ModelPackage.NAMESPACE__RULES:
+				getRules().clear();
+				getRules().addAll((Collection<? extends Rule>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -434,6 +467,9 @@ public class NamespaceImpl extends EObjectImpl implements Namespace {
 			case ModelPackage.NAMESPACE__VARIABLES:
 				getVariables().clear();
 				return;
+			case ModelPackage.NAMESPACE__RULES:
+				getRules().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -460,6 +496,8 @@ public class NamespaceImpl extends EObjectImpl implements Namespace {
 				return types != null && !types.isEmpty();
 			case ModelPackage.NAMESPACE__VARIABLES:
 				return variables != null && !variables.isEmpty();
+			case ModelPackage.NAMESPACE__RULES:
+				return rules != null && !rules.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

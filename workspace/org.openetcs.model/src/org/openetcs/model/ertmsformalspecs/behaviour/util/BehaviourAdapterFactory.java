@@ -10,6 +10,7 @@ import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
+import org.openetcs.model.ertmsformalspecs.behaviour.*;
 import org.openetcs.model.ertmsformalspecs.behaviour.Action;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
 import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;

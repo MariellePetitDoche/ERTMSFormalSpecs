@@ -62,6 +62,11 @@ public class ProcedureItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addCommentPropertyDescriptor(object);
+			addRequirementsPropertyDescriptor(object);
+			addImplementedPropertyDescriptor(object);
+			addVerifiedPropertyDescriptor(object);
+			addNeedsRequirementPropertyDescriptor(object);
 			addStateMachinePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -85,6 +90,116 @@ public class ProcedureItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Comment feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCommentPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_CommentedElement_comment_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_CommentedElement_comment_feature", "_UI_CommentedElement_type"),
+				 ModelPackage.Literals.COMMENTED_ELEMENT__COMMENT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Requirements feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRequirementsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferencesParagraph_requirements_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferencesParagraph_requirements_feature", "_UI_ReferencesParagraph_type"),
+				 ModelPackage.Literals.REFERENCES_PARAGRAPH__REQUIREMENTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Implemented feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addImplementedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReqRelated_implemented_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReqRelated_implemented_feature", "_UI_ReqRelated_type"),
+				 ModelPackage.Literals.REQ_RELATED__IMPLEMENTED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Verified feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addVerifiedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReqRelated_verified_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReqRelated_verified_feature", "_UI_ReqRelated_type"),
+				 ModelPackage.Literals.REQ_RELATED__VERIFIED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Needs Requirement feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNeedsRequirementPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReqRelated_needsRequirement_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReqRelated_needsRequirement_feature", "_UI_ReqRelated_type"),
+				 ModelPackage.Literals.REQ_RELATED__NEEDS_REQUIREMENT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -181,6 +296,10 @@ public class ProcedureItemProvider
 
 		switch (notification.getFeatureID(Procedure.class)) {
 			case ModelPackage.PROCEDURE__NAME:
+			case ModelPackage.PROCEDURE__COMMENT:
+			case ModelPackage.PROCEDURE__IMPLEMENTED:
+			case ModelPackage.PROCEDURE__VERIFIED:
+			case ModelPackage.PROCEDURE__NEEDS_REQUIREMENT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ModelPackage.PROCEDURE__PARAMETERS:

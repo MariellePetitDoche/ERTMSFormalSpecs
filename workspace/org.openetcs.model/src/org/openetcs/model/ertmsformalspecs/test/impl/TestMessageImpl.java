@@ -27,6 +27,7 @@ import org.openetcs.model.ertmsformalspecs.test.TestPacket;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestMessageImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestMessageImpl#getParentStep <em>Parent Step</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestMessageImpl#getOrder <em>Order</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestMessageImpl#getFields <em>Fields</em>}</li>
@@ -37,6 +38,26 @@ import org.openetcs.model.ertmsformalspecs.test.TestPacket;
  * @generated
  */
 public class TestMessageImpl extends EObjectImpl implements TestMessage {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getOrder() <em>Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -94,6 +115,27 @@ public class TestMessageImpl extends EObjectImpl implements TestMessage {
 	@Override
 	protected EClass eStaticClass() {
 		return TestPackage.Literals.TEST_MESSAGE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TestPackage.TEST_MESSAGE__NAME, oldName, name));
 	}
 
 	/**
@@ -243,6 +285,8 @@ public class TestMessageImpl extends EObjectImpl implements TestMessage {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case TestPackage.TEST_MESSAGE__NAME:
+				return getName();
 			case TestPackage.TEST_MESSAGE__PARENT_STEP:
 				return getParentStep();
 			case TestPackage.TEST_MESSAGE__ORDER:
@@ -264,6 +308,9 @@ public class TestMessageImpl extends EObjectImpl implements TestMessage {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case TestPackage.TEST_MESSAGE__NAME:
+				setName((String)newValue);
+				return;
 			case TestPackage.TEST_MESSAGE__PARENT_STEP:
 				setParentStep((Step)newValue);
 				return;
@@ -290,6 +337,9 @@ public class TestMessageImpl extends EObjectImpl implements TestMessage {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case TestPackage.TEST_MESSAGE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case TestPackage.TEST_MESSAGE__PARENT_STEP:
 				setParentStep((Step)null);
 				return;
@@ -314,6 +364,8 @@ public class TestMessageImpl extends EObjectImpl implements TestMessage {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case TestPackage.TEST_MESSAGE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case TestPackage.TEST_MESSAGE__PARENT_STEP:
 				return getParentStep() != null;
 			case TestPackage.TEST_MESSAGE__ORDER:
@@ -336,7 +388,9 @@ public class TestMessageImpl extends EObjectImpl implements TestMessage {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (order: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", order: ");
 		result.append(order);
 		result.append(')');
 		return result.toString();

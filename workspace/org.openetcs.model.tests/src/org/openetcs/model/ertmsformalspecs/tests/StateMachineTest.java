@@ -6,6 +6,7 @@ import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.ModelFactory;
 import org.openetcs.model.ertmsformalspecs.StateMachine;
+import org.openetcs.model.ertmsformalspecs.types.tests.TypeTest;
 
 /**
  * <!-- begin-user-doc -->
@@ -13,7 +14,7 @@ import org.openetcs.model.ertmsformalspecs.StateMachine;
  * <!-- end-user-doc -->
  * @generated
  */
-public class StateMachineTest extends ReqRelatedTest {
+public class StateMachineTest extends TypeTest {
 
 	/**
 	 * <!-- begin-user-doc -->

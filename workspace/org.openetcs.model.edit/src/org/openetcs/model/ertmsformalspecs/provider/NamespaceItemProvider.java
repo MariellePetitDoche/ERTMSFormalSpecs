@@ -23,6 +23,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.openetcs.model.ertmsformalspecs.ModelFactory;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Namespace;
+import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourFactory;
 import org.openetcs.model.ertmsformalspecs.types.TypesFactory;
 
 /**
@@ -103,6 +104,7 @@ public class NamespaceItemProvider
 			childrenFeatures.add(ModelPackage.Literals.NAMESPACE__PROCEDURES);
 			childrenFeatures.add(ModelPackage.Literals.NAMESPACE__TYPES);
 			childrenFeatures.add(ModelPackage.Literals.NAMESPACE__VARIABLES);
+			childrenFeatures.add(ModelPackage.Literals.NAMESPACE__RULES);
 		}
 		return childrenFeatures;
 	}
@@ -164,6 +166,7 @@ public class NamespaceItemProvider
 			case ModelPackage.NAMESPACE__PROCEDURES:
 			case ModelPackage.NAMESPACE__TYPES:
 			case ModelPackage.NAMESPACE__VARIABLES:
+			case ModelPackage.NAMESPACE__RULES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -194,6 +197,11 @@ public class NamespaceItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ModelPackage.Literals.NAMESPACE__TYPES,
+				 ModelFactory.eINSTANCE.createStateMachine()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelPackage.Literals.NAMESPACE__TYPES,
 				 TypesFactory.eINSTANCE.createEnumeration()));
 
 		newChildDescriptors.add
@@ -220,6 +228,11 @@ public class NamespaceItemProvider
 			(createChildParameter
 				(ModelPackage.Literals.NAMESPACE__VARIABLES,
 				 ModelFactory.eINSTANCE.createVariable()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelPackage.Literals.NAMESPACE__RULES,
+				 BehaviourFactory.eINSTANCE.createRule()));
 	}
 
 	/**

@@ -123,7 +123,7 @@ public class CollectionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Collection)object).getTypeName();
+		String label = ((Collection)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Collection_type") :
 			getString("_UI_Collection_type") + " " + label;

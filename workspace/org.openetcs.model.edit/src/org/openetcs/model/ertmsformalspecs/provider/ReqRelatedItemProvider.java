@@ -136,7 +136,7 @@ public class ReqRelatedItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ReqRelated)object).getComment();
+		String label = ((ReqRelated)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ReqRelated_type") :
 			getString("_UI_ReqRelated_type") + " " + label;

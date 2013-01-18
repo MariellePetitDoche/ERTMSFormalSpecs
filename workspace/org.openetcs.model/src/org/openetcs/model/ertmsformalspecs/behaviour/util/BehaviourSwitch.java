@@ -9,6 +9,7 @@ import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
+import org.openetcs.model.ertmsformalspecs.behaviour.*;
 import org.openetcs.model.ertmsformalspecs.behaviour.Action;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
 import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
@@ -75,9 +76,9 @@ public class BehaviourSwitch<T> extends Switch<T> {
 			case BehaviourPackage.RULE: {
 				Rule rule = (Rule)theEObject;
 				T result = caseRule(rule);
-				if (result == null) result = caseNamedElement(rule);
 				if (result == null) result = caseReqRelated(rule);
 				if (result == null) result = caseReferencesParagraph(rule);
+				if (result == null) result = caseNamedElement(rule);
 				if (result == null) result = caseCommentedElement(rule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -85,7 +86,10 @@ public class BehaviourSwitch<T> extends Switch<T> {
 			case BehaviourPackage.RULE_CONDITION: {
 				RuleCondition ruleCondition = (RuleCondition)theEObject;
 				T result = caseRuleCondition(ruleCondition);
+				if (result == null) result = caseReqRelated(ruleCondition);
+				if (result == null) result = caseReferencesParagraph(ruleCondition);
 				if (result == null) result = caseNamedElement(ruleCondition);
+				if (result == null) result = caseCommentedElement(ruleCondition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

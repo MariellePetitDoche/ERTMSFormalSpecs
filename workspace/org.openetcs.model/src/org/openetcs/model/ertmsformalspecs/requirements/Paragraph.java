@@ -4,6 +4,7 @@ package org.openetcs.model.ertmsformalspecs.requirements;
 
 import org.eclipse.emf.common.util.EList;
 import org.openetcs.model.ertmsformalspecs.BaseLine;
+import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.Message;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
@@ -25,7 +26,7 @@ import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getParentSpecification <em>Parent Specification</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getSubParagraphs <em>Sub Paragraphs</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getParentParagraph <em>Parent Paragraph</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getTypeSpec <em>Type Spec</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getTypeSpecs <em>Type Specs</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getMessage <em>Message</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getVersion <em>Version</em>}</li>
  * </ul>
@@ -35,7 +36,7 @@ import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
  * @model
  * @generated
  */
-public interface Paragraph extends NamedElement, BaseLinedElement {
+public interface Paragraph extends BaseLinedElement, ReferencesParagraph {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.openetcs.model.ertmsformalspecs.requirements.EParagraphType}.
@@ -270,30 +271,20 @@ public interface Paragraph extends NamedElement, BaseLinedElement {
 	void setParentParagraph(Paragraph value);
 
 	/**
-	 * Returns the value of the '<em><b>Type Spec</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Type Specs</b></em>' containment reference list.
+	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Type Spec</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Type Specs</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Type Spec</em>' containment reference.
-	 * @see #setTypeSpec(TypeSpec)
-	 * @see org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage#getParagraph_TypeSpec()
+	 * @return the value of the '<em>Type Specs</em>' containment reference list.
+	 * @see org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage#getParagraph_TypeSpecs()
 	 * @model containment="true"
 	 * @generated
 	 */
-	TypeSpec getTypeSpec();
-
-	/**
-	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getTypeSpec <em>Type Spec</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type Spec</em>' containment reference.
-	 * @see #getTypeSpec()
-	 * @generated
-	 */
-	void setTypeSpec(TypeSpec value);
+	EList<TypeSpec> getTypeSpecs();
 
 	/**
 	 * Returns the value of the '<em><b>Message</b></em>' containment reference.

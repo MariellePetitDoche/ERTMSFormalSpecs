@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.translation.SourceText;
 import org.openetcs.model.ertmsformalspecs.translation.Translation;
 import org.openetcs.model.ertmsformalspecs.translation.TranslationFactory;

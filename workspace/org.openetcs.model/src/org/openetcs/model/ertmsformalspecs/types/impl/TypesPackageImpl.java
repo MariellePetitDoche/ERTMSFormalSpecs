@@ -616,6 +616,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		collectionEClass.getESuperTypes().add(this.getTypedElement());
 		functionEClass.getESuperTypes().add(this.getType());
 		functionEClass.getESuperTypes().add(this.getTypedElement());
+		caseEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(typeEClass, Type.class, "Type", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

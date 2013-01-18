@@ -12,6 +12,12 @@ import org.openetcs.model.ertmsformalspecs.test.TestPacket;
  * <!-- begin-user-doc -->
  * A test case for the model object '<em><b>Packet</b></em>'.
  * <!-- end-user-doc -->
+ * <p>
+ * The following features are tested:
+ * <ul>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.NamedElement#getName() <em>Name</em>}</li>
+ * </ul>
+ * </p>
  * @generated
  */
 public class TestPacketTest extends TestCase {
@@ -83,6 +89,32 @@ public class TestPacketTest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		setFixture(null);
+	}
+
+	/**
+	 * Tests the '{@link org.openetcs.model.ertmsformalspecs.NamedElement#getName() <em>Name</em>}' feature getter.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.openetcs.model.ertmsformalspecs.NamedElement#getName()
+	 * @generated
+	 */
+	public void testGetName() {
+		// TODO: implement this feature getter test method
+		// Ensure that you remove @generated or mark it @generated NOT
+		fail();
+	}
+
+	/**
+	 * Tests the '{@link org.openetcs.model.ertmsformalspecs.NamedElement#setName(java.lang.String) <em>Name</em>}' feature setter.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.openetcs.model.ertmsformalspecs.NamedElement#setName(java.lang.String)
+	 * @generated
+	 */
+	public void testSetName() {
+		// TODO: implement this feature setter test method
+		// Ensure that you remove @generated or mark it @generated NOT
+		fail();
 	}
 
 } //TestPacketTest

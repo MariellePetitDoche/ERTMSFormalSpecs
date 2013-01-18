@@ -7,6 +7,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
+import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
+import org.openetcs.model.ertmsformalspecs.ReqRelated;
+import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.test.Expectation;
 import org.openetcs.model.ertmsformalspecs.test.Frame;
 import org.openetcs.model.ertmsformalspecs.test.Step;
@@ -91,11 +94,13 @@ public class TestSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case TestPackage.TEST_CASE: {
-				TestCase testCase = (TestCase)theEObject;
-				T result = caseTestCase(testCase);
-				if (result == null) result = caseNamedElement(testCase);
-				if (result == null) result = caseCommentedElement(testCase);
+			case TestPackage.SINGLE_TEST_CASE: {
+				SingleTestCase singleTestCase = (SingleTestCase)theEObject;
+				T result = caseSingleTestCase(singleTestCase);
+				if (result == null) result = caseReqRelated(singleTestCase);
+				if (result == null) result = caseReferencesParagraph(singleTestCase);
+				if (result == null) result = caseCommentedElement(singleTestCase);
+				if (result == null) result = caseNamedElement(singleTestCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -110,30 +115,35 @@ public class TestSwitch<T> extends Switch<T> {
 			case TestPackage.SUB_STEP: {
 				SubStep subStep = (SubStep)theEObject;
 				T result = caseSubStep(subStep);
+				if (result == null) result = caseNamedElement(subStep);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TestPackage.EXPECTATION: {
 				Expectation expectation = (Expectation)theEObject;
 				T result = caseExpectation(expectation);
+				if (result == null) result = caseNamedElement(expectation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TestPackage.TEST_MESSAGE: {
 				TestMessage testMessage = (TestMessage)theEObject;
 				T result = caseTestMessage(testMessage);
+				if (result == null) result = caseNamedElement(testMessage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TestPackage.TEST_PACKET: {
 				TestPacket testPacket = (TestPacket)theEObject;
 				T result = caseTestPacket(testPacket);
+				if (result == null) result = caseNamedElement(testPacket);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TestPackage.TEST_FIELD: {
 				TestField testField = (TestField)theEObject;
 				T result = caseTestField(testField);
+				if (result == null) result = caseNamedElement(testField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -172,17 +182,17 @@ public class TestSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Case</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Single Test Case</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Case</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Single Test Case</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTestCase(TestCase object) {
+	public T caseSingleTestCase(SingleTestCase object) {
 		return null;
 	}
 
@@ -303,6 +313,36 @@ public class TestSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCommentedElement(CommentedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>References Paragraph</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>References Paragraph</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferencesParagraph(ReferencesParagraph object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Req Related</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Req Related</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReqRelated(ReqRelated object) {
 		return null;
 	}
 

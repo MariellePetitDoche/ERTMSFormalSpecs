@@ -20,6 +20,7 @@ import org.openetcs.model.ertmsformalspecs.test.TestPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getParentSubStep <em>Parent Sub Step</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getVariable <em>Variable</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getValue <em>Value</em>}</li>
@@ -31,6 +32,26 @@ import org.openetcs.model.ertmsformalspecs.test.TestPackage;
  * @generated
  */
 public class ExpectationImpl extends EObjectImpl implements Expectation {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -128,6 +149,27 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	@Override
 	protected EClass eStaticClass() {
 		return TestPackage.Literals.EXPECTATION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TestPackage.EXPECTATION__NAME, oldName, name));
 	}
 
 	/**
@@ -307,6 +349,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case TestPackage.EXPECTATION__NAME:
+				return getName();
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				return getParentSubStep();
 			case TestPackage.EXPECTATION__VARIABLE:
@@ -329,6 +373,9 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case TestPackage.EXPECTATION__NAME:
+				setName((String)newValue);
+				return;
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				setParentSubStep((SubStep)newValue);
 				return;
@@ -356,6 +403,9 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case TestPackage.EXPECTATION__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				setParentSubStep((SubStep)null);
 				return;
@@ -383,6 +433,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case TestPackage.EXPECTATION__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				return getParentSubStep() != null;
 			case TestPackage.EXPECTATION__VARIABLE:
@@ -407,7 +459,9 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (variable: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", variable: ");
 		result.append(variable);
 		result.append(", value: ");
 		result.append(value);

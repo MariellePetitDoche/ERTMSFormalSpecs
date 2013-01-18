@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.openetcs.model.ertmsformalspecs.customization.*;
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationFactory;
 import org.openetcs.model.ertmsformalspecs.customization.CustomizationPackage;
 import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;

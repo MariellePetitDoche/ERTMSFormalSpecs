@@ -8,6 +8,9 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
+import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
+import org.openetcs.model.ertmsformalspecs.ReqRelated;
+import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.test.Expectation;
 import org.openetcs.model.ertmsformalspecs.test.Frame;
 import org.openetcs.model.ertmsformalspecs.test.Step;
@@ -84,8 +87,8 @@ public class TestAdapterFactory extends AdapterFactoryImpl {
 				return createSubSequenceAdapter();
 			}
 			@Override
-			public Adapter caseTestCase(TestCase object) {
-				return createTestCaseAdapter();
+			public Adapter caseSingleTestCase(SingleTestCase object) {
+				return createSingleTestCaseAdapter();
 			}
 			@Override
 			public Adapter caseStep(Step object) {
@@ -118,6 +121,14 @@ public class TestAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseCommentedElement(CommentedElement object) {
 				return createCommentedElementAdapter();
+			}
+			@Override
+			public Adapter caseReferencesParagraph(ReferencesParagraph object) {
+				return createReferencesParagraphAdapter();
+			}
+			@Override
+			public Adapter caseReqRelated(ReqRelated object) {
+				return createReqRelatedAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -168,16 +179,16 @@ public class TestAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.test.TestCase <em>Case</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase <em>Single Test Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase
 	 * @generated
 	 */
-	public Adapter createTestCaseAdapter() {
+	public Adapter createSingleTestCaseAdapter() {
 		return null;
 	}
 
@@ -290,6 +301,34 @@ public class TestAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCommentedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.ReferencesParagraph <em>References Paragraph</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.openetcs.model.ertmsformalspecs.ReferencesParagraph
+	 * @generated
+	 */
+	public Adapter createReferencesParagraphAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.ReqRelated <em>Req Related</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.openetcs.model.ertmsformalspecs.ReqRelated
+	 * @generated
+	 */
+	public Adapter createReqRelatedAdapter() {
 		return null;
 	}
 

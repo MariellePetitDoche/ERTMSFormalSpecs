@@ -310,7 +310,7 @@ namespace Report.Tests
 
             foreach (DataDictionary.Specification.Paragraph paragraph in applicableParagraphs)
             {
-                bool implemented = paragraph.getImplementationStatus() == DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented;
+                bool implemented = paragraph.getImplementationStatus() == DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented;
                 bool tested = false;
                 if (implemented)
                 {

@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -204,6 +205,34 @@ public interface ModelPackage extends EPackage {
 	int COMMENTED_ELEMENT_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.BaselinesImpl <em>Baselines</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.openetcs.model.ertmsformalspecs.impl.BaselinesImpl
+	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getBaselines()
+	 * @generated
+	 */
+	int BASELINES = 3;
+
+	/**
+	 * The feature id for the '<em><b>Available Baselines</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASELINES__AVAILABLE_BASELINES = 0;
+
+	/**
+	 * The number of structural features of the '<em>Baselines</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASELINES_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.BaseLineImpl <em>Base Line</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -211,7 +240,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getBaseLine()
 	 * @generated
 	 */
-	int BASE_LINE = 3;
+	int BASE_LINE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -239,7 +268,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getNamespace()
 	 * @generated
 	 */
-	int NAMESPACE = 4;
+	int NAMESPACE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -305,13 +334,22 @@ public interface ModelPackage extends EPackage {
 	int NAMESPACE__VARIABLES = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMESPACE__RULES = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Namespace</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMESPACE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int NAMESPACE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl <em>Procedure</em>}' class.
@@ -321,7 +359,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getProcedure()
 	 * @generated
 	 */
-	int PROCEDURE = 5;
+	int PROCEDURE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -333,13 +371,58 @@ public interface ModelPackage extends EPackage {
 	int PROCEDURE__NAME = NAMED_ELEMENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCEDURE__COMMENT = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCEDURE__REQUIREMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Implemented</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCEDURE__IMPLEMENTED = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Verified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCEDURE__VERIFIED = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Needs Requirement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCEDURE__NEEDS_REQUIREMENT = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE__PARAMETERS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int PROCEDURE__PARAMETERS = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>State Machine</b></em>' containment reference.
@@ -348,7 +431,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE__STATE_MACHINE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int PROCEDURE__STATE_MACHINE = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
@@ -357,7 +440,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE__RULES = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int PROCEDURE__RULES = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Parent Structure</b></em>' container reference.
@@ -366,7 +449,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE__PARENT_STRUCTURE = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int PROCEDURE__PARENT_STRUCTURE = NAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Parent Namespace</b></em>' container reference.
@@ -375,7 +458,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE__PARENT_NAMESPACE = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int PROCEDURE__PARENT_NAMESPACE = NAMED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Procedure</em>' class.
@@ -384,7 +467,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int PROCEDURE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.ParameterImpl <em>Parameter</em>}' class.
@@ -394,7 +477,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getParameter()
 	 * @generated
 	 */
-	int PARAMETER = 6;
+	int PARAMETER = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -449,7 +532,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getReferencesParagraph()
 	 * @generated
 	 */
-	int REFERENCES_PARAGRAPH = 7;
+	int REFERENCES_PARAGRAPH = 8;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -461,13 +544,22 @@ public interface ModelPackage extends EPackage {
 	int REFERENCES_PARAGRAPH__COMMENT = COMMENTED_ELEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCES_PARAGRAPH__NAME = COMMENTED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCES_PARAGRAPH__REQUIREMENTS = COMMENTED_ELEMENT_FEATURE_COUNT + 0;
+	int REFERENCES_PARAGRAPH__REQUIREMENTS = COMMENTED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>References Paragraph</em>' class.
@@ -476,7 +568,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCES_PARAGRAPH_FEATURE_COUNT = COMMENTED_ELEMENT_FEATURE_COUNT + 1;
+	int REFERENCES_PARAGRAPH_FEATURE_COUNT = COMMENTED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.ReqRefImpl <em>Req Ref</em>}' class.
@@ -486,7 +578,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getReqRef()
 	 * @generated
 	 */
-	int REQ_REF = 8;
+	int REQ_REF = 9;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -523,7 +615,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getReqRelated()
 	 * @generated
 	 */
-	int REQ_RELATED = 9;
+	int REQ_RELATED = 10;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -533,6 +625,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int REQ_RELATED__COMMENT = REFERENCES_PARAGRAPH__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQ_RELATED__NAME = REFERENCES_PARAGRAPH__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
@@ -587,7 +688,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getStateMachine()
 	 * @generated
 	 */
-	int STATE_MACHINE = 10;
+	int STATE_MACHINE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -596,7 +697,16 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__COMMENT = REQ_RELATED__COMMENT;
+	int STATE_MACHINE__COMMENT = TypesPackage.TYPE__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__NAME = TypesPackage.TYPE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
@@ -605,7 +715,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__REQUIREMENTS = REQ_RELATED__REQUIREMENTS;
+	int STATE_MACHINE__REQUIREMENTS = TypesPackage.TYPE__REQUIREMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Implemented</b></em>' attribute.
@@ -614,7 +724,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__IMPLEMENTED = REQ_RELATED__IMPLEMENTED;
+	int STATE_MACHINE__IMPLEMENTED = TypesPackage.TYPE__IMPLEMENTED;
 
 	/**
 	 * The feature id for the '<em><b>Verified</b></em>' attribute.
@@ -623,7 +733,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__VERIFIED = REQ_RELATED__VERIFIED;
+	int STATE_MACHINE__VERIFIED = TypesPackage.TYPE__VERIFIED;
 
 	/**
 	 * The feature id for the '<em><b>Needs Requirement</b></em>' attribute.
@@ -632,7 +742,25 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__NEEDS_REQUIREMENT = REQ_RELATED__NEEDS_REQUIREMENT;
+	int STATE_MACHINE__NEEDS_REQUIREMENT = TypesPackage.TYPE__NEEDS_REQUIREMENT;
+
+	/**
+	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__DEFAULT_VALUE = TypesPackage.TYPE__DEFAULT_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Parent Namespace</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__PARENT_NAMESPACE = TypesPackage.TYPE__PARENT_NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Initial State</b></em>' attribute.
@@ -641,7 +769,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__INITIAL_STATE = REQ_RELATED_FEATURE_COUNT + 0;
+	int STATE_MACHINE__INITIAL_STATE = TypesPackage.TYPE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>States</b></em>' containment reference list.
@@ -650,7 +778,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__STATES = REQ_RELATED_FEATURE_COUNT + 1;
+	int STATE_MACHINE__STATES = TypesPackage.TYPE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
@@ -659,7 +787,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__RULES = REQ_RELATED_FEATURE_COUNT + 2;
+	int STATE_MACHINE__RULES = TypesPackage.TYPE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Parent State</b></em>' container reference.
@@ -668,7 +796,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__PARENT_STATE = REQ_RELATED_FEATURE_COUNT + 3;
+	int STATE_MACHINE__PARENT_STATE = TypesPackage.TYPE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Parent Procedure</b></em>' container reference.
@@ -677,7 +805,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE__PARENT_PROCEDURE = REQ_RELATED_FEATURE_COUNT + 4;
+	int STATE_MACHINE__PARENT_PROCEDURE = TypesPackage.TYPE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>State Machine</em>' class.
@@ -686,7 +814,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE_FEATURE_COUNT = REQ_RELATED_FEATURE_COUNT + 5;
+	int STATE_MACHINE_FEATURE_COUNT = TypesPackage.TYPE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.StateImpl <em>State</em>}' class.
@@ -696,7 +824,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getState()
 	 * @generated
 	 */
-	int STATE = 11;
+	int STATE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -778,7 +906,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getDefaultValueElement()
 	 * @generated
 	 */
-	int DEFAULT_VALUE_ELEMENT = 12;
+	int DEFAULT_VALUE_ELEMENT = 13;
 
 	/**
 	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
@@ -806,7 +934,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getVariableModeElement()
 	 * @generated
 	 */
-	int VARIABLE_MODE_ELEMENT = 13;
+	int VARIABLE_MODE_ELEMENT = 14;
 
 	/**
 	 * The feature id for the '<em><b>Variable Mode</b></em>' attribute.
@@ -834,7 +962,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getVariable()
 	 * @generated
 	 */
-	int VARIABLE = 14;
+	int VARIABLE = 15;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -954,6 +1082,34 @@ public interface ModelPackage extends EPackage {
 	int VARIABLE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
+	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.FunctionalBlocksImpl <em>Functional Blocks</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.openetcs.model.ertmsformalspecs.impl.FunctionalBlocksImpl
+	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getFunctionalBlocks()
+	 * @generated
+	 */
+	int FUNCTIONAL_BLOCKS = 16;
+
+	/**
+	 * The feature id for the '<em><b>Available Functional Blocks</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_BLOCKS__AVAILABLE_FUNCTIONAL_BLOCKS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Functional Blocks</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_BLOCKS_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.VariableMode <em>Variable Mode</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -961,7 +1117,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getVariableMode()
 	 * @generated
 	 */
-	int VARIABLE_MODE = 15;
+	int VARIABLE_MODE = 17;
 
 
 	/**
@@ -1083,6 +1239,27 @@ public interface ModelPackage extends EPackage {
 	EAttribute getCommentedElement_Comment();
 
 	/**
+	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.Baselines <em>Baselines</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Baselines</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.Baselines
+	 * @generated
+	 */
+	EClass getBaselines();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.openetcs.model.ertmsformalspecs.Baselines#getAvailableBaselines <em>Available Baselines</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Available Baselines</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.Baselines#getAvailableBaselines()
+	 * @see #getBaselines()
+	 * @generated
+	 */
+	EReference getBaselines_AvailableBaselines();
+
+	/**
 	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.BaseLine <em>Base Line</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1167,6 +1344,17 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getNamespace_Variables();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.openetcs.model.ertmsformalspecs.Namespace#getRules <em>Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Rules</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.Namespace#getRules()
+	 * @see #getNamespace()
+	 * @generated
+	 */
+	EReference getNamespace_Rules();
 
 	/**
 	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.Procedure <em>Procedure</em>}'.
@@ -1588,6 +1776,27 @@ public interface ModelPackage extends EPackage {
 	EReference getVariable_ParentVariable();
 
 	/**
+	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.FunctionalBlocks <em>Functional Blocks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Functional Blocks</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.FunctionalBlocks
+	 * @generated
+	 */
+	EClass getFunctionalBlocks();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.openetcs.model.ertmsformalspecs.FunctionalBlocks#getAvailableFunctionalBlocks <em>Available Functional Blocks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Available Functional Blocks</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.FunctionalBlocks#getAvailableFunctionalBlocks()
+	 * @see #getFunctionalBlocks()
+	 * @generated
+	 */
+	EReference getFunctionalBlocks_AvailableFunctionalBlocks();
+
+	/**
 	 * Returns the meta object for enum '{@link org.openetcs.model.ertmsformalspecs.VariableMode <em>Variable Mode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1714,6 +1923,24 @@ public interface ModelPackage extends EPackage {
 		EAttribute COMMENTED_ELEMENT__COMMENT = eINSTANCE.getCommentedElement_Comment();
 
 		/**
+		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.impl.BaselinesImpl <em>Baselines</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.openetcs.model.ertmsformalspecs.impl.BaselinesImpl
+		 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getBaselines()
+		 * @generated
+		 */
+		EClass BASELINES = eINSTANCE.getBaselines();
+
+		/**
+		 * The meta object literal for the '<em><b>Available Baselines</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BASELINES__AVAILABLE_BASELINES = eINSTANCE.getBaselines_AvailableBaselines();
+
+		/**
 		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.impl.BaseLineImpl <em>Base Line</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1780,6 +2007,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NAMESPACE__VARIABLES = eINSTANCE.getNamespace_Variables();
+
+		/**
+		 * The meta object literal for the '<em><b>Rules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NAMESPACE__RULES = eINSTANCE.getNamespace_Rules();
 
 		/**
 		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl <em>Procedure</em>}' class.
@@ -2112,6 +2347,24 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference VARIABLE__PARENT_VARIABLE = eINSTANCE.getVariable_ParentVariable();
+
+		/**
+		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.impl.FunctionalBlocksImpl <em>Functional Blocks</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.openetcs.model.ertmsformalspecs.impl.FunctionalBlocksImpl
+		 * @see org.openetcs.model.ertmsformalspecs.impl.ModelPackageImpl#getFunctionalBlocks()
+		 * @generated
+		 */
+		EClass FUNCTIONAL_BLOCKS = eINSTANCE.getFunctionalBlocks();
+
+		/**
+		 * The meta object literal for the '<em><b>Available Functional Blocks</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FUNCTIONAL_BLOCKS__AVAILABLE_FUNCTIONAL_BLOCKS = eINSTANCE.getFunctionalBlocks_AvailableFunctionalBlocks();
 
 		/**
 		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.VariableMode <em>Variable Mode</em>}' enum.

@@ -6,6 +6,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.openetcs.model.ertmsformalspecs.*;
+import org.openetcs.model.ertmsformalspecs.types.Type;
 import org.openetcs.model.ertmsformalspecs.BaseLine;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
@@ -93,6 +95,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createCommentedElementAdapter();
 			}
 			@Override
+			public Adapter caseBaselines(Baselines object) {
+				return createBaselinesAdapter();
+			}
+			@Override
 			public Adapter caseBaseLine(BaseLine object) {
 				return createBaseLineAdapter();
 			}
@@ -139,6 +145,14 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseVariable(Variable object) {
 				return createVariableAdapter();
+			}
+			@Override
+			public Adapter caseFunctionalBlocks(FunctionalBlocks object) {
+				return createFunctionalBlocksAdapter();
+			}
+			@Override
+			public Adapter caseType(Type object) {
+				return createTypeAdapter();
 			}
 			@Override
 			public Adapter caseTypedElement(TypedElement object) {
@@ -203,6 +217,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCommentedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.Baselines <em>Baselines</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.openetcs.model.ertmsformalspecs.Baselines
+	 * @generated
+	 */
+	public Adapter createBaselinesAdapter() {
 		return null;
 	}
 
@@ -371,6 +399,34 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.FunctionalBlocks <em>Functional Blocks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.openetcs.model.ertmsformalspecs.FunctionalBlocks
+	 * @generated
+	 */
+	public Adapter createFunctionalBlocksAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.types.Type <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.openetcs.model.ertmsformalspecs.types.Type
+	 * @generated
+	 */
+	public Adapter createTypeAdapter() {
 		return null;
 	}
 

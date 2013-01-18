@@ -116,26 +116,26 @@ public class TestItemProviderAdapterFactory extends TestAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.openetcs.model.ertmsformalspecs.test.TestCase} instances.
+	 * This keeps track of the one adapter used for all {@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TestCaseItemProvider testCaseItemProvider;
+	protected SingleTestCaseItemProvider singleTestCaseItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.openetcs.model.ertmsformalspecs.test.TestCase}.
+	 * This creates an adapter for a {@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createTestCaseAdapter() {
-		if (testCaseItemProvider == null) {
-			testCaseItemProvider = new TestCaseItemProvider(this);
+	public Adapter createSingleTestCaseAdapter() {
+		if (singleTestCaseItemProvider == null) {
+			singleTestCaseItemProvider = new SingleTestCaseItemProvider(this);
 		}
 
-		return testCaseItemProvider;
+		return singleTestCaseItemProvider;
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class TestItemProviderAdapterFactory extends TestAdapterFactory implement
 	public void dispose() {
 		if (frameItemProvider != null) frameItemProvider.dispose();
 		if (subSequenceItemProvider != null) subSequenceItemProvider.dispose();
-		if (testCaseItemProvider != null) testCaseItemProvider.dispose();
+		if (singleTestCaseItemProvider != null) singleTestCaseItemProvider.dispose();
 		if (stepItemProvider != null) stepItemProvider.dispose();
 		if (subStepItemProvider != null) subStepItemProvider.dispose();
 		if (expectationItemProvider != null) expectationItemProvider.dispose();

@@ -580,7 +580,6 @@ unParse(pw, this.getRequirements(), false, null, null);
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -4631,7 +4630,6 @@ int i;
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -4657,7 +4655,7 @@ public  override void subElements(ArrayList l)
 }
 
 }
-public partial class Type
+public abstract partial class Type
 : DataDictionary.ReqRelated
 {
 public  override  bool find(Object search){
@@ -10752,7 +10750,6 @@ pw.Write('\n');
 // Unparsing Enclosed
 pw.Write("<Expression>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getExpression());
 pw.Write("</Expression>");
 // Father is not a mixed
@@ -15133,7 +15130,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getCondition());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -15279,7 +15275,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getExpression());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -18308,19 +18303,19 @@ if (!fl932){
 this.setDistance(0);
 } // If
 if (!fl933){
-this.setIO(acceptor.ST_IO.aNA);
+this.setIO(acceptor.ST_IO.StIO_NA);
 } // If
 if (!fl934){
-this.setLevelIN(acceptor.ST_LEVEL.aNA);
+this.setLevelIN(acceptor.ST_LEVEL.StLevel_NA);
 } // If
 if (!fl935){
-this.setLevelOUT(acceptor.ST_LEVEL.aNA);
+this.setLevelOUT(acceptor.ST_LEVEL.StLevel_NA);
 } // If
 if (!fl936){
-this.setModeIN(acceptor.ST_MODE.aNA);
+this.setModeIN(acceptor.ST_MODE.Mode_NA);
 } // If
 if (!fl937){
-this.setModeOUT(acceptor.ST_MODE.aNA);
+this.setModeOUT(acceptor.ST_MODE.Mode_NA);
 } // If
 if (!fl938){
 this.setTranslationRequired( true);
@@ -18456,7 +18451,6 @@ base.unParseBody(pw);
 if (this.getDescription() != null){
 pw.Write("<Description>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getDescription());
 pw.Write("</Description>");
 // Father is not a mixed
@@ -18468,7 +18462,6 @@ pw.Write('\n');
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -18480,7 +18473,6 @@ pw.Write('\n');
 if (this.getUserComment() != null){
 pw.Write("<UserComment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getUserComment());
 pw.Write("</UserComment>");
 // Father is not a mixed
@@ -19521,7 +19513,6 @@ int i;
 
 base.unParseBody(pw);
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -20947,7 +20938,6 @@ base.unParseBody(pw);
 if (this.getVariable() != null){
 pw.Write("<Variable>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getVariable());
 pw.Write("</Variable>");
 // No formula father defined
@@ -22897,7 +22887,6 @@ pw.Write('\n');
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -24544,7 +24533,6 @@ base.unParseBody(pw);
 if (this.getShortcutName() != null){
 pw.Write("<ShortcutName>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getShortcutName());
 pw.Write("</ShortcutName>");
 // Father is not a mixed
@@ -26679,7 +26667,7 @@ if (!fl1307){
 this.setReviewed( false);
 } // If
 if (!fl1308){
-this.setImplementationStatus(acceptor.SPEC_IMPLEMENTED_ENUM.aNA);
+this.setImplementationStatus(acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA);
 } // If
 if (!fl1309){
 this.setVersion("3.0.0");
@@ -26833,7 +26821,6 @@ int i;
 
 base.unParseBody(pw);
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getText());
 // Unparsing ElementRef
 if (this.getMessage() != null){
@@ -28568,7 +28555,6 @@ int i;
 if (this.getShort_description() != null){
 pw.Write("<short-description>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getShort_description());
 pw.Write("</short-description>");
 // Father is not a mixed
@@ -28581,7 +28567,6 @@ if (this.getDescription() != null){
 pw.Write("<Description>");
 // Unparsing PcData
 if (this.getDescription() != null){
-// Case 2
 acceptor.unParsePcData(pw, this.getDescription());
 } // If
 pw.Write("</Description>");
@@ -28594,7 +28579,6 @@ pw.Write('\n');
 if (this.getReference() != null){
 pw.Write("<reference>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getReference());
 pw.Write("</reference>");
 // Father is not a mixed
@@ -28602,17 +28586,13 @@ pw.Write('\n');
 } // If
 // After Testing for empty content: Reference
 // Unparsing Disjunct
-// Target is VOID
 if (this.getValues() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getValues() != null){
 unParse(pw, this.getValues(), false, null, null);
 } // If
-// Else with context: -1
 } else {
 if (this.getChar_value() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getChar_value() != null){
 unParse(pw, this.getChar_value(), false, null, null);
@@ -28883,17 +28863,13 @@ if (this.getResolution_formula_1() != null){
 unParse(pw, this.getResolution_formula_1(), false, null, null);
 } // If
 // Unparsing Disjunct
-// Target is VOID
 if (this.getSpecial_or_reserved_values() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getSpecial_or_reserved_values() != null){
 unParse(pw, this.getSpecial_or_reserved_values(), false, null, null);
 } // If
-// Else with context: -1
 } else {
 if (this.getSpecial_or_reserved_value() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getSpecial_or_reserved_value() != null){
 unParse(pw, this.getSpecial_or_reserved_value(), false, null, null);
@@ -29529,17 +29505,13 @@ if (this.getMask() != null){
 unParse(pw, this.getMask(), false, null, null);
 } // If
 // Unparsing Disjunct
-// Target is VOID
 if (this.getMatch() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getMatch() != null){
 unParse(pw, this.getMatch(), false, null, null);
 } // If
-// Else with context: -1
 } else {
 if (this.getMatch_range() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getMatch_range() != null){
 unParse(pw, this.getMatch_range(), false, null, null);
@@ -29703,7 +29675,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -29849,7 +29820,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -30121,7 +30091,6 @@ int i;
 
 // Unparsing PcData
 if (this.getValue() != null){
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 } // If
 }
@@ -30359,7 +30328,6 @@ int i;
 // Unparsing Enclosed
 pw.Write("<minimum>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getMinimum());
 pw.Write("</minimum>");
 // Father is not a mixed
@@ -30367,7 +30335,6 @@ pw.Write('\n');
 // Unparsing Enclosed
 pw.Write("<maximum>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw,
   acceptor.Enum_maximum_Value_ToString(this.getMaximum()));
 pw.Write("</maximum>");
@@ -30605,7 +30572,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw,
   acceptor.Enum_resolution_formula_Value_ToString(this.getValue()));
 }
@@ -30801,7 +30767,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -31179,7 +31144,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getText());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -31606,58 +31570,58 @@ public enum MessageDirectionEnumType {
 
 public enum SPEC_IMPLEMENTED_ENUM {
      defaultSPEC_IMPLEMENTED_ENUM,
-     aNA,
-     aImplemented,
-     aNotImplementable,
-     aNewRevisionAvailable
+     Impl_NA,
+     Impl_Implemented,
+     Impl_NotImplementable,
+     Impl_NewRevisionAvailable
 };
 
 public enum ST_IO {
      defaultST_IO,
-     aNA,
-     aIn,
-     aOut
+     StIO_NA,
+     StIO_In,
+     StIO_Out
 };
 
 public enum ST_INTERFACE {
      defaultST_INTERFACE,
-     aNA,
-     aDMI,
-     aRTM,
-     aJRU,
-     aTIU
+     StInterface_NA,
+     StInterface_DMI,
+     StInterface_RTM,
+     StInterface_JRU,
+     StInterface_TIU
 };
 
 public enum ST_LEVEL {
      defaultST_LEVEL,
-     aNA,
-     aL0,
-     aL1,
-     aLSTM,
-     aL2,
-     aL3
+     StLevel_NA,
+     StLevel_L0,
+     StLevel_L1,
+     StLevel_LSTM,
+     StLevel_L2,
+     StLevel_L3
 };
 
 public enum ST_MODE {
      defaultST_MODE,
-     aNA,
-     aIS,
-     aNP,
-     aSF,
-     aSL,
-     aSB,
-     aSH,
-     aFS,
-     aUF,
-     aSR,
-     aOS,
-     aTR,
-     aPT,
-     aNL,
-     aSN,
-     aRE,
-     aLS,
-     aPSH
+     Mode_NA,
+     Mode_IS,
+     Mode_NP,
+     Mode_SF,
+     Mode_SL,
+     Mode_SB,
+     Mode_SH,
+     Mode_FS,
+     Mode_UF,
+     Mode_SR,
+     Mode_OS,
+     Mode_TR,
+     Mode_PT,
+     Mode_NL,
+     Mode_SN,
+     Mode_RE,
+     Mode_LS,
+     Mode_PSH
 };
 
 public enum RulePriority {
@@ -33831,20 +33795,20 @@ case 'o':
 {
 ctxt.advance();
 ctxt.acceptString ("tImplementable");
-res = SPEC_IMPLEMENTED_ENUM.aNotImplementable;
+res = SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable;
 break;
 } // Case
 case 'e':
 {
 ctxt.advance();
 ctxt.acceptString ("wRevisionAvailable");
-res = SPEC_IMPLEMENTED_ENUM.aNewRevisionAvailable;
+res = SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable;
 break;
 } // Case
 case 'A':
 {
 ctxt.advance();
-res = SPEC_IMPLEMENTED_ENUM.aNA;
+res = SPEC_IMPLEMENTED_ENUM.Impl_NA;
 break;
 } // Case
 default:
@@ -33857,15 +33821,15 @@ case 'I':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("mplemented")){
-res = SPEC_IMPLEMENTED_ENUM.aImplemented;
+res = SPEC_IMPLEMENTED_ENUM.Impl_Implemented;
 } else {
 ctxt.moveBack(1);
-res = SPEC_IMPLEMENTED_ENUM.aNA;
+res = SPEC_IMPLEMENTED_ENUM.Impl_NA;
 } // If
 break;
 } // Case
 default:
-res = SPEC_IMPLEMENTED_ENUM.aNA;
+res = SPEC_IMPLEMENTED_ENUM.Impl_NA;
 break;
 } // Switch
 return res;
@@ -33874,26 +33838,26 @@ return res;
 public static  string  Enum_SPEC_IMPLEMENTED_ENUM_ToString (SPEC_IMPLEMENTED_ENUM v)
 {
 switch (v) {
- case SPEC_IMPLEMENTED_ENUM.aNA: return "NA";
- case SPEC_IMPLEMENTED_ENUM.aImplemented: return "Implemented";
- case SPEC_IMPLEMENTED_ENUM.aNotImplementable: return "NotImplementable";
- case SPEC_IMPLEMENTED_ENUM.aNewRevisionAvailable: return "NewRevisionAvailable";
+ case SPEC_IMPLEMENTED_ENUM.Impl_NA: return "NA";
+ case SPEC_IMPLEMENTED_ENUM.Impl_Implemented: return "Implemented";
+ case SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable: return "NotImplementable";
+ case SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable: return "NewRevisionAvailable";
 } return "";
 }
 
 public static SPEC_IMPLEMENTED_ENUM StringTo_Enum_SPEC_IMPLEMENTED_ENUM( string  str)
 {
 if (str.Equals("NA")){
-  return SPEC_IMPLEMENTED_ENUM.aNA;
+  return SPEC_IMPLEMENTED_ENUM.Impl_NA;
 } // If
 if (str.Equals("Implemented")){
-  return SPEC_IMPLEMENTED_ENUM.aImplemented;
+  return SPEC_IMPLEMENTED_ENUM.Impl_Implemented;
 } // If
 if (str.Equals("NotImplementable")){
-  return SPEC_IMPLEMENTED_ENUM.aNotImplementable;
+  return SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable;
 } // If
 if (str.Equals("NewRevisionAvailable")){
-  return SPEC_IMPLEMENTED_ENUM.aNewRevisionAvailable;
+  return SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable;
 } // If
 return SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM;
 }
@@ -33915,10 +33879,10 @@ case 'O':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('u','t')){
-res = ST_IO.aOut;
+res = ST_IO.StIO_Out;
 } else {
 ctxt.moveBack(1);
-res = ST_IO.aNA;
+res = ST_IO.StIO_NA;
 } // If
 break;
 } // Case
@@ -33926,10 +33890,10 @@ case 'N':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('A')){
-res = ST_IO.aNA;
+res = ST_IO.StIO_NA;
 } else {
 ctxt.moveBack(1);
-res = ST_IO.aNA;
+res = ST_IO.StIO_NA;
 } // If
 break;
 } // Case
@@ -33937,15 +33901,15 @@ case 'I':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('n')){
-res = ST_IO.aIn;
+res = ST_IO.StIO_In;
 } else {
 ctxt.moveBack(1);
-res = ST_IO.aNA;
+res = ST_IO.StIO_NA;
 } // If
 break;
 } // Case
 default:
-res = ST_IO.aNA;
+res = ST_IO.StIO_NA;
 break;
 } // Switch
 return res;
@@ -33954,22 +33918,22 @@ return res;
 public static  string  Enum_ST_IO_ToString (ST_IO v)
 {
 switch (v) {
- case ST_IO.aNA: return "NA";
- case ST_IO.aIn: return "In";
- case ST_IO.aOut: return "Out";
+ case ST_IO.StIO_NA: return "NA";
+ case ST_IO.StIO_In: return "In";
+ case ST_IO.StIO_Out: return "Out";
 } return "";
 }
 
 public static ST_IO StringTo_Enum_ST_IO( string  str)
 {
 if (str.Equals("NA")){
-  return ST_IO.aNA;
+  return ST_IO.StIO_NA;
 } // If
 if (str.Equals("In")){
-  return ST_IO.aIn;
+  return ST_IO.StIO_In;
 } // If
 if (str.Equals("Out")){
-  return ST_IO.aOut;
+  return ST_IO.StIO_Out;
 } // If
 return ST_IO.defaultST_IO;
 }
@@ -33991,10 +33955,10 @@ case 'T':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('I','U')){
-res = ST_INTERFACE.aTIU;
+res = ST_INTERFACE.StInterface_TIU;
 } else {
 ctxt.moveBack(1);
-res = ST_INTERFACE.aNA;
+res = ST_INTERFACE.StInterface_NA;
 } // If
 break;
 } // Case
@@ -34002,10 +33966,10 @@ case 'R':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('T','M')){
-res = ST_INTERFACE.aRTM;
+res = ST_INTERFACE.StInterface_RTM;
 } else {
 ctxt.moveBack(1);
-res = ST_INTERFACE.aNA;
+res = ST_INTERFACE.StInterface_NA;
 } // If
 break;
 } // Case
@@ -34013,10 +33977,10 @@ case 'N':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('A')){
-res = ST_INTERFACE.aNA;
+res = ST_INTERFACE.StInterface_NA;
 } else {
 ctxt.moveBack(1);
-res = ST_INTERFACE.aNA;
+res = ST_INTERFACE.StInterface_NA;
 } // If
 break;
 } // Case
@@ -34024,10 +33988,10 @@ case 'J':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('R','U')){
-res = ST_INTERFACE.aJRU;
+res = ST_INTERFACE.StInterface_JRU;
 } else {
 ctxt.moveBack(1);
-res = ST_INTERFACE.aNA;
+res = ST_INTERFACE.StInterface_NA;
 } // If
 break;
 } // Case
@@ -34035,15 +33999,15 @@ case 'D':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('M','I')){
-res = ST_INTERFACE.aDMI;
+res = ST_INTERFACE.StInterface_DMI;
 } else {
 ctxt.moveBack(1);
-res = ST_INTERFACE.aNA;
+res = ST_INTERFACE.StInterface_NA;
 } // If
 break;
 } // Case
 default:
-res = ST_INTERFACE.aNA;
+res = ST_INTERFACE.StInterface_NA;
 break;
 } // Switch
 return res;
@@ -34052,30 +34016,30 @@ return res;
 public static  string  Enum_ST_INTERFACE_ToString (ST_INTERFACE v)
 {
 switch (v) {
- case ST_INTERFACE.aNA: return "NA";
- case ST_INTERFACE.aDMI: return "DMI";
- case ST_INTERFACE.aRTM: return "RTM";
- case ST_INTERFACE.aJRU: return "JRU";
- case ST_INTERFACE.aTIU: return "TIU";
+ case ST_INTERFACE.StInterface_NA: return "NA";
+ case ST_INTERFACE.StInterface_DMI: return "DMI";
+ case ST_INTERFACE.StInterface_RTM: return "RTM";
+ case ST_INTERFACE.StInterface_JRU: return "JRU";
+ case ST_INTERFACE.StInterface_TIU: return "TIU";
 } return "";
 }
 
 public static ST_INTERFACE StringTo_Enum_ST_INTERFACE( string  str)
 {
 if (str.Equals("NA")){
-  return ST_INTERFACE.aNA;
+  return ST_INTERFACE.StInterface_NA;
 } // If
 if (str.Equals("DMI")){
-  return ST_INTERFACE.aDMI;
+  return ST_INTERFACE.StInterface_DMI;
 } // If
 if (str.Equals("RTM")){
-  return ST_INTERFACE.aRTM;
+  return ST_INTERFACE.StInterface_RTM;
 } // If
 if (str.Equals("JRU")){
-  return ST_INTERFACE.aJRU;
+  return ST_INTERFACE.StInterface_JRU;
 } // If
 if (str.Equals("TIU")){
-  return ST_INTERFACE.aTIU;
+  return ST_INTERFACE.StInterface_TIU;
 } // If
 return ST_INTERFACE.defaultST_INTERFACE;
 }
@@ -34097,10 +34061,10 @@ case 'N':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('A')){
-res = ST_LEVEL.aNA;
+res = ST_LEVEL.StLevel_NA;
 } else {
 ctxt.moveBack(1);
-res = ST_LEVEL.aNA;
+res = ST_LEVEL.StLevel_NA;
 } // If
 break;
 } // Case
@@ -34112,31 +34076,31 @@ case 'S':
 {
 ctxt.advance();
 ctxt.accept2('T','M');
-res = ST_LEVEL.aLSTM;
+res = ST_LEVEL.StLevel_LSTM;
 break;
 } // Case
 case '3':
 {
 ctxt.advance();
-res = ST_LEVEL.aL3;
+res = ST_LEVEL.StLevel_L3;
 break;
 } // Case
 case '2':
 {
 ctxt.advance();
-res = ST_LEVEL.aL2;
+res = ST_LEVEL.StLevel_L2;
 break;
 } // Case
 case '1':
 {
 ctxt.advance();
-res = ST_LEVEL.aL1;
+res = ST_LEVEL.StLevel_L1;
 break;
 } // Case
 case '0':
 {
 ctxt.advance();
-res = ST_LEVEL.aL0;
+res = ST_LEVEL.StLevel_L0;
 break;
 } // Case
 default:
@@ -34146,7 +34110,7 @@ break;
 break;
 } // Case
 default:
-res = ST_LEVEL.aNA;
+res = ST_LEVEL.StLevel_NA;
 break;
 } // Switch
 return res;
@@ -34155,34 +34119,34 @@ return res;
 public static  string  Enum_ST_LEVEL_ToString (ST_LEVEL v)
 {
 switch (v) {
- case ST_LEVEL.aNA: return "NA";
- case ST_LEVEL.aL0: return "L0";
- case ST_LEVEL.aL1: return "L1";
- case ST_LEVEL.aLSTM: return "LSTM";
- case ST_LEVEL.aL2: return "L2";
- case ST_LEVEL.aL3: return "L3";
+ case ST_LEVEL.StLevel_NA: return "NA";
+ case ST_LEVEL.StLevel_L0: return "L0";
+ case ST_LEVEL.StLevel_L1: return "L1";
+ case ST_LEVEL.StLevel_LSTM: return "LSTM";
+ case ST_LEVEL.StLevel_L2: return "L2";
+ case ST_LEVEL.StLevel_L3: return "L3";
 } return "";
 }
 
 public static ST_LEVEL StringTo_Enum_ST_LEVEL( string  str)
 {
 if (str.Equals("NA")){
-  return ST_LEVEL.aNA;
+  return ST_LEVEL.StLevel_NA;
 } // If
 if (str.Equals("L0")){
-  return ST_LEVEL.aL0;
+  return ST_LEVEL.StLevel_L0;
 } // If
 if (str.Equals("L1")){
-  return ST_LEVEL.aL1;
+  return ST_LEVEL.StLevel_L1;
 } // If
 if (str.Equals("LSTM")){
-  return ST_LEVEL.aLSTM;
+  return ST_LEVEL.StLevel_LSTM;
 } // If
 if (str.Equals("L2")){
-  return ST_LEVEL.aL2;
+  return ST_LEVEL.StLevel_L2;
 } // If
 if (str.Equals("L3")){
-  return ST_LEVEL.aL3;
+  return ST_LEVEL.StLevel_L3;
 } // If
 return ST_LEVEL.defaultST_LEVEL;
 }
@@ -34204,10 +34168,10 @@ case 'U':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('F')){
-res = ST_MODE.aUF;
+res = ST_MODE.Mode_UF;
 } else {
 ctxt.moveBack(1);
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 } // If
 break;
 } // Case
@@ -34215,10 +34179,10 @@ case 'T':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('R')){
-res = ST_MODE.aTR;
+res = ST_MODE.Mode_TR;
 } else {
 ctxt.moveBack(1);
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 } // If
 break;
 } // Case
@@ -34229,37 +34193,37 @@ switch (ctxt.current()) {
 case 'R':
 {
 ctxt.advance();
-res = ST_MODE.aSR;
+res = ST_MODE.Mode_SR;
 break;
 } // Case
 case 'N':
 {
 ctxt.advance();
-res = ST_MODE.aSN;
+res = ST_MODE.Mode_SN;
 break;
 } // Case
 case 'L':
 {
 ctxt.advance();
-res = ST_MODE.aSL;
+res = ST_MODE.Mode_SL;
 break;
 } // Case
 case 'H':
 {
 ctxt.advance();
-res = ST_MODE.aSH;
+res = ST_MODE.Mode_SH;
 break;
 } // Case
 case 'F':
 {
 ctxt.advance();
-res = ST_MODE.aSF;
+res = ST_MODE.Mode_SF;
 break;
 } // Case
 case 'B':
 {
 ctxt.advance();
-res = ST_MODE.aSB;
+res = ST_MODE.Mode_SB;
 break;
 } // Case
 default:
@@ -34272,10 +34236,10 @@ case 'R':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('E')){
-res = ST_MODE.aRE;
+res = ST_MODE.Mode_RE;
 } else {
 ctxt.moveBack(1);
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 } // If
 break;
 } // Case
@@ -34286,14 +34250,14 @@ switch (ctxt.current()) {
 case 'T':
 {
 ctxt.advance();
-res = ST_MODE.aPT;
+res = ST_MODE.Mode_PT;
 break;
 } // Case
 case 'S':
 {
 ctxt.advance();
 ctxt.accept('H');
-res = ST_MODE.aPSH;
+res = ST_MODE.Mode_PSH;
 break;
 } // Case
 default:
@@ -34306,10 +34270,10 @@ case 'O':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('S')){
-res = ST_MODE.aOS;
+res = ST_MODE.Mode_OS;
 } else {
 ctxt.moveBack(1);
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 } // If
 break;
 } // Case
@@ -34320,19 +34284,19 @@ switch (ctxt.current()) {
 case 'P':
 {
 ctxt.advance();
-res = ST_MODE.aNP;
+res = ST_MODE.Mode_NP;
 break;
 } // Case
 case 'L':
 {
 ctxt.advance();
-res = ST_MODE.aNL;
+res = ST_MODE.Mode_NL;
 break;
 } // Case
 case 'A':
 {
 ctxt.advance();
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 break;
 } // Case
 default:
@@ -34345,10 +34309,10 @@ case 'L':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('S')){
-res = ST_MODE.aLS;
+res = ST_MODE.Mode_LS;
 } else {
 ctxt.moveBack(1);
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 } // If
 break;
 } // Case
@@ -34356,10 +34320,10 @@ case 'I':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('S')){
-res = ST_MODE.aIS;
+res = ST_MODE.Mode_IS;
 } else {
 ctxt.moveBack(1);
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 } // If
 break;
 } // Case
@@ -34367,15 +34331,15 @@ case 'F':
 {
 ctxt.advance();
 if (ctxt.lookAhead1('S')){
-res = ST_MODE.aFS;
+res = ST_MODE.Mode_FS;
 } else {
 ctxt.moveBack(1);
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 } // If
 break;
 } // Case
 default:
-res = ST_MODE.aNA;
+res = ST_MODE.Mode_NA;
 break;
 } // Switch
 return res;
@@ -34384,82 +34348,82 @@ return res;
 public static  string  Enum_ST_MODE_ToString (ST_MODE v)
 {
 switch (v) {
- case ST_MODE.aNA: return "NA";
- case ST_MODE.aIS: return "IS";
- case ST_MODE.aNP: return "NP";
- case ST_MODE.aSF: return "SF";
- case ST_MODE.aSL: return "SL";
- case ST_MODE.aSB: return "SB";
- case ST_MODE.aSH: return "SH";
- case ST_MODE.aFS: return "FS";
- case ST_MODE.aUF: return "UF";
- case ST_MODE.aSR: return "SR";
- case ST_MODE.aOS: return "OS";
- case ST_MODE.aTR: return "TR";
- case ST_MODE.aPT: return "PT";
- case ST_MODE.aNL: return "NL";
- case ST_MODE.aSN: return "SN";
- case ST_MODE.aRE: return "RE";
- case ST_MODE.aLS: return "LS";
- case ST_MODE.aPSH: return "PSH";
+ case ST_MODE.Mode_NA: return "NA";
+ case ST_MODE.Mode_IS: return "IS";
+ case ST_MODE.Mode_NP: return "NP";
+ case ST_MODE.Mode_SF: return "SF";
+ case ST_MODE.Mode_SL: return "SL";
+ case ST_MODE.Mode_SB: return "SB";
+ case ST_MODE.Mode_SH: return "SH";
+ case ST_MODE.Mode_FS: return "FS";
+ case ST_MODE.Mode_UF: return "UF";
+ case ST_MODE.Mode_SR: return "SR";
+ case ST_MODE.Mode_OS: return "OS";
+ case ST_MODE.Mode_TR: return "TR";
+ case ST_MODE.Mode_PT: return "PT";
+ case ST_MODE.Mode_NL: return "NL";
+ case ST_MODE.Mode_SN: return "SN";
+ case ST_MODE.Mode_RE: return "RE";
+ case ST_MODE.Mode_LS: return "LS";
+ case ST_MODE.Mode_PSH: return "PSH";
 } return "";
 }
 
 public static ST_MODE StringTo_Enum_ST_MODE( string  str)
 {
 if (str.Equals("NA")){
-  return ST_MODE.aNA;
+  return ST_MODE.Mode_NA;
 } // If
 if (str.Equals("IS")){
-  return ST_MODE.aIS;
+  return ST_MODE.Mode_IS;
 } // If
 if (str.Equals("NP")){
-  return ST_MODE.aNP;
+  return ST_MODE.Mode_NP;
 } // If
 if (str.Equals("SF")){
-  return ST_MODE.aSF;
+  return ST_MODE.Mode_SF;
 } // If
 if (str.Equals("SL")){
-  return ST_MODE.aSL;
+  return ST_MODE.Mode_SL;
 } // If
 if (str.Equals("SB")){
-  return ST_MODE.aSB;
+  return ST_MODE.Mode_SB;
 } // If
 if (str.Equals("SH")){
-  return ST_MODE.aSH;
+  return ST_MODE.Mode_SH;
 } // If
 if (str.Equals("FS")){
-  return ST_MODE.aFS;
+  return ST_MODE.Mode_FS;
 } // If
 if (str.Equals("UF")){
-  return ST_MODE.aUF;
+  return ST_MODE.Mode_UF;
 } // If
 if (str.Equals("SR")){
-  return ST_MODE.aSR;
+  return ST_MODE.Mode_SR;
 } // If
 if (str.Equals("OS")){
-  return ST_MODE.aOS;
+  return ST_MODE.Mode_OS;
 } // If
 if (str.Equals("TR")){
-  return ST_MODE.aTR;
+  return ST_MODE.Mode_TR;
 } // If
 if (str.Equals("PT")){
-  return ST_MODE.aPT;
+  return ST_MODE.Mode_PT;
 } // If
 if (str.Equals("NL")){
-  return ST_MODE.aNL;
+  return ST_MODE.Mode_NL;
 } // If
 if (str.Equals("SN")){
-  return ST_MODE.aSN;
+  return ST_MODE.Mode_SN;
 } // If
 if (str.Equals("RE")){
-  return ST_MODE.aRE;
+  return ST_MODE.Mode_RE;
 } // If
 if (str.Equals("LS")){
-  return ST_MODE.aLS;
+  return ST_MODE.Mode_LS;
 } // If
 if (str.Equals("PSH")){
-  return ST_MODE.aPSH;
+  return ST_MODE.Mode_PSH;
 } // If
 return ST_MODE.defaultST_MODE;
 }
@@ -34970,17 +34934,6 @@ case 'T':
 {
 ctxt.advance();
 switch (ctxt.current()) {
-case 'y':
-{
-ctxt.advance();
-if (ctxt.lookAhead2('p','e')){
-ctxt.accept(quoteChar);
-res = lAccept_Type(ctxt, endingTag);
-} else {
-res = null;
-} // If
-break;
-} // Case
 case 'r':
 {
 ctxt.advance();
@@ -35563,33 +35516,12 @@ break;
 case 'T':
 {
 ctxt.advance();
-switch (ctxt.current()) {
-case 'y':
-{
-ctxt.advance();
-if (ctxt.lookAhead2('p','e')){
-ctxt.accept(quoteChar);
-res = lAccept_Type(ctxt, endingTag);
-} else {
-res = null;
-} // If
-break;
-} // Case
-case 'e':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("stCase")){
+if (ctxt.lookAheadString("estCase")){
 ctxt.accept(quoteChar);
 res = lAccept_TestCase(ctxt, endingTag);
 } else {
 res = null;
 } // If
-break;
-} // Case
-default:
-res = null;
-break;
-} // Switch
 break;
 } // Case
 case 'S':
@@ -35816,33 +35748,12 @@ break;
 case 'T':
 {
 ctxt.advance();
-switch (ctxt.current()) {
-case 'y':
-{
-ctxt.advance();
-if (ctxt.lookAhead2('p','e')){
-ctxt.accept(quoteChar);
-res = lAccept_Type(ctxt, endingTag);
-} else {
-res = null;
-} // If
-break;
-} // Case
-case 'e':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("stCase")){
+if (ctxt.lookAheadString("estCase")){
 ctxt.accept(quoteChar);
 res = lAccept_TestCase(ctxt, endingTag);
 } else {
 res = null;
 } // If
-break;
-} // Case
-default:
-res = null;
-break;
-} // Switch
 break;
 } // Case
 case 'S':
@@ -36078,20 +35989,6 @@ public static ReqRef lAccept_ReqRef (XmlBContext ctxt,
 /// internally. Please refrain from using it, as it
 /// might produce unexpected results, and might change
 /// or even disappear in the future.</remarks>
-public static Type lAccept_Type (XmlBContext ctxt, 
-                          string  endingTag)
-
-  {
-if (endingTag == null) endingTag = "</Type>";
-  Type res = aFactory.createType();
-  res.parse(ctxt, endingTag);
-  return res;
-  }
-
-/// <remarks>This method is used by XMLBooster-generated code
-/// internally. Please refrain from using it, as it
-/// might produce unexpected results, and might change
-/// or even disappear in the future.</remarks>
 public static Type lAccept_Poly_Type (XmlBContext ctxt, 
                           string  endingTag)
 
@@ -36099,20 +35996,9 @@ public static Type lAccept_Poly_Type (XmlBContext ctxt,
     char quoteChar;
     Type res = null;
 ctxt.skipWhiteSpace();
-if (ctxt.lookAheadString("xsi:type=")){
+ctxt.acceptString ("xsi:type=");
 quoteChar = ctxt.acceptQuote();
 switch (ctxt.current()) {
-case 'T':
-{
-ctxt.advance();
-if (ctxt.lookAhead3('y','p','e')){
-ctxt.accept(quoteChar);
-res = lAccept_Type(ctxt, endingTag);
-} else {
-res = null;
-} // If
-break;
-} // Case
 case 'S':
 {
 ctxt.advance();
@@ -36197,9 +36083,6 @@ default:
 res = null;
 break;
 } // Switch
-} else {
-res = lAccept_Type(ctxt, endingTag);
-} // If
   return res;
   }
 
@@ -36914,28 +36797,28 @@ case 'q':
 {
 ctxt.advance();
 ctxt.acceptString ("uot;");
-indicator = 1834;
+indicator = 1828;
 break;
 } // Case
 case 'n':
 {
 ctxt.advance();
 ctxt.acceptString ("bsp;");
-indicator = 1833;
+indicator = 1827;
 break;
 } // Case
 case 'l':
 {
 ctxt.advance();
 ctxt.accept2('t',';');
-indicator = 1831;
+indicator = 1825;
 break;
 } // Case
 case 'g':
 {
 ctxt.advance();
 ctxt.accept2('t',';');
-indicator = 1832;
+indicator = 1826;
 break;
 } // Case
 case 'a':
@@ -36946,18 +36829,18 @@ case 'p':
 {
 ctxt.advance();
 ctxt.accept3('o','s',';');
-indicator = 1835;
+indicator = 1829;
 break;
 } // Case
 case 'm':
 {
 ctxt.advance();
 ctxt.accept2('p',';');
-indicator = 1830;
+indicator = 1824;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1843)");
+ctxt.recoverableFail ("Other character expected (1837)");
 break;
 } // Switch
 break;
@@ -36966,39 +36849,39 @@ case '#':
 {
 ctxt.advance();
 ctxt.accept('x');
-indicator = 1836;
+indicator = 1830;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1845)");
+ctxt.recoverableFail ("Other character expected (1839)");
 break;
 } // Switch
 switch (indicator) {
-case 1830: {
+case 1824: {
 c = XMLB_AMPERSAND;
 break;
 } // End of dispatch label
-case 1831: {
+case 1825: {
 c = XMLB_LESS;
 break;
 } // End of dispatch label
-case 1832: {
+case 1826: {
 c = XMLB_GREATER;
 break;
 } // End of dispatch label
-case 1833: {
+case 1827: {
 c = XMLB_NBSP;
 break;
 } // End of dispatch label
-case 1834: {
+case 1828: {
 c = XMLB_QUOT;
 break;
 } // End of dispatch label
-case 1835: {
+case 1829: {
 c = XMLB_APOS;
 break;
 } // End of dispatch label
-case 1836: {
+case 1830: {
 c = (char) ctxt.acceptHexa();
 ctxt.accept(';');
 break;
@@ -37167,8 +37050,6 @@ return res;
   public static void unParsePcData (TextWriter pw, bool flag)
     {
       if (flag)
-// TrueString is: TRUE
-// FalseString is: FALSE
         pw.Write ("TRUE");
        else
         pw.Write("FALSE");
@@ -37340,34 +37221,6 @@ if (ctxt.isAlNum()){
 ctxt.fail ("White space expected after TAG");
 } // If
   res = lAccept_ReqRef(ctxt, "</ReqRef>");
- } catch (XmlBRecoveryException e) {
-  throw new XmlBException("Unexpected recovery exception: " +
-     e.ToString());
-}
-  ctxt.close();
-if (ctxt.errCount() > 0){
-res = null;
-throw new XmlBException (ctxt.errorMessage());
-} // If
-  return res;
-  }
-
-/// <summary>Top level function to parse an Type from 
-/// a context. This kind of function is only made
-/// available for elements marked as MAIN in the 
-/// metadefinition</summary>
-/// <seealso cref="accept"/>
-public static Type acceptType(XmlBContext ctxt)
-
-  {
-Type res;
-ctxt.skipWhiteSpace();
-try {
-ctxt.acceptString ("<Type");
-if (ctxt.isAlNum()){
-ctxt.fail ("White space expected after TAG");
-} // If
-  res = lAccept_Type(ctxt, "</Type>");
  } catch (XmlBRecoveryException e) {
   throw new XmlBException("Unexpected recovery exception: " +
      e.ToString());
@@ -38465,13 +38318,6 @@ case 'T':
 {
 ctxt.advance();
 switch (ctxt.current()) {
-case 'y':
-{
-ctxt.advance();
-ctxt.accept2('p','e');
-  res =  lAccept_Type(ctxt, "</Type>");
-break;
-} // Case
 case 'r':
 {
 ctxt.advance();
@@ -38501,7 +38347,7 @@ ctxt.acceptString ("stCase");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1854)");
+ctxt.recoverableFail ("Other character expected (1847)");
 break;
 } // Switch
 break;
@@ -38530,7 +38376,7 @@ ctxt.acceptString ("quence");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1859)");
+ctxt.recoverableFail ("Other character expected (1852)");
 break;
 } // Switch
 break;
@@ -38599,7 +38445,7 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1867)");
+ctxt.recoverableFail ("Other character expected (1860)");
 break;
 } // Switch
 break;
@@ -38650,7 +38496,7 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1873)");
+ctxt.recoverableFail ("Other character expected (1866)");
 break;
 } // Switch
 break;
@@ -38705,7 +38551,7 @@ ctxt.accept3('n','g','e');
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1880)");
+ctxt.recoverableFail ("Other character expected (1873)");
 break;
 } // Switch
 break;
@@ -38733,7 +38579,7 @@ ctxt.acceptString ("Condition");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1885)");
+ctxt.recoverableFail ("Other character expected (1878)");
 break;
 } // Switch
 break;
@@ -38772,13 +38618,13 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1890)");
+ctxt.recoverableFail ("Other character expected (1883)");
 break;
 } // Switch
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1891)");
+ctxt.recoverableFail ("Other character expected (1884)");
 break;
 } // Switch
 break;
@@ -38816,7 +38662,7 @@ ctxt.acceptString ("lder");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1897)");
+ctxt.recoverableFail ("Other character expected (1890)");
 break;
 } // Switch
 break;
@@ -38854,7 +38700,7 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1902)");
+ctxt.recoverableFail ("Other character expected (1895)");
 break;
 } // Switch
 break;
@@ -38896,13 +38742,13 @@ ctxt.acceptString ("ield");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1909)");
+ctxt.recoverableFail ("Other character expected (1902)");
 break;
 } // Switch
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1910)");
+ctxt.recoverableFail ("Other character expected (1903)");
 break;
 } // Switch
 break;
@@ -38933,7 +38779,7 @@ ctxt.accept2('s','e');
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1915)");
+ctxt.recoverableFail ("Other character expected (1908)");
 break;
 } // Switch
 break;
@@ -38946,13 +38792,13 @@ ctxt.acceptString ("ction");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1917)");
+ctxt.recoverableFail ("Other character expected (1910)");
 break;
 } // Switch
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (1918)");
+ctxt.recoverableFail ("Other character expected (1911)");
 break;
 } // Switch
 return res;
@@ -38996,7 +38842,6 @@ public abstract Dictionary createDictionary();
 public abstract RuleDisabling createRuleDisabling();
 public abstract NameSpace createNameSpace();
 public abstract ReqRef createReqRef();
-public abstract Type createType();
 public abstract Enum createEnum();
 public abstract EnumValue createEnumValue();
 public abstract Range createRange();

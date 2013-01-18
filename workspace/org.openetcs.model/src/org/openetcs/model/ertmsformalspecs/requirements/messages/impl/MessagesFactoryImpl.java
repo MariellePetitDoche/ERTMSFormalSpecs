@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType;

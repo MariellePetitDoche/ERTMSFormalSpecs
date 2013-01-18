@@ -8,8 +8,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -18,22 +21,23 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.openetcs.model.ertmsformalspecs.ModelPackage;
+
 import org.openetcs.model.ertmsformalspecs.provider.ModelEditPlugin;
-import org.openetcs.model.ertmsformalspecs.test.TestCase;
+import org.openetcs.model.ertmsformalspecs.provider.ReqRelatedItemProvider;
+
+import org.openetcs.model.ertmsformalspecs.test.SingleTestCase;
 import org.openetcs.model.ertmsformalspecs.test.TestFactory;
 import org.openetcs.model.ertmsformalspecs.test.TestPackage;
 
 /**
- * This is the item provider adapter for a {@link org.openetcs.model.ertmsformalspecs.test.TestCase} object.
+ * This is the item provider adapter for a {@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class TestCaseItemProvider
-	extends ItemProviderAdapter
+public class SingleTestCaseItemProvider
+	extends ReqRelatedItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -46,7 +50,7 @@ public class TestCaseItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TestCaseItemProvider(AdapterFactory adapterFactory) {
+	public SingleTestCaseItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -61,56 +65,10 @@ public class TestCaseItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addCommentPropertyDescriptor(object);
 			addFeaturePropertyDescriptor(object);
 			addCasePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 ModelPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Comment feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addCommentPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_CommentedElement_comment_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_CommentedElement_comment_feature", "_UI_CommentedElement_type"),
-				 ModelPackage.Literals.COMMENTED_ELEMENT__COMMENT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -124,13 +82,13 @@ public class TestCaseItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TestCase_feature_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TestCase_feature_feature", "_UI_TestCase_type"),
-				 TestPackage.Literals.TEST_CASE__FEATURE,
+				 getString("_UI_SingleTestCase_feature_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SingleTestCase_feature_feature", "_UI_SingleTestCase_type"),
+				 TestPackage.Literals.SINGLE_TEST_CASE__FEATURE,
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -146,13 +104,13 @@ public class TestCaseItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TestCase_case_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TestCase_case_feature", "_UI_TestCase_type"),
-				 TestPackage.Literals.TEST_CASE__CASE,
+				 getString("_UI_SingleTestCase_case_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SingleTestCase_case_feature", "_UI_SingleTestCase_type"),
+				 TestPackage.Literals.SINGLE_TEST_CASE__CASE,
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -169,7 +127,7 @@ public class TestCaseItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(TestPackage.Literals.TEST_CASE__STEPS);
+			childrenFeatures.add(TestPackage.Literals.SINGLE_TEST_CASE__STEPS);
 		}
 		return childrenFeatures;
 	}
@@ -188,14 +146,14 @@ public class TestCaseItemProvider
 	}
 
 	/**
-	 * This returns TestCase.gif.
+	 * This returns SingleTestCase.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/TestCase"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/SingleTestCase"));
 	}
 
 	/**
@@ -206,10 +164,10 @@ public class TestCaseItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((TestCase)object).getName();
+		String label = ((SingleTestCase)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_TestCase_type") :
-			getString("_UI_TestCase_type") + " " + label;
+			getString("_UI_SingleTestCase_type") :
+			getString("_UI_SingleTestCase_type") + " " + label;
 	}
 
 	/**
@@ -223,14 +181,12 @@ public class TestCaseItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(TestCase.class)) {
-			case TestPackage.TEST_CASE__NAME:
-			case TestPackage.TEST_CASE__COMMENT:
-			case TestPackage.TEST_CASE__FEATURE:
-			case TestPackage.TEST_CASE__CASE:
+		switch (notification.getFeatureID(SingleTestCase.class)) {
+			case TestPackage.SINGLE_TEST_CASE__FEATURE:
+			case TestPackage.SINGLE_TEST_CASE__CASE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case TestPackage.TEST_CASE__STEPS:
+			case TestPackage.SINGLE_TEST_CASE__STEPS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -250,7 +206,7 @@ public class TestCaseItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(TestPackage.Literals.TEST_CASE__STEPS,
+				(TestPackage.Literals.SINGLE_TEST_CASE__STEPS,
 				 TestFactory.eINSTANCE.createStep()));
 	}
 

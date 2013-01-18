@@ -13,12 +13,17 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Namespace;
 import org.openetcs.model.ertmsformalspecs.Parameter;
 import org.openetcs.model.ertmsformalspecs.Procedure;
+import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
+import org.openetcs.model.ertmsformalspecs.ReqRef;
+import org.openetcs.model.ertmsformalspecs.ReqRelated;
 import org.openetcs.model.ertmsformalspecs.StateMachine;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.types.Structure;
@@ -32,6 +37,11 @@ import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#getComment <em>Comment</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#getRequirements <em>Requirements</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#isImplemented <em>Implemented</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#isVerified <em>Verified</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#isNeedsRequirement <em>Needs Requirement</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#getStateMachine <em>State Machine</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ProcedureImpl#getRules <em>Rules</em>}</li>
@@ -62,6 +72,96 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComment()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMMENT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComment()
+	 * @generated
+	 * @ordered
+	 */
+	protected String comment = COMMENT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRequirements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ReqRef> requirements;
+
+	/**
+	 * The default value of the '{@link #isImplemented() <em>Implemented</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isImplemented()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IMPLEMENTED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isImplemented() <em>Implemented</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isImplemented()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean implemented = IMPLEMENTED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isVerified() <em>Verified</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isVerified()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean VERIFIED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isVerified() <em>Verified</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isVerified()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean verified = VERIFIED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isNeedsRequirement() <em>Needs Requirement</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNeedsRequirement()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean NEEDS_REQUIREMENT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isNeedsRequirement() <em>Needs Requirement</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isNeedsRequirement()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean needsRequirement = NEEDS_REQUIREMENT_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
@@ -131,6 +231,102 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.PROCEDURE__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getComment() {
+		return comment;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComment(String newComment) {
+		String oldComment = comment;
+		comment = newComment;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.PROCEDURE__COMMENT, oldComment, comment));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<ReqRef> getRequirements() {
+		if (requirements == null) {
+			requirements = new EObjectResolvingEList<ReqRef>(ReqRef.class, this, ModelPackage.PROCEDURE__REQUIREMENTS);
+		}
+		return requirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isImplemented() {
+		return implemented;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImplemented(boolean newImplemented) {
+		boolean oldImplemented = implemented;
+		implemented = newImplemented;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.PROCEDURE__IMPLEMENTED, oldImplemented, implemented));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isVerified() {
+		return verified;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVerified(boolean newVerified) {
+		boolean oldVerified = verified;
+		verified = newVerified;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.PROCEDURE__VERIFIED, oldVerified, verified));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isNeedsRequirement() {
+		return needsRequirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNeedsRequirement(boolean newNeedsRequirement) {
+		boolean oldNeedsRequirement = needsRequirement;
+		needsRequirement = newNeedsRequirement;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.PROCEDURE__NEEDS_REQUIREMENT, oldNeedsRequirement, needsRequirement));
 	}
 
 	/**
@@ -357,6 +553,16 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 		switch (featureID) {
 			case ModelPackage.PROCEDURE__NAME:
 				return getName();
+			case ModelPackage.PROCEDURE__COMMENT:
+				return getComment();
+			case ModelPackage.PROCEDURE__REQUIREMENTS:
+				return getRequirements();
+			case ModelPackage.PROCEDURE__IMPLEMENTED:
+				return isImplemented();
+			case ModelPackage.PROCEDURE__VERIFIED:
+				return isVerified();
+			case ModelPackage.PROCEDURE__NEEDS_REQUIREMENT:
+				return isNeedsRequirement();
 			case ModelPackage.PROCEDURE__PARAMETERS:
 				return getParameters();
 			case ModelPackage.PROCEDURE__STATE_MACHINE:
@@ -382,6 +588,22 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 		switch (featureID) {
 			case ModelPackage.PROCEDURE__NAME:
 				setName((String)newValue);
+				return;
+			case ModelPackage.PROCEDURE__COMMENT:
+				setComment((String)newValue);
+				return;
+			case ModelPackage.PROCEDURE__REQUIREMENTS:
+				getRequirements().clear();
+				getRequirements().addAll((Collection<? extends ReqRef>)newValue);
+				return;
+			case ModelPackage.PROCEDURE__IMPLEMENTED:
+				setImplemented((Boolean)newValue);
+				return;
+			case ModelPackage.PROCEDURE__VERIFIED:
+				setVerified((Boolean)newValue);
+				return;
+			case ModelPackage.PROCEDURE__NEEDS_REQUIREMENT:
+				setNeedsRequirement((Boolean)newValue);
 				return;
 			case ModelPackage.PROCEDURE__PARAMETERS:
 				getParameters().clear();
@@ -415,6 +637,21 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 			case ModelPackage.PROCEDURE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case ModelPackage.PROCEDURE__COMMENT:
+				setComment(COMMENT_EDEFAULT);
+				return;
+			case ModelPackage.PROCEDURE__REQUIREMENTS:
+				getRequirements().clear();
+				return;
+			case ModelPackage.PROCEDURE__IMPLEMENTED:
+				setImplemented(IMPLEMENTED_EDEFAULT);
+				return;
+			case ModelPackage.PROCEDURE__VERIFIED:
+				setVerified(VERIFIED_EDEFAULT);
+				return;
+			case ModelPackage.PROCEDURE__NEEDS_REQUIREMENT:
+				setNeedsRequirement(NEEDS_REQUIREMENT_EDEFAULT);
+				return;
 			case ModelPackage.PROCEDURE__PARAMETERS:
 				getParameters().clear();
 				return;
@@ -444,6 +681,16 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 		switch (featureID) {
 			case ModelPackage.PROCEDURE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case ModelPackage.PROCEDURE__COMMENT:
+				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
+			case ModelPackage.PROCEDURE__REQUIREMENTS:
+				return requirements != null && !requirements.isEmpty();
+			case ModelPackage.PROCEDURE__IMPLEMENTED:
+				return implemented != IMPLEMENTED_EDEFAULT;
+			case ModelPackage.PROCEDURE__VERIFIED:
+				return verified != VERIFIED_EDEFAULT;
+			case ModelPackage.PROCEDURE__NEEDS_REQUIREMENT:
+				return needsRequirement != NEEDS_REQUIREMENT_EDEFAULT;
 			case ModelPackage.PROCEDURE__PARAMETERS:
 				return parameters != null && !parameters.isEmpty();
 			case ModelPackage.PROCEDURE__STATE_MACHINE:
@@ -464,12 +711,80 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	 * @generated
 	 */
 	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == CommentedElement.class) {
+			switch (derivedFeatureID) {
+				case ModelPackage.PROCEDURE__COMMENT: return ModelPackage.COMMENTED_ELEMENT__COMMENT;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReferencesParagraph.class) {
+			switch (derivedFeatureID) {
+				case ModelPackage.PROCEDURE__REQUIREMENTS: return ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReqRelated.class) {
+			switch (derivedFeatureID) {
+				case ModelPackage.PROCEDURE__IMPLEMENTED: return ModelPackage.REQ_RELATED__IMPLEMENTED;
+				case ModelPackage.PROCEDURE__VERIFIED: return ModelPackage.REQ_RELATED__VERIFIED;
+				case ModelPackage.PROCEDURE__NEEDS_REQUIREMENT: return ModelPackage.REQ_RELATED__NEEDS_REQUIREMENT;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == CommentedElement.class) {
+			switch (baseFeatureID) {
+				case ModelPackage.COMMENTED_ELEMENT__COMMENT: return ModelPackage.PROCEDURE__COMMENT;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReferencesParagraph.class) {
+			switch (baseFeatureID) {
+				case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS: return ModelPackage.PROCEDURE__REQUIREMENTS;
+				default: return -1;
+			}
+		}
+		if (baseClass == ReqRelated.class) {
+			switch (baseFeatureID) {
+				case ModelPackage.REQ_RELATED__IMPLEMENTED: return ModelPackage.PROCEDURE__IMPLEMENTED;
+				case ModelPackage.REQ_RELATED__VERIFIED: return ModelPackage.PROCEDURE__VERIFIED;
+				case ModelPackage.REQ_RELATED__NEEDS_REQUIREMENT: return ModelPackage.PROCEDURE__NEEDS_REQUIREMENT;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", comment: ");
+		result.append(comment);
+		result.append(", implemented: ");
+		result.append(implemented);
+		result.append(", verified: ");
+		result.append(verified);
+		result.append(", needsRequirement: ");
+		result.append(needsRequirement);
 		result.append(')');
 		return result.toString();
 	}

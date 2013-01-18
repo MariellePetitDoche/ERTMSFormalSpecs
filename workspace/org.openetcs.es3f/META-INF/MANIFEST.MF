@@ -11,3 +11,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.openetcs.es3f,
  org.openetcs.internal.es3f;x-internal:=true
+Bundle-ClassPath: lib/xmlb.jar,
+ .

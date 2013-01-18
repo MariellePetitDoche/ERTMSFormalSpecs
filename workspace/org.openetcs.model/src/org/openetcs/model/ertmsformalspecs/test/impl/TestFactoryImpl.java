@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.test.Expectation;
 import org.openetcs.model.ertmsformalspecs.test.Frame;
 import org.openetcs.model.ertmsformalspecs.test.Step;
@@ -71,7 +72,7 @@ public class TestFactoryImpl extends EFactoryImpl implements TestFactory {
 		switch (eClass.getClassifierID()) {
 			case TestPackage.FRAME: return createFrame();
 			case TestPackage.SUB_SEQUENCE: return createSubSequence();
-			case TestPackage.TEST_CASE: return createTestCase();
+			case TestPackage.SINGLE_TEST_CASE: return createSingleTestCase();
 			case TestPackage.STEP: return createStep();
 			case TestPackage.SUB_STEP: return createSubStep();
 			case TestPackage.EXPECTATION: return createExpectation();
@@ -154,9 +155,9 @@ public class TestFactoryImpl extends EFactoryImpl implements TestFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TestCase createTestCase() {
-		TestCaseImpl testCase = new TestCaseImpl();
-		return testCase;
+	public SingleTestCase createSingleTestCase() {
+		SingleTestCaseImpl singleTestCase = new SingleTestCaseImpl();
+		return singleTestCase;
 	}
 
 	/**

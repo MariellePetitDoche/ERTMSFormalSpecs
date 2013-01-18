@@ -297,8 +297,8 @@ public interface SubSequence extends NamedElement, CommentedElement {
 
 	/**
 	 * Returns the value of the '<em><b>Test Cases</b></em>' containment reference list.
-	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.test.TestCase}.
-	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getParentSubSequence <em>Parent Sub Sequence</em>}'.
+	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase}.
+	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getParentSubSequence <em>Parent Sub Sequence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Test Cases</em>' containment reference list isn't clear,
@@ -307,10 +307,10 @@ public interface SubSequence extends NamedElement, CommentedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Test Cases</em>' containment reference list.
 	 * @see org.openetcs.model.ertmsformalspecs.test.TestPackage#getSubSequence_TestCases()
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestCase#getParentSubSequence
+	 * @see org.openetcs.model.ertmsformalspecs.test.SingleTestCase#getParentSubSequence
 	 * @model opposite="parentSubSequence" containment="true"
 	 * @generated
 	 */
-	EList<TestCase> getTestCases();
+	EList<SingleTestCase> getTestCases();
 
 } // SubSequence

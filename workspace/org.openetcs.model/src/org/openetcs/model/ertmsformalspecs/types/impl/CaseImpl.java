@@ -27,6 +27,7 @@ import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.types.impl.CaseImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.types.impl.CaseImpl#getPreConditions <em>Pre Conditions</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.types.impl.CaseImpl#getExpression <em>Expression</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.types.impl.CaseImpl#getParentFunction <em>Parent Function</em>}</li>
@@ -36,6 +37,26 @@ import org.openetcs.model.ertmsformalspecs.types.TypesPackage;
  * @generated
  */
 public class CaseImpl extends EObjectImpl implements Case {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getPreConditions() <em>Pre Conditions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -83,6 +104,27 @@ public class CaseImpl extends EObjectImpl implements Case {
 	@Override
 	protected EClass eStaticClass() {
 		return TypesPackage.Literals.CASE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.CASE__NAME, oldName, name));
 	}
 
 	/**
@@ -216,6 +258,8 @@ public class CaseImpl extends EObjectImpl implements Case {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case TypesPackage.CASE__NAME:
+				return getName();
 			case TypesPackage.CASE__PRE_CONDITIONS:
 				return getPreConditions();
 			case TypesPackage.CASE__EXPRESSION:
@@ -235,6 +279,9 @@ public class CaseImpl extends EObjectImpl implements Case {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case TypesPackage.CASE__NAME:
+				setName((String)newValue);
+				return;
 			case TypesPackage.CASE__PRE_CONDITIONS:
 				getPreConditions().clear();
 				getPreConditions().addAll((Collection<? extends PreCondition>)newValue);
@@ -257,6 +304,9 @@ public class CaseImpl extends EObjectImpl implements Case {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case TypesPackage.CASE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case TypesPackage.CASE__PRE_CONDITIONS:
 				getPreConditions().clear();
 				return;
@@ -278,6 +328,8 @@ public class CaseImpl extends EObjectImpl implements Case {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case TypesPackage.CASE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case TypesPackage.CASE__PRE_CONDITIONS:
 				return preConditions != null && !preConditions.isEmpty();
 			case TypesPackage.CASE__EXPRESSION:
@@ -298,7 +350,9 @@ public class CaseImpl extends EObjectImpl implements Case {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (expression: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", expression: ");
 		result.append(expression);
 		result.append(')');
 		return result.toString();

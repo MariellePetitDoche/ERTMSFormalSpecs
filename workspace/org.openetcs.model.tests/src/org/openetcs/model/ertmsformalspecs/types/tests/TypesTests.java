@@ -30,7 +30,14 @@ public class TypesTests extends TestSuite {
 	 */
 	public static Test suite() {
 		TestSuite suite = new TypesTests("types Tests");
+		suite.addTestSuite(EnumerationTest.class);
 		suite.addTestSuite(EnumValueTest.class);
+		suite.addTestSuite(RangeTest.class);
+		suite.addTestSuite(StructureTest.class);
+		suite.addTestSuite(StructureElementTest.class);
+		suite.addTestSuite(CollectionTest.class);
+		suite.addTestSuite(FunctionTest.class);
+		suite.addTestSuite(CaseTest.class);
 		return suite;
 	}
 

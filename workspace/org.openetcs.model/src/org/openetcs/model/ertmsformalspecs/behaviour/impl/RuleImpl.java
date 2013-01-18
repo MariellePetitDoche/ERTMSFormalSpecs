@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
+import org.openetcs.model.ertmsformalspecs.Namespace;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRef;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
@@ -42,6 +43,7 @@ import org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition;
  *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getPriority <em>Priority</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getConditions <em>Conditions</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getParentStateMachine <em>Parent State Machine</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.behaviour.impl.RuleImpl#getParentNamespace <em>Parent Namespace</em>}</li>
  * </ul>
  * </p>
  *
@@ -187,6 +189,16 @@ public class RuleImpl extends EObjectImpl implements Rule {
 	 * @ordered
 	 */
 	protected EList<RuleCondition> conditions;
+
+	/**
+	 * The cached value of the '{@link #getParentNamespace() <em>Parent Namespace</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParentNamespace()
+	 * @generated
+	 * @ordered
+	 */
+	protected Namespace parentNamespace;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -403,6 +415,44 @@ public class RuleImpl extends EObjectImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Namespace getParentNamespace() {
+		if (parentNamespace != null && parentNamespace.eIsProxy()) {
+			InternalEObject oldParentNamespace = (InternalEObject)parentNamespace;
+			parentNamespace = (Namespace)eResolveProxy(oldParentNamespace);
+			if (parentNamespace != oldParentNamespace) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BehaviourPackage.RULE__PARENT_NAMESPACE, oldParentNamespace, parentNamespace));
+			}
+		}
+		return parentNamespace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Namespace basicGetParentNamespace() {
+		return parentNamespace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParentNamespace(Namespace newParentNamespace) {
+		Namespace oldParentNamespace = parentNamespace;
+		parentNamespace = newParentNamespace;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, BehaviourPackage.RULE__PARENT_NAMESPACE, oldParentNamespace, parentNamespace));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -470,6 +520,9 @@ public class RuleImpl extends EObjectImpl implements Rule {
 				return getConditions();
 			case BehaviourPackage.RULE__PARENT_STATE_MACHINE:
 				return getParentStateMachine();
+			case BehaviourPackage.RULE__PARENT_NAMESPACE:
+				if (resolve) return getParentNamespace();
+				return basicGetParentNamespace();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -512,6 +565,9 @@ public class RuleImpl extends EObjectImpl implements Rule {
 			case BehaviourPackage.RULE__PARENT_STATE_MACHINE:
 				setParentStateMachine((StateMachine)newValue);
 				return;
+			case BehaviourPackage.RULE__PARENT_NAMESPACE:
+				setParentNamespace((Namespace)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -551,6 +607,9 @@ public class RuleImpl extends EObjectImpl implements Rule {
 			case BehaviourPackage.RULE__PARENT_STATE_MACHINE:
 				setParentStateMachine((StateMachine)null);
 				return;
+			case BehaviourPackage.RULE__PARENT_NAMESPACE:
+				setParentNamespace((Namespace)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -581,6 +640,8 @@ public class RuleImpl extends EObjectImpl implements Rule {
 				return conditions != null && !conditions.isEmpty();
 			case BehaviourPackage.RULE__PARENT_STATE_MACHINE:
 				return getParentStateMachine() != null;
+			case BehaviourPackage.RULE__PARENT_NAMESPACE:
+				return parentNamespace != null;
 		}
 		return super.eIsSet(featureID);
 	}

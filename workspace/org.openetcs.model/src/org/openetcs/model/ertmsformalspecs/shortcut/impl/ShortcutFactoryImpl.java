@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.openetcs.model.ertmsformalspecs.shortcut.*;
 import org.openetcs.model.ertmsformalspecs.shortcut.Shortcut;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFactory;
 import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder;

@@ -109,7 +109,7 @@ public class EnumerationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Enumeration)object).getComment();
+		String label = ((Enumeration)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Enumeration_type") :
 			getString("_UI_Enumeration_type") + " " + label;

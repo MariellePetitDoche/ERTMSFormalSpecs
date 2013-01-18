@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.test.Frame;
+import org.openetcs.model.ertmsformalspecs.test.SingleTestCase;
 import org.openetcs.model.ertmsformalspecs.test.SubSequence;
 import org.openetcs.model.ertmsformalspecs.test.TestCase;
 import org.openetcs.model.ertmsformalspecs.test.TestPackage;
@@ -275,7 +276,7 @@ public class SubSequenceImpl extends EObjectImpl implements SubSequence {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<TestCase> testCases;
+	protected EList<SingleTestCase> testCases;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -573,9 +574,9 @@ public class SubSequenceImpl extends EObjectImpl implements SubSequence {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<TestCase> getTestCases() {
+	public EList<SingleTestCase> getTestCases() {
 		if (testCases == null) {
-			testCases = new EObjectContainmentWithInverseEList<TestCase>(TestCase.class, this, TestPackage.SUB_SEQUENCE__TEST_CASES, TestPackage.TEST_CASE__PARENT_SUB_SEQUENCE);
+			testCases = new EObjectContainmentWithInverseEList<SingleTestCase>(SingleTestCase.class, this, TestPackage.SUB_SEQUENCE__TEST_CASES, TestPackage.SINGLE_TEST_CASE__PARENT_SUB_SEQUENCE);
 		}
 		return testCases;
 	}
@@ -714,7 +715,7 @@ public class SubSequenceImpl extends EObjectImpl implements SubSequence {
 				return;
 			case TestPackage.SUB_SEQUENCE__TEST_CASES:
 				getTestCases().clear();
-				getTestCases().addAll((Collection<? extends TestCase>)newValue);
+				getTestCases().addAll((Collection<? extends SingleTestCase>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

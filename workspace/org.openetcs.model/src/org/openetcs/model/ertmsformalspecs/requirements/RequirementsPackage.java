@@ -289,22 +289,40 @@ public interface RequirementsPackage extends EPackage {
 	int PARAGRAPH = 5;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PARAGRAPH__NAME = ModelPackage.NAMED_ELEMENT__NAME;
-
-	/**
 	 * The feature id for the '<em><b>Baseline</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__BASELINE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int PARAGRAPH__BASELINE = BASE_LINED_ELEMENT__BASELINE;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAGRAPH__COMMENT = BASE_LINED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAGRAPH__NAME = BASE_LINED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAGRAPH__REQUIREMENTS = BASE_LINED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -313,7 +331,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__TYPE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int PARAGRAPH__TYPE = BASE_LINED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Scope</b></em>' containment reference.
@@ -322,7 +340,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__SCOPE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int PARAGRAPH__SCOPE = BASE_LINED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Process Info</b></em>' containment reference.
@@ -331,7 +349,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__PROCESS_INFO = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int PARAGRAPH__PROCESS_INFO = BASE_LINED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -340,7 +358,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__ID = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int PARAGRAPH__ID = BASE_LINED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -349,7 +367,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__TEXT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int PARAGRAPH__TEXT = BASE_LINED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Functional Block</b></em>' reference.
@@ -358,7 +376,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__FUNCTIONAL_BLOCK = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int PARAGRAPH__FUNCTIONAL_BLOCK = BASE_LINED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Parent Specification</b></em>' container reference.
@@ -367,7 +385,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__PARENT_SPECIFICATION = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 7;
+	int PARAGRAPH__PARENT_SPECIFICATION = BASE_LINED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Sub Paragraphs</b></em>' containment reference list.
@@ -376,7 +394,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__SUB_PARAGRAPHS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 8;
+	int PARAGRAPH__SUB_PARAGRAPHS = BASE_LINED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Parent Paragraph</b></em>' container reference.
@@ -385,16 +403,16 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__PARENT_PARAGRAPH = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 9;
+	int PARAGRAPH__PARENT_PARAGRAPH = BASE_LINED_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
-	 * The feature id for the '<em><b>Type Spec</b></em>' containment reference.
+	 * The feature id for the '<em><b>Type Specs</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__TYPE_SPEC = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 10;
+	int PARAGRAPH__TYPE_SPECS = BASE_LINED_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' containment reference.
@@ -403,7 +421,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__MESSAGE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 11;
+	int PARAGRAPH__MESSAGE = BASE_LINED_ELEMENT_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>Version</b></em>' reference.
@@ -412,7 +430,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__VERSION = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 12;
+	int PARAGRAPH__VERSION = BASE_LINED_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
 	 * The number of structural features of the '<em>Paragraph</em>' class.
@@ -421,7 +439,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 13;
+	int PARAGRAPH_FEATURE_COUNT = BASE_LINED_ELEMENT_FEATURE_COUNT + 15;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus <em>EImplementation Status</em>}' enum.
@@ -714,15 +732,15 @@ public interface RequirementsPackage extends EPackage {
 	EReference getParagraph_ParentParagraph();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getTypeSpec <em>Type Spec</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getTypeSpecs <em>Type Specs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Type Spec</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getTypeSpec()
+	 * @return the meta object for the containment reference list '<em>Type Specs</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getTypeSpecs()
 	 * @see #getParagraph()
 	 * @generated
 	 */
-	EReference getParagraph_TypeSpec();
+	EReference getParagraph_TypeSpecs();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.openetcs.model.ertmsformalspecs.requirements.Paragraph#getMessage <em>Message</em>}'.
@@ -1001,12 +1019,12 @@ public interface RequirementsPackage extends EPackage {
 		EReference PARAGRAPH__PARENT_PARAGRAPH = eINSTANCE.getParagraph_ParentParagraph();
 
 		/**
-		 * The meta object literal for the '<em><b>Type Spec</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Type Specs</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PARAGRAPH__TYPE_SPEC = eINSTANCE.getParagraph_TypeSpec();
+		EReference PARAGRAPH__TYPE_SPECS = eINSTANCE.getParagraph_TypeSpecs();
 
 		/**
 		 * The meta object literal for the '<em><b>Message</b></em>' containment reference feature.

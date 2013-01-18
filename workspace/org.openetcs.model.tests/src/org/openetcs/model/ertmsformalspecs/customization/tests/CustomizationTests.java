@@ -30,6 +30,7 @@ public class CustomizationTests extends TestSuite {
 	 */
 	public static Test suite() {
 		TestSuite suite = new CustomizationTests("customization Tests");
+		suite.addTestSuite(RuleDisablingTest.class);
 		return suite;
 	}
 

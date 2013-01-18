@@ -219,7 +219,7 @@ namespace Report.Specs
             Dictionary<DataDictionary.Specification.Paragraph, List<ReqRef>> paragraphsReqRefDictionary = aDictionary.ParagraphsReqRefs;
             foreach (DataDictionary.Specification.Paragraph paragraph in applicableParagraphs)
             {
-                bool implemented = paragraph.getImplementationStatus() == DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented;
+                bool implemented = paragraph.getImplementationStatus() == DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented;
                 if (implemented)
                 {
                     if (paragraphsReqRefDictionary.ContainsKey(paragraph))

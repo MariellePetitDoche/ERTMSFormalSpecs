@@ -3,6 +3,7 @@
 package org.openetcs.model.ertmsformalspecs.types;
 
 import org.eclipse.emf.common.util.EList;
+import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
 
@@ -24,7 +25,7 @@ import org.openetcs.model.ertmsformalspecs.behaviour.PreCondition;
  * @model
  * @generated
  */
-public interface Case extends EObject {
+public interface Case extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Pre Conditions</b></em>' containment reference list.
 	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.behaviour.PreCondition}.

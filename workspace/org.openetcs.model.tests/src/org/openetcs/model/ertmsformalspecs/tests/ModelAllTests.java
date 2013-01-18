@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.behaviour.tests.BehaviourTests;
+import org.openetcs.model.ertmsformalspecs.customization.tests.CustomizationTests;
 import org.openetcs.model.ertmsformalspecs.requirements.tests.RequirementsTests;
 import org.openetcs.model.ertmsformalspecs.shortcut.tests.ShortcutTests;
 import org.openetcs.model.ertmsformalspecs.test.tests.TestTests;
@@ -40,6 +41,7 @@ public class ModelAllTests extends TestSuite {
 		suite.addTest(ModelTests.suite());
 		suite.addTest(RequirementsTests.suite());
 		suite.addTest(TypesTests.suite());
+		suite.addTest(CustomizationTests.suite());
 		suite.addTest(BehaviourTests.suite());
 		suite.addTest(TestTests.suite());
 		suite.addTest(TranslationTests.suite());

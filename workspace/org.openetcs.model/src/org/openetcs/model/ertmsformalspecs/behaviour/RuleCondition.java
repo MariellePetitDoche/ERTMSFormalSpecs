@@ -4,6 +4,7 @@ package org.openetcs.model.ertmsformalspecs.behaviour;
 
 import org.eclipse.emf.common.util.EList;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
+import org.openetcs.model.ertmsformalspecs.ReqRelated;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +24,7 @@ import org.openetcs.model.ertmsformalspecs.NamedElement;
  * @model
  * @generated
  */
-public interface RuleCondition extends NamedElement {
+public interface RuleCondition extends NamedElement, ReqRelated {
 	/**
 	 * Returns the value of the '<em><b>Actions</b></em>' containment reference list.
 	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.behaviour.Action}.

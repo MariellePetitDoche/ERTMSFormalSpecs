@@ -30,6 +30,7 @@ import org.openetcs.model.ertmsformalspecs.translation.TranslationPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.SubStepImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.SubStepImpl#getParentStep <em>Parent Step</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.SubStepImpl#getActions <em>Actions</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.SubStepImpl#getExpectations <em>Expectations</em>}</li>
@@ -41,6 +42,26 @@ import org.openetcs.model.ertmsformalspecs.translation.TranslationPackage;
  * @generated
  */
 public class SubStepImpl extends EObjectImpl implements SubStep {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getActions() <em>Actions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -98,6 +119,27 @@ public class SubStepImpl extends EObjectImpl implements SubStep {
 	@Override
 	protected EClass eStaticClass() {
 		return TestPackage.Literals.SUB_STEP;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TestPackage.SUB_STEP__NAME, oldName, name));
 	}
 
 	/**
@@ -296,6 +338,8 @@ public class SubStepImpl extends EObjectImpl implements SubStep {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case TestPackage.SUB_STEP__NAME:
+				return getName();
 			case TestPackage.SUB_STEP__PARENT_STEP:
 				return getParentStep();
 			case TestPackage.SUB_STEP__ACTIONS:
@@ -319,6 +363,9 @@ public class SubStepImpl extends EObjectImpl implements SubStep {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case TestPackage.SUB_STEP__NAME:
+				setName((String)newValue);
+				return;
 			case TestPackage.SUB_STEP__PARENT_STEP:
 				setParentStep((Step)newValue);
 				return;
@@ -348,6 +395,9 @@ public class SubStepImpl extends EObjectImpl implements SubStep {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case TestPackage.SUB_STEP__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case TestPackage.SUB_STEP__PARENT_STEP:
 				setParentStep((Step)null);
 				return;
@@ -375,6 +425,8 @@ public class SubStepImpl extends EObjectImpl implements SubStep {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case TestPackage.SUB_STEP__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case TestPackage.SUB_STEP__PARENT_STEP:
 				return getParentStep() != null;
 			case TestPackage.SUB_STEP__ACTIONS:
@@ -399,7 +451,9 @@ public class SubStepImpl extends EObjectImpl implements SubStep {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (skipEngine: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", skipEngine: ");
 		result.append(skipEngine);
 		result.append(')');
 		return result.toString();

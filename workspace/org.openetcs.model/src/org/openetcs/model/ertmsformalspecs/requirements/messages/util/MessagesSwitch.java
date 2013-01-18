@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.openetcs.model.ertmsformalspecs.requirements.BaseLinedElement;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.IMatch;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.Mask;

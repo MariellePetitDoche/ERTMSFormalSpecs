@@ -32,8 +32,13 @@ public class TestTests extends TestSuite {
 		TestSuite suite = new TestTests("test Tests");
 		suite.addTestSuite(FrameTest.class);
 		suite.addTestSuite(SubSequenceTest.class);
-		suite.addTestSuite(TestCaseTest.class);
+		suite.addTestSuite(SingleTestCaseTest.class);
 		suite.addTestSuite(StepTest.class);
+		suite.addTestSuite(SubStepTest.class);
+		suite.addTestSuite(ExpectationTest.class);
+		suite.addTestSuite(TestMessageTest.class);
+		suite.addTestSuite(TestPacketTest.class);
+		suite.addTestSuite(TestFieldTest.class);
 		return suite;
 	}
 

@@ -21,6 +21,7 @@ import org.openetcs.model.ertmsformalspecs.test.TestPacket;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestFieldImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestFieldImpl#getParentMessage <em>Parent Message</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestFieldImpl#getParentPacket <em>Parent Packet</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.TestFieldImpl#getVariable <em>Variable</em>}</li>
@@ -31,6 +32,26 @@ import org.openetcs.model.ertmsformalspecs.test.TestPacket;
  * @generated
  */
 public class TestFieldImpl extends EObjectImpl implements TestField {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -88,6 +109,27 @@ public class TestFieldImpl extends EObjectImpl implements TestField {
 	@Override
 	protected EClass eStaticClass() {
 		return TestPackage.Literals.TEST_FIELD;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TestPackage.TEST_FIELD__NAME, oldName, name));
 	}
 
 	/**
@@ -274,6 +316,8 @@ public class TestFieldImpl extends EObjectImpl implements TestField {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case TestPackage.TEST_FIELD__NAME:
+				return getName();
 			case TestPackage.TEST_FIELD__PARENT_MESSAGE:
 				return getParentMessage();
 			case TestPackage.TEST_FIELD__PARENT_PACKET:
@@ -294,6 +338,9 @@ public class TestFieldImpl extends EObjectImpl implements TestField {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case TestPackage.TEST_FIELD__NAME:
+				setName((String)newValue);
+				return;
 			case TestPackage.TEST_FIELD__PARENT_MESSAGE:
 				setParentMessage((TestMessage)newValue);
 				return;
@@ -318,6 +365,9 @@ public class TestFieldImpl extends EObjectImpl implements TestField {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case TestPackage.TEST_FIELD__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case TestPackage.TEST_FIELD__PARENT_MESSAGE:
 				setParentMessage((TestMessage)null);
 				return;
@@ -342,6 +392,8 @@ public class TestFieldImpl extends EObjectImpl implements TestField {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case TestPackage.TEST_FIELD__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case TestPackage.TEST_FIELD__PARENT_MESSAGE:
 				return getParentMessage() != null;
 			case TestPackage.TEST_FIELD__PARENT_PACKET:
@@ -364,7 +416,9 @@ public class TestFieldImpl extends EObjectImpl implements TestField {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (variable: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", variable: ");
 		result.append(variable);
 		result.append(", value: ");
 		result.append(value);

@@ -22,6 +22,7 @@ import org.openetcs.model.ertmsformalspecs.shortcut.ShortcutPackage;
 import org.openetcs.model.ertmsformalspecs.shortcut.impl.ShortcutPackageImpl;
 import org.openetcs.model.ertmsformalspecs.test.Expectation;
 import org.openetcs.model.ertmsformalspecs.test.Frame;
+import org.openetcs.model.ertmsformalspecs.test.SingleTestCase;
 import org.openetcs.model.ertmsformalspecs.test.Step;
 import org.openetcs.model.ertmsformalspecs.test.StepIO;
 import org.openetcs.model.ertmsformalspecs.test.StepInterface;
@@ -67,7 +68,7 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass testCaseEClass = null;
+	private EClass singleTestCaseEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -373,8 +374,8 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTestCase() {
-		return testCaseEClass;
+	public EClass getSingleTestCase() {
+		return singleTestCaseEClass;
 	}
 
 	/**
@@ -382,8 +383,8 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTestCase_ParentSubSequence() {
-		return (EReference)testCaseEClass.getEStructuralFeatures().get(0);
+	public EReference getSingleTestCase_ParentSubSequence() {
+		return (EReference)singleTestCaseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -391,8 +392,8 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTestCase_Feature() {
-		return (EAttribute)testCaseEClass.getEStructuralFeatures().get(1);
+	public EAttribute getSingleTestCase_Feature() {
+		return (EAttribute)singleTestCaseEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -400,8 +401,8 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTestCase_Case() {
-		return (EAttribute)testCaseEClass.getEStructuralFeatures().get(2);
+	public EAttribute getSingleTestCase_Case() {
+		return (EAttribute)singleTestCaseEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -409,8 +410,8 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTestCase_Steps() {
-		return (EReference)testCaseEClass.getEStructuralFeatures().get(3);
+	public EReference getSingleTestCase_Steps() {
+		return (EReference)singleTestCaseEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -872,11 +873,11 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 		createEAttribute(subSequenceEClass, SUB_SEQUENCE__RBC_PHONE);
 		createEReference(subSequenceEClass, SUB_SEQUENCE__TEST_CASES);
 
-		testCaseEClass = createEClass(TEST_CASE);
-		createEReference(testCaseEClass, TEST_CASE__PARENT_SUB_SEQUENCE);
-		createEAttribute(testCaseEClass, TEST_CASE__FEATURE);
-		createEAttribute(testCaseEClass, TEST_CASE__CASE);
-		createEReference(testCaseEClass, TEST_CASE__STEPS);
+		singleTestCaseEClass = createEClass(SINGLE_TEST_CASE);
+		createEReference(singleTestCaseEClass, SINGLE_TEST_CASE__PARENT_SUB_SEQUENCE);
+		createEAttribute(singleTestCaseEClass, SINGLE_TEST_CASE__FEATURE);
+		createEAttribute(singleTestCaseEClass, SINGLE_TEST_CASE__CASE);
+		createEReference(singleTestCaseEClass, SINGLE_TEST_CASE__STEPS);
 
 		stepEClass = createEClass(STEP);
 		createEReference(stepEClass, STEP__PARENT_TEST_CASE);
@@ -970,10 +971,14 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 		frameEClass.getESuperTypes().add(theModelPackage.getCommentedElement());
 		subSequenceEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 		subSequenceEClass.getESuperTypes().add(theModelPackage.getCommentedElement());
-		testCaseEClass.getESuperTypes().add(theModelPackage.getNamedElement());
-		testCaseEClass.getESuperTypes().add(theModelPackage.getCommentedElement());
+		singleTestCaseEClass.getESuperTypes().add(theModelPackage.getReqRelated());
 		stepEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 		stepEClass.getESuperTypes().add(theModelPackage.getCommentedElement());
+		subStepEClass.getESuperTypes().add(theModelPackage.getNamedElement());
+		expectationEClass.getESuperTypes().add(theModelPackage.getNamedElement());
+		testMessageEClass.getESuperTypes().add(theModelPackage.getNamedElement());
+		testPacketEClass.getESuperTypes().add(theModelPackage.getNamedElement());
+		testFieldEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(frameEClass, Frame.class, "Frame", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -991,16 +996,16 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 		initEAttribute(getSubSequence_QDLRBG(), ecorePackage.getEString(), "qDLRBG", null, 0, 1, SubSequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSubSequence_RbcId(), ecorePackage.getEString(), "rbcId", null, 0, 1, SubSequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSubSequence_RbcPhone(), ecorePackage.getEString(), "rbcPhone", null, 0, 1, SubSequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSubSequence_TestCases(), this.getTestCase(), this.getTestCase_ParentSubSequence(), "testCases", null, 0, -1, SubSequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSubSequence_TestCases(), this.getSingleTestCase(), this.getSingleTestCase_ParentSubSequence(), "testCases", null, 0, -1, SubSequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(testCaseEClass, TestCase.class, "TestCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTestCase_ParentSubSequence(), this.getSubSequence(), this.getSubSequence_TestCases(), "parentSubSequence", null, 0, 1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTestCase_Feature(), ecorePackage.getEString(), "feature", null, 0, 1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTestCase_Case(), ecorePackage.getEString(), "case", null, 0, 1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTestCase_Steps(), this.getStep(), this.getStep_ParentTestCase(), "steps", null, 0, -1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(singleTestCaseEClass, SingleTestCase.class, "SingleTestCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSingleTestCase_ParentSubSequence(), this.getSubSequence(), this.getSubSequence_TestCases(), "parentSubSequence", null, 0, 1, SingleTestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSingleTestCase_Feature(), ecorePackage.getEInt(), "feature", null, 0, 1, SingleTestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSingleTestCase_Case(), ecorePackage.getEInt(), "case", null, 0, 1, SingleTestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSingleTestCase_Steps(), this.getStep(), this.getStep_ParentTestCase(), "steps", null, 0, -1, SingleTestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stepEClass, Step.class, "Step", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getStep_ParentTestCase(), this.getTestCase(), this.getTestCase_Steps(), "parentTestCase", null, 0, 1, Step.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStep_ParentTestCase(), this.getSingleTestCase(), this.getSingleTestCase_Steps(), "parentTestCase", null, 0, 1, Step.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStep_TcsOrder(), ecorePackage.getEInt(), "tcsOrder", null, 0, 1, Step.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStep_Distance(), ecorePackage.getEInt(), "distance", null, 0, 1, Step.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStep_Description(), ecorePackage.getEString(), "description", null, 0, 1, Step.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

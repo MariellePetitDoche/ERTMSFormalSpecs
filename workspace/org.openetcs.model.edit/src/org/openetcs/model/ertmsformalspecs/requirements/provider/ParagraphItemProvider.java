@@ -62,15 +62,16 @@ public class ParagraphItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 			addBaselinePropertyDescriptor(object);
+			addCommentPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
+			addRequirementsPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
 			addScopePropertyDescriptor(object);
 			addProcessInfoPropertyDescriptor(object);
 			addIdPropertyDescriptor(object);
 			addTextPropertyDescriptor(object);
 			addFunctionalBlockPropertyDescriptor(object);
-			addTypeSpecPropertyDescriptor(object);
 			addMessagePropertyDescriptor(object);
 			addVersionPropertyDescriptor(object);
 		}
@@ -100,6 +101,28 @@ public class ParagraphItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Requirements feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRequirementsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ReferencesParagraph_requirements_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ReferencesParagraph_requirements_feature", "_UI_ReferencesParagraph_type"),
+				 ModelPackage.Literals.REFERENCES_PARAGRAPH__REQUIREMENTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Baseline feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -117,6 +140,28 @@ public class ParagraphItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Comment feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCommentPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_CommentedElement_comment_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_CommentedElement_comment_feature", "_UI_CommentedElement_type"),
+				 ModelPackage.Literals.COMMENTED_ELEMENT__COMMENT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -254,28 +299,6 @@ public class ParagraphItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Type Spec feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addTypeSpecPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Paragraph_typeSpec_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Paragraph_typeSpec_feature", "_UI_Paragraph_type"),
-				 RequirementsPackage.Literals.PARAGRAPH__TYPE_SPEC,
-				 true,
-				 false,
-				 false,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This adds a property descriptor for the Message feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -334,7 +357,7 @@ public class ParagraphItemProvider
 			childrenFeatures.add(RequirementsPackage.Literals.PARAGRAPH__SCOPE);
 			childrenFeatures.add(RequirementsPackage.Literals.PARAGRAPH__PROCESS_INFO);
 			childrenFeatures.add(RequirementsPackage.Literals.PARAGRAPH__SUB_PARAGRAPHS);
-			childrenFeatures.add(RequirementsPackage.Literals.PARAGRAPH__TYPE_SPEC);
+			childrenFeatures.add(RequirementsPackage.Literals.PARAGRAPH__TYPE_SPECS);
 			childrenFeatures.add(RequirementsPackage.Literals.PARAGRAPH__MESSAGE);
 		}
 		return childrenFeatures;
@@ -390,6 +413,7 @@ public class ParagraphItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Paragraph.class)) {
+			case RequirementsPackage.PARAGRAPH__COMMENT:
 			case RequirementsPackage.PARAGRAPH__NAME:
 			case RequirementsPackage.PARAGRAPH__TYPE:
 			case RequirementsPackage.PARAGRAPH__ID:
@@ -399,7 +423,7 @@ public class ParagraphItemProvider
 			case RequirementsPackage.PARAGRAPH__SCOPE:
 			case RequirementsPackage.PARAGRAPH__PROCESS_INFO:
 			case RequirementsPackage.PARAGRAPH__SUB_PARAGRAPHS:
-			case RequirementsPackage.PARAGRAPH__TYPE_SPEC:
+			case RequirementsPackage.PARAGRAPH__TYPE_SPECS:
 			case RequirementsPackage.PARAGRAPH__MESSAGE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -435,7 +459,7 @@ public class ParagraphItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(RequirementsPackage.Literals.PARAGRAPH__TYPE_SPEC,
+				(RequirementsPackage.Literals.PARAGRAPH__TYPE_SPECS,
 				 MessagesFactory.eINSTANCE.createTypeSpec()));
 
 		newChildDescriptors.add

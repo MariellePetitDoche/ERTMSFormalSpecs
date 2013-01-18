@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.core.ECPProject;
+import org.openetcs.model.ertmsformalspecs.Baselines;
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Namespace;
@@ -26,6 +27,10 @@ public class ExportUtil {
 				for(Namespace namespace:dictonary.getNamespaces()){
 					
 				}
+			}
+			else if (ModelPackage.eINSTANCE.getBaselines().equals(eObject.eClass())){
+				Baselines baselines = (Baselines) eObject;
+				
 			}
 		}
 	}

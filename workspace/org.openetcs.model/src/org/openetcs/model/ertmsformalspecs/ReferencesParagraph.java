@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface ReferencesParagraph extends CommentedElement {
+public interface ReferencesParagraph extends CommentedElement, NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Requirements</b></em>' reference list.
 	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.ReqRef}.

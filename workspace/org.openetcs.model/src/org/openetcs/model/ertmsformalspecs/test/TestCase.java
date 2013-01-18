@@ -3,6 +3,7 @@
 package org.openetcs.model.ertmsformalspecs.test;
 
 import org.eclipse.emf.common.util.EList;
+import org.openetcs.model.ertmsformalspecs.ReqRelated;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
 
@@ -25,7 +26,7 @@ import org.openetcs.model.ertmsformalspecs.NamedElement;
  * @model
  * @generated
  */
-public interface TestCase extends NamedElement, CommentedElement {
+public interface TestCase extends ReqRelated {
 	/**
 	 * Returns the value of the '<em><b>Parent Sub Sequence</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.test.SubSequence#getTestCases <em>Test Cases</em>}'.
@@ -63,12 +64,12 @@ public interface TestCase extends NamedElement, CommentedElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Feature</em>' attribute.
-	 * @see #setFeature(String)
+	 * @see #setFeature(int)
 	 * @see org.openetcs.model.ertmsformalspecs.test.TestPackage#getTestCase_Feature()
 	 * @model
 	 * @generated
 	 */
-	String getFeature();
+	int getFeature();
 
 	/**
 	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getFeature <em>Feature</em>}' attribute.
@@ -78,7 +79,7 @@ public interface TestCase extends NamedElement, CommentedElement {
 	 * @see #getFeature()
 	 * @generated
 	 */
-	void setFeature(String value);
+	void setFeature(int value);
 
 	/**
 	 * Returns the value of the '<em><b>Case</b></em>' attribute.
@@ -89,12 +90,12 @@ public interface TestCase extends NamedElement, CommentedElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Case</em>' attribute.
-	 * @see #setCase(String)
+	 * @see #setCase(int)
 	 * @see org.openetcs.model.ertmsformalspecs.test.TestPackage#getTestCase_Case()
 	 * @model
 	 * @generated
 	 */
-	String getCase();
+	int getCase();
 
 	/**
 	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.test.TestCase#getCase <em>Case</em>}' attribute.
@@ -104,7 +105,7 @@ public interface TestCase extends NamedElement, CommentedElement {
 	 * @see #getCase()
 	 * @generated
 	 */
-	void setCase(String value);
+	void setCase(int value);
 
 	/**
 	 * Returns the value of the '<em><b>Steps</b></em>' containment reference list.

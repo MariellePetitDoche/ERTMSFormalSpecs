@@ -26,7 +26,7 @@ import org.openetcs.model.ertmsformalspecs.types.Structure;
  * @model
  * @generated
  */
-public interface Procedure extends NamedElement {
+public interface Procedure extends NamedElement, ReqRelated {
 	/**
 	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
 	 * The list contents are of type {@link org.openetcs.model.ertmsformalspecs.Parameter}.

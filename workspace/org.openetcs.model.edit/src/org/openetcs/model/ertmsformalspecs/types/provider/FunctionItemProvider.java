@@ -135,7 +135,7 @@ public class FunctionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Function)object).getTypeName();
+		String label = ((Function)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Function_type") :
 			getString("_UI_Function_type") + " " + label;

@@ -13,12 +13,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.Procedure;
 import org.openetcs.model.ertmsformalspecs.State;
 import org.openetcs.model.ertmsformalspecs.StateMachine;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
 import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
+import org.openetcs.model.ertmsformalspecs.types.impl.TypeImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,7 +39,7 @@ import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
  *
  * @generated
  */
-public class StateMachineImpl extends ReqRelatedImpl implements StateMachine {
+public class StateMachineImpl extends TypeImpl implements StateMachine {
 	/**
 	 * The default value of the '{@link #getInitialState() <em>Initial State</em>}' attribute.
 	 * <!-- begin-user-doc -->

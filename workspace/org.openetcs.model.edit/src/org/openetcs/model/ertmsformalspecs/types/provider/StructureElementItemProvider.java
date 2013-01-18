@@ -151,7 +151,7 @@ public class StructureElementItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((StructureElement)object).getTypeName();
+		String label = ((StructureElement)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_StructureElement_type") :
 			getString("_UI_StructureElement_type") + " " + label;

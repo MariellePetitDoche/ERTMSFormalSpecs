@@ -179,7 +179,7 @@ public class RangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Range)object).getComment();
+		String label = ((Range)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Range_type") :
 			getString("_UI_Range_type") + " " + label;

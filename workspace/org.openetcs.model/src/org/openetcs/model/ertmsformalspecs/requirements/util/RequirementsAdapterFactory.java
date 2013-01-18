@@ -8,6 +8,8 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
+import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
+import org.openetcs.model.ertmsformalspecs.requirements.*;
 import org.openetcs.model.ertmsformalspecs.requirements.BaseLinedElement;
 import org.openetcs.model.ertmsformalspecs.requirements.FunctionalBlock;
 import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
@@ -103,6 +105,10 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseCommentedElement(CommentedElement object) {
 				return createCommentedElementAdapter();
+			}
+			@Override
+			public Adapter caseReferencesParagraph(ReferencesParagraph object) {
+				return createReferencesParagraphAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -233,6 +239,20 @@ public class RequirementsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCommentedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.openetcs.model.ertmsformalspecs.ReferencesParagraph <em>References Paragraph</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.openetcs.model.ertmsformalspecs.ReferencesParagraph
+	 * @generated
+	 */
+	public Adapter createReferencesParagraphAdapter() {
 		return null;
 	}
 

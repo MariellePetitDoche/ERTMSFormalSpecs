@@ -12,6 +12,7 @@ import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 import org.openetcs.model.ertmsformalspecs.ReqRelated;
 import org.openetcs.model.ertmsformalspecs.VariableModeElement;
+import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.types.Case;
 import org.openetcs.model.ertmsformalspecs.types.Collection;
 import org.openetcs.model.ertmsformalspecs.types.EnumValue;
@@ -125,6 +126,10 @@ public class TypesAdapterFactory extends AdapterFactoryImpl {
 				return createCommentedElementAdapter();
 			}
 			@Override
+			public Adapter caseNamedElement(NamedElement object) {
+				return createNamedElementAdapter();
+			}
+			@Override
 			public Adapter caseReferencesParagraph(ReferencesParagraph object) {
 				return createReferencesParagraphAdapter();
 			}
@@ -135,10 +140,6 @@ public class TypesAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseDefaultValueElement(DefaultValueElement object) {
 				return createDefaultValueElementAdapter();
-			}
-			@Override
-			public Adapter caseNamedElement(NamedElement object) {
-				return createNamedElementAdapter();
 			}
 			@Override
 			public Adapter caseVariableModeElement(VariableModeElement object) {

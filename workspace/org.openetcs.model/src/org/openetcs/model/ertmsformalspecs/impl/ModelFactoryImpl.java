@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.openetcs.model.ertmsformalspecs.*;
 import org.openetcs.model.ertmsformalspecs.BaseLine;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
@@ -70,6 +71,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 		switch (eClass.getClassifierID()) {
 			case ModelPackage.DICTIONARY: return createDictionary();
 			case ModelPackage.COMMENTED_ELEMENT: return createCommentedElement();
+			case ModelPackage.BASELINES: return createBaselines();
 			case ModelPackage.BASE_LINE: return createBaseLine();
 			case ModelPackage.NAMESPACE: return createNamespace();
 			case ModelPackage.PROCEDURE: return createProcedure();
@@ -80,6 +82,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.DEFAULT_VALUE_ELEMENT: return createDefaultValueElement();
 			case ModelPackage.VARIABLE_MODE_ELEMENT: return createVariableModeElement();
 			case ModelPackage.VARIABLE: return createVariable();
+			case ModelPackage.FUNCTIONAL_BLOCKS: return createFunctionalBlocks();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -133,6 +136,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public CommentedElement createCommentedElement() {
 		CommentedElementImpl commentedElement = new CommentedElementImpl();
 		return commentedElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Baselines createBaselines() {
+		BaselinesImpl baselines = new BaselinesImpl();
+		return baselines;
 	}
 
 	/**
@@ -233,6 +246,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public Variable createVariable() {
 		VariableImpl variable = new VariableImpl();
 		return variable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FunctionalBlocks createFunctionalBlocks() {
+		FunctionalBlocksImpl functionalBlocks = new FunctionalBlocksImpl();
+		return functionalBlocks;
 	}
 
 	/**

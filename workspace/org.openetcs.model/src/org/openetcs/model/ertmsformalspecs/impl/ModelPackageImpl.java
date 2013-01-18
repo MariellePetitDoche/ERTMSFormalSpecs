@@ -9,9 +9,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.openetcs.model.ertmsformalspecs.BaseLine;
+import org.openetcs.model.ertmsformalspecs.Baselines;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.DefaultValueElement;
 import org.openetcs.model.ertmsformalspecs.Dictionary;
+import org.openetcs.model.ertmsformalspecs.FunctionalBlocks;
 import org.openetcs.model.ertmsformalspecs.ModelFactory;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
@@ -70,6 +72,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass commentedElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass baselinesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -154,6 +163,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass variableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass functionalBlocksEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -353,6 +369,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getBaselines() {
+		return baselinesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBaselines_AvailableBaselines() {
+		return (EReference)baselinesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBaseLine() {
 		return baseLineEClass;
 	}
@@ -418,6 +452,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	public EReference getNamespace_Variables() {
 		return (EReference)namespaceEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNamespace_Rules() {
+		return (EReference)namespaceEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -776,6 +819,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getFunctionalBlocks() {
+		return functionalBlocksEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFunctionalBlocks_AvailableFunctionalBlocks() {
+		return (EReference)functionalBlocksEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getVariableMode() {
 		return variableModeEEnum;
 	}
@@ -822,6 +883,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		commentedElementEClass = createEClass(COMMENTED_ELEMENT);
 		createEAttribute(commentedElementEClass, COMMENTED_ELEMENT__COMMENT);
 
+		baselinesEClass = createEClass(BASELINES);
+		createEReference(baselinesEClass, BASELINES__AVAILABLE_BASELINES);
+
 		baseLineEClass = createEClass(BASE_LINE);
 
 		namespaceEClass = createEClass(NAMESPACE);
@@ -831,6 +895,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(namespaceEClass, NAMESPACE__PROCEDURES);
 		createEReference(namespaceEClass, NAMESPACE__TYPES);
 		createEReference(namespaceEClass, NAMESPACE__VARIABLES);
+		createEReference(namespaceEClass, NAMESPACE__RULES);
 
 		procedureEClass = createEClass(PROCEDURE);
 		createEReference(procedureEClass, PROCEDURE__PARAMETERS);
@@ -880,6 +945,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(variableEClass, VARIABLE__PARENT_NAMESPACE);
 		createEReference(variableEClass, VARIABLE__SUB_VARIABLES);
 		createEReference(variableEClass, VARIABLE__PARENT_VARIABLE);
+
+		functionalBlocksEClass = createEClass(FUNCTIONAL_BLOCKS);
+		createEReference(functionalBlocksEClass, FUNCTIONAL_BLOCKS__AVAILABLE_FUNCTIONAL_BLOCKS);
 
 		// Create enums
 		variableModeEEnum = createEEnum(VARIABLE_MODE);
@@ -936,11 +1004,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		baseLineEClass.getESuperTypes().add(this.getNamedElement());
 		namespaceEClass.getESuperTypes().add(this.getNamedElement());
 		procedureEClass.getESuperTypes().add(this.getNamedElement());
+		procedureEClass.getESuperTypes().add(this.getReqRelated());
 		parameterEClass.getESuperTypes().add(this.getNamedElement());
 		referencesParagraphEClass.getESuperTypes().add(this.getCommentedElement());
+		referencesParagraphEClass.getESuperTypes().add(this.getNamedElement());
 		reqRefEClass.getESuperTypes().add(this.getCommentedElement());
 		reqRelatedEClass.getESuperTypes().add(this.getReferencesParagraph());
-		stateMachineEClass.getESuperTypes().add(this.getReqRelated());
+		stateMachineEClass.getESuperTypes().add(theTypesPackage.getType());
 		stateEClass.getESuperTypes().add(this.getNamedElement());
 		variableEClass.getESuperTypes().add(this.getNamedElement());
 		variableEClass.getESuperTypes().add(this.getReqRelated());
@@ -963,6 +1033,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEClass(commentedElementEClass, CommentedElement.class, "CommentedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCommentedElement_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, CommentedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(baselinesEClass, Baselines.class, "Baselines", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBaselines_AvailableBaselines(), this.getBaseLine(), null, "availableBaselines", null, 0, -1, Baselines.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(baseLineEClass, BaseLine.class, "BaseLine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(namespaceEClass, Namespace.class, "Namespace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -972,6 +1045,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getNamespace_Procedures(), this.getProcedure(), this.getProcedure_ParentNamespace(), "procedures", null, 0, -1, Namespace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNamespace_Types(), theTypesPackage.getType(), theTypesPackage.getType_ParentNamespace(), "types", null, 0, -1, Namespace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNamespace_Variables(), this.getVariable(), this.getVariable_ParentNamespace(), "variables", null, 0, -1, Namespace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNamespace_Rules(), theBehaviourPackage.getRule(), null, "Rules", null, 0, -1, Namespace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(procedureEClass, Procedure.class, "Procedure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getProcedure_Parameters(), this.getParameter(), this.getParameter_ParentProcedure(), "parameters", null, 0, -1, Procedure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1021,6 +1095,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getVariable_ParentNamespace(), this.getNamespace(), this.getNamespace_Variables(), "parentNamespace", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_SubVariables(), this.getVariable(), null, "subVariables", null, 0, -1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariable_ParentVariable(), this.getVariable(), null, "parentVariable", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(functionalBlocksEClass, FunctionalBlocks.class, "FunctionalBlocks", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFunctionalBlocks_AvailableFunctionalBlocks(), theRequirementsPackage.getFunctionalBlock(), null, "availableFunctionalBlocks", null, 0, -1, FunctionalBlocks.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(variableModeEEnum, VariableMode.class, "VariableMode");

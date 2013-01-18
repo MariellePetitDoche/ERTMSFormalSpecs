@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
+import org.openetcs.model.ertmsformalspecs.test.SingleTestCase;
 import org.openetcs.model.ertmsformalspecs.test.Step;
 import org.openetcs.model.ertmsformalspecs.test.StepIO;
 import org.openetcs.model.ertmsformalspecs.test.StepInterface;
@@ -422,9 +423,9 @@ public class StepImpl extends EObjectImpl implements Step {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TestCase getParentTestCase() {
+	public SingleTestCase getParentTestCase() {
 		if (eContainerFeatureID() != TestPackage.STEP__PARENT_TEST_CASE) return null;
-		return (TestCase)eContainer();
+		return (SingleTestCase)eContainer();
 	}
 
 	/**
@@ -432,7 +433,7 @@ public class StepImpl extends EObjectImpl implements Step {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetParentTestCase(TestCase newParentTestCase, NotificationChain msgs) {
+	public NotificationChain basicSetParentTestCase(SingleTestCase newParentTestCase, NotificationChain msgs) {
 		msgs = eBasicSetContainer((InternalEObject)newParentTestCase, TestPackage.STEP__PARENT_TEST_CASE, msgs);
 		return msgs;
 	}
@@ -442,7 +443,7 @@ public class StepImpl extends EObjectImpl implements Step {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setParentTestCase(TestCase newParentTestCase) {
+	public void setParentTestCase(SingleTestCase newParentTestCase) {
 		if (newParentTestCase != eInternalContainer() || (eContainerFeatureID() != TestPackage.STEP__PARENT_TEST_CASE && newParentTestCase != null)) {
 			if (EcoreUtil.isAncestor(this, newParentTestCase))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -450,7 +451,7 @@ public class StepImpl extends EObjectImpl implements Step {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newParentTestCase != null)
-				msgs = ((InternalEObject)newParentTestCase).eInverseAdd(this, TestPackage.TEST_CASE__STEPS, TestCase.class, msgs);
+				msgs = ((InternalEObject)newParentTestCase).eInverseAdd(this, TestPackage.SINGLE_TEST_CASE__STEPS, SingleTestCase.class, msgs);
 			msgs = basicSetParentTestCase(newParentTestCase, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -746,7 +747,7 @@ public class StepImpl extends EObjectImpl implements Step {
 			case TestPackage.STEP__PARENT_TEST_CASE:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetParentTestCase((TestCase)otherEnd, msgs);
+				return basicSetParentTestCase((SingleTestCase)otherEnd, msgs);
 			case TestPackage.STEP__SUB_STEPS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubSteps()).basicAdd(otherEnd, msgs);
 			case TestPackage.STEP__MESSAGES:
@@ -782,7 +783,7 @@ public class StepImpl extends EObjectImpl implements Step {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case TestPackage.STEP__PARENT_TEST_CASE:
-				return eInternalContainer().eInverseRemove(this, TestPackage.TEST_CASE__STEPS, TestCase.class, msgs);
+				return eInternalContainer().eInverseRemove(this, TestPackage.SINGLE_TEST_CASE__STEPS, SingleTestCase.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -849,7 +850,7 @@ public class StepImpl extends EObjectImpl implements Step {
 				setComment((String)newValue);
 				return;
 			case TestPackage.STEP__PARENT_TEST_CASE:
-				setParentTestCase((TestCase)newValue);
+				setParentTestCase((SingleTestCase)newValue);
 				return;
 			case TestPackage.STEP__TCS_ORDER:
 				setTcsOrder((Integer)newValue);
@@ -914,7 +915,7 @@ public class StepImpl extends EObjectImpl implements Step {
 				setComment(COMMENT_EDEFAULT);
 				return;
 			case TestPackage.STEP__PARENT_TEST_CASE:
-				setParentTestCase((TestCase)null);
+				setParentTestCase((SingleTestCase)null);
 				return;
 			case TestPackage.STEP__TCS_ORDER:
 				setTcsOrder(TCS_ORDER_EDEFAULT);

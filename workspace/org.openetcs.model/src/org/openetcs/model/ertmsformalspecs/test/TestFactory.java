@@ -40,13 +40,13 @@ public interface TestFactory extends EFactory {
 	SubSequence createSubSequence();
 
 	/**
-	 * Returns a new object of class '<em>Case</em>'.
+	 * Returns a new object of class '<em>Single Test Case</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Case</em>'.
+	 * @return a new object of class '<em>Single Test Case</em>'.
 	 * @generated
 	 */
-	TestCase createTestCase();
+	SingleTestCase createSingleTestCase();
 
 	/**
 	 * Returns a new object of class '<em>Step</em>'.

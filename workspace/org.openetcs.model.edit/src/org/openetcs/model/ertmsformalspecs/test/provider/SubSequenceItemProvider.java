@@ -419,7 +419,7 @@ public class SubSequenceItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(TestPackage.Literals.SUB_SEQUENCE__TEST_CASES,
-				 TestFactory.eINSTANCE.createTestCase()));
+				 TestFactory.eINSTANCE.createSingleTestCase()));
 	}
 
 	/**

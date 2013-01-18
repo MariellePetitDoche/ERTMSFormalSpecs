@@ -77,6 +77,15 @@ public interface TypesPackage extends EPackage {
 	int TYPE__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE__NAME = ModelPackage.REQ_RELATED__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -185,6 +194,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUMERATION__COMMENT = TYPE__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUMERATION__NAME = TYPE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
@@ -351,6 +369,15 @@ public interface TypesPackage extends EPackage {
 	int RANGE__COMMENT = TYPE__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANGE__NAME = TYPE__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -469,6 +496,15 @@ public interface TypesPackage extends EPackage {
 	int STRUCTURE__COMMENT = TYPE__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURE__NAME = TYPE__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -578,6 +614,15 @@ public interface TypesPackage extends EPackage {
 	int STRUCTURE_ELEMENT__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURE_ELEMENT__NAME = ModelPackage.REQ_RELATED__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -667,6 +712,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION__COMMENT = TYPE__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION__NAME = TYPE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
@@ -769,6 +823,15 @@ public interface TypesPackage extends EPackage {
 	int FUNCTION__COMMENT = TYPE__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION__NAME = TYPE__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -869,13 +932,22 @@ public interface TypesPackage extends EPackage {
 	int CASE = 9;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE__NAME = ModelPackage.NAMED_ELEMENT__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Pre Conditions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CASE__PRE_CONDITIONS = 0;
+	int CASE__PRE_CONDITIONS = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Expression</b></em>' attribute.
@@ -884,7 +956,7 @@ public interface TypesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CASE__EXPRESSION = 1;
+	int CASE__EXPRESSION = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Parent Function</b></em>' container reference.
@@ -893,7 +965,7 @@ public interface TypesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CASE__PARENT_FUNCTION = 2;
+	int CASE__PARENT_FUNCTION = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Case</em>' class.
@@ -902,7 +974,7 @@ public interface TypesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CASE_FEATURE_COUNT = 3;
+	int CASE_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.types.Precision <em>Precision</em>}' enum.
