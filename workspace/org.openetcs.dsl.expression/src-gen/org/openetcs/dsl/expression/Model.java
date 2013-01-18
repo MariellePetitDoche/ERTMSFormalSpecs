@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.openetcs.dsl.expression.Model#getExpression <em>Expression</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.Model#getPhrase <em>Phrase</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,29 +23,29 @@ import org.eclipse.emf.ecore.EObject;
 public interface Model extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Expression</b></em>' containment reference.
+   * Returns the value of the '<em><b>Phrase</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Expression</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Phrase</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Expression</em>' containment reference.
-   * @see #setExpression(Expression)
-   * @see org.openetcs.dsl.expression.ExpressionPackage#getModel_Expression()
+   * @return the value of the '<em>Phrase</em>' containment reference.
+   * @see #setPhrase(Phrase)
+   * @see org.openetcs.dsl.expression.ExpressionPackage#getModel_Phrase()
    * @model containment="true"
    * @generated
    */
-  Expression getExpression();
+  Phrase getPhrase();
 
   /**
-   * Sets the value of the '{@link org.openetcs.dsl.expression.Model#getExpression <em>Expression</em>}' containment reference.
+   * Sets the value of the '{@link org.openetcs.dsl.expression.Model#getPhrase <em>Phrase</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Expression</em>' containment reference.
-   * @see #getExpression()
+   * @param value the new value of the '<em>Phrase</em>' containment reference.
+   * @see #getPhrase()
    * @generated
    */
-  void setExpression(Expression value);
+  void setPhrase(Phrase value);
 
 } // Model

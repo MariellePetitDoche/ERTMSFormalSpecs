@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="org.openetcs.ui.statechart.open"
+            name="Open Statechart">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.emf.ecp.ui.ModelExplorerView?after=additions">
+         <command
+               commandId="org.openetcs.ui.statechart.open"
+               label="Open Statechart"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <and>
+                     <count
+                           value="1">
+                     </count>
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.openetcs.model.ertmsformalspecs.StateMachine">
+                        </instanceof>
+                     </iterate>
+                  </and>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.openetcs.ui.internal.statechart.handler.OpenStatechartHandler"
+            commandId="org.openetcs.ui.statechart.open">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            class="org.openetcs.ui.internal.statechart.provider.StateChartDiagramTypeProvider"
+            id="org.openetcs.ui.statechart.diagramTypeProvider"
+            name="State Chart">
+         <diagramType
+               id="org.openetcs.ui.statechart.diagramType">
+         </diagramType>
+      </diagramTypeProvider>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            id="org.openetcs.ui.statechart.diagramType"
+            name="StateChart"
+            type="org.openetcs.ui.statechart.diagramType">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.openetcs.ui.internal.statechart.editor.StateChartEditor"
+            default="false"
+            id="org.openetcs.ui.statechart.editor"
+            name="StateChart Editor">
+      </editor>
+   </extension>
+
+</plugin>

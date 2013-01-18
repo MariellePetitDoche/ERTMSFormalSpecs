@@ -30,12 +30,12 @@ public interface DoubleValue extends Term
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
-   * @see #setValue(String)
+   * @see #setValue(double)
    * @see org.openetcs.dsl.expression.ExpressionPackage#getDoubleValue_Value()
    * @model
    * @generated
    */
-  String getValue();
+  double getValue();
 
   /**
    * Sets the value of the '{@link org.openetcs.dsl.expression.DoubleValue#getValue <em>Value</em>}' attribute.
@@ -45,6 +45,6 @@ public interface DoubleValue extends Term
    * @see #getValue()
    * @generated
    */
-  void setValue(String value);
+  void setValue(double value);
 
 } // DoubleValue

@@ -34,7 +34,7 @@ public class DoubleValueImpl extends TermImpl implements DoubleValue
    * @generated
    * @ordered
    */
-  protected static final String VALUE_EDEFAULT = null;
+  protected static final double VALUE_EDEFAULT = 0.0;
 
   /**
    * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -44,7 +44,7 @@ public class DoubleValueImpl extends TermImpl implements DoubleValue
    * @generated
    * @ordered
    */
-  protected String value = VALUE_EDEFAULT;
+  protected double value = VALUE_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -72,7 +72,7 @@ public class DoubleValueImpl extends TermImpl implements DoubleValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getValue()
+  public double getValue()
   {
     return value;
   }
@@ -82,9 +82,9 @@ public class DoubleValueImpl extends TermImpl implements DoubleValue
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setValue(String newValue)
+  public void setValue(double newValue)
   {
-    String oldValue = value;
+    double oldValue = value;
     value = newValue;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.DOUBLE_VALUE__VALUE, oldValue, value));
@@ -117,7 +117,7 @@ public class DoubleValueImpl extends TermImpl implements DoubleValue
     switch (featureID)
     {
       case ExpressionPackage.DOUBLE_VALUE__VALUE:
-        setValue((String)newValue);
+        setValue((Double)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -151,7 +151,7 @@ public class DoubleValueImpl extends TermImpl implements DoubleValue
     switch (featureID)
     {
       case ExpressionPackage.DOUBLE_VALUE__VALUE:
-        return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+        return value != VALUE_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }

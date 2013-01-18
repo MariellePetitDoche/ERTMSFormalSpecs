@@ -11,9 +11,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.openetcs.dsl.expression.Expression;
 import org.openetcs.dsl.expression.ExpressionPackage;
 import org.openetcs.dsl.expression.Model;
+import org.openetcs.dsl.expression.Phrase;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,7 +22,7 @@ import org.openetcs.dsl.expression.Model;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.openetcs.dsl.expression.impl.ModelImpl#getExpression <em>Expression</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.impl.ModelImpl#getPhrase <em>Phrase</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,14 +31,14 @@ import org.openetcs.dsl.expression.Model;
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model
 {
   /**
-   * The cached value of the '{@link #getExpression() <em>Expression</em>}' containment reference.
+   * The cached value of the '{@link #getPhrase() <em>Phrase</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getExpression()
+   * @see #getPhrase()
    * @generated
    * @ordered
    */
-  protected Expression expression;
+  protected Phrase phrase;
 
   /**
    * <!-- begin-user-doc -->
@@ -66,9 +66,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public Expression getExpression()
+  public Phrase getPhrase()
   {
-    return expression;
+    return phrase;
   }
 
   /**
@@ -76,13 +76,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetExpression(Expression newExpression, NotificationChain msgs)
+  public NotificationChain basicSetPhrase(Phrase newPhrase, NotificationChain msgs)
   {
-    Expression oldExpression = expression;
-    expression = newExpression;
+    Phrase oldPhrase = phrase;
+    phrase = newPhrase;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.MODEL__EXPRESSION, oldExpression, newExpression);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.MODEL__PHRASE, oldPhrase, newPhrase);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -93,20 +93,20 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setExpression(Expression newExpression)
+  public void setPhrase(Phrase newPhrase)
   {
-    if (newExpression != expression)
+    if (newPhrase != phrase)
     {
       NotificationChain msgs = null;
-      if (expression != null)
-        msgs = ((InternalEObject)expression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.MODEL__EXPRESSION, null, msgs);
-      if (newExpression != null)
-        msgs = ((InternalEObject)newExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.MODEL__EXPRESSION, null, msgs);
-      msgs = basicSetExpression(newExpression, msgs);
+      if (phrase != null)
+        msgs = ((InternalEObject)phrase).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.MODEL__PHRASE, null, msgs);
+      if (newPhrase != null)
+        msgs = ((InternalEObject)newPhrase).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.MODEL__PHRASE, null, msgs);
+      msgs = basicSetPhrase(newPhrase, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.MODEL__EXPRESSION, newExpression, newExpression));
+      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.MODEL__PHRASE, newPhrase, newPhrase));
   }
 
   /**
@@ -119,8 +119,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case ExpressionPackage.MODEL__EXPRESSION:
-        return basicSetExpression(null, msgs);
+      case ExpressionPackage.MODEL__PHRASE:
+        return basicSetPhrase(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -135,8 +135,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case ExpressionPackage.MODEL__EXPRESSION:
-        return getExpression();
+      case ExpressionPackage.MODEL__PHRASE:
+        return getPhrase();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -151,8 +151,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case ExpressionPackage.MODEL__EXPRESSION:
-        setExpression((Expression)newValue);
+      case ExpressionPackage.MODEL__PHRASE:
+        setPhrase((Phrase)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -168,8 +168,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case ExpressionPackage.MODEL__EXPRESSION:
-        setExpression((Expression)null);
+      case ExpressionPackage.MODEL__PHRASE:
+        setPhrase((Phrase)null);
         return;
     }
     super.eUnset(featureID);
@@ -185,8 +185,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case ExpressionPackage.MODEL__EXPRESSION:
-        return expression != null;
+      case ExpressionPackage.MODEL__PHRASE:
+        return phrase != null;
     }
     return super.eIsSet(featureID);
   }

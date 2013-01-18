@@ -4,27 +4,53 @@ generate expression "http://www.openetcs.org/dsl/Expression"
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 Model:
-	(expression=Expression);
+	phrase=Phrase;
 
-terminal DOUBLE:
+terminal DOUBLE returns ecore::EDouble:
 	INT '.' INT;
 
+Phrase:
+	Expression|Statement;
+
 Expression:
-	Or;
+	EvaluationExpression;
 
-Or returns Expression:
-	{Or} left=And ('OR' right=And)?;
+EvaluationExpression returns Expression:
+	OrExpression
+;
 
-And returns Expression:
-	{And} left=Equality ('AND' right=Equality)?;
+Statement:
+	SingleStatement | SelfStatement | MultiStatement;
 
-Equality returns Expression:
-	{Equality} left=PrimaryExpression (('==' right=PrimaryExpression) | ('!=' right=PrimaryExpression) 
-		| ('<='	right=PrimaryExpression) | ('>=' right=PrimaryExpression) | ('not in' right=PrimaryExpression) 
-		| ('in'	right=PrimaryExpression))?;
+SingleStatement:
+	desgnator=Designator "<-" expression=Expression;
 
+SelfStatement:
+	"CurrentState" "<-" expression=Expression;
+
+MultiStatement:
+	desgnator=Designator "(" (expressions+=Expression)* ")";
+
+
+OrExpression returns Expression:
+	AndExpression ({OrExpression.left=current} op='OR' right=AndExpression)*;
+AndExpression returns Expression:
+	EqualityExpression ({AndExpression.left=current} op='AND' right=EqualityExpression)*;
+
+EqualityExpression returns Expression:
+	DashOperation ({EqualityExpression.left=current} op=( '=='|'!='|'<='|'>='|'in'|'not in') right=DashOperation)*;
+
+
+DashOperation returns Expression:
+	PointOperation ({DashOperation.left=current} op=('+'|'-') right=PointOperation)*;
+PointOperation returns Expression:
+	PowOperation ({PointOperation.left=current} op=('*'|'/') right=PowOperation)*;
+PowOperation returns Expression:
+	PrimaryExpression ({PowOperation.left=current} op=('^') right=PrimaryExpression)*;
+
+//|'('EvaluationExpression')'|'NOT ('EvaluationExpression')'
 PrimaryExpression returns Expression:
-	UnaryExpression;
+	UnaryExpression|'('EvaluationExpression')'|'NOT ('EvaluationExpression')';
 
 UnaryExpression:
 	Term;
@@ -36,4 +62,4 @@ Term:
 	{DoubleValue} value=DOUBLE;
 
 Designator:
-	value=[ecore::EObject];
+	(value=[ecore::EObject]);

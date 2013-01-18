@@ -10,25 +10,26 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.openetcs.dsl.expression.Equality;
 import org.openetcs.dsl.expression.Expression;
 import org.openetcs.dsl.expression.ExpressionPackage;
+import org.openetcs.dsl.expression.OrExpression;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Equality</b></em>'.
+ * An implementation of the model object '<em><b>Or Expression</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.openetcs.dsl.expression.impl.EqualityImpl#getLeft <em>Left</em>}</li>
- *   <li>{@link org.openetcs.dsl.expression.impl.EqualityImpl#getRight <em>Right</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.impl.OrExpressionImpl#getLeft <em>Left</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.impl.OrExpressionImpl#getOp <em>Op</em>}</li>
+ *   <li>{@link org.openetcs.dsl.expression.impl.OrExpressionImpl#getRight <em>Right</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class EqualityImpl extends ExpressionImpl implements Equality
+public class OrExpressionImpl extends ExpressionImpl implements OrExpression
 {
   /**
    * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
@@ -39,6 +40,26 @@ public class EqualityImpl extends ExpressionImpl implements Equality
    * @ordered
    */
   protected Expression left;
+
+  /**
+   * The default value of the '{@link #getOp() <em>Op</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOp()
+   * @generated
+   * @ordered
+   */
+  protected static final String OP_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getOp() <em>Op</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOp()
+   * @generated
+   * @ordered
+   */
+  protected String op = OP_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
@@ -55,7 +76,7 @@ public class EqualityImpl extends ExpressionImpl implements Equality
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EqualityImpl()
+  protected OrExpressionImpl()
   {
     super();
   }
@@ -68,7 +89,7 @@ public class EqualityImpl extends ExpressionImpl implements Equality
   @Override
   protected EClass eStaticClass()
   {
-    return ExpressionPackage.Literals.EQUALITY;
+    return ExpressionPackage.Literals.OR_EXPRESSION;
   }
 
   /**
@@ -92,7 +113,7 @@ public class EqualityImpl extends ExpressionImpl implements Equality
     left = newLeft;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY__LEFT, oldLeft, newLeft);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR_EXPRESSION__LEFT, oldLeft, newLeft);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -109,14 +130,37 @@ public class EqualityImpl extends ExpressionImpl implements Equality
     {
       NotificationChain msgs = null;
       if (left != null)
-        msgs = ((InternalEObject)left).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY__LEFT, null, msgs);
+        msgs = ((InternalEObject)left).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR_EXPRESSION__LEFT, null, msgs);
       if (newLeft != null)
-        msgs = ((InternalEObject)newLeft).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY__LEFT, null, msgs);
+        msgs = ((InternalEObject)newLeft).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR_EXPRESSION__LEFT, null, msgs);
       msgs = basicSetLeft(newLeft, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY__LEFT, newLeft, newLeft));
+      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR_EXPRESSION__LEFT, newLeft, newLeft));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getOp()
+  {
+    return op;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOp(String newOp)
+  {
+    String oldOp = op;
+    op = newOp;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR_EXPRESSION__OP, oldOp, op));
   }
 
   /**
@@ -140,7 +184,7 @@ public class EqualityImpl extends ExpressionImpl implements Equality
     right = newRight;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY__RIGHT, oldRight, newRight);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR_EXPRESSION__RIGHT, oldRight, newRight);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -157,14 +201,14 @@ public class EqualityImpl extends ExpressionImpl implements Equality
     {
       NotificationChain msgs = null;
       if (right != null)
-        msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY__RIGHT, null, msgs);
+        msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR_EXPRESSION__RIGHT, null, msgs);
       if (newRight != null)
-        msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.EQUALITY__RIGHT, null, msgs);
+        msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.OR_EXPRESSION__RIGHT, null, msgs);
       msgs = basicSetRight(newRight, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.EQUALITY__RIGHT, newRight, newRight));
+      eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.OR_EXPRESSION__RIGHT, newRight, newRight));
   }
 
   /**
@@ -177,9 +221,9 @@ public class EqualityImpl extends ExpressionImpl implements Equality
   {
     switch (featureID)
     {
-      case ExpressionPackage.EQUALITY__LEFT:
+      case ExpressionPackage.OR_EXPRESSION__LEFT:
         return basicSetLeft(null, msgs);
-      case ExpressionPackage.EQUALITY__RIGHT:
+      case ExpressionPackage.OR_EXPRESSION__RIGHT:
         return basicSetRight(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -195,9 +239,11 @@ public class EqualityImpl extends ExpressionImpl implements Equality
   {
     switch (featureID)
     {
-      case ExpressionPackage.EQUALITY__LEFT:
+      case ExpressionPackage.OR_EXPRESSION__LEFT:
         return getLeft();
-      case ExpressionPackage.EQUALITY__RIGHT:
+      case ExpressionPackage.OR_EXPRESSION__OP:
+        return getOp();
+      case ExpressionPackage.OR_EXPRESSION__RIGHT:
         return getRight();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -213,10 +259,13 @@ public class EqualityImpl extends ExpressionImpl implements Equality
   {
     switch (featureID)
     {
-      case ExpressionPackage.EQUALITY__LEFT:
+      case ExpressionPackage.OR_EXPRESSION__LEFT:
         setLeft((Expression)newValue);
         return;
-      case ExpressionPackage.EQUALITY__RIGHT:
+      case ExpressionPackage.OR_EXPRESSION__OP:
+        setOp((String)newValue);
+        return;
+      case ExpressionPackage.OR_EXPRESSION__RIGHT:
         setRight((Expression)newValue);
         return;
     }
@@ -233,10 +282,13 @@ public class EqualityImpl extends ExpressionImpl implements Equality
   {
     switch (featureID)
     {
-      case ExpressionPackage.EQUALITY__LEFT:
+      case ExpressionPackage.OR_EXPRESSION__LEFT:
         setLeft((Expression)null);
         return;
-      case ExpressionPackage.EQUALITY__RIGHT:
+      case ExpressionPackage.OR_EXPRESSION__OP:
+        setOp(OP_EDEFAULT);
+        return;
+      case ExpressionPackage.OR_EXPRESSION__RIGHT:
         setRight((Expression)null);
         return;
     }
@@ -253,12 +305,31 @@ public class EqualityImpl extends ExpressionImpl implements Equality
   {
     switch (featureID)
     {
-      case ExpressionPackage.EQUALITY__LEFT:
+      case ExpressionPackage.OR_EXPRESSION__LEFT:
         return left != null;
-      case ExpressionPackage.EQUALITY__RIGHT:
+      case ExpressionPackage.OR_EXPRESSION__OP:
+        return OP_EDEFAULT == null ? op != null : !OP_EDEFAULT.equals(op);
+      case ExpressionPackage.OR_EXPRESSION__RIGHT:
         return right != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //EqualityImpl
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (op: ");
+    result.append(op);
+    result.append(')');
+    return result.toString();
+  }
+
+} //OrExpressionImpl
