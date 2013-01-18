@@ -258,7 +258,6 @@ namespace Importers
             aStep.AddModelElement(aSubStep);
 
             aWorksheet = workbook.Sheets[6] as Worksheet;
-            dumpWorksheet(aWorksheet);
 
             importGammaBrakeParameters(aSubStep, aWorksheet, 2, 8, true);   // first combination
             importGammaBrakeParameters(aSubStep, aWorksheet, 3, 20, false);  // second combination
@@ -516,7 +515,8 @@ namespace Importers
 
 
             /* Initializing the position inaccuracy */
-            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup <-{0:0.0}", (double)(aRange.Cells[21, 4] as Range).Value2));
+            /// TODO
+            /* addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup <- {0:0}", (double)(aRange.Cells[21, 4] as Range).Value2));*/
 
 
             /* Initializing the train length */
@@ -1121,7 +1121,7 @@ namespace Importers
                     fillBrakingCurvesExpectations(aTestCase,
                                                   stepNumber++,
                                                   "EBI",
-                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.d_EBI\n    (\n        V  => {0:0.0#},\n        aTarget => Kernel.MA.EndOfMovementAuthority()\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_EBI\n    (\n        Vest  => {0:0.0#},\n        aTarget => Kernel.MA.EndOfMovementAuthority()\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
                                                   speedValues,
                                                   ebiValues);
                 }
@@ -1130,7 +1130,7 @@ namespace Importers
                     fillBrakingCurvesExpectations(aTestCase,
                                                   stepNumber++,
                                                   "SBI1",
-                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.d_SBI1\n    (\n        V  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_SBI1\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
                                                   speedValues,
                                                   sbi1Values);
                 }
@@ -1139,7 +1139,7 @@ namespace Importers
                     fillBrakingCurvesExpectations(aTestCase,
                                                   stepNumber++,
                                                   "SBI2",
-                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.d_SBI2\n    (\n        V  => {0:0.0#},\n        aTarget => Kernel.MA.EndOfMovementAuthority()\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_SBI2\n    (\n        Vest  => {0:0.0#},\n        aTarget => Kernel.MA.EndOfMovementAuthority()\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
                                                   speedValues,
                                                   sbi2Values);
                 }
@@ -1148,7 +1148,7 @@ namespace Importers
                     fillBrakingCurvesExpectations(aTestCase,
                                                   stepNumber++,
                                                   "FLOI",
-                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.d_FLOI\n    (\n        V  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_FLOI\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
                                                   speedValues,
                                                   floiValues);
                 }
@@ -1157,7 +1157,7 @@ namespace Importers
                     fillBrakingCurvesExpectations(aTestCase,
                                                   stepNumber++,
                                                   "Warning",
-                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.d_W\n    (\n        V  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_W\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
                                                   speedValues,
                                                   warningValues);
                 }
@@ -1166,7 +1166,7 @@ namespace Importers
                     fillBrakingCurvesExpectations(aTestCase,
                                                   stepNumber++,
                                                   "Permitted",
-                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.d_P\n    (\n        V  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_P\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
                                                   speedValues,
                                                   permittedValues);
                 }
@@ -1175,7 +1175,7 @@ namespace Importers
                     fillBrakingCurvesExpectations(aTestCase,
                                                   stepNumber++,
                                                   "Indication",
-                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.d_I\n    (\n        V  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
+                                                  "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.SpeedAndDistanceMonitoring.TargetSupervision.d_I\n    (\n        Vest  => {0:0.0#}\n    ),\n    Val2 => ERA_BrakingCurvesVerification.ConvertTargetDistance ( {1:0.0#} )\n)",
                                                   speedValues,
                                                   indicationValues);
                 }
