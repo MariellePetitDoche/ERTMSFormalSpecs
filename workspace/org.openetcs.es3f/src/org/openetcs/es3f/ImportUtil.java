@@ -3,10 +3,7 @@ package org.openetcs.es3f;
 import java.io.File;
 
 import org.eclipse.emf.ecp.core.ECPProject;
-import org.openetcs.model.ertmsformalspecs.Dictionary;
-import org.openetcs.model.ertmsformalspecs.ModelFactory;
-import org.openetcs.model.ertmsformalspecs.Namespace;
-import org.openetcs.es3f.importer.generated.*;
+import org.openetcs.es3f.generated.acceptor;
 
 import com.raincode.xmlbooster.xmlb.xmlBException;
 import com.raincode.xmlbooster.xmlb.xmlBFileContext;

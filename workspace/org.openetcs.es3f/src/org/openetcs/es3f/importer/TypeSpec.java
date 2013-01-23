@@ -11,10 +11,10 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
-import org.openetcs.es3f.importer.utils.*;
+import org.openetcs.es3f.utils.*;
 
 public class TypeSpec
-	extends org.openetcs.es3f.importer.generated.TypeSpec
+	extends org.openetcs.es3f.generated.TypeSpec
 {
 	private static final long serialVersionUID = 2829494552401902730L;
 
@@ -31,7 +31,7 @@ public class TypeSpec
 
 		// Handles the translation of Bl
 		// Handles the translation of Values
-		ManualTranslation.translateTypeSpec ( project, this, retVal );
+		ManualTranslation.importTypeSpec ( project, this, retVal );
 
 		return retVal;
 	}

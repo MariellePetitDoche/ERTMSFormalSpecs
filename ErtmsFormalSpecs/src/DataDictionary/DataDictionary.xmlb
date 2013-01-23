@@ -3,7 +3,7 @@
         IGNOREALIENATTRS="TRUE"
 	ENTITIESINATTR="TRUE">
 
-  <JAVACONFIG PACKAGE="org.openetcs.es3f.importer.generated" 
+  <JAVACONFIG PACKAGE="org.openetcs.es3f.generated" 
               BASECLASSPREFIX="org.openetcs.es3f.importer" >
   </JAVACONFIG>
 
@@ -1442,8 +1442,12 @@
     <META NAME="Class">SpecialOrReservedValue</META>
     <FIELDS>
       <FIELD NAME="Mask" REFTYPE="mask" />
-      <FIELD NAME="Match" REFTYPE="match" />
-      <FIELD NAME="Match-range" REFTYPE="match-range" />
+      <FIELD NAME="Match" REFTYPE="match">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Match-range" REFTYPE="match-range">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
       <FIELD NAME="Meaning" REFTYPE="meaning" />
       <FIELD NAME="Value" REFTYPE="value" />
     </FIELDS>

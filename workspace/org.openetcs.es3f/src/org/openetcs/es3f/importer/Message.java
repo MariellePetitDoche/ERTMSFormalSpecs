@@ -11,10 +11,10 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
-import org.openetcs.es3f.importer.utils.*;
+import org.openetcs.es3f.utils.*;
 
 public class Message
-	extends org.openetcs.es3f.importer.generated.Message
+	extends org.openetcs.es3f.generated.Message
 {
 	private static final long serialVersionUID = 2829494552401902728L;
 
@@ -33,7 +33,7 @@ public class Message
 
 		// Handles the translation of Media
 		// Handles the translation of Bl
-		ManualTranslation.translateMessage ( project, this, retVal );
+		ManualTranslation.importMessage ( project, this, retVal );
 
 		return retVal;
 	}
