@@ -21,7 +21,7 @@ import java.util.*;
   * as this code is not meant to be maintained at all.
   */
 public class PreCondition
-extends org.openetcs.es3f.importer.ModelElement
+extends org.openetcs.es3f.ModelElement
 {
 public  boolean find(Object search){
 if (search instanceof String ) {

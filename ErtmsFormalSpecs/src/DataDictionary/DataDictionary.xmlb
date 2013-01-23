@@ -4,7 +4,7 @@
 	ENTITIESINATTR="TRUE">
 
   <JAVACONFIG PACKAGE="org.openetcs.es3f.generated" 
-              BASECLASSPREFIX="org.openetcs.es3f.importer" >
+              BASECLASSPREFIX="org.openetcs.es3f" >
   </JAVACONFIG>
 
   <CSHARPCONFIG USEABSTRACTFACTORY="TRUE"

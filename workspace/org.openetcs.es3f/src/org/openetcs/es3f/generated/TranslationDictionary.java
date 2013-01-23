@@ -21,7 +21,7 @@ import java.util.*;
   * as this code is not meant to be maintained at all.
   */
 public class TranslationDictionary
-extends org.openetcs.es3f.importer.DataDictionary.Namable
+extends org.openetcs.es3f.DataDictionary.Namable
 {
 public  boolean find(Object search){
 if (search instanceof String ) {

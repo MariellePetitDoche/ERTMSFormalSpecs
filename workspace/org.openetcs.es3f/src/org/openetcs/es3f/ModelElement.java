@@ -1,4 +1,4 @@
-package org.openetcs.es3f.importer;
+package org.openetcs.es3f;
 
 import com.raincode.xmlbooster.xmlb.xmlBBase;
 

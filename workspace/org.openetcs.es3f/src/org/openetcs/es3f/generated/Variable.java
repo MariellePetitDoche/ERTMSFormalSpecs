@@ -21,7 +21,7 @@ import java.util.*;
   * as this code is not meant to be maintained at all.
   */
 public class Variable
-extends org.openetcs.es3f.importer.DataDictionary.ReqRelated
+extends org.openetcs.es3f.DataDictionary.ReqRelated
 {
 public  boolean find(Object search){
 if (search instanceof String ) {

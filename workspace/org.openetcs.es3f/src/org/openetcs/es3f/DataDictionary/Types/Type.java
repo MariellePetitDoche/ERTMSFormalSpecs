@@ -1,4 +1,4 @@
-package org.openetcs.es3f.importer.DataDictionary;
+package org.openetcs.es3f.DataDictionary.Types;
 
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.openetcs.model.ertmsformalspecs.*;
@@ -13,12 +13,12 @@ import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
 import org.openetcs.es3f.utils.*;
 
-public class Namable
-	extends org.openetcs.es3f.generated.Namable
+public class Type
+	extends org.openetcs.es3f.generated.Type
 {
-	private static final long serialVersionUID = 2829494552401902683L;
+	private static final long serialVersionUID = 2829494552401902690L;
 
-	public org.openetcs.model.ertmsformalspecs.NamedElement convert2EMF( ECPProject project )
+	public org.openetcs.model.ertmsformalspecs.types.Type convert2EMF( ECPProject project )
 	{
 		return null;
 	}

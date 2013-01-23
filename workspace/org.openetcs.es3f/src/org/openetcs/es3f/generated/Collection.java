@@ -21,7 +21,7 @@ import java.util.*;
   * as this code is not meant to be maintained at all.
   */
 public class Collection
-extends org.openetcs.es3f.importer.DataDictionary.Types.Type
+extends org.openetcs.es3f.DataDictionary.Types.Type
 {
 public  boolean find(Object search){
 if (search instanceof String ) {
