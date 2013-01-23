@@ -99,11 +99,11 @@ BEGIN
         enum := GetEnum ( field.ENUMTYPE );
         enumname := TargetName (enum);
         FILE1.WriteList ({
-`		retVal.set`fieldname`(`enumname`.getByName(get`name`_AsString()));
+`		retVal.set`fieldname`(`enumname`.getByName(source.get`name`_AsString()));
         });
       ELSE
         FILE1.WriteList ({
-`		retVal.set`fieldname`(get`name`());
+`		retVal.set`fieldname`(source.get`name`());
         });
       END;
     END;
@@ -127,11 +127,11 @@ BEGIN
         type      := field!REFTYPE;
         fieldname := TargetName ( field ); 
         FILE1.WriteList ({
-`		if ( all`name`() != null )
+`		if ( source.all`name`() != null )
 `		{
-`			for ( Object obj: all`name`())
+`			for ( Object obj: source.all`name`())
 `			{
-`				retVal.get`fieldname`().add(((`type`) obj).convert2EMF( project ));	
+`				retVal.get`fieldname`().add(import`type`( project, (org.openetcs.es3f.generated.`type`) obj ));	
 `			}
 `		}
         });
@@ -144,9 +144,9 @@ BEGIN
         type      := field!REFTYPE;
         fieldname := TargetName ( field ); 
         FILE1.WriteList ({
-`		if ( get`name`() != null )
+`		if ( source.get`name`() != null )
 `		{
-`			retVal.set`fieldname`(((`type`) get`name`()).convert2EMF( project ));	
+`			retVal.set`fieldname`(import`type`(project, (org.openetcs.es3f.generated.`type`) source.get`name`()));	
 `		}
         });
       END;
@@ -164,11 +164,11 @@ BEGIN
           enum := GetEnum ( field.ENUMTYPE );
           enumname := TargetName (enum);
           FILE1.WriteList ({
-`		retVal.set`fieldname`(`enumname`.getByName(get`name`_AsString()));
+`		retVal.set`fieldname`(`enumname`.getByName(source.get`name`_AsString()));
           });
         ELSE
           FILE1.WriteList ({
-`		retVal.set`fieldname`(get`name`());
+`		retVal.set`fieldname`(source.get`name`());
           });
         END;
       END;
@@ -195,7 +195,7 @@ BEGIN
   END;
 
   IF manual THEN
-    FILE1.WriteLn ("		ManualTranslation.import" & name & " ( project, this, retVal );");
+    FILE1.WriteLn ("		ManualTranslation.import" & name & " ( project, source, retVal );");
   END;
 END ImportManualTranslation ;
 
@@ -256,30 +256,13 @@ BEGIN
 END GetClass; 
 
 -- Generates the class for the corresponding element
-PROCEDURE GenerateClass ( element )
+PROCEDURE GenerateImporterClass ( doc )
 VAR 
   name, package, factory, class, sourcepackage, sep, meta;
 BEGIN
-  name    := ValidName (element.NAME);
-  lastID  := lastID + 1;
-  package := GetPackage ( element );
-  factory := GetFactory ( element );
-  class   := GetClass ( element );
-
-  meta := GetMeta ( element, SOURCEPACKAGE );
-  IF meta <> VOID THEN
-    -- Custom source package 
-    sourcepackage := meta.GetTextContent;
-    sep := ".";
-  ELSE
-    -- Default source package
-    sourcepackage := "";
-    sep := "";
-  END;
-
-  FILE1.Redirect ("importer/" & STR.Replace(sourcepackage & sep & name, ".", "/" ) & ".java");
+  FILE1.Redirect ("importer/Importer.java");
   FILE1.WriteList ({
-`package org.openetcs.es3f.importer`sep``sourcepackage`;
+`package org.openetcs.es3f.importer;
 `
 `import org.eclipse.emf.ecp.core.ECPProject;
 `import org.openetcs.model.ertmsformalspecs.*;
@@ -294,76 +277,44 @@ BEGIN
 `import org.openetcs.model.ertmsformalspecs.util.*;
 `import org.openetcs.es3f.utils.*;
 `
-`public class `name`
-`	extends org.openetcs.es3f.generated.`name`
+`public class Importer
 `{
-`	private static final long serialVersionUID = `lastID`L;
-`
   });
+  FOR element IN doc.RecursiveGetElementChildNodes("ELEMENT") DO  
+    name    := ValidName (element.NAME);
+    lastID  := lastID + 1;
+    package := GetPackage ( element );
+    factory := GetFactory ( element );
+    class   := GetClass ( element );
 
-  IF GetMeta ( element, DONOTTRANSLATE ) = VOID THEN
-    FILE1.WriteList ({
-`	public `package`.`class` convert2EMF( ECPProject project )
-`	{
-    });
-    IF BoolValue ( element!ABSTRACT ) THEN
-      -- Abstract class, do not generate conversion code
-      FILE1.WriteList ({
-`		return null;
-`	}
-      });
+    meta := GetMeta ( element, SOURCEPACKAGE );
+    IF meta <> VOID THEN
+      -- Custom source package 
+      sourcepackage := meta.GetTextContent;
+      sep := ".";
     ELSE
-      -- Concrete class, translate it
-      FILE1.WriteList ({
+      -- Default source package
+      sourcepackage := "";
+      sep := "";
+    END;
+
+    IF GetMeta ( element, DONOTTRANSLATE ) = VOID THEN
+      IF NOT BoolValue ( element!ABSTRACT ) THEN
+        FILE1.WriteList ({
+`	public static `package`.`class` import`name`( ECPProject project, org.openetcs.es3f.generated.`name` source )
+`	{
 `		`package`.`class` retVal = `factory`.eINSTANCE.create`class`();;
 `		
-      });
-      ImportAttributes ( element );
-      ImportReferences ( element );
-      ImportManualTranslation ( element );
-      FILE1.WriteList ({
+        });
+        ImportAttributes ( element );
+        ImportReferences ( element );
+        ImportManualTranslation ( element );
+        FILE1.WriteList ({
 `
 `		return retVal;
 `	}
-      });
-    END;
-  END;
-
-  FILE1.WriteList ({
-`}
-  });
-  FILE1.Flush;
-END GenerateClass;
-
--- Generates the factory
-PROCEDURE GenerateFactory ( doc )
-VAR
-  name, package, meta;
-BEGIN
-  FILE1.Redirect ("importer/Factory.java");
-  FILE1.WriteList ({
-`package org.openetcs.es3f.importer;
-`
-`public class Factory 
-`	extends org.openetcs.es3f.generated.Factory 
-`{
-  });
-
-  FOR IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
-    IF NOT BoolValue ( X!ABSTRACT ) THEN 
-      name := ValidName (X.NAME);
-      package := "org.openetcs.es3f.importer";
-      meta := GetMeta ( X, SOURCEPACKAGE );
-      IF meta <> VOID THEN
-        package := package & "." & meta.GetTextContent;
+        });
       END;
-      FILE1.WriteList ({
-`	@Override
-`	public org.openetcs.es3f.generated.`name` create`name`()
-`	{
-`		return new `package`.`name`();
-`	}
-      });
     END;
   END;
 
@@ -371,7 +322,7 @@ BEGIN
 `}
   });
   FILE1.Flush;
-END GenerateFactory;
+END GenerateImporterClass;
 
 -- Sets all attributes of this element, and recursively for the base element
 PROCEDURE ExportAttributes ( element )
@@ -614,13 +565,8 @@ BEGIN
     OUT.WriteLn ("Populate symbols");
     PopulateSymbols( doc );
 
-    OUT.WriteLn ("Generate classes");
-    FOR IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
-      GenerateClass ( X );
-    END;
-
-    OUT.WriteLn ("Generate factory");
-    GenerateFactory (doc);
+    OUT.WriteLn ("Generate importer class");
+    GenerateImporterClass ( doc );
     
     OUT.WriteLn ("Generate export class");
     GenerateExportClass (doc);

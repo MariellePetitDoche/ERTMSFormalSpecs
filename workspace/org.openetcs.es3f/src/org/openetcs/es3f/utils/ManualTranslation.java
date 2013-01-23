@@ -23,6 +23,7 @@ import org.openetcs.model.ertmsformalspecs.shortcut.Shortcut;
 import org.openetcs.es3f.exporter.Exporter;
 import org.openetcs.es3f.generated.acceptor;
 import org.openetcs.es3f.generated.special_or_reserved_value;
+import org.openetcs.es3f.importer.Importer;
 
 public class ManualTranslation {
 
@@ -526,14 +527,12 @@ public class ManualTranslation {
 	{
 		if ( special_or_reserved_value.getMatch() != null )
 		{
-			org.openetcs.es3f.importer.match match = (org.openetcs.es3f.importer.match) special_or_reserved_value.getMatch();
-			retVal.setMatch(match.convert2EMF(project));
+			retVal.setMatch(Importer.importmatch(project, special_or_reserved_value.getMatch()));
 		}
 		
 		if ( special_or_reserved_value.getMatch_range() != null)
 		{
-			org.openetcs.es3f.importer.match_range match_range = (org.openetcs.es3f.importer.match_range) special_or_reserved_value.getMatch_range();
-			retVal.setMatch(match_range.convert2EMF(project));
+			retVal.setMatch(Importer.importmatch_range(project, special_or_reserved_value.getMatch_range()));
 		}
 	}
 

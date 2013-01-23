@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.openetcs.es3f.generated.acceptor;
+import org.openetcs.es3f.importer.Importer;
 
 import com.raincode.xmlbooster.xmlb.xmlBException;
 import com.raincode.xmlbooster.xmlb.xmlBFileContext;
@@ -19,18 +20,17 @@ public class ImportUtil {
 
 	public static void importModel(File fileToImport, ECPProject importProject)
 	{
-		acceptor.setFactory ( new org.openetcs.es3f.importer.Factory() );
 		xmlBFileContext ctxt = new xmlBFileContext();
 		if ( ctxt.readFile(fileToImport.getAbsolutePath()) )
 		{
-			org.openetcs.es3f.importer.Dictionary dictionary;
+			org.openetcs.es3f.generated.Dictionary dictionary;
 			try 
 			{
-				dictionary = (org.openetcs.es3f.importer.Dictionary) acceptor.acceptDictionary(ctxt);
+				dictionary = acceptor.acceptDictionary(ctxt);
 			
 				if ( dictionary != null )
 				{
-					org.openetcs.model.ertmsformalspecs.Dictionary importedDictionary = dictionary.convert2EMF(importProject);
+					org.openetcs.model.ertmsformalspecs.Dictionary importedDictionary = Importer.importDictionary(importProject, dictionary);
 					importProject.getElements().add(importedDictionary);
 				}
 				else 
