@@ -972,7 +972,14 @@ namespace DataDictionary.Functions
                 {
                     Parameter formal = (Parameter)FormalParameters[0];
                     Values.DoubleValue x = actuals[formal.Name] as Values.DoubleValue;
-                    retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(x.Val));
+                    if (x != null)
+                    {
+                        retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(x.Val));
+                    }
+                    else
+                    {
+                        AddError("Cannot evaluate value of formal parameter " + formal.Name);
+                    }
                 }
             }
             else if (Surface != null)
