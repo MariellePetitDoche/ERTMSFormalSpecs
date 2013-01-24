@@ -1026,7 +1026,7 @@ public class MessagesPackageImpl extends EPackageImpl implements MessagesPackage
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.DISTANCE);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.GRADIENT);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.LENGTH);
-		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.MISCELANEOUS);
+		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.MISCELLANEOUS);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.CLASS_NUMBER);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.IDENTITY_NUMBER);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.QUALIFIER);

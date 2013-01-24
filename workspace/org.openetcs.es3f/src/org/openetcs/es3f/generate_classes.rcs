@@ -15,7 +15,11 @@ CONST
 -- Create a valid Java name
 PROCEDURE ValidName ( name )
 BEGIN
-  RESULT := STR.Replace ( name, "-", "_" );
+  RESULT := name;
+  RESULT := STR.Replace ( RESULT, "-", "_" );
+  RESULT := STR.Replace ( RESULT, "/", "_" );
+  RESULT := STR.Replace ( RESULT, ".", "_" );
+  RESULT := STR.Replace ( RESULT, " ", "_" );
 END ValidName;
 
 -- Retrieves the META named 'name' from the element provided
@@ -73,13 +77,60 @@ BEGIN
 END TargetName;
 
 -- Indicates whether a field should be translated
-PROCEDURE TranslateField ( field )
+PROCEDURE TranslationRequired ( elem )
 BEGIN
   RESULT := FALSE;
-  IF field <> VOID THEN 
-    RESULT := GetMeta ( field, DONOTTRANSLATE ) = VOID; 
+  IF elem <> VOID THEN 
+    RESULT := GetMeta ( elem, DONOTTRANSLATE ) = VOID; 
   END;
 END;
+
+-- Create helper functions used to translate enumerations
+PROCEDURE ImportEnum ( enum )
+VAR
+  name, prefix, package, defaultValue, valueName, targetValueName;
+BEGIN
+  IF TranslationRequired ( enum ) THEN
+    name         := TargetName ( enum );
+    package      := GetPackage ( enum );
+    prefix       := enum!PREFIX;
+    IF prefix = VOID THEN
+      prefix := "a"; 
+    END;
+    defaultValue := FIRST IN enum.GetElementChildNodes("ENUMVALUE") :- BoolValue ( X!USEASNULL ); 
+    IF defaultValue = VOID THEN
+      defaultValue := enum.GetElementChildNodes("ENUMVALUE")[1];
+    END; 
+    defaultValue := ValidName ( STR.UpperCase ( TargetName ( defaultValue ) ) );
+    FILE1.WriteList ({
+`	public static `package`.`name` import`name`( int val )
+`	{
+`		`package`.`name` retVal = `package`.`name`.`defaultValue`;
+`		
+`		switch (val)
+`		{
+    });
+    FOR value IN enum.GetElementChildNodes ( "ENUMVALUE" ) DO
+      valueName       := prefix & ValidName ( value.NAME );
+      IF value!OVERRIDE <> VOID THEN
+        valueName     := ValidName ( value.OVERRIDE ); 
+      END;
+      targetValueName := ValidName ( STR.UpperCase ( TargetName ( value ) ) ); 
+      FILE1.WriteList ({
+`		case acceptor.`valueName`:
+`			retVal = `package`.`name`.`targetValueName`;
+`			break;
+      });
+    END;
+    FILE1.WriteList ({
+`		}
+`		
+`		return retVal;
+`	}
+`
+    });
+  END;
+END ImportEnum;
 
 -- Sets all attributes of this element, and recursively for the base element
 PROCEDURE ImportAttributes ( element )
@@ -93,13 +144,13 @@ BEGIN
   FOR IN element.RecursiveGetElementChildNodes("ATTR") DO
     name  := ValidName(X.TARGET);
     field := Field ( element, name ); 
-    IF TranslateField ( field ) THEN 
+    IF TranslationRequired ( field ) THEN 
       fieldname := TargetName ( field ); 
       IF field CAN ENUMTYPE THEN 
         enum := GetEnum ( field.ENUMTYPE );
         enumname := TargetName (enum);
         FILE1.WriteList ({
-`		retVal.set`fieldname`(`enumname`.getByName(source.get`name`_AsString()));
+`		retVal.set`fieldname`(import`enumname`(source.get`name`()));
         });
       ELSE
         FILE1.WriteList ({
@@ -123,7 +174,7 @@ BEGIN
       -- Reference to a list
       name      := ValidName ( X.GetParentNode.TARGET );
       field     := Field ( element, name ); 
-      IF TranslateField ( field ) THEN 
+      IF TranslationRequired ( field ) THEN 
         type      := field!REFTYPE;
         fieldname := TargetName ( field ); 
         FILE1.WriteList ({
@@ -140,7 +191,7 @@ BEGIN
       -- Single reference
       name      := ValidName ( X.TARGET );
       field     := Field ( element, name ); 
-      IF TranslateField ( field ) THEN 
+      IF TranslationRequired ( field ) THEN 
         type      := field!REFTYPE;
         fieldname := TargetName ( field ); 
         FILE1.WriteList ({
@@ -158,13 +209,13 @@ BEGIN
       -- Text
       name      := ValidName ( X.TARGET );
       field     := Field ( element, name ); 
-      IF TranslateField ( field ) THEN 
+      IF TranslationRequired ( field ) THEN 
         fieldname := TargetName ( field ); 
         IF field CAN ENUMTYPE THEN 
           enum := GetEnum ( field.ENUMTYPE );
           enumname := TargetName (enum);
           FILE1.WriteList ({
-`		retVal.set`fieldname`(`enumname`.getByName(source.get`name`_AsString()));
+`		retVal.set`fieldname`(import`enumname`(source.get`name`()));
           });
         ELSE
           FILE1.WriteList ({
@@ -275,11 +326,16 @@ BEGIN
 `import org.openetcs.model.ertmsformalspecs.translation.*;
 `import org.openetcs.model.ertmsformalspecs.types.*;
 `import org.openetcs.model.ertmsformalspecs.util.*;
+`import org.openetcs.es3f.generated.acceptor
 `import org.openetcs.es3f.utils.*;
 `
 `public class Importer
 `{
   });
+  FOR enum IN doc.RecursiveGetElementChildNodes("ENUM") DO
+    ImportEnum ( enum );
+  END;
+  
   FOR element IN doc.RecursiveGetElementChildNodes("ELEMENT") DO  
     name    := ValidName (element.NAME);
     lastID  := lastID + 1;
@@ -324,6 +380,51 @@ BEGIN
   FILE1.Flush;
 END GenerateImporterClass;
 
+-- Create helper functions used to translate enumerations
+PROCEDURE ExportEnum ( enum )
+VAR
+  name, prefix, package, defaultValue, valueName, targetValueName;
+BEGIN
+  IF TranslationRequired ( enum ) THEN
+    name         := TargetName ( enum );
+    package      := GetPackage ( enum );
+    prefix       := enum!PREFIX;
+    IF prefix = VOID THEN
+      prefix := "a"; 
+    END;
+    defaultValue := FIRST IN enum.GetElementChildNodes("ENUMVALUE") :- BoolValue ( X!USEASNULL ); 
+    IF defaultValue = VOID THEN
+      defaultValue := enum.GetElementChildNodes("ENUMVALUE")[1];
+    END; 
+    defaultValue := TargetName ( defaultValue );
+    FILE1.WriteList ({
+`	public static int export`name`( `package`.`name` val )
+`	{
+`		int retVal = 0;
+`		
+    });
+    FOR value IN enum.GetElementChildNodes ( "ENUMVALUE" ) DO
+      valueName       := prefix & ValidName ( value.NAME );
+      IF value!OVERRIDE <> VOID THEN
+        valueName     := ValidName ( value.OVERRIDE ); 
+      END;
+      targetValueName := ValidName ( STR.UpperCase ( TargetName ( value ) ) ); 
+      FILE1.WriteList ({
+`		if (val == `package`.`name`.`targetValueName` )
+`		{
+`			retVal = acceptor.`valueName`;			
+`		}
+      });
+    END;
+    FILE1.WriteList ({
+`		
+`		return retVal;
+`	}
+`
+    });
+  END;
+END ExportEnum;
+
 -- Sets all attributes of this element, and recursively for the base element
 PROCEDURE ExportAttributes ( element )
 VAR
@@ -336,13 +437,13 @@ BEGIN
   FOR IN element.RecursiveGetElementChildNodes("ATTR") DO
     name  := ValidName(X.TARGET);
     field := Field ( element, name ); 
-    IF TranslateField ( field ) THEN 
+    IF TranslationRequired ( field ) THEN 
       fieldname := TargetName ( field ); 
       IF field CAN ENUMTYPE THEN 
         enum := GetEnum ( field.ENUMTYPE );
         enumname := TargetName (enum);
         FILE1.WriteList ({
-`			retVal.set`name`_AsString(source.get`fieldname`().getName());
+`			retVal.set`name`(export`enumname` (source.get`fieldname`()));
         });
       ELSIF field.TYPE = "BOOLEAN" THEN
         FILE1.WriteList ({
@@ -370,7 +471,7 @@ BEGIN
       -- Reference to a list
       name      := ValidName ( X.GetParentNode.TARGET );
       field     := Field ( element, name ); 
-      IF TranslateField ( field ) THEN 
+      IF TranslationRequired ( field ) THEN 
         type       := field!REFTYPE;
         class      := type;
         refelement := GetElement ( type );
@@ -394,7 +495,7 @@ BEGIN
       -- Single reference
       name      := ValidName ( X.TARGET );
       field     := Field ( element, name ); 
-      IF TranslateField ( field ) THEN 
+      IF TranslationRequired ( field ) THEN 
         type      := field!REFTYPE;
         fieldname := TargetName ( field ); 
         FILE1.WriteList ({
@@ -412,13 +513,13 @@ BEGIN
       -- Text
       name      := ValidName ( X.TARGET );
       field     := Field ( element, name ); 
-      IF TranslateField ( field ) THEN 
+      IF TranslationRequired ( field ) THEN 
         fieldname := TargetName ( field ); 
         IF field CAN ENUMTYPE THEN 
           enum := GetEnum ( field.ENUMTYPE );
           enumname := TargetName (enum);
           FILE1.WriteList ({
-`			retVal.set`name`_AsString(source.get`fieldname`().getName());
+`			retVal.set`name`(export`enumname`(source.get`fieldname`()));
           });
         ELSE
           FILE1.WriteList ({
@@ -479,6 +580,10 @@ BEGIN
 `public class Exporter
 `{
   });
+
+  FOR enum IN doc.RecursiveGetElementChildNodes("ENUM") DO
+    ExportEnum ( enum );
+  END;
 
   FOR element IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
     meta := GetMeta ( element, DONOTTRANSLATE );

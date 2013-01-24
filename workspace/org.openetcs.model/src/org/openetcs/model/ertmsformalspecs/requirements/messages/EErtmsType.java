@@ -49,16 +49,14 @@ public enum EErtmsType implements Enumerator {
 	LENGTH(0, "Length", "Length"),
 
 	/**
-	 * The '<em><b>Miscelaneous</b></em>' literal object.
+	 * The '<em><b>Miscellaneous</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #MISCELANEOUS_VALUE
+	 * @see #MISCELLANEOUS_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	MISCELANEOUS(0, "Miscelaneous", "Miscelaneous"),
-
-	/**
+	MISCELLANEOUS(0, "Miscellaneous", "Miscellaneous"), /**
 	 * The '<em><b>Class Number</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -164,19 +162,19 @@ public enum EErtmsType implements Enumerator {
 	public static final int LENGTH_VALUE = 0;
 
 	/**
-	 * The '<em><b>Miscelaneous</b></em>' literal value.
+	 * The '<em><b>Miscellaneous</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Miscelaneous</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Miscellaneous</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #MISCELANEOUS
-	 * @model name="Miscelaneous"
+	 * @see #MISCELLANEOUS
+	 * @model name="Miscellaneous"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int MISCELANEOUS_VALUE = 0;
+	public static final int MISCELLANEOUS_VALUE = 0;
 
 	/**
 	 * The '<em><b>Class Number</b></em>' literal value.
@@ -279,7 +277,7 @@ public enum EErtmsType implements Enumerator {
 			DISTANCE,
 			GRADIENT,
 			LENGTH,
-			MISCELANEOUS,
+			MISCELLANEOUS,
 			CLASS_NUMBER,
 			IDENTITY_NUMBER,
 			QUALIFIER,

@@ -11,10 +11,424 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
+import org.openetcs.es3f.generated.acceptor
 import org.openetcs.es3f.utils.*;
 
 public class Importer
 {
+	public static org.openetcs.model.ertmsformalspecs.requirements.EParagraphType importEParagraphType( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.requirements.EParagraphType retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.REQUIREMENT;
+		
+		switch (val)
+		{
+		case acceptor.aTITLE:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.TITLE;
+			break;
+		case acceptor.aDEFINITION:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.DEFINITION;
+			break;
+		case acceptor.aNOTE:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.NOTE;
+			break;
+		case acceptor.aDELETED:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.DELETED;
+			break;
+		case acceptor.aREQUIREMENT:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.REQUIREMENT;
+			break;
+		case acceptor.aTABLE_HEADER:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.TABLE_HEADER;
+			break;
+		case acceptor.aPROBLEM:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.PROBLEM;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType importEErtmsType( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.DISTANCE;
+		
+		switch (val)
+		{
+		case acceptor.adistance:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.DISTANCE;
+			break;
+		case acceptor.agradient:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.GRADIENT;
+			break;
+		case acceptor.alength:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.LENGTH;
+			break;
+		case acceptor.amiscellaneous:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.MISCELLANEOUS;
+			break;
+		case acceptor.aclass_number:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.CLASS_NUMBER;
+			break;
+		case acceptor.aidentity_number:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.IDENTITY_NUMBER;
+			break;
+		case acceptor.aqualifier:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.QUALIFIER;
+			break;
+		case acceptor.atime_or_date:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.TIME_OR_DATE;
+			break;
+		case acceptor.aspeed:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.SPEED;
+			break;
+		case acceptor.atext:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.TEXT;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType importEMeaningType( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.INVALID;
+		
+		switch (val)
+		{
+		case acceptor.ainvalid:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.INVALID;
+			break;
+		case acceptor.aenum:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.ENUM;
+			break;
+		case acceptor.aunknown:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.UNKNOWN;
+			break;
+		case acceptor.ainfinite:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.INFINITE;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit importResolutionFormulaUnit( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.MS2;
+		
+		switch (val)
+		{
+		case acceptor.m_s2:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.MS2;
+			break;
+		case acceptor.q_scale:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.QSCALE;
+			break;
+		case acceptor.percent:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.PERCENT;
+			break;
+		case acceptor.abyte:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.BYTE;
+			break;
+		case acceptor.abit:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.BIT;
+			break;
+		case acceptor.text_string_element:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.TEXT_STRING_ELEMENT;
+			break;
+		case acceptor.m:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.M;
+			break;
+		case acceptor.A:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.A;
+			break;
+		case acceptor.s:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.S;
+			break;
+		case acceptor.ms:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.MS;
+			break;
+		case acceptor.km_h:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.KM_H;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue importResolutionFormulaValue( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X0_05;
+		
+		switch (val)
+		{
+		case acceptor.a0_05:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X0_05;
+			break;
+		case acceptor.a1:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X1;
+			break;
+		case acceptor.a10:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X10;
+			break;
+		case acceptor.a0_02:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X0_02;
+			break;
+		case acceptor.aintegers:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.INTEGERS;
+			break;
+		case acceptor.aNumbers:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.NUMBERS;
+			break;
+		case acceptor.aBinary_Coded_Decimal:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.BINARY_CODED_DECIMAL;
+			break;
+		case acceptor.aNumber:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.NUMBER;
+			break;
+		case acceptor.aBitset:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.BIT_SET;
+			break;
+		case acceptor.a5:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X5;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.VariableMode importVariableMode( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.VariableMode retVal = org.openetcs.model.ertmsformalspecs.VariableMode.INTERNAL;
+		
+		switch (val)
+		{
+		case acceptor.aIncoming:
+			retVal = org.openetcs.model.ertmsformalspecs.VariableMode.INCOMING;
+			break;
+		case acceptor.aOutgoing:
+			retVal = org.openetcs.model.ertmsformalspecs.VariableMode.OUTGOING;
+			break;
+		case acceptor.aInternal:
+			retVal = org.openetcs.model.ertmsformalspecs.VariableMode.INTERNAL;
+			break;
+		case acceptor.aInOut:
+			retVal = org.openetcs.model.ertmsformalspecs.VariableMode.IN_OUT;
+			break;
+		case acceptor.aConstant:
+			retVal = org.openetcs.model.ertmsformalspecs.VariableMode.CONSTANT;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus importEImplementationStatus( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus retVal = org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.NA;
+		
+		switch (val)
+		{
+		case acceptor.Impl_NA:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.NA;
+			break;
+		case acceptor.Impl_Implemented:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.IMPLEMENTED;
+			break;
+		case acceptor.Impl_NotImplementable:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.NOT_IMPLEMENTABLE;
+			break;
+		case acceptor.Impl_NewRevisionAvailable:
+			retVal = org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.NEW_REVISION_AVAILABLE;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.test.StepIO importStepIO( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.test.StepIO retVal = org.openetcs.model.ertmsformalspecs.test.StepIO.NA;
+		
+		switch (val)
+		{
+		case acceptor.StIO_NA:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepIO.NA;
+			break;
+		case acceptor.StIO_In:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepIO.IN;
+			break;
+		case acceptor.StIO_Out:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepIO.OUT;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.test.StepInterface importStepInterface( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.test.StepInterface retVal = org.openetcs.model.ertmsformalspecs.test.StepInterface.NA;
+		
+		switch (val)
+		{
+		case acceptor.StInterface_NA:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepInterface.NA;
+			break;
+		case acceptor.StInterface_DMI:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepInterface.DMI;
+			break;
+		case acceptor.StInterface_RTM:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepInterface.RTM;
+			break;
+		case acceptor.StInterface_JRU:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepInterface.JRU;
+			break;
+		case acceptor.StInterface_TIU:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepInterface.TIU;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.test.StepLevel importStepLevel( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.test.StepLevel retVal = org.openetcs.model.ertmsformalspecs.test.StepLevel.NA;
+		
+		switch (val)
+		{
+		case acceptor.StLevel_NA:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepLevel.NA;
+			break;
+		case acceptor.StLevel_L0:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepLevel.L0;
+			break;
+		case acceptor.StLevel_L1:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepLevel.L1;
+			break;
+		case acceptor.StLevel_LSTM:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepLevel.LSTM;
+			break;
+		case acceptor.StLevel_L2:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepLevel.L2;
+			break;
+		case acceptor.StLevel_L3:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepLevel.L3;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.test.StepMode importStepMode( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.test.StepMode retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.NA;
+		
+		switch (val)
+		{
+		case acceptor.Mode_NA:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.NA;
+			break;
+		case acceptor.Mode_IS:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.IS;
+			break;
+		case acceptor.Mode_NP:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.NP;
+			break;
+		case acceptor.Mode_SF:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.SF;
+			break;
+		case acceptor.Mode_SL:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.SL;
+			break;
+		case acceptor.Mode_SB:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.SB;
+			break;
+		case acceptor.Mode_SH:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.SH;
+			break;
+		case acceptor.Mode_FS:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.FS;
+			break;
+		case acceptor.Mode_UF:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.UF;
+			break;
+		case acceptor.Mode_SR:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.SR;
+			break;
+		case acceptor.Mode_OS:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.OS;
+			break;
+		case acceptor.Mode_TR:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.TR;
+			break;
+		case acceptor.Mode_PT:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.PT;
+			break;
+		case acceptor.Mode_NL:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.NL;
+			break;
+		case acceptor.Mode_SN:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.SN;
+			break;
+		case acceptor.Mode_RE:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.RE;
+			break;
+		case acceptor.Mode_LS:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.LS;
+			break;
+		case acceptor.Mode_PSH:
+			retVal = org.openetcs.model.ertmsformalspecs.test.StepMode.PSH;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.behaviour.Priority importPriority( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.behaviour.Priority retVal = org.openetcs.model.ertmsformalspecs.behaviour.Priority.PROCESSING;
+		
+		switch (val)
+		{
+		case acceptor.aVerification:
+			retVal = org.openetcs.model.ertmsformalspecs.behaviour.Priority.VERIFICATION;
+			break;
+		case acceptor.aUpdateINTERNAL:
+			retVal = org.openetcs.model.ertmsformalspecs.behaviour.Priority.UPDATE_INTERNAL;
+			break;
+		case acceptor.aProcessing:
+			retVal = org.openetcs.model.ertmsformalspecs.behaviour.Priority.PROCESSING;
+			break;
+		case acceptor.aUpdateOUT:
+			retVal = org.openetcs.model.ertmsformalspecs.behaviour.Priority.UPDATE_OUT;
+			break;
+		case acceptor.aCleanUp:
+			retVal = org.openetcs.model.ertmsformalspecs.behaviour.Priority.CLEAN_UP;
+			break;
+		}
+		
+		return retVal;
+	}
+
+	public static org.openetcs.model.ertmsformalspecs.types.Precision importPrecision( int val )
+	{
+		org.openetcs.model.ertmsformalspecs.types.Precision retVal = org.openetcs.model.ertmsformalspecs.types.Precision.INTEGER_PRECISION;
+		
+		switch (val)
+		{
+		case acceptor.aIntegerPrecision:
+			retVal = org.openetcs.model.ertmsformalspecs.types.Precision.INTEGER_PRECISION;
+			break;
+		case acceptor.aDoublePrecision:
+			retVal = org.openetcs.model.ertmsformalspecs.types.Precision.DOUBLE_PRECISION;
+			break;
+		}
+		
+		return retVal;
+	}
+
 	public static org.openetcs.model.ertmsformalspecs.Dictionary importDictionary( ECPProject project, org.openetcs.es3f.generated.Dictionary source )
 	{
 		org.openetcs.model.ertmsformalspecs.Dictionary retVal = ModelFactory.eINSTANCE.createDictionary();;
@@ -217,7 +631,7 @@ public class Importer
 		retVal.setDefaultValue(source.getDefault());
 		retVal.setMinimumValue(source.getMinValue());
 		retVal.setMaximumValue(source.getMaxValue());
-		retVal.setPrecision(Precision.getByName(source.getPrecision_AsString()));
+		retVal.setPrecision(importPrecision(source.getPrecision()));
 		if ( source.allRequirements() != null )
 		{
 			for ( Object obj: source.allRequirements())
@@ -287,7 +701,7 @@ public class Importer
 		retVal.setNeedsRequirement(source.getNeedsRequirement());
 		retVal.setTypeName(source.getTypeName());
 		retVal.setDefaultValue(source.getDefault());
-		retVal.setVariableMode(VariableMode.getByName(source.getMode_AsString()));
+		retVal.setVariableMode(importVariableMode(source.getMode()));
 		if ( source.allRequirements() != null )
 		{
 			for ( Object obj: source.allRequirements())
@@ -516,7 +930,7 @@ public class Importer
 		retVal.setNeedsRequirement(source.getNeedsRequirement());
 		retVal.setTypeName(source.getTypeName());
 		retVal.setDefaultValue(source.getDefaultValue());
-		retVal.setVariableMode(VariableMode.getByName(source.getVariableMode_AsString()));
+		retVal.setVariableMode(importVariableMode(source.getVariableMode()));
 		if ( source.allRequirements() != null )
 		{
 			for ( Object obj: source.allRequirements())
@@ -543,7 +957,7 @@ public class Importer
 		retVal.setImplemented(source.getImplemented());
 		retVal.setVerified(source.getVerified());
 		retVal.setNeedsRequirement(source.getNeedsRequirement());
-		retVal.setPriority(Priority.getByName(source.getPriority_AsString()));
+		retVal.setPriority(importPriority(source.getPriority()));
 		if ( source.allRequirements() != null )
 		{
 			for ( Object obj: source.allRequirements())
@@ -692,11 +1106,11 @@ public class Importer
 		retVal.setName(source.getName());
 		retVal.setTcsOrder(source.getTCS_Order());
 		retVal.setDistance(source.getDistance());
-		retVal.setIo(StepIO.getByName(source.getIO_AsString()));
-		retVal.setLevelIn(StepLevel.getByName(source.getLevelIN_AsString()));
-		retVal.setLevelOut(StepLevel.getByName(source.getLevelOUT_AsString()));
-		retVal.setModeIn(StepMode.getByName(source.getModeIN_AsString()));
-		retVal.setModeOut(StepMode.getByName(source.getModeOUT_AsString()));
+		retVal.setIo(importStepIO(source.getIO()));
+		retVal.setLevelIn(importStepLevel(source.getLevelIN()));
+		retVal.setLevelOut(importStepLevel(source.getLevelOUT()));
+		retVal.setModeIn(importStepMode(source.getModeIN()));
+		retVal.setModeOut(importStepMode(source.getModeOUT()));
 		retVal.setTranslationRequired(source.getTranslationRequired());
 		retVal.setTranslated(source.getTranslated());
 		if ( source.allSubSteps() != null )
@@ -980,7 +1394,7 @@ public class Importer
 		
 		retVal.setName(source.getName());
 		retVal.setId(source.getId());
-		retVal.setType(EParagraphType.getByName(source.getType_AsString()));
+		retVal.setType(importEParagraphType(source.getType()));
 		retVal.setName(source.getName());
 		if ( source.allRequirements() != null )
 		{
@@ -1124,7 +1538,7 @@ public class Importer
 	{
 		org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning retVal = MessagesFactory.eINSTANCE.createMeaning();;
 		
-		retVal.setType(EMeaningType.getByName(source.getType_AsString()));
+		retVal.setType(importEMeaningType(source.getType()));
 		retVal.setValue(source.getValue());
 
 		// Handles the translation of Bl
@@ -1147,8 +1561,8 @@ public class Importer
 	{
 		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormula retVal = MessagesFactory.eINSTANCE.createResolutionFormula();;
 		
-		retVal.setUnit(ResolutionFormulaUnit.getByName(source.getUnits_AsString()));
-		retVal.setValue(ResolutionFormulaValue.getByName(source.getValue_AsString()));
+		retVal.setUnit(importResolutionFormulaUnit(source.getUnits()));
+		retVal.setValue(importResolutionFormulaValue(source.getValue()));
 
 		return retVal;
 	}

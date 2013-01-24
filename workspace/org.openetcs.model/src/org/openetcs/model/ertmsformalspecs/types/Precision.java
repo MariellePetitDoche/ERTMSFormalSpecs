@@ -18,7 +18,54 @@ import org.eclipse.emf.common.util.Enumerator;
  * @generated
  */
 public enum Precision implements Enumerator {
+	/**
+	 * The '<em><b>Integer Precision</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #INTEGER_PRECISION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	INTEGER_PRECISION(0, "IntegerPrecision", "IntegerPrecision"), /**
+	 * The '<em><b>Double Precision</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DOUBLE_PRECISION_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DOUBLE_PRECISION(0, "DoublePrecision", "DoublePrecision")
 	;
+
+	/**
+	 * The '<em><b>Integer Precision</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Integer Precision</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #INTEGER_PRECISION
+	 * @model name="IntegerPrecision"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int INTEGER_PRECISION_VALUE = 0;
+
+/**
+	 * The '<em><b>Double Precision</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Double Precision</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DOUBLE_PRECISION
+	 * @model name="DoublePrecision"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DOUBLE_PRECISION_VALUE = 0;
 
 	/**
 	 * An array of all the '<em><b>Precision</b></em>' enumerators.
@@ -28,6 +75,8 @@ public enum Precision implements Enumerator {
 	 */
 	private static final Precision[] VALUES_ARRAY =
 		new Precision[] {
+			INTEGER_PRECISION,
+			DOUBLE_PRECISION,
 		};
 
 	/**
@@ -78,6 +127,7 @@ public enum Precision implements Enumerator {
 	 */
 	public static Precision get(int value) {
 		switch (value) {
+			case INTEGER_PRECISION_VALUE: return INTEGER_PRECISION;
 		}
 		return null;
 	}

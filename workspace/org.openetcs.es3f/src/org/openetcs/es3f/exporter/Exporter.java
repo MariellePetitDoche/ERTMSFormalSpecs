@@ -16,6 +16,470 @@ import org.openetcs.model.ertmsformalspecs.util.*;
 
 public class Exporter
 {
+	public static int exportEParagraphType( org.openetcs.model.ertmsformalspecs.requirements.EParagraphType val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.TITLE )
+		{
+			retVal = acceptor.aTITLE;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.DEFINITION )
+		{
+			retVal = acceptor.aDEFINITION;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.NOTE )
+		{
+			retVal = acceptor.aNOTE;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.DELETED )
+		{
+			retVal = acceptor.aDELETED;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.REQUIREMENT )
+		{
+			retVal = acceptor.aREQUIREMENT;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.TABLE_HEADER )
+		{
+			retVal = acceptor.aTABLE_HEADER;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EParagraphType.PROBLEM )
+		{
+			retVal = acceptor.aPROBLEM;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportEErtmsType( org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.DISTANCE )
+		{
+			retVal = acceptor.adistance;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.GRADIENT )
+		{
+			retVal = acceptor.agradient;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.LENGTH )
+		{
+			retVal = acceptor.alength;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.MISCELLANEOUS )
+		{
+			retVal = acceptor.amiscellaneous;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.CLASS_NUMBER )
+		{
+			retVal = acceptor.aclass_number;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.IDENTITY_NUMBER )
+		{
+			retVal = acceptor.aidentity_number;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.QUALIFIER )
+		{
+			retVal = acceptor.aqualifier;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.TIME_OR_DATE )
+		{
+			retVal = acceptor.atime_or_date;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.SPEED )
+		{
+			retVal = acceptor.aspeed;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.TEXT )
+		{
+			retVal = acceptor.atext;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportEMeaningType( org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.INVALID )
+		{
+			retVal = acceptor.ainvalid;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.ENUM )
+		{
+			retVal = acceptor.aenum;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.UNKNOWN )
+		{
+			retVal = acceptor.aunknown;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.INFINITE )
+		{
+			retVal = acceptor.ainfinite;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportResolutionFormulaUnit( org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.MS2 )
+		{
+			retVal = acceptor.m_s2;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.QSCALE )
+		{
+			retVal = acceptor.q_scale;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.PERCENT )
+		{
+			retVal = acceptor.percent;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.BYTE )
+		{
+			retVal = acceptor.abyte;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.BIT )
+		{
+			retVal = acceptor.abit;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.TEXT_STRING_ELEMENT )
+		{
+			retVal = acceptor.text_string_element;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.M )
+		{
+			retVal = acceptor.m;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.A )
+		{
+			retVal = acceptor.A;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.S )
+		{
+			retVal = acceptor.s;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.MS )
+		{
+			retVal = acceptor.ms;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.KM_H )
+		{
+			retVal = acceptor.km_h;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportResolutionFormulaValue( org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X0_05 )
+		{
+			retVal = acceptor.a0_05;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X1 )
+		{
+			retVal = acceptor.a1;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X10 )
+		{
+			retVal = acceptor.a10;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X0_02 )
+		{
+			retVal = acceptor.a0_02;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.INTEGERS )
+		{
+			retVal = acceptor.aintegers;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.NUMBERS )
+		{
+			retVal = acceptor.aNumbers;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.BINARY_CODED_DECIMAL )
+		{
+			retVal = acceptor.aBinary_Coded_Decimal;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.NUMBER )
+		{
+			retVal = acceptor.aNumber;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.BIT_SET )
+		{
+			retVal = acceptor.aBitset;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X5 )
+		{
+			retVal = acceptor.a5;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportVariableMode( org.openetcs.model.ertmsformalspecs.VariableMode val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.VariableMode.INCOMING )
+		{
+			retVal = acceptor.aIncoming;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.VariableMode.OUTGOING )
+		{
+			retVal = acceptor.aOutgoing;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.VariableMode.INTERNAL )
+		{
+			retVal = acceptor.aInternal;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.VariableMode.IN_OUT )
+		{
+			retVal = acceptor.aInOut;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.VariableMode.CONSTANT )
+		{
+			retVal = acceptor.aConstant;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportEImplementationStatus( org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.NA )
+		{
+			retVal = acceptor.Impl_NA;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.IMPLEMENTED )
+		{
+			retVal = acceptor.Impl_Implemented;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.NOT_IMPLEMENTABLE )
+		{
+			retVal = acceptor.Impl_NotImplementable;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus.NEW_REVISION_AVAILABLE )
+		{
+			retVal = acceptor.Impl_NewRevisionAvailable;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportStepIO( org.openetcs.model.ertmsformalspecs.test.StepIO val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepIO.NA )
+		{
+			retVal = acceptor.StIO_NA;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepIO.IN )
+		{
+			retVal = acceptor.StIO_In;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepIO.OUT )
+		{
+			retVal = acceptor.StIO_Out;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportStepInterface( org.openetcs.model.ertmsformalspecs.test.StepInterface val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepInterface.NA )
+		{
+			retVal = acceptor.StInterface_NA;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepInterface.DMI )
+		{
+			retVal = acceptor.StInterface_DMI;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepInterface.RTM )
+		{
+			retVal = acceptor.StInterface_RTM;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepInterface.JRU )
+		{
+			retVal = acceptor.StInterface_JRU;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepInterface.TIU )
+		{
+			retVal = acceptor.StInterface_TIU;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportStepLevel( org.openetcs.model.ertmsformalspecs.test.StepLevel val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepLevel.NA )
+		{
+			retVal = acceptor.StLevel_NA;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepLevel.L0 )
+		{
+			retVal = acceptor.StLevel_L0;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepLevel.L1 )
+		{
+			retVal = acceptor.StLevel_L1;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepLevel.LSTM )
+		{
+			retVal = acceptor.StLevel_LSTM;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepLevel.L2 )
+		{
+			retVal = acceptor.StLevel_L2;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepLevel.L3 )
+		{
+			retVal = acceptor.StLevel_L3;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportStepMode( org.openetcs.model.ertmsformalspecs.test.StepMode val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.NA )
+		{
+			retVal = acceptor.Mode_NA;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.IS )
+		{
+			retVal = acceptor.Mode_IS;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.NP )
+		{
+			retVal = acceptor.Mode_NP;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.SF )
+		{
+			retVal = acceptor.Mode_SF;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.SL )
+		{
+			retVal = acceptor.Mode_SL;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.SB )
+		{
+			retVal = acceptor.Mode_SB;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.SH )
+		{
+			retVal = acceptor.Mode_SH;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.FS )
+		{
+			retVal = acceptor.Mode_FS;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.UF )
+		{
+			retVal = acceptor.Mode_UF;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.SR )
+		{
+			retVal = acceptor.Mode_SR;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.OS )
+		{
+			retVal = acceptor.Mode_OS;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.TR )
+		{
+			retVal = acceptor.Mode_TR;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.PT )
+		{
+			retVal = acceptor.Mode_PT;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.NL )
+		{
+			retVal = acceptor.Mode_NL;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.SN )
+		{
+			retVal = acceptor.Mode_SN;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.RE )
+		{
+			retVal = acceptor.Mode_RE;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.LS )
+		{
+			retVal = acceptor.Mode_LS;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.test.StepMode.PSH )
+		{
+			retVal = acceptor.Mode_PSH;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportPriority( org.openetcs.model.ertmsformalspecs.behaviour.Priority val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.behaviour.Priority.VERIFICATION )
+		{
+			retVal = acceptor.aVerification;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.behaviour.Priority.UPDATE_INTERNAL )
+		{
+			retVal = acceptor.aUpdateINTERNAL;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.behaviour.Priority.PROCESSING )
+		{
+			retVal = acceptor.aProcessing;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.behaviour.Priority.UPDATE_OUT )
+		{
+			retVal = acceptor.aUpdateOUT;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.behaviour.Priority.CLEAN_UP )
+		{
+			retVal = acceptor.aCleanUp;			
+		}
+		
+		return retVal;
+	}
+
+	public static int exportPrecision( org.openetcs.model.ertmsformalspecs.types.Precision val )
+	{
+		int retVal = 0;
+		
+		if (val == org.openetcs.model.ertmsformalspecs.types.Precision.INTEGER_PRECISION )
+		{
+			retVal = acceptor.aIntegerPrecision;			
+		}
+		if (val == org.openetcs.model.ertmsformalspecs.types.Precision.DOUBLE_PRECISION )
+		{
+			retVal = acceptor.aDoublePrecision;			
+		}
+		
+		return retVal;
+	}
+
 	public static org.openetcs.es3f.generated.Dictionary exportDictionary ( org.openetcs.model.ertmsformalspecs.Dictionary source )
 	{
 		org.openetcs.es3f.generated.Dictionary retVal = null; 
@@ -299,7 +763,7 @@ public class Exporter
 			retVal.setDefault(source.getDefaultValue());
 			retVal.setMinValue(source.getMinimumValue());
 			retVal.setMaxValue(source.getMaximumValue());
-			retVal.setPrecision_AsString(source.getPrecision().getName());
+			retVal.setPrecision(exportPrecision (source.getPrecision()));
 			if ( source.getRequirements() != null )
 			{
 				for ( EObject eObject: source.getRequirements())
@@ -397,7 +861,7 @@ public class Exporter
 			retVal.setNeedsRequirement(source.isNeedsRequirement());
 			retVal.setTypeName(source.getTypeName());
 			retVal.setDefault(source.getDefaultValue());
-			retVal.setMode_AsString(source.getVariableMode().getName());
+			retVal.setMode(exportVariableMode (source.getVariableMode()));
 			if ( source.getRequirements() != null )
 			{
 				for ( EObject eObject: source.getRequirements())
@@ -716,7 +1180,7 @@ public class Exporter
 			retVal.setNeedsRequirement(source.isNeedsRequirement());
 			retVal.setTypeName(source.getTypeName());
 			retVal.setDefaultValue(source.getDefaultValue());
-			retVal.setVariableMode_AsString(source.getVariableMode().getName());
+			retVal.setVariableMode(exportVariableMode (source.getVariableMode()));
 			if ( source.getRequirements() != null )
 			{
 				for ( EObject eObject: source.getRequirements())
@@ -754,7 +1218,7 @@ public class Exporter
 			retVal.setImplemented(source.isImplemented());
 			retVal.setVerified(source.isVerified());
 			retVal.setNeedsRequirement(source.isNeedsRequirement());
-			retVal.setPriority_AsString(source.getPriority().getName());
+			retVal.setPriority(exportPriority (source.getPriority()));
 			if ( source.getRequirements() != null )
 			{
 				for ( EObject eObject: source.getRequirements())
@@ -968,11 +1432,11 @@ public class Exporter
 			retVal.setName(source.getName());
 			retVal.setTCS_Order(source.getTcsOrder());
 			retVal.setDistance(source.getDistance());
-			retVal.setIO_AsString(source.getIo().getName());
-			retVal.setLevelIN_AsString(source.getLevelIn().getName());
-			retVal.setLevelOUT_AsString(source.getLevelOut().getName());
-			retVal.setModeIN_AsString(source.getModeIn().getName());
-			retVal.setModeOUT_AsString(source.getModeOut().getName());
+			retVal.setIO(exportStepIO (source.getIo()));
+			retVal.setLevelIN(exportStepLevel (source.getLevelIn()));
+			retVal.setLevelOUT(exportStepLevel (source.getLevelOut()));
+			retVal.setModeIN(exportStepMode (source.getModeIn()));
+			retVal.setModeOUT(exportStepMode (source.getModeOut()));
 			retVal.setTranslationRequired(source.isTranslationRequired());
 			retVal.setTranslated(source.isTranslated());
 			if ( source.getSubSteps() != null )
@@ -1391,7 +1855,7 @@ public class Exporter
 			retVal = acceptor.getFactory().createParagraph();
 			retVal.setName(source.getName());
 			retVal.setId(source.getId());
-			retVal.setType_AsString(source.getType().getName());
+			retVal.setType(exportEParagraphType (source.getType()));
 			retVal.setName(source.getName());
 			if ( source.getRequirements() != null )
 			{
@@ -1585,7 +2049,7 @@ public class Exporter
 		if ( source != null )
 		{
 			retVal = acceptor.getFactory().createmeaning();
-			retVal.setType_AsString(source.getType().getName());
+			retVal.setType(exportEMeaningType (source.getType()));
 			retVal.setValue(source.getValue());
 
 			// Handles the translation of Bl
@@ -1618,8 +2082,8 @@ public class Exporter
 		if ( source != null )
 		{
 			retVal = acceptor.getFactory().createresolution_formula();
-			retVal.setUnits_AsString(source.getUnit().getName());
-			retVal.setValue_AsString(source.getValue().getName());
+			retVal.setUnits(exportResolutionFormulaUnit (source.getUnit()));
+			retVal.setValue(exportResolutionFormulaValue(source.getValue()));
 		}
 		
 		return retVal;
