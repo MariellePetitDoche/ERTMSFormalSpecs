@@ -3,7 +3,10 @@
  */
 package org.openetcs.dsl;
 
+import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
+import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
 import org.openetcs.dsl.scoping.ExpressionGlobalScopeProvider;
 
 /**
@@ -11,8 +14,15 @@ import org.openetcs.dsl.scoping.ExpressionGlobalScopeProvider;
  */
 public class ExpressionRuntimeModule extends org.openetcs.dsl.AbstractExpressionRuntimeModule {
 
+//	@Override
+//	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
+//		return DefaultDeclarativeQualifiedNameProvider.class;
+//	}
+
 	@Override
 	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
 		return ExpressionGlobalScopeProvider.class;
 	}
+	
+	
 }

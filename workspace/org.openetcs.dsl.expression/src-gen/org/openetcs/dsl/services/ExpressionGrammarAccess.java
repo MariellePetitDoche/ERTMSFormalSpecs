@@ -36,6 +36,35 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getPhrasePhraseParserRuleCall_0() { return cPhrasePhraseParserRuleCall_0; }
 	}
 
+	public class FQNElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "FQN");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cFullStopKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final RuleCall cIDTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
+		
+		//FQN:
+		//
+		//	ID ("." ID)*;
+		public ParserRule getRule() { return rule; }
+
+		//ID ("." ID)*
+		public Group getGroup() { return cGroup; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
+
+		//("." ID)*
+		public Group getGroup_1() { return cGroup_1; }
+
+		//"."
+		public Keyword getFullStopKeyword_1_0() { return cFullStopKeyword_1_0; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_1_1() { return cIDTerminalRuleCall_1_1; }
+	}
+
 	public class PhraseElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Phrase");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -628,26 +657,27 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Designator");
 		private final Assignment cValueAssignment = (Assignment)rule.eContents().get(1);
 		private final CrossReference cValueEObjectCrossReference_0 = (CrossReference)cValueAssignment.eContents().get(0);
-		private final RuleCall cValueEObjectIDTerminalRuleCall_0_1 = (RuleCall)cValueEObjectCrossReference_0.eContents().get(1);
+		private final RuleCall cValueEObjectFQNParserRuleCall_0_1 = (RuleCall)cValueEObjectCrossReference_0.eContents().get(1);
 		
 		//Designator:
 		//
-		//	value=[ecore::EObject];
+		//	value=[ecore::EObject|FQN];
 		public ParserRule getRule() { return rule; }
 
-		//value=[ecore::EObject]
+		//value=[ecore::EObject|FQN]
 		public Assignment getValueAssignment() { return cValueAssignment; }
 
-		//[ecore::EObject]
+		//[ecore::EObject|FQN]
 		public CrossReference getValueEObjectCrossReference_0() { return cValueEObjectCrossReference_0; }
 
-		//ID
-		public RuleCall getValueEObjectIDTerminalRuleCall_0_1() { return cValueEObjectIDTerminalRuleCall_0_1; }
+		//FQN
+		public RuleCall getValueEObjectFQNParserRuleCall_0_1() { return cValueEObjectFQNParserRuleCall_0_1; }
 	}
 	
 	
 	private ModelElements pModel;
 	private TerminalRule tDOUBLE;
+	private FQNElements pFQN;
 	private PhraseElements pPhrase;
 	private ExpressionElements pExpression;
 	private EvaluationExpressionElements pEvaluationExpression;
@@ -721,6 +751,17 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	public TerminalRule getDOUBLERule() {
 		return (tDOUBLE != null) ? tDOUBLE : (tDOUBLE = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "DOUBLE"));
 	} 
+
+	//FQN:
+	//
+	//	ID ("." ID)*;
+	public FQNElements getFQNAccess() {
+		return (pFQN != null) ? pFQN : (pFQN = new FQNElements());
+	}
+	
+	public ParserRule getFQNRule() {
+		return getFQNAccess().getRule();
+	}
 
 	//Phrase:
 	//
@@ -904,7 +945,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 
 	//Designator:
 	//
-	//	value=[ecore::EObject];
+	//	value=[ecore::EObject|FQN];
 	public DesignatorElements getDesignatorAccess() {
 		return (pDesignator != null) ? pDesignator : (pDesignator = new DesignatorElements());
 	}
