@@ -11,10 +11,10 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
-import org.openetcs.es3f.importer.utils.*;
+import org.openetcs.es3f.utils.*;
 
 public class match_range
-	extends org.openetcs.es3f.importer.generated.match_range
+	extends org.openetcs.es3f.generated.match_range
 {
 	private static final long serialVersionUID = 2829494552401902737L;
 
@@ -25,7 +25,7 @@ public class match_range
 		retVal.setMinimum(getMinimum());
 
 		// Handles the translation of Maximum
-		ManualTranslation.translatematch_range ( project, this, retVal );
+		ManualTranslation.importmatch_range ( project, this, retVal );
 
 		return retVal;
 	}

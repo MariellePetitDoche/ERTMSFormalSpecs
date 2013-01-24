@@ -11,10 +11,10 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
-import org.openetcs.es3f.importer.utils.*;
+import org.openetcs.es3f.utils.*;
 
 public class SubStep
-	extends org.openetcs.es3f.importer.generated.SubStep
+	extends org.openetcs.es3f.generated.SubStep
 {
 	private static final long serialVersionUID = 2829494552401902713L;
 

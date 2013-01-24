@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.eclipse.emf.edit.command.ChangeCommand;
-import org.openetcs.es3f.importer.generated.acceptor;
+import org.openetcs.es3f.generated.acceptor;
 
 import com.raincode.xmlbooster.xmlb.xmlBException;
 import com.raincode.xmlbooster.xmlb.xmlBFileContext;

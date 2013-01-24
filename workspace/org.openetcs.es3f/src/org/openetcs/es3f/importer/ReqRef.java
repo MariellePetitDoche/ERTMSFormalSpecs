@@ -11,10 +11,10 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
-import org.openetcs.es3f.importer.utils.*;
+import org.openetcs.es3f.utils.*;
 
 public class ReqRef
-	extends org.openetcs.es3f.importer.generated.ReqRef
+	extends org.openetcs.es3f.generated.ReqRef
 {
 	private static final long serialVersionUID = 2829494552401902689L;
 
@@ -25,7 +25,7 @@ public class ReqRef
 		retVal.setComment(getComment());
 
 		// Handles the translation of Id
-		ManualTranslation.translateReqRef ( project, this, retVal );
+		ManualTranslation.importReqRef ( project, this, retVal );
 
 		return retVal;
 	}

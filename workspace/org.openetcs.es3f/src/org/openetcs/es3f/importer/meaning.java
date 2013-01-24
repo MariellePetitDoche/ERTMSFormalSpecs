@@ -11,10 +11,10 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
-import org.openetcs.es3f.importer.utils.*;
+import org.openetcs.es3f.utils.*;
 
 public class meaning
-	extends org.openetcs.es3f.importer.generated.meaning
+	extends org.openetcs.es3f.generated.meaning
 {
 	private static final long serialVersionUID = 2829494552401902736L;
 
@@ -26,7 +26,7 @@ public class meaning
 		retVal.setValue(getValue());
 
 		// Handles the translation of Bl
-		ManualTranslation.translatemeaning ( project, this, retVal );
+		ManualTranslation.importmeaning ( project, this, retVal );
 
 		return retVal;
 	}
