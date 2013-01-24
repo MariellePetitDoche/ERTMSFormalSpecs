@@ -11,7 +11,7 @@ import org.openetcs.model.ertmsformalspecs.test.*;
 import org.openetcs.model.ertmsformalspecs.translation.*;
 import org.openetcs.model.ertmsformalspecs.types.*;
 import org.openetcs.model.ertmsformalspecs.util.*;
-import org.openetcs.es3f.generated.acceptor
+import org.openetcs.es3f.generated.acceptor;
 import org.openetcs.es3f.utils.*;
 
 public class Importer
