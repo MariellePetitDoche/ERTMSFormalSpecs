@@ -44,6 +44,8 @@ public class ExpressionParser extends AbstractContentAssistParser {
 					put(grammarAccess.getPointOperationAccess().getOpAlternatives_1_1_0(), "rule__PointOperation__OpAlternatives_1_1_0");
 					put(grammarAccess.getPrimaryExpressionAccess().getAlternatives(), "rule__PrimaryExpression__Alternatives");
 					put(grammarAccess.getTermAccess().getAlternatives(), "rule__Term__Alternatives");
+					put(grammarAccess.getFQNAccess().getGroup(), "rule__FQN__Group__0");
+					put(grammarAccess.getFQNAccess().getGroup_1(), "rule__FQN__Group_1__0");
 					put(grammarAccess.getSingleStatementAccess().getGroup(), "rule__SingleStatement__Group__0");
 					put(grammarAccess.getSelfStatementAccess().getGroup(), "rule__SelfStatement__Group__0");
 					put(grammarAccess.getMultiStatementAccess().getGroup(), "rule__MultiStatement__Group__0");

@@ -1,4 +1,4 @@
-RULE_ID=7
+RULE_ID=4
 T__29=29
 T__28=28
 T__27=27
@@ -11,10 +11,11 @@ RULE_ANY_OTHER=11
 T__21=21
 T__20=20
 RULE_SL_COMMENT=9
-RULE_DOUBLE=6
+RULE_DOUBLE=7
 RULE_ML_COMMENT=8
+T__30=30
 T__19=19
-RULE_STRING=4
+RULE_STRING=5
 T__16=16
 T__15=15
 T__18=18
@@ -22,23 +23,24 @@ T__17=17
 T__12=12
 T__14=14
 T__13=13
-RULE_INT=5
+RULE_INT=6
 RULE_WS=10
-'<-'=22
+'<-'=23
 '>='=15
 '=='=12
 'not in'=17
 '/'=21
-'OR'=27
-'NOT ('=26
+'OR'=28
+'NOT ('=27
 '<='=14
 '!='=13
-'('=24
+'('=25
 '-'=19
 '*'=20
 '+'=18
-')'=25
+')'=26
 'in'=16
-'^'=29
-'AND'=28
-'CurrentState'=23
+'.'=22
+'^'=30
+'AND'=29
+'CurrentState'=24

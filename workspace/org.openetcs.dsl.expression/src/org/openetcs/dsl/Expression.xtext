@@ -8,7 +8,7 @@ Model:
 
 terminal DOUBLE returns ecore::EDouble:
 	INT '.' INT;
-
+FQN: ID ("." ID)*;
 Phrase:
 	Expression|Statement;
 
@@ -62,4 +62,4 @@ Term:
 	{DoubleValue} value=DOUBLE;
 
 Designator:
-	(value=[ecore::EObject]);
+	(value=[ecore::EObject|FQN]);

@@ -324,7 +324,7 @@ public class ExpressionSemanticSequencer extends AbstractDelegatingSemanticSeque
 	
 	/**
 	 * Constraint:
-	 *     value=[EObject|ID]
+	 *     value=[EObject|FQN]
 	 */
 	protected void sequence_Designator(EObject context, Designator semanticObject) {
 		if(errorAcceptor != null) {
@@ -333,7 +333,7 @@ public class ExpressionSemanticSequencer extends AbstractDelegatingSemanticSeque
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getDesignatorAccess().getValueEObjectIDTerminalRuleCall_0_1(), semanticObject.getValue());
+		feeder.accept(grammarAccess.getDesignatorAccess().getValueEObjectFQNParserRuleCall_0_1(), semanticObject.getValue());
 		feeder.finish();
 	}
 	

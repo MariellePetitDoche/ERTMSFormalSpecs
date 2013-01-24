@@ -3,6 +3,7 @@ package org.openetcs.es3f;
 import java.io.File;
 
 import org.eclipse.emf.ecp.core.ECPProject;
+import org.eclipse.emf.edit.command.ChangeCommand;
 import org.openetcs.es3f.generated.acceptor;
 import org.openetcs.es3f.importer.Importer;
 
@@ -18,7 +19,7 @@ import com.raincode.xmlbooster.xmlb.xmlBFileContext;
  */
 public class ImportUtil {
 
-	public static void importModel(File fileToImport, ECPProject importProject)
+	public static void importModel(File fileToImport, final ECPProject importProject)
 	{
 		xmlBFileContext ctxt = new xmlBFileContext();
 		if ( ctxt.readFile(fileToImport.getAbsolutePath()) )
@@ -30,8 +31,13 @@ public class ImportUtil {
 			
 				if ( dictionary != null )
 				{
-					org.openetcs.model.ertmsformalspecs.Dictionary importedDictionary = Importer.importDictionary(importProject, dictionary);
-					importProject.getElements().add(importedDictionary);
+					final org.openetcs.model.ertmsformalspecs.Dictionary importedDictionary = Importer.importDictionary(importProject, dictionary);
+					importProject.getEditingDomain().getCommandStack().execute(new ChangeCommand(importedDictionary) {
+						@Override
+						protected void doExecute() {
+							importProject.getElements().add(importedDictionary);
+						}
+					});
 				}
 				else 
 				{
