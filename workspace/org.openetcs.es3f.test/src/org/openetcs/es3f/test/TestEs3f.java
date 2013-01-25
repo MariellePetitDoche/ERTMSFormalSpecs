@@ -29,8 +29,9 @@ import org.xml.sax.SAXException;
 @SuppressWarnings("restriction")
 public class TestEs3f {
 
-	private static File importFile=new File("C:/Users/Eugen Neufeld/git/ERTMSFormalSpecs/ErtmsFormalSpecs/doc/specs/subset-026.efs");
-	private static File exportFile=new File("C:/Users/Eugen Neufeld/git/ERTMSFormalSpecs/ErtmsFormalSpecs/doc/specs/subset-026_export.efs");
+	private static String ROOT_FOLDER = "../../";
+	private static File importFile=new File(ROOT_FOLDER + "ErtmsFormalSpecs/doc/specs/subset-026.efs");
+	private static File exportFile=new File(ROOT_FOLDER + "ErtmsFormalSpecs/doc/specs/subset-026_export.efs");
 	private static ECPProject project;
 
 	@BeforeClass
