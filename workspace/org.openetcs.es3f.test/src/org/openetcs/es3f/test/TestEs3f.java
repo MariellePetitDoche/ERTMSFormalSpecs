@@ -12,7 +12,11 @@ import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.eclipse.emf.ecp.core.ECPProjectManager;
+import org.eclipse.emf.ecp.core.exception.ProjectWithNameExistsException;
+import org.eclipse.emf.ecp.core.util.ECPUtil;
 import org.eclipse.emf.ecp.emfstore.core.internal.EMFStoreProvider;
+import org.eclipse.emf.ecp.internal.core.ECPProjectImpl;
+import org.eclipse.emf.ecp.internal.core.ECPProjectManagerImpl;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,14 +29,16 @@ import org.xml.sax.SAXException;
 @SuppressWarnings("restriction")
 public class TestEs3f {
 
-	private static File importFile;
-	private static File exportFile;
+	private static String ROOT_FOLDER = "../../";
+	private static File importFile=new File(ROOT_FOLDER + "ErtmsFormalSpecs/doc/specs/subset-026.efs");
+	private static File exportFile=new File(ROOT_FOLDER + "ErtmsFormalSpecs/doc/specs/subset-026_export.efs");
 	private static ECPProject project;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		project = ECPProjectManager.INSTANCE.createProject(
-				EMFStoreProvider.INSTANCE, "importedProject");
+		project=ECPProjectManager.INSTANCE.createProject(new EMFStoreProvider(), "importedProject");
+		if(!exportFile.exists())
+			exportFile.createNewFile();
 	}
 
 	@AfterClass
@@ -41,7 +47,7 @@ public class TestEs3f {
 
 	@Before
 	public void setUp() throws Exception {
-
+		
 	}
 
 	@After

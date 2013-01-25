@@ -3,8 +3,8 @@
         IGNOREALIENATTRS="TRUE"
 	ENTITIESINATTR="TRUE">
 
-  <JAVACONFIG PACKAGE="org.openetcs.es3f.importer.generated" 
-              BASECLASSPREFIX="org.openetcs.es3f.importer" >
+  <JAVACONFIG PACKAGE="org.openetcs.es3f.generated" 
+              BASECLASSPREFIX="org.openetcs.es3f" >
   </JAVACONFIG>
 
   <CSHARPCONFIG USEABSTRACTFACTORY="TRUE"
@@ -1442,8 +1442,12 @@
     <META NAME="Class">SpecialOrReservedValue</META>
     <FIELDS>
       <FIELD NAME="Mask" REFTYPE="mask" />
-      <FIELD NAME="Match" REFTYPE="match" />
-      <FIELD NAME="Match-range" REFTYPE="match-range" />
+      <FIELD NAME="Match" REFTYPE="match">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Match-range" REFTYPE="match-range">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
       <FIELD NAME="Meaning" REFTYPE="meaning" />
       <FIELD NAME="Value" REFTYPE="value" />
     </FIELDS>
@@ -1616,6 +1620,7 @@
   <!-- ------------------- -->
   <ENUM NAME="Paragraph_type" >
     <META NAME="TargetName">EParagraphType</META>
+    <META NAME="Package">requirements</META>
     <ENUMVALUE NAME="TITLE" />
     <ENUMVALUE NAME="DEFINITION" />
     <ENUMVALUE NAME="NOTE" />
@@ -1629,6 +1634,7 @@
   <!-- Enum Paragraph scope -->
   <!-- -------------------- -->
   <ENUM NAME="Paragraph_scope" >
+    <META NAME="DoNotTranslate"/>
     <ENUMVALUE NAME="OBU_AND_TRACK" USEASNULL="TRUE" />
     <ENUMVALUE NAME="TRACK" />
     <ENUMVALUE NAME="OBU" />
@@ -1639,6 +1645,7 @@
   <!-- ------------------ -->
   <ENUM NAME="Message_media" >
     <META NAME="TargetName">EMessageMedia</META>
+    <META NAME="DoNotTranslate"/>
     <ENUMVALUE NAME="Balise, RBC" OVERRIDE="aBalise_RBC" />
     <ENUMVALUE NAME="Any" />
     <ENUMVALUE NAME="RBC" />
@@ -1656,6 +1663,8 @@
   <!-- Enum ERTMS type -->
   <!-- --------------- -->
   <ENUM NAME="TypeSpec_ertms-type" >
+    <META NAME="TargetName">EErtmsType</META>
+    <META NAME="Package">requirements.messages</META>
     <ENUMVALUE NAME="distance" />
     <ENUMVALUE NAME="gradient" />
     <ENUMVALUE NAME="length" />
@@ -1673,6 +1682,7 @@
   <!-- ----------------- -->
   <ENUM NAME="meaning_type" >
     <META NAME="TargetName">EMeaningType</META>
+    <META NAME="Package">requirements.messages</META>
     <ENUMVALUE NAME="invalid" />
     <ENUMVALUE NAME="enum" />
     <ENUMVALUE NAME="unknown" />
@@ -1683,6 +1693,7 @@
   <!-- Enum Maximum value -->
   <!-- ------------------ -->
   <ENUM NAME="maximum_Value" >
+    <META NAME="DoNotTranslate"/>
     <ENUMVALUE NAME="11" />
     <ENUMVALUE NAME="15" />
     <ENUMVALUE NAME="127" />
@@ -1701,9 +1712,17 @@
   <!-- ----------------------------- -->
   <ENUM NAME="resolution-formula_units" >
     <META NAME="TargetName">ResolutionFormulaUnit</META>
-    <ENUMVALUE NAME="m/s2" OVERRIDE="m/s2" />
-    <ENUMVALUE NAME="q_scale" OVERRIDE="q_scale" />
-    <ENUMVALUE NAME="%" OVERRIDE="percent" />
+    <META NAME="Package">requirements.messages</META>
+    <META NAME="TargetName">ResolutionFormulaUnit</META>
+    <ENUMVALUE NAME="m/s2" OVERRIDE="m/s2" >
+      <META NAME="TargetName">Ms2</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="q_scale" OVERRIDE="q_scale" >
+      <META NAME="TargetName">QScale</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="%" OVERRIDE="percent" >
+      <META NAME="TargetName">Percent</META>
+    </ENUMVALUE>
     <ENUMVALUE NAME="byte" />
     <ENUMVALUE NAME="bit" />
     <ENUMVALUE NAME="text-string-element" OVERRIDE="text-string-element" />
@@ -1719,16 +1738,29 @@
   <!-- ----------------------------- -->
   <ENUM NAME="resolution-formula_Value" >
     <META NAME="TargetName">ResolutionFormulaValue</META>
-    <ENUMVALUE NAME="0.05" />
-    <ENUMVALUE NAME="1" />
-    <ENUMVALUE NAME="10" />
-    <ENUMVALUE NAME="0.02" />
+    <META NAME="Package">requirements.messages</META>
+    <ENUMVALUE NAME="0.05" >
+      <META NAME="TargetName">X0_05</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="1" >
+      <META NAME="TargetName">X1</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="10" >
+      <META NAME="TargetName">X10</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="0.02" >
+      <META NAME="TargetName">X0_02</META>
+    </ENUMVALUE>
     <ENUMVALUE NAME="integers" />
     <ENUMVALUE NAME="Numbers" />
     <ENUMVALUE NAME="Binary Coded Decimal" />
     <ENUMVALUE NAME="Number" />
-    <ENUMVALUE NAME="Bitset" />
-    <ENUMVALUE NAME="5" />
+    <ENUMVALUE NAME="Bitset" >
+      <META NAME="TargetName">Bit_Set</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="5" >
+      <META NAME="TargetName">X5</META>
+    </ENUMVALUE>
   </ENUM>
 
   <!-- ------------------- -->
@@ -1739,7 +1771,9 @@
     <ENUMVALUE NAME="Incoming"/>
     <ENUMVALUE NAME="Outgoing"/>
     <ENUMVALUE NAME="Internal" USEASNULL="TRUE"/>
-    <ENUMVALUE NAME="InOut"/>
+    <ENUMVALUE NAME="InOut">
+      <META NAME="TargetName">In_Out</META>
+    </ENUMVALUE>
     <ENUMVALUE NAME="Constant"/>
   </ENUM>
 
@@ -1747,6 +1781,7 @@
   <!-- Enum Message Type -->
   <!-- ----------------- -->
   <ENUM NAME="MessageEnumType">
+    <META NAME="DoNotTranslate"/>
     <ENUMVALUE NAME="Eurobalise"/>
     <ENUMVALUE NAME="Euroloop"/>
     <!-- radio - train to track -->
@@ -1794,6 +1829,7 @@
   <!-- Enum Message Direction -->
   <!-- ---------------------- -->
   <ENUM NAME="MessageDirectionEnumType">
+    <META NAME="DoNotTranslate"/>
     <ENUMVALUE NAME="TrainToTrack"/>
     <ENUMVALUE NAME="TrackToTrain"/>
   </ENUM>
@@ -1802,10 +1838,16 @@
   <!-- Enum Specification Implemented  -->
   <!-- ------------------------------- -->
   <ENUM NAME="SPEC_IMPLEMENTED_ENUM" PREFIX="Impl_">
+    <META NAME="TargetName">EImplementationStatus</META>
+    <META NAME="Package">requirements</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="Implemented"/>
-    <ENUMVALUE NAME="NotImplementable"/>
-    <ENUMVALUE NAME="NewRevisionAvailable"/>
+    <ENUMVALUE NAME="NotImplementable">
+      <META NAME="TargetName">Not_Implementable</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="NewRevisionAvailable">
+      <META NAME="TargetName">New_Revision_Available</META>
+    </ENUMVALUE>
   </ENUM>
 
   <!-- ----------------- -->
@@ -1813,6 +1855,7 @@
   <!-- ----------------- -->
   <ENUM NAME="ST_IO" PREFIX="StIO_">
     <META NAME="TargetName">StepIO</META>
+    <META NAME="Package">test</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="In"/>
     <ENUMVALUE NAME="Out"/>
@@ -1822,6 +1865,8 @@
   <!-- Enum Interface for step  -->
   <!-- ------------------------ -->
   <ENUM NAME="ST_INTERFACE" PREFIX="StInterface_">
+    <META NAME="TargetName">StepInterface</META>
+    <META NAME="Package">test</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="DMI"/>
     <ENUMVALUE NAME="RTM"/>
@@ -1834,6 +1879,7 @@
   <!-- -------------------- -->
   <ENUM NAME="ST_LEVEL" PREFIX="StLevel_">
     <META NAME="TargetName">StepLevel</META>
+    <META NAME="Package">test</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="L0"/>
     <ENUMVALUE NAME="L1"/>
@@ -1847,6 +1893,7 @@
   <!-- ------------------- -->
   <ENUM NAME="ST_MODE" PREFIX="Mode_">
     <META NAME="TargetName">StepMode</META>
+    <META NAME="Package">test</META>
     <ENUMVALUE NAME="NA" USEASNULL="TRUE"/>
     <ENUMVALUE NAME="IS"/>
     <ENUMVALUE NAME="NP"/>
@@ -1872,26 +1919,39 @@
   <!-- ----------------------- -->
   <ENUM NAME="RulePriority">
     <META NAME="TargetName">Priority</META>
+    <META NAME="Package">behaviour</META>
     <ENUMVALUE NAME="Verification"/>
-    <ENUMVALUE NAME="UpdateINTERNAL"/>
+    <ENUMVALUE NAME="UpdateINTERNAL">
+      <META NAME="TargetName">Update_Internal</META>
+    </ENUMVALUE>
     <ENUMVALUE NAME="Processing" USEASNULL="TRUE"/>
-    <ENUMVALUE NAME="UpdateOUT"/>
-    <ENUMVALUE NAME="CleanUp"/>
+    <ENUMVALUE NAME="UpdateOUT">
+      <META NAME="TargetName">Update_Out</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="CleanUp">
+      <META NAME="TargetName">Clean_Up</META>
+    </ENUMVALUE>
   </ENUM>
 
-  <!-- ----------------------- -->
-  <!-- Enum Priority for step  -->
-  <!-- ----------------------- -->
+  <!-- ------------------------ -->
+  <!-- Enum Precision for ranges-->
+  <!-- ------------------------ -->
   <ENUM NAME="PrecisionEnum">
     <META NAME="TargetName">Precision</META>
-    <ENUMVALUE NAME="IntegerPrecision" USEASNULL="TRUE"/>
-    <ENUMVALUE NAME="DoublePrecision"/>
+    <META NAME="Package">types</META>
+    <ENUMVALUE NAME="IntegerPrecision" USEASNULL="TRUE" >
+      <META NAME="TargetName">Integer_Precision</META>
+    </ENUMVALUE>
+    <ENUMVALUE NAME="DoublePrecision">
+      <META NAME="TargetName">Double_Precision</META>
+    </ENUMVALUE>
   </ENUM>
 
   <!-- ------------------- -->
   <!-- Enum DBMessage type -->
   <!-- ------------------- -->
   <ENUM NAME="DBMessageType" >
+    <META NAME="DoNotTranslate"/>
     <ENUMVALUE NAME="EUROBALISE" />
     <ENUMVALUE NAME="EUROLOOP" />
     <ENUMVALUE NAME="EURORADIO" />

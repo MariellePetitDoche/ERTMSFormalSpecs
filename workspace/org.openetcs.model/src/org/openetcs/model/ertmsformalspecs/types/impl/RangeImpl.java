@@ -82,7 +82,7 @@ public class RangeImpl extends TypeImpl implements Range {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Precision PRECISION_EDEFAULT = null;
+	protected static final Precision PRECISION_EDEFAULT = Precision.INTEGER_PRECISION;
 
 	/**
 	 * The cached value of the '{@link #getPrecision() <em>Precision</em>}' attribute.

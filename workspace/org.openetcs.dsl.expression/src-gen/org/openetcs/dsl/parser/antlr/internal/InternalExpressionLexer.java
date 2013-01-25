@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class InternalExpressionLexer extends Lexer {
-    public static final int RULE_ID=7;
+    public static final int RULE_ID=4;
     public static final int T__29=29;
     public static final int T__28=28;
     public static final int T__27=27;
@@ -26,10 +26,11 @@ public class InternalExpressionLexer extends Lexer {
     public static final int T__20=20;
     public static final int EOF=-1;
     public static final int RULE_SL_COMMENT=9;
-    public static final int RULE_DOUBLE=6;
+    public static final int RULE_DOUBLE=7;
     public static final int RULE_ML_COMMENT=8;
     public static final int T__19=19;
-    public static final int RULE_STRING=4;
+    public static final int T__30=30;
+    public static final int RULE_STRING=5;
     public static final int T__16=16;
     public static final int T__15=15;
     public static final int T__18=18;
@@ -37,7 +38,7 @@ public class InternalExpressionLexer extends Lexer {
     public static final int T__12=12;
     public static final int T__14=14;
     public static final int T__13=13;
-    public static final int RULE_INT=5;
+    public static final int RULE_INT=6;
     public static final int RULE_WS=10;
 
     // delegates
@@ -58,11 +59,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__12;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:11:7: ( '<-' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:11:9: '<-'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:11:7: ( '.' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:11:9: '.'
             {
-            match("<-"); 
-
+            match('.'); 
 
             }
 
@@ -79,10 +79,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__13;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:12:7: ( 'CurrentState' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:12:9: 'CurrentState'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:12:7: ( '<-' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:12:9: '<-'
             {
-            match("CurrentState"); 
+            match("<-"); 
 
 
             }
@@ -100,10 +100,11 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__14;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:13:7: ( '(' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:13:9: '('
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:13:7: ( 'CurrentState' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:13:9: 'CurrentState'
             {
-            match('('); 
+            match("CurrentState"); 
+
 
             }
 
@@ -120,10 +121,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__15;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:14:7: ( ')' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:14:9: ')'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:14:7: ( '(' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:14:9: '('
             {
-            match(')'); 
+            match('('); 
 
             }
 
@@ -140,11 +141,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__16;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:15:7: ( 'OR' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:15:9: 'OR'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:15:7: ( ')' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:15:9: ')'
             {
-            match("OR"); 
-
+            match(')'); 
 
             }
 
@@ -161,10 +161,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__17;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:16:7: ( 'AND' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:16:9: 'AND'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:16:7: ( 'OR' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:16:9: 'OR'
             {
-            match("AND"); 
+            match("OR"); 
 
 
             }
@@ -182,10 +182,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__18;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:17:7: ( '==' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:17:9: '=='
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:17:7: ( 'AND' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:17:9: 'AND'
             {
-            match("=="); 
+            match("AND"); 
 
 
             }
@@ -203,10 +203,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:18:7: ( '!=' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:18:9: '!='
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:18:7: ( '==' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:18:9: '=='
             {
-            match("!="); 
+            match("=="); 
 
 
             }
@@ -224,10 +224,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:19:7: ( '<=' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:19:9: '<='
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:19:7: ( '!=' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:19:9: '!='
             {
-            match("<="); 
+            match("!="); 
 
 
             }
@@ -245,10 +245,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:20:7: ( '>=' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:20:9: '>='
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:20:7: ( '<=' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:20:9: '<='
             {
-            match(">="); 
+            match("<="); 
 
 
             }
@@ -266,10 +266,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:21:7: ( 'in' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:21:9: 'in'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:21:7: ( '>=' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:21:9: '>='
             {
-            match("in"); 
+            match(">="); 
 
 
             }
@@ -287,10 +287,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:22:7: ( 'not in' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:22:9: 'not in'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:22:7: ( 'in' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:22:9: 'in'
             {
-            match("not in"); 
+            match("in"); 
 
 
             }
@@ -308,10 +308,11 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:23:7: ( '+' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:23:9: '+'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:23:7: ( 'not in' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:23:9: 'not in'
             {
-            match('+'); 
+            match("not in"); 
+
 
             }
 
@@ -328,10 +329,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:24:7: ( '-' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:24:9: '-'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:24:7: ( '+' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:24:9: '+'
             {
-            match('-'); 
+            match('+'); 
 
             }
 
@@ -348,10 +349,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:25:7: ( '*' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:25:9: '*'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:25:7: ( '-' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:25:9: '-'
             {
-            match('*'); 
+            match('-'); 
 
             }
 
@@ -368,10 +369,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:26:7: ( '/' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:26:9: '/'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:26:7: ( '*' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:26:9: '*'
             {
-            match('/'); 
+            match('*'); 
 
             }
 
@@ -388,10 +389,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:27:7: ( '^' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:27:9: '^'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:27:7: ( '/' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:27:9: '/'
             {
-            match('^'); 
+            match('/'); 
 
             }
 
@@ -408,8 +409,28 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = T__29;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:28:7: ( 'NOT (' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:28:9: 'NOT ('
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:28:7: ( '^' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:28:9: '^'
+            {
+            match('^'); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__29"
+
+    // $ANTLR start "T__30"
+    public final void mT__30() throws RecognitionException {
+        try {
+            int _type = T__30;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:29:7: ( 'NOT (' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:29:9: 'NOT ('
             {
             match("NOT ("); 
 
@@ -422,15 +443,15 @@ public class InternalExpressionLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__29"
+    // $ANTLR end "T__30"
 
     // $ANTLR start "RULE_DOUBLE"
     public final void mRULE_DOUBLE() throws RecognitionException {
         try {
             int _type = RULE_DOUBLE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1170:13: ( RULE_INT '.' RULE_INT )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1170:15: RULE_INT '.' RULE_INT
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1213:13: ( RULE_INT '.' RULE_INT )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1213:15: RULE_INT '.' RULE_INT
             {
             mRULE_INT(); 
             match('.'); 
@@ -451,10 +472,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1172:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1172:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1215:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1215:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1172:11: ( '^' )?
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1215:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -463,7 +484,7 @@ public class InternalExpressionLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1172:11: '^'
+                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1215:11: '^'
                     {
                     match('^'); 
 
@@ -481,7 +502,7 @@ public class InternalExpressionLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1172:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1215:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -530,10 +551,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1174:10: ( ( '0' .. '9' )+ )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1174:12: ( '0' .. '9' )+
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1217:10: ( ( '0' .. '9' )+ )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1217:12: ( '0' .. '9' )+
             {
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1174:12: ( '0' .. '9' )+
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1217:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -547,7 +568,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1174:13: '0' .. '9'
+            	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1217:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -579,10 +600,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -600,10 +621,10 @@ public class InternalExpressionLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -619,7 +640,7 @@ public class InternalExpressionLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -635,7 +656,7 @@ public class InternalExpressionLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:66: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:66: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -660,10 +681,10 @@ public class InternalExpressionLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -679,7 +700,7 @@ public class InternalExpressionLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -695,7 +716,7 @@ public class InternalExpressionLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1176:137: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1219:137: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -738,12 +759,12 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1178:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1178:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1221:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1221:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1178:24: ( options {greedy=false; } : . )*
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1221:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -768,7 +789,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1178:52: .
+            	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1221:52: .
             	    {
             	    matchAny(); 
 
@@ -798,12 +819,12 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -816,7 +837,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -836,7 +857,7 @@ public class InternalExpressionLexer extends Lexer {
                 }
             } while (true);
 
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:40: ( ( '\\r' )? '\\n' )?
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -845,9 +866,9 @@ public class InternalExpressionLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:41: ( '\\r' )? '\\n'
+                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:41: ( '\\r' )? '\\n'
                     {
-                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:41: ( '\\r' )?
+                    // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -856,7 +877,7 @@ public class InternalExpressionLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1180:41: '\\r'
+                            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1223:41: '\\r'
                             {
                             match('\r'); 
 
@@ -888,10 +909,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1182:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1182:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1225:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1225:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1182:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1225:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -945,8 +966,8 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1184:16: ( . )
-            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1184:18: .
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1227:16: ( . )
+            // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1227:18: .
             {
             matchAny(); 
 
@@ -961,8 +982,8 @@ public class InternalExpressionLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | RULE_DOUBLE | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
-        int alt12=26;
+        // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | RULE_DOUBLE | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        int alt12=27;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
@@ -1092,56 +1113,63 @@ public class InternalExpressionLexer extends Lexer {
                 }
                 break;
             case 19 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:118: RULE_DOUBLE
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:118: T__30
+                {
+                mT__30(); 
+
+                }
+                break;
+            case 20 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:124: RULE_DOUBLE
                 {
                 mRULE_DOUBLE(); 
 
                 }
                 break;
-            case 20 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:130: RULE_ID
+            case 21 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:136: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
-            case 21 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:138: RULE_INT
+            case 22 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:144: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
-            case 22 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:147: RULE_STRING
+            case 23 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:153: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
-            case 23 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:159: RULE_ML_COMMENT
+            case 24 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:165: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
-            case 24 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:175: RULE_SL_COMMENT
+            case 25 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:181: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
-            case 25 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:191: RULE_WS
+            case 26 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:197: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
-            case 26 :
-                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:199: RULE_ANY_OTHER
+            case 27 :
+                // ../org.openetcs.dsl.expression/src-gen/org/openetcs/dsl/parser/antlr/internal/InternalExpression.g:1:205: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -1155,104 +1183,106 @@ public class InternalExpressionLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\1\27\1\33\2\uffff\2\33\3\27\2\33\3\uffff\1\52\1\53\1\33"+
-        "\1\55\1\uffff\2\27\4\uffff\1\33\3\uffff\1\63\1\33\3\uffff\1\65\1"+
-        "\33\7\uffff\1\33\1\uffff\1\55\3\uffff\1\33\1\uffff\1\71\1\uffff"+
-        "\3\33\3\uffff\7\33\1\104\1\uffff";
+        "\2\uffff\1\30\1\35\2\uffff\2\35\3\30\2\35\3\uffff\1\54\1\55\1\35"+
+        "\1\57\1\uffff\2\30\5\uffff\1\35\3\uffff\1\65\1\35\3\uffff\1\67\1"+
+        "\35\7\uffff\1\35\1\uffff\1\57\3\uffff\1\35\1\uffff\1\73\1\uffff"+
+        "\3\35\3\uffff\7\35\1\106\1\uffff";
     static final String DFA12_eofS =
-        "\105\uffff";
+        "\107\uffff";
     static final String DFA12_minS =
-        "\1\0\1\55\1\165\2\uffff\1\122\1\116\3\75\1\156\1\157\3\uffff\1"+
-        "\52\1\101\1\117\1\56\1\uffff\2\0\4\uffff\1\162\3\uffff\1\60\1\104"+
-        "\3\uffff\1\60\1\164\7\uffff\1\124\1\uffff\1\56\3\uffff\1\162\1\uffff"+
-        "\1\60\1\uffff\2\40\1\145\3\uffff\1\156\1\164\1\123\1\164\1\141\1"+
-        "\164\1\145\1\60\1\uffff";
+        "\1\0\1\uffff\1\55\1\165\2\uffff\1\122\1\116\3\75\1\156\1\157\3"+
+        "\uffff\1\52\1\101\1\117\1\56\1\uffff\2\0\5\uffff\1\162\3\uffff\1"+
+        "\60\1\104\3\uffff\1\60\1\164\7\uffff\1\124\1\uffff\1\56\3\uffff"+
+        "\1\162\1\uffff\1\60\1\uffff\2\40\1\145\3\uffff\1\156\1\164\1\123"+
+        "\1\164\1\141\1\164\1\145\1\60\1\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\1\75\1\165\2\uffff\1\122\1\116\3\75\1\156\1\157\3\uffff"+
-        "\1\57\1\172\1\117\1\71\1\uffff\2\uffff\4\uffff\1\162\3\uffff\1\172"+
-        "\1\104\3\uffff\1\172\1\164\7\uffff\1\124\1\uffff\1\71\3\uffff\1"+
-        "\162\1\uffff\1\172\1\uffff\2\40\1\145\3\uffff\1\156\1\164\1\123"+
+        "\1\uffff\1\uffff\1\75\1\165\2\uffff\1\122\1\116\3\75\1\156\1\157"+
+        "\3\uffff\1\57\1\172\1\117\1\71\1\uffff\2\uffff\5\uffff\1\162\3\uffff"+
+        "\1\172\1\104\3\uffff\1\172\1\164\7\uffff\1\124\1\uffff\1\71\3\uffff"+
+        "\1\162\1\uffff\1\172\1\uffff\2\40\1\145\3\uffff\1\156\1\164\1\123"+
         "\1\164\1\141\1\164\1\145\1\172\1\uffff";
     static final String DFA12_acceptS =
-        "\3\uffff\1\3\1\4\7\uffff\1\15\1\16\1\17\4\uffff\1\24\2\uffff\1"+
-        "\31\1\32\1\1\1\11\1\uffff\1\24\1\3\1\4\2\uffff\1\7\1\10\1\12\2\uffff"+
-        "\1\15\1\16\1\17\1\27\1\30\1\20\1\21\1\uffff\1\25\1\uffff\1\23\1"+
-        "\26\1\31\1\uffff\1\5\1\uffff\1\13\3\uffff\1\6\1\14\1\22\10\uffff"+
-        "\1\2";
+        "\1\uffff\1\1\2\uffff\1\4\1\5\7\uffff\1\16\1\17\1\20\4\uffff\1\25"+
+        "\2\uffff\1\32\1\33\1\1\1\2\1\12\1\uffff\1\25\1\4\1\5\2\uffff\1\10"+
+        "\1\11\1\13\2\uffff\1\16\1\17\1\20\1\30\1\31\1\21\1\22\1\uffff\1"+
+        "\26\1\uffff\1\24\1\27\1\32\1\uffff\1\6\1\uffff\1\14\3\uffff\1\7"+
+        "\1\15\1\23\10\uffff\1\3";
     static final String DFA12_specialS =
-        "\1\0\23\uffff\1\2\1\1\57\uffff}>";
+        "\1\1\24\uffff\1\0\1\2\60\uffff}>";
     static final String[] DFA12_transitionS = {
-            "\11\27\2\26\2\27\1\26\22\27\1\26\1\10\1\24\4\27\1\25\1\3\1"+
-            "\4\1\16\1\14\1\27\1\15\1\27\1\17\12\22\2\27\1\1\1\7\1\11\2\27"+
-            "\1\6\1\23\1\2\12\23\1\21\1\5\13\23\3\27\1\20\1\23\1\27\10\23"+
-            "\1\12\4\23\1\13\14\23\uff85\27",
-            "\1\30\17\uffff\1\31",
-            "\1\32",
+            "\11\30\2\27\2\30\1\27\22\30\1\27\1\11\1\25\4\30\1\26\1\4\1"+
+            "\5\1\17\1\15\1\30\1\16\1\1\1\20\12\23\2\30\1\2\1\10\1\12\2\30"+
+            "\1\7\1\24\1\3\12\24\1\22\1\6\13\24\3\30\1\21\1\24\1\30\10\24"+
+            "\1\13\4\24\1\14\14\24\uff85\30",
+            "",
+            "\1\32\17\uffff\1\33",
+            "\1\34",
             "",
             "",
-            "\1\36",
-            "\1\37",
             "\1\40",
             "\1\41",
             "\1\42",
             "\1\43",
             "\1\44",
+            "\1\45",
+            "\1\46",
             "",
             "",
             "",
-            "\1\50\4\uffff\1\51",
-            "\32\33\4\uffff\1\33\1\uffff\32\33",
-            "\1\54",
-            "\1\57\1\uffff\12\56",
+            "\1\52\4\uffff\1\53",
+            "\32\35\4\uffff\1\35\1\uffff\32\35",
+            "\1\56",
+            "\1\61\1\uffff\12\60",
             "",
-            "\0\60",
-            "\0\60",
-            "",
-            "",
-            "",
-            "",
-            "\1\62",
+            "\0\62",
+            "\0\62",
             "",
             "",
             "",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "",
+            "",
             "\1\64",
             "",
             "",
             "",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff\32\35",
             "\1\66",
             "",
             "",
             "",
-            "",
-            "",
-            "",
-            "",
-            "\1\67",
-            "",
-            "\1\57\1\uffff\12\56",
-            "",
-            "",
-            "",
+            "\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff\32\35",
             "\1\70",
             "",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\71",
+            "",
+            "\1\61\1\uffff\12\60",
+            "",
+            "",
             "",
             "\1\72",
-            "\1\73",
+            "",
+            "\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff\32\35",
+            "",
             "\1\74",
-            "",
-            "",
-            "",
             "\1\75",
             "\1\76",
+            "",
+            "",
+            "",
             "\1\77",
             "\1\100",
             "\1\101",
             "\1\102",
             "\1\103",
-            "\12\33\7\uffff\32\33\4\uffff\1\33\1\uffff\32\33",
+            "\1\104",
+            "\1\105",
+            "\12\35\7\uffff\32\35\4\uffff\1\35\1\uffff\32\35",
             ""
     };
 
@@ -1286,81 +1316,83 @@ public class InternalExpressionLexer extends Lexer {
             this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | RULE_DOUBLE | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | RULE_DOUBLE | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA12_0 = input.LA(1);
+                        int LA12_21 = input.LA(1);
 
                         s = -1;
-                        if ( (LA12_0=='<') ) {s = 1;}
+                        if ( ((LA12_21>='\u0000' && LA12_21<='\uFFFF')) ) {s = 50;}
 
-                        else if ( (LA12_0=='C') ) {s = 2;}
-
-                        else if ( (LA12_0=='(') ) {s = 3;}
-
-                        else if ( (LA12_0==')') ) {s = 4;}
-
-                        else if ( (LA12_0=='O') ) {s = 5;}
-
-                        else if ( (LA12_0=='A') ) {s = 6;}
-
-                        else if ( (LA12_0=='=') ) {s = 7;}
-
-                        else if ( (LA12_0=='!') ) {s = 8;}
-
-                        else if ( (LA12_0=='>') ) {s = 9;}
-
-                        else if ( (LA12_0=='i') ) {s = 10;}
-
-                        else if ( (LA12_0=='n') ) {s = 11;}
-
-                        else if ( (LA12_0=='+') ) {s = 12;}
-
-                        else if ( (LA12_0=='-') ) {s = 13;}
-
-                        else if ( (LA12_0=='*') ) {s = 14;}
-
-                        else if ( (LA12_0=='/') ) {s = 15;}
-
-                        else if ( (LA12_0=='^') ) {s = 16;}
-
-                        else if ( (LA12_0=='N') ) {s = 17;}
-
-                        else if ( ((LA12_0>='0' && LA12_0<='9')) ) {s = 18;}
-
-                        else if ( (LA12_0=='B'||(LA12_0>='D' && LA12_0<='M')||(LA12_0>='P' && LA12_0<='Z')||LA12_0=='_'||(LA12_0>='a' && LA12_0<='h')||(LA12_0>='j' && LA12_0<='m')||(LA12_0>='o' && LA12_0<='z')) ) {s = 19;}
-
-                        else if ( (LA12_0=='\"') ) {s = 20;}
-
-                        else if ( (LA12_0=='\'') ) {s = 21;}
-
-                        else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 22;}
-
-                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||(LA12_0>='#' && LA12_0<='&')||LA12_0==','||LA12_0=='.'||(LA12_0>=':' && LA12_0<=';')||(LA12_0>='?' && LA12_0<='@')||(LA12_0>='[' && LA12_0<=']')||LA12_0=='`'||(LA12_0>='{' && LA12_0<='\uFFFF')) ) {s = 23;}
+                        else s = 24;
 
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
-                        int LA12_21 = input.LA(1);
+                        int LA12_0 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA12_21>='\u0000' && LA12_21<='\uFFFF')) ) {s = 48;}
+                        if ( (LA12_0=='.') ) {s = 1;}
 
-                        else s = 23;
+                        else if ( (LA12_0=='<') ) {s = 2;}
+
+                        else if ( (LA12_0=='C') ) {s = 3;}
+
+                        else if ( (LA12_0=='(') ) {s = 4;}
+
+                        else if ( (LA12_0==')') ) {s = 5;}
+
+                        else if ( (LA12_0=='O') ) {s = 6;}
+
+                        else if ( (LA12_0=='A') ) {s = 7;}
+
+                        else if ( (LA12_0=='=') ) {s = 8;}
+
+                        else if ( (LA12_0=='!') ) {s = 9;}
+
+                        else if ( (LA12_0=='>') ) {s = 10;}
+
+                        else if ( (LA12_0=='i') ) {s = 11;}
+
+                        else if ( (LA12_0=='n') ) {s = 12;}
+
+                        else if ( (LA12_0=='+') ) {s = 13;}
+
+                        else if ( (LA12_0=='-') ) {s = 14;}
+
+                        else if ( (LA12_0=='*') ) {s = 15;}
+
+                        else if ( (LA12_0=='/') ) {s = 16;}
+
+                        else if ( (LA12_0=='^') ) {s = 17;}
+
+                        else if ( (LA12_0=='N') ) {s = 18;}
+
+                        else if ( ((LA12_0>='0' && LA12_0<='9')) ) {s = 19;}
+
+                        else if ( (LA12_0=='B'||(LA12_0>='D' && LA12_0<='M')||(LA12_0>='P' && LA12_0<='Z')||LA12_0=='_'||(LA12_0>='a' && LA12_0<='h')||(LA12_0>='j' && LA12_0<='m')||(LA12_0>='o' && LA12_0<='z')) ) {s = 20;}
+
+                        else if ( (LA12_0=='\"') ) {s = 21;}
+
+                        else if ( (LA12_0=='\'') ) {s = 22;}
+
+                        else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 23;}
+
+                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||(LA12_0>='#' && LA12_0<='&')||LA12_0==','||(LA12_0>=':' && LA12_0<=';')||(LA12_0>='?' && LA12_0<='@')||(LA12_0>='[' && LA12_0<=']')||LA12_0=='`'||(LA12_0>='{' && LA12_0<='\uFFFF')) ) {s = 24;}
 
                         if ( s>=0 ) return s;
                         break;
                     case 2 : 
-                        int LA12_20 = input.LA(1);
+                        int LA12_22 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA12_20>='\u0000' && LA12_20<='\uFFFF')) ) {s = 48;}
+                        if ( ((LA12_22>='\u0000' && LA12_22<='\uFFFF')) ) {s = 50;}
 
-                        else s = 23;
+                        else s = 24;
 
                         if ( s>=0 ) return s;
                         break;

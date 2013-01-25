@@ -662,6 +662,8 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 
 		// Initialize enums and add enum literals
 		initEEnum(precisionEEnum, Precision.class, "Precision");
+		addEEnumLiteral(precisionEEnum, Precision.INTEGER_PRECISION);
+		addEEnumLiteral(precisionEEnum, Precision.DOUBLE_PRECISION);
 	}
 
 } //TypesPackageImpl

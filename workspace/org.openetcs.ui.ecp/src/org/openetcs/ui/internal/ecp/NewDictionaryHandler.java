@@ -5,6 +5,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.eclipse.emf.ecp.ui.util.ActionHelper;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.ChangeCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -19,10 +21,18 @@ public class NewDictionaryHandler extends AbstractHandler {
 		if(selection instanceof IStructuredSelection){
 			IStructuredSelection ssel=(IStructuredSelection)selection;
 			if(ssel.getFirstElement() instanceof ECPProject){
-				ECPProject project=(ECPProject) ssel.getFirstElement();
+				final ECPProject project=(ECPProject) ssel.getFirstElement();
 				
-				Dictionary dictionary=ModelFactory.eINSTANCE.createDictionary();
-				project.getElements().add(dictionary);
+				final Dictionary dictionary=ModelFactory.eINSTANCE.createDictionary();
+				
+				project.getEditingDomain().getCommandStack().execute(new ChangeCommand(dictionary) {
+					
+					@Override
+					protected void doExecute() {
+						project.getElements().add(dictionary);
+					}
+				});
+				
 				ActionHelper.openModelElement(dictionary, NewDictionaryHandler.class.getName(), project);
 			}
 		}

@@ -599,13 +599,22 @@ public interface ModelPackage extends EPackage {
 	int REQ_REF__PARAGRAPH = COMMENTED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Paragraph Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQ_REF__PARAGRAPH_ID = COMMENTED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Req Ref</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQ_REF_FEATURE_COUNT = COMMENTED_ELEMENT_FEATURE_COUNT + 1;
+	int REQ_REF_FEATURE_COUNT = COMMENTED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl <em>Req Related</em>}' class.
@@ -1507,6 +1516,17 @@ public interface ModelPackage extends EPackage {
 	EReference getReqRef_Paragraph();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.ReqRef#getParagraphId <em>Paragraph Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Paragraph Id</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.ReqRef#getParagraphId()
+	 * @see #getReqRef()
+	 * @generated
+	 */
+	EAttribute getReqRef_ParagraphId();
+
+	/**
 	 * Returns the meta object for class '{@link org.openetcs.model.ertmsformalspecs.ReqRelated <em>Req Related</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2135,6 +2155,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REQ_REF__PARAGRAPH = eINSTANCE.getReqRef_Paragraph();
+
+		/**
+		 * The meta object literal for the '<em><b>Paragraph Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQ_REF__PARAGRAPH_ID = eINSTANCE.getReqRef_ParagraphId();
 
 		/**
 		 * The meta object literal for the '{@link org.openetcs.model.ertmsformalspecs.impl.ReqRelatedImpl <em>Req Related</em>}' class.

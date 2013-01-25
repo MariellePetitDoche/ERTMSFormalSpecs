@@ -44,10 +44,12 @@ public class OpenStatechartHandler extends AbstractHandler {
 		final Resource resource = resourceSet.createResource(URI.createURI(
 				"VIRTUAL_URI", false));
 
+		String diagramText=stateMachine.getName()!=null?stateMachine.getName():"StateMachine";
+		
 		final Diagram createDiagram = Graphiti.getPeCreateService()
 				.createDiagram("org.openetcs.ui.statechart.diagramType",
-						stateMachine.getComment(), true);
-		createDiagram.setName(stateMachine.getComment());
+						diagramText, true);
+		createDiagram.setName(diagramText);
 		// add the diagram to the resource
 		editingDomain.getCommandStack().execute(
 				new RecordingCommand(editingDomain) {
