@@ -61,10 +61,6 @@ public class StateItemProvider
 
 			addNamePropertyDescriptor(object);
 			addStateMachinePropertyDescriptor(object);
-			addWidthPropertyDescriptor(object);
-			addHeightPropertyDescriptor(object);
-			addXPropertyDescriptor(object);
-			addYPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -109,94 +105,6 @@ public class StateItemProvider
 				 false,
 				 false,
 				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Width feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addWidthPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_State_width_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_State_width_feature", "_UI_State_type"),
-				 ModelPackage.Literals.STATE__WIDTH,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Height feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addHeightPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_State_height_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_State_height_feature", "_UI_State_type"),
-				 ModelPackage.Literals.STATE__HEIGHT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the X feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addXPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_State_x_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_State_x_feature", "_UI_State_type"),
-				 ModelPackage.Literals.STATE__X,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Y feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addYPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_State_y_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_State_y_feature", "_UI_State_type"),
-				 ModelPackage.Literals.STATE__Y,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}

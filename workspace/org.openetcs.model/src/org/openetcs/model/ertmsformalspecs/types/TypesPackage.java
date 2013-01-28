@@ -68,15 +68,6 @@ public interface TypesPackage extends EPackage {
 	int TYPE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -84,6 +75,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int TYPE__NAME = ModelPackage.REQ_RELATED__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -187,15 +187,6 @@ public interface TypesPackage extends EPackage {
 	int ENUMERATION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ENUMERATION__COMMENT = TYPE__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -203,6 +194,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUMERATION__NAME = TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUMERATION__COMMENT = TYPE__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -360,15 +360,6 @@ public interface TypesPackage extends EPackage {
 	int RANGE = 4;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RANGE__COMMENT = TYPE__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -376,6 +367,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int RANGE__NAME = TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RANGE__COMMENT = TYPE__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -487,15 +487,6 @@ public interface TypesPackage extends EPackage {
 	int STRUCTURE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRUCTURE__COMMENT = TYPE__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -503,6 +494,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRUCTURE__NAME = TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURE__COMMENT = TYPE__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -605,15 +605,6 @@ public interface TypesPackage extends EPackage {
 	int STRUCTURE_ELEMENT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRUCTURE_ELEMENT__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -621,6 +612,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRUCTURE_ELEMENT__NAME = ModelPackage.REQ_RELATED__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURE_ELEMENT__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -705,15 +705,6 @@ public interface TypesPackage extends EPackage {
 	int COLLECTION = 7;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION__COMMENT = TYPE__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -721,6 +712,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION__NAME = TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION__COMMENT = TYPE__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -814,15 +814,6 @@ public interface TypesPackage extends EPackage {
 	int FUNCTION = 8;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FUNCTION__COMMENT = TYPE__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -830,6 +821,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int FUNCTION__NAME = TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION__COMMENT = TYPE__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.

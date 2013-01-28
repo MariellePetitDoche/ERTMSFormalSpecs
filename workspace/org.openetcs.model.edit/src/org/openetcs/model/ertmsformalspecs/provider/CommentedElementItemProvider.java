@@ -77,7 +77,7 @@ public class CommentedElementItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_CommentedElement_comment_feature", "_UI_CommentedElement_type"),
 				 ModelPackage.Literals.COMMENTED_ELEMENT__COMMENT,
 				 true,
-				 false,
+				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
@@ -103,7 +103,7 @@ public class CommentedElementItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((CommentedElement)object).getComment();
+		String label = crop(((CommentedElement)object).getComment());
 		return label == null || label.length() == 0 ?
 			getString("_UI_CommentedElement_type") :
 			getString("_UI_CommentedElement_type") + " " + label;

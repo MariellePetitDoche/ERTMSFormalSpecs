@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.openetcs.model.ertmsformalspecs.BaseLine;
+import org.openetcs.model.ertmsformalspecs.impl.ReferencesParagraphImpl;
 import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
@@ -41,9 +42,6 @@ import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.impl.ParagraphImpl#getBaseline <em>Baseline</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.impl.ParagraphImpl#getComment <em>Comment</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.impl.ParagraphImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.impl.ParagraphImpl#getRequirements <em>Requirements</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.impl.ParagraphImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.impl.ParagraphImpl#getScope <em>Scope</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.impl.ParagraphImpl#getProcessInfo <em>Process Info</em>}</li>
@@ -61,7 +59,7 @@ import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
  *
  * @generated
  */
-public class ParagraphImpl extends EObjectImpl implements Paragraph {
+public class ParagraphImpl extends ReferencesParagraphImpl implements Paragraph {
 	/**
 	 * The cached value of the '{@link #getBaseline() <em>Baseline</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -71,56 +69,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	 * @ordered
 	 */
 	protected BaseLine baseline;
-
-	/**
-	 * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComment()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String COMMENT_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getComment() <em>Comment</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComment()
-	 * @generated
-	 * @ordered
-	 */
-	protected String comment = COMMENT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRequirements()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<ReqRef> requirements;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -276,39 +224,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RequirementsPackage.PARAGRAPH__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<ReqRef> getRequirements() {
-		if (requirements == null) {
-			requirements = new EObjectContainmentEList<ReqRef>(ReqRef.class, this, RequirementsPackage.PARAGRAPH__REQUIREMENTS);
-		}
-		return requirements;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public BaseLine getBaseline() {
 		if (baseline != null && baseline.eIsProxy()) {
 			InternalEObject oldBaseline = (InternalEObject)baseline;
@@ -340,27 +255,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 		baseline = newBaseline;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, RequirementsPackage.PARAGRAPH__BASELINE, oldBaseline, baseline));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getComment() {
-		return comment;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setComment(String newComment) {
-		String oldComment = comment;
-		comment = newComment;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RequirementsPackage.PARAGRAPH__COMMENT, oldComment, comment));
 	}
 
 	/**
@@ -768,8 +662,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case RequirementsPackage.PARAGRAPH__REQUIREMENTS:
-				return ((InternalEList<?>)getRequirements()).basicRemove(otherEnd, msgs);
 			case RequirementsPackage.PARAGRAPH__SCOPE:
 				return basicSetScope(null, msgs);
 			case RequirementsPackage.PARAGRAPH__PROCESS_INFO:
@@ -815,12 +707,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 			case RequirementsPackage.PARAGRAPH__BASELINE:
 				if (resolve) return getBaseline();
 				return basicGetBaseline();
-			case RequirementsPackage.PARAGRAPH__COMMENT:
-				return getComment();
-			case RequirementsPackage.PARAGRAPH__NAME:
-				return getName();
-			case RequirementsPackage.PARAGRAPH__REQUIREMENTS:
-				return getRequirements();
 			case RequirementsPackage.PARAGRAPH__TYPE:
 				return getType();
 			case RequirementsPackage.PARAGRAPH__SCOPE:
@@ -862,16 +748,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 		switch (featureID) {
 			case RequirementsPackage.PARAGRAPH__BASELINE:
 				setBaseline((BaseLine)newValue);
-				return;
-			case RequirementsPackage.PARAGRAPH__COMMENT:
-				setComment((String)newValue);
-				return;
-			case RequirementsPackage.PARAGRAPH__NAME:
-				setName((String)newValue);
-				return;
-			case RequirementsPackage.PARAGRAPH__REQUIREMENTS:
-				getRequirements().clear();
-				getRequirements().addAll((Collection<? extends ReqRef>)newValue);
 				return;
 			case RequirementsPackage.PARAGRAPH__TYPE:
 				setType((EParagraphType)newValue);
@@ -926,15 +802,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 			case RequirementsPackage.PARAGRAPH__BASELINE:
 				setBaseline((BaseLine)null);
 				return;
-			case RequirementsPackage.PARAGRAPH__COMMENT:
-				setComment(COMMENT_EDEFAULT);
-				return;
-			case RequirementsPackage.PARAGRAPH__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case RequirementsPackage.PARAGRAPH__REQUIREMENTS:
-				getRequirements().clear();
-				return;
 			case RequirementsPackage.PARAGRAPH__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
@@ -985,12 +852,6 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 		switch (featureID) {
 			case RequirementsPackage.PARAGRAPH__BASELINE:
 				return baseline != null;
-			case RequirementsPackage.PARAGRAPH__COMMENT:
-				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
-			case RequirementsPackage.PARAGRAPH__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case RequirementsPackage.PARAGRAPH__REQUIREMENTS:
-				return requirements != null && !requirements.isEmpty();
 			case RequirementsPackage.PARAGRAPH__TYPE:
 				return type != TYPE_EDEFAULT;
 			case RequirementsPackage.PARAGRAPH__SCOPE:
@@ -1026,21 +887,9 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == CommentedElement.class) {
+		if (baseClass == BaseLinedElement.class) {
 			switch (derivedFeatureID) {
-				case RequirementsPackage.PARAGRAPH__COMMENT: return ModelPackage.COMMENTED_ELEMENT__COMMENT;
-				default: return -1;
-			}
-		}
-		if (baseClass == NamedElement.class) {
-			switch (derivedFeatureID) {
-				case RequirementsPackage.PARAGRAPH__NAME: return ModelPackage.NAMED_ELEMENT__NAME;
-				default: return -1;
-			}
-		}
-		if (baseClass == ReferencesParagraph.class) {
-			switch (derivedFeatureID) {
-				case RequirementsPackage.PARAGRAPH__REQUIREMENTS: return ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS;
+				case RequirementsPackage.PARAGRAPH__BASELINE: return RequirementsPackage.BASE_LINED_ELEMENT__BASELINE;
 				default: return -1;
 			}
 		}
@@ -1054,21 +903,9 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == CommentedElement.class) {
+		if (baseClass == BaseLinedElement.class) {
 			switch (baseFeatureID) {
-				case ModelPackage.COMMENTED_ELEMENT__COMMENT: return RequirementsPackage.PARAGRAPH__COMMENT;
-				default: return -1;
-			}
-		}
-		if (baseClass == NamedElement.class) {
-			switch (baseFeatureID) {
-				case ModelPackage.NAMED_ELEMENT__NAME: return RequirementsPackage.PARAGRAPH__NAME;
-				default: return -1;
-			}
-		}
-		if (baseClass == ReferencesParagraph.class) {
-			switch (baseFeatureID) {
-				case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS: return RequirementsPackage.PARAGRAPH__REQUIREMENTS;
+				case RequirementsPackage.BASE_LINED_ELEMENT__BASELINE: return RequirementsPackage.PARAGRAPH__BASELINE;
 				default: return -1;
 			}
 		}
@@ -1085,11 +922,7 @@ public class ParagraphImpl extends EObjectImpl implements Paragraph {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (comment: ");
-		result.append(comment);
-		result.append(", name: ");
-		result.append(name);
-		result.append(", type: ");
+		result.append(" (type: ");
 		result.append(type);
 		result.append(", id: ");
 		result.append(id);

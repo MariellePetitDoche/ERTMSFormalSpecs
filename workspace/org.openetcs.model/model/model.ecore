@@ -64,7 +64,7 @@
         eOpposite="#//types/Function/parameters"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferencesParagraph" abstract="true"
-      eSuperTypes="#//CommentedElement #//NamedElement">
+      eSuperTypes="#//NamedElement #//CommentedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
         eType="#//ReqRef" containment="true"/>
   </eClassifiers>
@@ -154,7 +154,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackSide" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="optional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Paragraph" eSuperTypes="#//requirements/BaseLinedElement #//ReferencesParagraph">
+    <eClassifiers xsi:type="ecore:EClass" name="Paragraph" eSuperTypes="#//ReferencesParagraph #//requirements/BaseLinedElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//requirements/EParagraphType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="scope" lowerBound="1"
           eType="#//requirements/Scope" containment="true"/>

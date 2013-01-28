@@ -259,15 +259,6 @@ public interface TestPackage extends EPackage {
 	int SINGLE_TEST_CASE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SINGLE_TEST_CASE__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -275,6 +266,15 @@ public interface TestPackage extends EPackage {
 	 * @ordered
 	 */
 	int SINGLE_TEST_CASE__NAME = ModelPackage.REQ_RELATED__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_TEST_CASE__COMMENT = ModelPackage.REQ_RELATED__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.

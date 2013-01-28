@@ -111,10 +111,10 @@ public class RequirementsSwitch<T> extends Switch<T> {
 			case RequirementsPackage.PARAGRAPH: {
 				Paragraph paragraph = (Paragraph)theEObject;
 				T result = caseParagraph(paragraph);
-				if (result == null) result = caseBaseLinedElement(paragraph);
 				if (result == null) result = caseReferencesParagraph(paragraph);
-				if (result == null) result = caseCommentedElement(paragraph);
+				if (result == null) result = caseBaseLinedElement(paragraph);
 				if (result == null) result = caseNamedElement(paragraph);
+				if (result == null) result = caseCommentedElement(paragraph);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

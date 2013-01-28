@@ -561,8 +561,8 @@ public class RequirementsPackageImpl extends EPackageImpl implements Requirement
 		specificationEClass.getESuperTypes().add(this.getBaseLinedElement());
 		functionalBlockEClass.getESuperTypes().add(theModelPackage.getNamedElement());
 		processInformationEClass.getESuperTypes().add(theModelPackage.getCommentedElement());
-		paragraphEClass.getESuperTypes().add(this.getBaseLinedElement());
 		paragraphEClass.getESuperTypes().add(theModelPackage.getReferencesParagraph());
+		paragraphEClass.getESuperTypes().add(this.getBaseLinedElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(specificationEClass, Specification.class, "Specification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

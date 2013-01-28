@@ -75,8 +75,8 @@ public class CustomizationSwitch<T> extends Switch<T> {
 				T result = caseRuleDisabling(ruleDisabling);
 				if (result == null) result = caseReqRelated(ruleDisabling);
 				if (result == null) result = caseReferencesParagraph(ruleDisabling);
-				if (result == null) result = caseCommentedElement(ruleDisabling);
 				if (result == null) result = caseNamedElement(ruleDisabling);
+				if (result == null) result = caseCommentedElement(ruleDisabling);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

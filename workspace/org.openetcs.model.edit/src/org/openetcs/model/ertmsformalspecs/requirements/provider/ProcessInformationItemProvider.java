@@ -173,7 +173,7 @@ public class ProcessInformationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ProcessInformation)object).getComment();
+		String label = crop(((ProcessInformation)object).getComment());
 		return label == null || label.length() == 0 ?
 			getString("_UI_ProcessInformation_type") :
 			getString("_UI_ProcessInformation_type") + " " + label;

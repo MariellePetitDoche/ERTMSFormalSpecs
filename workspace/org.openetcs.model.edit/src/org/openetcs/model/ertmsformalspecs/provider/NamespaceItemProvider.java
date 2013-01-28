@@ -126,25 +126,24 @@ public class NamespaceItemProvider
 	 * This returns Namespace.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Namespace"));
+		return overlayImage(object, getResourceLocator().getImage("folder.png"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
 		String label = ((Namespace)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Namespace_type") :
-			getString("_UI_Namespace_type") + " " + label;
+			getString("_UI_Namespace_type") :label;
 	}
 
 	/**

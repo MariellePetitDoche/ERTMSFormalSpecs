@@ -99,8 +99,8 @@ public class TestSwitch<T> extends Switch<T> {
 				T result = caseSingleTestCase(singleTestCase);
 				if (result == null) result = caseReqRelated(singleTestCase);
 				if (result == null) result = caseReferencesParagraph(singleTestCase);
-				if (result == null) result = caseCommentedElement(singleTestCase);
 				if (result == null) result = caseNamedElement(singleTestCase);
+				if (result == null) result = caseCommentedElement(singleTestCase);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

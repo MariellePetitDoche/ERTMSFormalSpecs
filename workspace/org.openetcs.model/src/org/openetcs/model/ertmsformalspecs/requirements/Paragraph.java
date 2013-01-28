@@ -36,7 +36,7 @@ import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
  * @model
  * @generated
  */
-public interface Paragraph extends BaseLinedElement, ReferencesParagraph {
+public interface Paragraph extends ReferencesParagraph, BaseLinedElement {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.openetcs.model.ertmsformalspecs.requirements.EParagraphType}.

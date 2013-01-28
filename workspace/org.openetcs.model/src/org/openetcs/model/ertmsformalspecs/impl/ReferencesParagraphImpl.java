@@ -10,8 +10,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.openetcs.model.ertmsformalspecs.CommentedElement;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.NamedElement;
@@ -26,13 +28,14 @@ import org.openetcs.model.ertmsformalspecs.ReqRef;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ReferencesParagraphImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ReferencesParagraphImpl#getComment <em>Comment</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.ReferencesParagraphImpl#getRequirements <em>Requirements</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class ReferencesParagraphImpl extends CommentedElementImpl implements ReferencesParagraph {
+public abstract class ReferencesParagraphImpl extends EObjectImpl implements ReferencesParagraph {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,6 +54,24 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+	/**
+	 * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComment()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COMMENT_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getComment() <em>Comment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComment()
+	 * @generated
+	 * @ordered
+	 */
+	protected String comment = COMMENT_EDEFAULT;
 	/**
 	 * The cached value of the '{@link #getRequirements() <em>Requirements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -106,6 +127,27 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getComment() {
+		return comment;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComment(String newComment) {
+		String oldComment = comment;
+		comment = newComment;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.REFERENCES_PARAGRAPH__COMMENT, oldComment, comment));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<ReqRef> getRequirements() {
 		if (requirements == null) {
 			requirements = new EObjectContainmentEList<ReqRef>(ReqRef.class, this, ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS);
@@ -137,6 +179,8 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 		switch (featureID) {
 			case ModelPackage.REFERENCES_PARAGRAPH__NAME:
 				return getName();
+			case ModelPackage.REFERENCES_PARAGRAPH__COMMENT:
+				return getComment();
 			case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS:
 				return getRequirements();
 		}
@@ -154,6 +198,9 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 		switch (featureID) {
 			case ModelPackage.REFERENCES_PARAGRAPH__NAME:
 				setName((String)newValue);
+				return;
+			case ModelPackage.REFERENCES_PARAGRAPH__COMMENT:
+				setComment((String)newValue);
 				return;
 			case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS:
 				getRequirements().clear();
@@ -174,6 +221,9 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 			case ModelPackage.REFERENCES_PARAGRAPH__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case ModelPackage.REFERENCES_PARAGRAPH__COMMENT:
+				setComment(COMMENT_EDEFAULT);
+				return;
 			case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS:
 				getRequirements().clear();
 				return;
@@ -191,6 +241,8 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 		switch (featureID) {
 			case ModelPackage.REFERENCES_PARAGRAPH__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case ModelPackage.REFERENCES_PARAGRAPH__COMMENT:
+				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
 			case ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS:
 				return requirements != null && !requirements.isEmpty();
 		}
@@ -204,9 +256,9 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
+		if (baseClass == CommentedElement.class) {
 			switch (derivedFeatureID) {
-				case ModelPackage.REFERENCES_PARAGRAPH__NAME: return ModelPackage.NAMED_ELEMENT__NAME;
+				case ModelPackage.REFERENCES_PARAGRAPH__COMMENT: return ModelPackage.COMMENTED_ELEMENT__COMMENT;
 				default: return -1;
 			}
 		}
@@ -220,9 +272,9 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
+		if (baseClass == CommentedElement.class) {
 			switch (baseFeatureID) {
-				case ModelPackage.NAMED_ELEMENT__NAME: return ModelPackage.REFERENCES_PARAGRAPH__NAME;
+				case ModelPackage.COMMENTED_ELEMENT__COMMENT: return ModelPackage.REFERENCES_PARAGRAPH__COMMENT;
 				default: return -1;
 			}
 		}
@@ -241,6 +293,8 @@ public abstract class ReferencesParagraphImpl extends CommentedElementImpl imple
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", comment: ");
+		result.append(comment);
 		result.append(')');
 		return result.toString();
 	}

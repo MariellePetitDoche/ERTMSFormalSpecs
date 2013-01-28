@@ -19,6 +19,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
 import org.openetcs.model.ertmsformalspecs.ReqRef;
+import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
 
 /**
  * This is the item provider adapter for a {@link org.openetcs.model.ertmsformalspecs.ReqRef} object.
@@ -120,14 +121,18 @@ public class ReqRefItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ReqRef)object).getComment();
+		//TODO get directly the paragraphs text
+		String label = null;
+		Paragraph paragraph=((ReqRef)object).getParagraph();
+		if(paragraph!=null){
+			label=paragraph.getId()+paragraph.getText();
+		}
 		return label == null || label.length() == 0 ?
-			getString("_UI_ReqRef_type") :
-			getString("_UI_ReqRef_type") + " " + label;
+			getString("_UI_ReqRef_type") :label;
 	}
 
 	/**

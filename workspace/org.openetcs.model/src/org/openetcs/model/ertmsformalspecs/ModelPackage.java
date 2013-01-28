@@ -535,22 +535,22 @@ public interface ModelPackage extends EPackage {
 	int REFERENCES_PARAGRAPH = 8;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REFERENCES_PARAGRAPH__COMMENT = COMMENTED_ELEMENT__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCES_PARAGRAPH__NAME = COMMENTED_ELEMENT_FEATURE_COUNT + 0;
+	int REFERENCES_PARAGRAPH__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCES_PARAGRAPH__COMMENT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -559,7 +559,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCES_PARAGRAPH__REQUIREMENTS = COMMENTED_ELEMENT_FEATURE_COUNT + 1;
+	int REFERENCES_PARAGRAPH__REQUIREMENTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>References Paragraph</em>' class.
@@ -568,7 +568,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCES_PARAGRAPH_FEATURE_COUNT = COMMENTED_ELEMENT_FEATURE_COUNT + 2;
+	int REFERENCES_PARAGRAPH_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.ReqRefImpl <em>Req Ref</em>}' class.
@@ -627,15 +627,6 @@ public interface ModelPackage extends EPackage {
 	int REQ_RELATED = 10;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQ_RELATED__COMMENT = REFERENCES_PARAGRAPH__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -643,6 +634,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int REQ_RELATED__NAME = REFERENCES_PARAGRAPH__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQ_RELATED__COMMENT = REFERENCES_PARAGRAPH__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -700,15 +700,6 @@ public interface ModelPackage extends EPackage {
 	int STATE_MACHINE = 11;
 
 	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_MACHINE__COMMENT = TypesPackage.TYPE__COMMENT;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -716,6 +707,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int STATE_MACHINE__NAME = TypesPackage.TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__COMMENT = TypesPackage.TYPE__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.

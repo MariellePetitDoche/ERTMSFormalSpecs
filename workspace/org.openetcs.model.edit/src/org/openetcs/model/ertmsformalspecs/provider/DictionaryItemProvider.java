@@ -110,7 +110,7 @@ public class DictionaryItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_CommentedElement_comment_feature", "_UI_CommentedElement_type"),
 				 ModelPackage.Literals.COMMENTED_ELEMENT__COMMENT,
 				 true,
-				 false,
+				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,

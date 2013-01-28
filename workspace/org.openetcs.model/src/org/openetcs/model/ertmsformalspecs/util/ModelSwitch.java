@@ -142,8 +142,8 @@ public class ModelSwitch<T> extends Switch<T> {
 			case ModelPackage.REFERENCES_PARAGRAPH: {
 				ReferencesParagraph referencesParagraph = (ReferencesParagraph)theEObject;
 				T result = caseReferencesParagraph(referencesParagraph);
-				if (result == null) result = caseCommentedElement(referencesParagraph);
 				if (result == null) result = caseNamedElement(referencesParagraph);
+				if (result == null) result = caseCommentedElement(referencesParagraph);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -158,8 +158,8 @@ public class ModelSwitch<T> extends Switch<T> {
 				ReqRelated reqRelated = (ReqRelated)theEObject;
 				T result = caseReqRelated(reqRelated);
 				if (result == null) result = caseReferencesParagraph(reqRelated);
-				if (result == null) result = caseCommentedElement(reqRelated);
 				if (result == null) result = caseNamedElement(reqRelated);
+				if (result == null) result = caseCommentedElement(reqRelated);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -170,8 +170,8 @@ public class ModelSwitch<T> extends Switch<T> {
 				if (result == null) result = caseReqRelated(stateMachine);
 				if (result == null) result = caseDefaultValueElement(stateMachine);
 				if (result == null) result = caseReferencesParagraph(stateMachine);
-				if (result == null) result = caseCommentedElement(stateMachine);
 				if (result == null) result = caseNamedElement(stateMachine);
+				if (result == null) result = caseCommentedElement(stateMachine);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

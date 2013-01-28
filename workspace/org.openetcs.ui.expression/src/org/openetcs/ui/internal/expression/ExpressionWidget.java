@@ -17,8 +17,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.ecp.editor.mecontrols.widgets.ECPAttributeWidget;
 import org.eclipse.emf.ecp.emfstore.core.internal.EMFStoreProvider;
+import org.eclipse.emf.ecp.internal.editor.widgets.ECPAttributeWidget;
 import org.eclipse.emf.ecp.spi.core.InternalProject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.emfstore.client.model.ProjectSpace;
@@ -54,7 +54,7 @@ public class ExpressionWidget extends ECPAttributeWidget {
 	public void bindValue(IObservableValue modelValue,
 			ControlDecoration controlDecoration) {
 		IObservableValue value = SWTObservables.observeText(text, SWT.FocusOut);
-		getDbc().bindValue(value, modelValue, new UpdateValueStrategy() {
+		getDataBindingContext().bindValue(value, modelValue, new UpdateValueStrategy() {
 
 			@Override
 			public Object convert(Object value) {

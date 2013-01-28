@@ -289,13 +289,13 @@ public interface RequirementsPackage extends EPackage {
 	int PARAGRAPH = 5;
 
 	/**
-	 * The feature id for the '<em><b>Baseline</b></em>' reference.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__BASELINE = BASE_LINED_ELEMENT__BASELINE;
+	int PARAGRAPH__NAME = ModelPackage.REFERENCES_PARAGRAPH__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -304,16 +304,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__COMMENT = BASE_LINED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PARAGRAPH__NAME = BASE_LINED_ELEMENT_FEATURE_COUNT + 1;
+	int PARAGRAPH__COMMENT = ModelPackage.REFERENCES_PARAGRAPH__COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
@@ -322,7 +313,16 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__REQUIREMENTS = BASE_LINED_ELEMENT_FEATURE_COUNT + 2;
+	int PARAGRAPH__REQUIREMENTS = ModelPackage.REFERENCES_PARAGRAPH__REQUIREMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Baseline</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAGRAPH__BASELINE = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -331,7 +331,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__TYPE = BASE_LINED_ELEMENT_FEATURE_COUNT + 3;
+	int PARAGRAPH__TYPE = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Scope</b></em>' containment reference.
@@ -340,7 +340,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__SCOPE = BASE_LINED_ELEMENT_FEATURE_COUNT + 4;
+	int PARAGRAPH__SCOPE = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Process Info</b></em>' containment reference.
@@ -349,7 +349,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__PROCESS_INFO = BASE_LINED_ELEMENT_FEATURE_COUNT + 5;
+	int PARAGRAPH__PROCESS_INFO = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -358,7 +358,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__ID = BASE_LINED_ELEMENT_FEATURE_COUNT + 6;
+	int PARAGRAPH__ID = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -367,7 +367,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__TEXT = BASE_LINED_ELEMENT_FEATURE_COUNT + 7;
+	int PARAGRAPH__TEXT = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Functional Block</b></em>' reference.
@@ -376,7 +376,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__FUNCTIONAL_BLOCK = BASE_LINED_ELEMENT_FEATURE_COUNT + 8;
+	int PARAGRAPH__FUNCTIONAL_BLOCK = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Parent Specification</b></em>' container reference.
@@ -385,7 +385,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__PARENT_SPECIFICATION = BASE_LINED_ELEMENT_FEATURE_COUNT + 9;
+	int PARAGRAPH__PARENT_SPECIFICATION = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Sub Paragraphs</b></em>' containment reference list.
@@ -394,7 +394,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__SUB_PARAGRAPHS = BASE_LINED_ELEMENT_FEATURE_COUNT + 10;
+	int PARAGRAPH__SUB_PARAGRAPHS = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Parent Paragraph</b></em>' container reference.
@@ -403,7 +403,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__PARENT_PARAGRAPH = BASE_LINED_ELEMENT_FEATURE_COUNT + 11;
+	int PARAGRAPH__PARENT_PARAGRAPH = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Type Specs</b></em>' containment reference list.
@@ -412,7 +412,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__TYPE_SPECS = BASE_LINED_ELEMENT_FEATURE_COUNT + 12;
+	int PARAGRAPH__TYPE_SPECS = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' containment reference.
@@ -421,7 +421,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__MESSAGE = BASE_LINED_ELEMENT_FEATURE_COUNT + 13;
+	int PARAGRAPH__MESSAGE = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Version</b></em>' reference.
@@ -430,7 +430,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH__VERSION = BASE_LINED_ELEMENT_FEATURE_COUNT + 14;
+	int PARAGRAPH__VERSION = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 12;
 
 	/**
 	 * The number of structural features of the '<em>Paragraph</em>' class.
@@ -439,7 +439,7 @@ public interface RequirementsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAGRAPH_FEATURE_COUNT = BASE_LINED_ELEMENT_FEATURE_COUNT + 15;
+	int PARAGRAPH_FEATURE_COUNT = ModelPackage.REFERENCES_PARAGRAPH_FEATURE_COUNT + 13;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.requirements.EImplementationStatus <em>EImplementation Status</em>}' enum.

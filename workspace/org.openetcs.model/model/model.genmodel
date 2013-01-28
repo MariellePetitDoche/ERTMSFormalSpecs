@@ -25,7 +25,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//NamedElement/name"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//CommentedElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CommentedElement/comment"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute model.ecore#//CommentedElement/comment"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Baselines">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Baselines/availableBaselines"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//BaseLine"/>
     <genClasses ecoreClass="model.ecore#//Namespace">
@@ -35,6 +38,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/procedures"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/types"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/variables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/Rules"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Procedure">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/parameters"/>
@@ -69,13 +73,13 @@
     <genClasses ecoreClass="model.ecore#//State">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//State/parentStateMachine"/>
       <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//State/stateMachine"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/width"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/height"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/x"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/y"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/width"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/height"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/x"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/y"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//DefaultValueElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DefaultValueElement/defaultValue"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DefaultValueElement/defaultValue"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//VariableModeElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//VariableModeElement/variableMode"/>
@@ -83,7 +87,11 @@
     <genClasses ecoreClass="model.ecore#//Variable">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Variable/parentNamespace"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Variable/subVariables"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Variable/parentVariable"/>
+      <genFeatures property="None" notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference model.ecore#//Variable/parentVariable"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//FunctionalBlocks">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//FunctionalBlocks/availableFunctionalBlocks"/>
     </genClasses>
     <nestedGenPackages prefix="Requirements" disposableProviderFactory="true" ecorePackage="model.ecore#//requirements">
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//requirements/EImplementationStatus">
@@ -123,16 +131,16 @@
       </genClasses>
       <genClasses ecoreClass="model.ecore#//requirements/Paragraph">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/type"/>
-        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/scope"/>
-        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/processInfo"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/scope"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/processInfo"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/id"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/text"/>
+        <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/text"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/functionalBlock"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/parentSpecification"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/subParagraphs"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/parentParagraph"/>
-        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/typeSpec"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/typeSpecs"/>
         <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/message"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/version"/>
@@ -278,7 +286,7 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Range/specialValues"/>
       </genClasses>
       <genClasses ecoreClass="model.ecore#//types/Structure">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Structure/elements"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EReference model.ecore#//types/Structure/elements"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Structure/procedures"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Structure/rules"/>
       </genClasses>
@@ -315,6 +323,8 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//behaviour/Rule/priority"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//behaviour/Rule/conditions"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//behaviour/Rule/parentStateMachine"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference model.ecore#//behaviour/Rule/parentNamespace"/>
       </genClasses>
       <genClasses ecoreClass="model.ecore#//behaviour/RuleCondition">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//behaviour/RuleCondition/actions"/>
@@ -395,11 +405,11 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/rbcPhone"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/SubSequence/testCases"/>
       </genClasses>
-      <genClasses ecoreClass="model.ecore#//test/TestCase">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/TestCase/parentSubSequence"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/TestCase/feature"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/TestCase/case"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/TestCase/steps"/>
+      <genClasses ecoreClass="model.ecore#//test/SingleTestCase">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/SingleTestCase/parentSubSequence"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SingleTestCase/feature"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SingleTestCase/case"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/SingleTestCase/steps"/>
       </genClasses>
       <genClasses ecoreClass="model.ecore#//test/Step">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/Step/parentTestCase"/>

@@ -75,12 +75,12 @@ public class CustomizationAdapterFactory extends AdapterFactoryImpl {
 				return createRuleDisablingAdapter();
 			}
 			@Override
-			public Adapter caseCommentedElement(CommentedElement object) {
-				return createCommentedElementAdapter();
-			}
-			@Override
 			public Adapter caseNamedElement(NamedElement object) {
 				return createNamedElementAdapter();
+			}
+			@Override
+			public Adapter caseCommentedElement(CommentedElement object) {
+				return createCommentedElementAdapter();
 			}
 			@Override
 			public Adapter caseReferencesParagraph(ReferencesParagraph object) {

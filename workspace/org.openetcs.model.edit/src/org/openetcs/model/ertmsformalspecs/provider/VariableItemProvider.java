@@ -67,9 +67,7 @@ public class VariableItemProvider
 			addVerifiedPropertyDescriptor(object);
 			addNeedsRequirementPropertyDescriptor(object);
 			addTypeNamePropertyDescriptor(object);
-			addDefaultValuePropertyDescriptor(object);
 			addVariableModePropertyDescriptor(object);
-			addParentVariablePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -111,7 +109,7 @@ public class VariableItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_CommentedElement_comment_feature", "_UI_CommentedElement_type"),
 				 ModelPackage.Literals.COMMENTED_ELEMENT__COMMENT,
 				 true,
-				 false,
+				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
@@ -229,28 +227,6 @@ public class VariableItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Default Value feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDefaultValuePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_DefaultValueElement_defaultValue_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DefaultValueElement_defaultValue_feature", "_UI_DefaultValueElement_type"),
-				 ModelPackage.Literals.DEFAULT_VALUE_ELEMENT__DEFAULT_VALUE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This adds a property descriptor for the Variable Mode feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -268,28 +244,6 @@ public class VariableItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Parent Variable feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addParentVariablePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Variable_parentVariable_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Variable_parentVariable_feature", "_UI_Variable_type"),
-				 ModelPackage.Literals.VARIABLE__PARENT_VARIABLE,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}
