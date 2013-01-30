@@ -138,17 +138,31 @@ namespace DataDictionary.Interpreter.Statement
                 }
             }
 
-            Types.ITypedElement target = VariableIdentification.GetTypedElement(context);
-            if (target != null)
+            bool oldValue = ModelElement.PerformLog;
+            Types.ITypedElement target = null;
+            try
             {
-                if (target is Parameter)
+                ModelElement.PerformLog = false;
+                target = VariableIdentification.GetTypedElement(context);
+                if (target != null)
                 {
-                    Root.AddError("Cannot assign procedure parameter, use a function instead");
+                    if (target is Parameter)
+                    {
+                        Root.AddError("Cannot assign procedure parameter, use a function instead");
+                    }
+                }
+                else
+                {
+                    Types.Type type = VariableIdentification.getExpressionType(context);
+                    if (type == null)
+                    {
+                        Root.AddError("Cannot find target " + VariableIdentification.ToString());
+                    }
                 }
             }
-            else
+            catch (System.Exception e)
             {
-                Root.AddError("Cannot find target " + VariableIdentification.ToString());
+                ModelElement.PerformLog = oldValue;
             }
 
             if (Expression != null)
