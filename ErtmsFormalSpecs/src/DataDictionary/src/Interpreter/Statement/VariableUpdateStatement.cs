@@ -162,6 +162,10 @@ namespace DataDictionary.Interpreter.Statement
             }
             catch (System.Exception e)
             {
+                
+            }
+            finally
+            {
                 ModelElement.PerformLog = oldValue;
             }
 
