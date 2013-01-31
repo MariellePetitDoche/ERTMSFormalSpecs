@@ -144,31 +144,28 @@ namespace DataDictionary.Interpreter.Statement
             {
                 ModelElement.PerformLog = false;
                 target = VariableIdentification.GetTypedElement(context);
-                if (target != null)
-                {
-                    if (target is Parameter)
-                    {
-                        Root.AddError("Cannot assign procedure parameter, use a function instead");
-                    }
-                }
-                else
-                {
-                    Types.Type type = VariableIdentification.getExpressionType(context);
-                    if (type == null)
-                    {
-                        Root.AddError("Cannot find target " + VariableIdentification.ToString());
-                    }
-                }
-            }
-            catch (System.Exception e)
-            {
-                
             }
             finally
             {
                 ModelElement.PerformLog = oldValue;
             }
 
+            if (target != null)
+            {
+                if (target is Parameter)
+                {
+                    Root.AddError("Cannot assign procedure parameter, use a function instead");
+                }
+            }
+            else
+            {
+                Types.Type type = VariableIdentification.getExpressionType(context);
+                if (type == null)
+                {
+                    Root.AddError("Cannot find target " + VariableIdentification.ToString());
+                }
+            }
+            
             if (Expression != null)
             {
                 Expression.checkExpression(context);
