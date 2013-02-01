@@ -175,8 +175,11 @@ namespace DataDictionary.Interpreter.Statement
                 DerefExpression deref = Call.Called as DerefExpression;
                 foreach (Utils.INamable namable in deref.Left.InnerGetValue(context).Values)
                 {
-                    retVal = new InterpretationContext(context, namable);
-                    break;
+                    if (namable is Values.IValue)
+                    {
+                        retVal = new InterpretationContext(context, namable);
+                        break;
+                    }
                 }
             }
 
