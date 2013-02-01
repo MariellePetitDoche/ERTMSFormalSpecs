@@ -635,7 +635,7 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExpectation_Variable() {
+	public EAttribute getExpectation_Expression() {
 		return (EAttribute)expectationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -644,7 +644,7 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExpectation_Value() {
+	public EAttribute getExpectation_Blocking() {
 		return (EAttribute)expectationEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -653,17 +653,8 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExpectation_Blocking() {
-		return (EAttribute)expectationEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getExpectation_Deadline() {
-		return (EAttribute)expectationEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)expectationEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -905,8 +896,7 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 
 		expectationEClass = createEClass(EXPECTATION);
 		createEReference(expectationEClass, EXPECTATION__PARENT_SUB_STEP);
-		createEAttribute(expectationEClass, EXPECTATION__VARIABLE);
-		createEAttribute(expectationEClass, EXPECTATION__VALUE);
+		createEAttribute(expectationEClass, EXPECTATION__EXPRESSION);
 		createEAttribute(expectationEClass, EXPECTATION__BLOCKING);
 		createEAttribute(expectationEClass, EXPECTATION__DEADLINE);
 
@@ -1030,8 +1020,7 @@ public class TestPackageImpl extends EPackageImpl implements TestPackage {
 
 		initEClass(expectationEClass, Expectation.class, "Expectation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExpectation_ParentSubStep(), this.getSubStep(), this.getSubStep_Expectations(), "parentSubStep", null, 0, 1, Expectation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExpectation_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, Expectation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExpectation_Value(), ecorePackage.getEString(), "value", null, 0, 1, Expectation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExpectation_Expression(), ecorePackage.getEString(), "expression", null, 0, 1, Expectation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpectation_Blocking(), ecorePackage.getEBoolean(), "blocking", null, 0, 1, Expectation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpectation_Deadline(), ecorePackage.getEInt(), "deadline", null, 0, 1, Expectation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

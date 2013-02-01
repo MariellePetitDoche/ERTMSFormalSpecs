@@ -875,8 +875,12 @@
   <ELEMENT NAME="Expectation" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
     <META NAME="Package">test</META>
     <FIELDS>
-      <FIELD NAME="Variable" TYPE="PCHAR"/>
-      <FIELD NAME="Value"    TYPE="PCHAR"/>
+      <FIELD NAME="Variable" TYPE="PCHAR">
+        <META NAME="DoNotTranslate" />
+      </FIELD>
+      <FIELD NAME="Value"    TYPE="PCHAR">
+        <META NAME="TargetName">Expression</META>
+      </FIELD>
       <FIELD NAME="Blocking" TYPE="BOOLEAN"/>
       <FIELD NAME="DeadLine" TYPE="INTEGER">
         <META NAME="TargetName">Deadline</META>

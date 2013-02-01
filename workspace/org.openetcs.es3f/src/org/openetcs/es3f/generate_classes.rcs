@@ -182,7 +182,7 @@ BEGIN
 `		{
 `			for ( Object obj: source.all`name`())
 `			{
-`				retVal.get`fieldname`().add(import`type`( project, (org.openetcs.es3f.generated.`type`) obj ));	
+`				retVal.get`fieldname`().add(import`type`( project, translation, (org.openetcs.es3f.generated.`type`) obj ));	
 `			}
 `		}
         });
@@ -197,7 +197,7 @@ BEGIN
         FILE1.WriteList ({
 `		if ( source.get`name`() != null )
 `		{
-`			retVal.set`fieldname`(import`type`(project, (org.openetcs.es3f.generated.`type`) source.get`name`()));	
+`			retVal.set`fieldname`(import`type`(project, translation,  (org.openetcs.es3f.generated.`type`) source.get`name`()));	
 `		}
         });
       END;
@@ -246,7 +246,7 @@ BEGIN
   END;
 
   IF manual THEN
-    FILE1.WriteLn ("		ManualTranslation.import" & name & " ( project, source, retVal );");
+    FILE1.WriteLn ("		translation.import" & name & " ( project, source, retVal );");
   END;
 END ImportManualTranslation ;
 
@@ -357,7 +357,7 @@ BEGIN
     IF GetMeta ( element, DONOTTRANSLATE ) = VOID THEN
       IF NOT BoolValue ( element!ABSTRACT ) THEN
         FILE1.WriteList ({
-`	public static `package`.`class` import`name`( ECPProject project, org.openetcs.es3f.generated.`name` source )
+`	public static `package`.`class` import`name`( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.`name` source )
 `	{
 `		`package`.`class` retVal = `factory`.eINSTANCE.create`class`();;
 `		
@@ -485,7 +485,7 @@ BEGIN
 `				{
 `					if (`package`.eINSTANCE.get`class`().equals(eObject.eClass()))
 `					{
-`						retVal.append`name`(export`type`((`class`)eObject));
+`						retVal.append`name`(export`type`(translation, (`class`)eObject));
 `					}	
 `				}
 `			}
@@ -501,7 +501,7 @@ BEGIN
         FILE1.WriteList ({
 `			if ( source.get`fieldname`() != null )
 `			{
-`				retVal.set`name`(export`type`(source.get`fieldname`()));	
+`				retVal.set`name`(export`type`(translation, source.get`fieldname`()));	
 `			}
         });
       END;
@@ -550,7 +550,7 @@ BEGIN
   END;
 
   IF manual THEN
-    FILE1.WriteLn ("			ManualTranslation.export" & name & " ( source, retVal );");
+    FILE1.WriteLn ("			translation.export" & name & " ( source, retVal );");
   END;
 END ExportManualTranslation ;
 
@@ -602,7 +602,7 @@ BEGIN
       END;
       
       FILE1.WriteList ({
-`	public static org.openetcs.es3f.generated.`name` export`name` ( `package`.`class` source )
+`	public static org.openetcs.es3f.generated.`name` export`name` ( ManualTranslation translation, `package`.`class` source )
 `	{
 `		org.openetcs.es3f.generated.`name` retVal = null; 
 `		

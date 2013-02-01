@@ -377,17 +377,8 @@ public class MessagesPackageImpl extends EPackageImpl implements MessagesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTypeSpec_ReferenceParagraphId() {
-		return (EAttribute)typeSpecEClass.getEStructuralFeatures().get(10);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getTypeSpec_Version() {
-		return (EReference)typeSpecEClass.getEStructuralFeatures().get(11);
+		return (EReference)typeSpecEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -852,7 +843,6 @@ public class MessagesPackageImpl extends EPackageImpl implements MessagesPackage
 		createEAttribute(typeSpecEClass, TYPE_SPEC__ERTMS_TYPE);
 		createEReference(typeSpecEClass, TYPE_SPEC__VALUE);
 		createEReference(typeSpecEClass, TYPE_SPEC__REFERENCE_PARAGRAPH);
-		createEAttribute(typeSpecEClass, TYPE_SPEC__REFERENCE_PARAGRAPH_ID);
 		createEReference(typeSpecEClass, TYPE_SPEC__VERSION);
 
 		valueEClass = createEClass(VALUE);
@@ -972,7 +962,6 @@ public class MessagesPackageImpl extends EPackageImpl implements MessagesPackage
 		initEAttribute(getTypeSpec_ErtmsType(), this.getEErtmsType(), "ertmsType", null, 0, 1, TypeSpec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTypeSpec_Value(), this.getValue(), null, "value", null, 0, 1, TypeSpec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTypeSpec_ReferenceParagraph(), theRequirementsPackage.getParagraph(), null, "referenceParagraph", null, 0, 1, TypeSpec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTypeSpec_ReferenceParagraphId(), ecorePackage.getEString(), "referenceParagraphId", null, 0, 1, TypeSpec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTypeSpec_Version(), theModelPackage.getBaseLine(), null, "version", null, 0, 1, TypeSpec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(valueEClass, Value.class, "Value", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

@@ -60,8 +60,7 @@ public class ExpectationItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
-			addVariablePropertyDescriptor(object);
-			addValuePropertyDescriptor(object);
+			addExpressionPropertyDescriptor(object);
 			addBlockingPropertyDescriptor(object);
 			addDeadlinePropertyDescriptor(object);
 		}
@@ -91,41 +90,19 @@ public class ExpectationItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Variable feature.
+	 * This adds a property descriptor for the Expression feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addVariablePropertyDescriptor(Object object) {
+	protected void addExpressionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Expectation_variable_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Expectation_variable_feature", "_UI_Expectation_type"),
-				 TestPackage.Literals.EXPECTATION__VARIABLE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Value feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addValuePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Expectation_value_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Expectation_value_feature", "_UI_Expectation_type"),
-				 TestPackage.Literals.EXPECTATION__VALUE,
+				 getString("_UI_Expectation_expression_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Expectation_expression_feature", "_UI_Expectation_type"),
+				 TestPackage.Literals.EXPECTATION__EXPRESSION,
 				 true,
 				 false,
 				 false,
@@ -216,8 +193,7 @@ public class ExpectationItemProvider
 
 		switch (notification.getFeatureID(Expectation.class)) {
 			case TestPackage.EXPECTATION__NAME:
-			case TestPackage.EXPECTATION__VARIABLE:
-			case TestPackage.EXPECTATION__VALUE:
+			case TestPackage.EXPECTATION__EXPRESSION:
 			case TestPackage.EXPECTATION__BLOCKING:
 			case TestPackage.EXPECTATION__DEADLINE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

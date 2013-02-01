@@ -33,7 +33,6 @@ import org.openetcs.model.ertmsformalspecs.requirements.messages.Value;
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.impl.TypeSpecImpl#getErtmsType <em>Ertms Type</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.impl.TypeSpecImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.impl.TypeSpecImpl#getReferenceParagraph <em>Reference Paragraph</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.impl.TypeSpecImpl#getReferenceParagraphId <em>Reference Paragraph Id</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.impl.TypeSpecImpl#getVersion <em>Version</em>}</li>
  * </ul>
  * </p>
@@ -230,26 +229,6 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 	 * @ordered
 	 */
 	protected Paragraph referenceParagraph;
-
-	/**
-	 * The default value of the '{@link #getReferenceParagraphId() <em>Reference Paragraph Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getReferenceParagraphId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String REFERENCE_PARAGRAPH_ID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getReferenceParagraphId() <em>Reference Paragraph Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getReferenceParagraphId()
-	 * @generated
-	 * @ordered
-	 */
-	protected String referenceParagraphId = REFERENCE_PARAGRAPH_ID_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getVersion() <em>Version</em>}' reference.
@@ -572,27 +551,6 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getReferenceParagraphId() {
-		return referenceParagraphId;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setReferenceParagraphId(String newReferenceParagraphId) {
-		String oldReferenceParagraphId = referenceParagraphId;
-		referenceParagraphId = newReferenceParagraphId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH_ID, oldReferenceParagraphId, referenceParagraphId));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public BaseLine getVersion() {
 		if (version != null && version.eIsProxy()) {
 			InternalEObject oldVersion = (InternalEObject)version;
@@ -672,8 +630,6 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH:
 				if (resolve) return getReferenceParagraph();
 				return basicGetReferenceParagraph();
-			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH_ID:
-				return getReferenceParagraphId();
 			case MessagesPackage.TYPE_SPEC__VERSION:
 				if (resolve) return getVersion();
 				return basicGetVersion();
@@ -721,9 +677,6 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 				return;
 			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH:
 				setReferenceParagraph((Paragraph)newValue);
-				return;
-			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH_ID:
-				setReferenceParagraphId((String)newValue);
 				return;
 			case MessagesPackage.TYPE_SPEC__VERSION:
 				setVersion((BaseLine)newValue);
@@ -773,9 +726,6 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH:
 				setReferenceParagraph((Paragraph)null);
 				return;
-			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH_ID:
-				setReferenceParagraphId(REFERENCE_PARAGRAPH_ID_EDEFAULT);
-				return;
 			case MessagesPackage.TYPE_SPEC__VERSION:
 				setVersion((BaseLine)null);
 				return;
@@ -813,8 +763,6 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 				return value != null;
 			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH:
 				return referenceParagraph != null;
-			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH_ID:
-				return REFERENCE_PARAGRAPH_ID_EDEFAULT == null ? referenceParagraphId != null : !REFERENCE_PARAGRAPH_ID_EDEFAULT.equals(referenceParagraphId);
 			case MessagesPackage.TYPE_SPEC__VERSION:
 				return version != null;
 		}
@@ -847,8 +795,6 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 		result.append(resolutionFormula);
 		result.append(", ertmsType: ");
 		result.append(ertmsType);
-		result.append(", referenceParagraphId: ");
-		result.append(referenceParagraphId);
 		result.append(')');
 		return result.toString();
 	}

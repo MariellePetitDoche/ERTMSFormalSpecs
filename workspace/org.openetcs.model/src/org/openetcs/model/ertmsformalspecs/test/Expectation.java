@@ -14,8 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getParentSubStep <em>Parent Sub Step</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getVariable <em>Variable</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getValue <em>Value</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getExpression <em>Expression</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.Expectation#isBlocking <em>Blocking</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getDeadline <em>Deadline</em>}</li>
  * </ul>
@@ -55,56 +54,30 @@ public interface Expectation extends NamedElement {
 	void setParentSubStep(SubStep value);
 
 	/**
-	 * Returns the value of the '<em><b>Variable</b></em>' attribute.
+	 * Returns the value of the '<em><b>Expression</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Variable</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Expression</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Variable</em>' attribute.
-	 * @see #setVariable(String)
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestPackage#getExpectation_Variable()
+	 * @return the value of the '<em>Expression</em>' attribute.
+	 * @see #setExpression(String)
+	 * @see org.openetcs.model.ertmsformalspecs.test.TestPackage#getExpectation_Expression()
 	 * @model
 	 * @generated
 	 */
-	String getVariable();
+	String getExpression();
 
 	/**
-	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getVariable <em>Variable</em>}' attribute.
+	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getExpression <em>Expression</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Variable</em>' attribute.
-	 * @see #getVariable()
+	 * @param value the new value of the '<em>Expression</em>' attribute.
+	 * @see #getExpression()
 	 * @generated
 	 */
-	void setVariable(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Value</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #setValue(String)
-	 * @see org.openetcs.model.ertmsformalspecs.test.TestPackage#getExpectation_Value()
-	 * @model
-	 * @generated
-	 */
-	String getValue();
-
-	/**
-	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getValue <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Value</em>' attribute.
-	 * @see #getValue()
-	 * @generated
-	 */
-	void setValue(String value);
+	void setExpression(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Blocking</b></em>' attribute.

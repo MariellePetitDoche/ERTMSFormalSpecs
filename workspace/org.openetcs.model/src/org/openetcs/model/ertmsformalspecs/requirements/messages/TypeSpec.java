@@ -24,7 +24,6 @@ import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getErtmsType <em>Ertms Type</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getValue <em>Value</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getReferenceParagraph <em>Reference Paragraph</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getReferenceParagraphId <em>Reference Paragraph Id</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getVersion <em>Version</em>}</li>
  * </ul>
  * </p>
@@ -296,32 +295,6 @@ public interface TypeSpec extends BaseLinedElement {
 	 * @generated
 	 */
 	void setReferenceParagraph(Paragraph value);
-
-	/**
-	 * Returns the value of the '<em><b>Reference Paragraph Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Reference Paragraph Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Reference Paragraph Id</em>' attribute.
-	 * @see #setReferenceParagraphId(String)
-	 * @see org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage#getTypeSpec_ReferenceParagraphId()
-	 * @model
-	 * @generated
-	 */
-	String getReferenceParagraphId();
-
-	/**
-	 * Sets the value of the '{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getReferenceParagraphId <em>Reference Paragraph Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Reference Paragraph Id</em>' attribute.
-	 * @see #getReferenceParagraphId()
-	 * @generated
-	 */
-	void setReferenceParagraphId(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Version</b></em>' reference.

@@ -480,7 +480,7 @@ public class Exporter
 		return retVal;
 	}
 
-	public static org.openetcs.es3f.generated.Dictionary exportDictionary ( org.openetcs.model.ertmsformalspecs.Dictionary source )
+	public static org.openetcs.es3f.generated.Dictionary exportDictionary ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.Dictionary source )
 	{
 		org.openetcs.es3f.generated.Dictionary retVal = null; 
 		
@@ -489,7 +489,7 @@ public class Exporter
 			retVal = acceptor.getFactory().createDictionary();
 			if ( source.getSpecification() != null )
 			{
-				retVal.setSpecification(exportSpecification(source.getSpecification()));	
+				retVal.setSpecification(exportSpecification(translation, source.getSpecification()));	
 			}
 			if ( source.getRuleDisablings() != null )
 			{
@@ -497,7 +497,7 @@ public class Exporter
 				{
 					if (CustomizationPackage.eINSTANCE.getRuleDisabling().equals(eObject.eClass()))
 					{
-						retVal.appendRuleDisablings(exportRuleDisabling((RuleDisabling)eObject));
+						retVal.appendRuleDisablings(exportRuleDisabling(translation, (RuleDisabling)eObject));
 					}	
 				}
 			}
@@ -507,7 +507,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getNamespace().equals(eObject.eClass()))
 					{
-						retVal.appendNameSpaces(exportNameSpace((Namespace)eObject));
+						retVal.appendNameSpaces(exportNameSpace(translation, (Namespace)eObject));
 					}	
 				}
 			}
@@ -517,28 +517,28 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getFrame().equals(eObject.eClass()))
 					{
-						retVal.appendTests(exportFrame((Frame)eObject));
+						retVal.appendTests(exportFrame(translation, (Frame)eObject));
 					}	
 				}
 			}
 			if ( source.getTranslations() != null )
 			{
-				retVal.setTranslationDictionary(exportTranslationDictionary(source.getTranslations()));	
+				retVal.setTranslationDictionary(exportTranslationDictionary(translation, source.getTranslations()));	
 			}
 			if ( source.getShortcuts() != null )
 			{
-				retVal.setShortcutDictionary(exportShortcutDictionary(source.getShortcuts()));	
+				retVal.setShortcutDictionary(exportShortcutDictionary(translation, source.getShortcuts()));	
 			}
 
 			// Handles the translation of Xsi
 			// Handles the translation of XsiLocation
-			ManualTranslation.exportDictionary ( source, retVal );
+			translation.exportDictionary ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.RuleDisabling exportRuleDisabling ( org.openetcs.model.ertmsformalspecs.customization.RuleDisabling source )
+	public static org.openetcs.es3f.generated.RuleDisabling exportRuleDisabling ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.customization.RuleDisabling source )
 	{
 		org.openetcs.es3f.generated.RuleDisabling retVal = null; 
 		
@@ -555,20 +555,20 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
 			retVal.setComment(source.getComment());
 
 			// Handles the translation of Rule
-			ManualTranslation.exportRuleDisabling ( source, retVal );
+			translation.exportRuleDisabling ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.NameSpace exportNameSpace ( org.openetcs.model.ertmsformalspecs.Namespace source )
+	public static org.openetcs.es3f.generated.NameSpace exportNameSpace ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.Namespace source )
 	{
 		org.openetcs.es3f.generated.NameSpace retVal = null; 
 		
@@ -582,7 +582,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getNamespace().equals(eObject.eClass()))
 					{
-						retVal.appendNameSpaces(exportNameSpace((Namespace)eObject));
+						retVal.appendNameSpaces(exportNameSpace(translation, (Namespace)eObject));
 					}	
 				}
 			}
@@ -592,7 +592,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getRange().equals(eObject.eClass()))
 					{
-						retVal.appendRanges(exportRange((Range)eObject));
+						retVal.appendRanges(exportRange(translation, (Range)eObject));
 					}	
 				}
 			}
@@ -602,7 +602,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getEnumeration().equals(eObject.eClass()))
 					{
-						retVal.appendEnumerations(exportEnum((Enumeration)eObject));
+						retVal.appendEnumerations(exportEnum(translation, (Enumeration)eObject));
 					}	
 				}
 			}
@@ -612,7 +612,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getStructure().equals(eObject.eClass()))
 					{
-						retVal.appendStructures(exportStructure((Structure)eObject));
+						retVal.appendStructures(exportStructure(translation, (Structure)eObject));
 					}	
 				}
 			}
@@ -622,7 +622,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getCollection().equals(eObject.eClass()))
 					{
-						retVal.appendCollections(exportCollection((Collection)eObject));
+						retVal.appendCollections(exportCollection(translation, (Collection)eObject));
 					}	
 				}
 			}
@@ -632,7 +632,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getFunction().equals(eObject.eClass()))
 					{
-						retVal.appendFunctions(exportFunction((Function)eObject));
+						retVal.appendFunctions(exportFunction(translation, (Function)eObject));
 					}	
 				}
 			}
@@ -642,7 +642,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getProcedure().equals(eObject.eClass()))
 					{
-						retVal.appendProcedures(exportProcedure((Procedure)eObject));
+						retVal.appendProcedures(exportProcedure(translation, (Procedure)eObject));
 					}	
 				}
 			}
@@ -652,7 +652,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getVariable().equals(eObject.eClass()))
 					{
-						retVal.appendVariables(exportVariable((Variable)eObject));
+						retVal.appendVariables(exportVariable(translation, (Variable)eObject));
 					}	
 				}
 			}
@@ -662,7 +662,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getRule().equals(eObject.eClass()))
 					{
-						retVal.appendRules(exportRule((Rule)eObject));
+						retVal.appendRules(exportRule(translation, (Rule)eObject));
 					}	
 				}
 			}
@@ -671,7 +671,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.ReqRef exportReqRef ( org.openetcs.model.ertmsformalspecs.ReqRef source )
+	public static org.openetcs.es3f.generated.ReqRef exportReqRef ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.ReqRef source )
 	{
 		org.openetcs.es3f.generated.ReqRef retVal = null; 
 		
@@ -681,13 +681,13 @@ public class Exporter
 			retVal.setComment(source.getComment());
 
 			// Handles the translation of Id
-			ManualTranslation.exportReqRef ( source, retVal );
+			translation.exportReqRef ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Enum exportEnum ( org.openetcs.model.ertmsformalspecs.types.Enumeration source )
+	public static org.openetcs.es3f.generated.Enum exportEnum ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.Enumeration source )
 	{
 		org.openetcs.es3f.generated.Enum retVal = null; 
 		
@@ -705,7 +705,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -716,7 +716,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getEnumValue().equals(eObject.eClass()))
 					{
-						retVal.appendValues(exportEnumValue((EnumValue)eObject));
+						retVal.appendValues(exportEnumValue(translation, (EnumValue)eObject));
 					}	
 				}
 			}
@@ -726,7 +726,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getEnumeration().equals(eObject.eClass()))
 					{
-						retVal.appendSubEnums(exportEnum((Enumeration)eObject));
+						retVal.appendSubEnums(exportEnum(translation, (Enumeration)eObject));
 					}	
 				}
 			}
@@ -735,7 +735,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.EnumValue exportEnumValue ( org.openetcs.model.ertmsformalspecs.types.EnumValue source )
+	public static org.openetcs.es3f.generated.EnumValue exportEnumValue ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.EnumValue source )
 	{
 		org.openetcs.es3f.generated.EnumValue retVal = null; 
 		
@@ -749,7 +749,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Range exportRange ( org.openetcs.model.ertmsformalspecs.types.Range source )
+	public static org.openetcs.es3f.generated.Range exportRange ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.Range source )
 	{
 		org.openetcs.es3f.generated.Range retVal = null; 
 		
@@ -770,7 +770,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -781,7 +781,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getEnumValue().equals(eObject.eClass()))
 					{
-						retVal.appendSpecialValues(exportEnumValue((EnumValue)eObject));
+						retVal.appendSpecialValues(exportEnumValue(translation, (EnumValue)eObject));
 					}	
 				}
 			}
@@ -790,7 +790,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Structure exportStructure ( org.openetcs.model.ertmsformalspecs.types.Structure source )
+	public static org.openetcs.es3f.generated.Structure exportStructure ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.Structure source )
 	{
 		org.openetcs.es3f.generated.Structure retVal = null; 
 		
@@ -808,7 +808,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -819,7 +819,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getRule().equals(eObject.eClass()))
 					{
-						retVal.appendRules(exportRule((Rule)eObject));
+						retVal.appendRules(exportRule(translation, (Rule)eObject));
 					}	
 				}
 			}
@@ -829,7 +829,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getProcedure().equals(eObject.eClass()))
 					{
-						retVal.appendProcedures(exportStructureProcedure((Procedure)eObject));
+						retVal.appendProcedures(exportStructureProcedure(translation, (Procedure)eObject));
 					}	
 				}
 			}
@@ -839,7 +839,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getStructureElement().equals(eObject.eClass()))
 					{
-						retVal.appendElements(exportStructureElement((StructureElement)eObject));
+						retVal.appendElements(exportStructureElement(translation, (StructureElement)eObject));
 					}	
 				}
 			}
@@ -848,7 +848,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.StructureElement exportStructureElement ( org.openetcs.model.ertmsformalspecs.types.StructureElement source )
+	public static org.openetcs.es3f.generated.StructureElement exportStructureElement ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.StructureElement source )
 	{
 		org.openetcs.es3f.generated.StructureElement retVal = null; 
 		
@@ -868,7 +868,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -878,7 +878,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.StructureProcedure exportStructureProcedure ( org.openetcs.model.ertmsformalspecs.Procedure source )
+	public static org.openetcs.es3f.generated.StructureProcedure exportStructureProcedure ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.Procedure source )
 	{
 		org.openetcs.es3f.generated.StructureProcedure retVal = null; 
 		
@@ -895,7 +895,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -906,7 +906,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getParameter().equals(eObject.eClass()))
 					{
-						retVal.appendParameters(exportParameter((Parameter)eObject));
+						retVal.appendParameters(exportParameter(translation, (Parameter)eObject));
 					}	
 				}
 			}
@@ -916,20 +916,20 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getRule().equals(eObject.eClass()))
 					{
-						retVal.appendRules(exportRule((Rule)eObject));
+						retVal.appendRules(exportRule(translation, (Rule)eObject));
 					}	
 				}
 			}
 			if ( source.getStateMachine() != null )
 			{
-				retVal.setStateMachine(exportStateMachine(source.getStateMachine()));	
+				retVal.setStateMachine(exportStateMachine(translation, source.getStateMachine()));	
 			}
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Collection exportCollection ( org.openetcs.model.ertmsformalspecs.types.Collection source )
+	public static org.openetcs.es3f.generated.Collection exportCollection ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.Collection source )
 	{
 		org.openetcs.es3f.generated.Collection retVal = null; 
 		
@@ -949,7 +949,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -959,7 +959,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Function exportFunction ( org.openetcs.model.ertmsformalspecs.types.Function source )
+	public static org.openetcs.es3f.generated.Function exportFunction ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.Function source )
 	{
 		org.openetcs.es3f.generated.Function retVal = null; 
 		
@@ -978,7 +978,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -989,7 +989,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getParameter().equals(eObject.eClass()))
 					{
-						retVal.appendParameters(exportParameter((Parameter)eObject));
+						retVal.appendParameters(exportParameter(translation, (Parameter)eObject));
 					}	
 				}
 			}
@@ -999,7 +999,7 @@ public class Exporter
 				{
 					if (TypesPackage.eINSTANCE.getCase().equals(eObject.eClass()))
 					{
-						retVal.appendCases(exportCase((Case)eObject));
+						retVal.appendCases(exportCase(translation, (Case)eObject));
 					}	
 				}
 			}
@@ -1008,7 +1008,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Parameter exportParameter ( org.openetcs.model.ertmsformalspecs.Parameter source )
+	public static org.openetcs.es3f.generated.Parameter exportParameter ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.Parameter source )
 	{
 		org.openetcs.es3f.generated.Parameter retVal = null; 
 		
@@ -1022,7 +1022,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Case exportCase ( org.openetcs.model.ertmsformalspecs.types.Case source )
+	public static org.openetcs.es3f.generated.Case exportCase ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.types.Case source )
 	{
 		org.openetcs.es3f.generated.Case retVal = null; 
 		
@@ -1036,7 +1036,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getPreCondition().equals(eObject.eClass()))
 					{
-						retVal.appendPreConditions(exportPreCondition((PreCondition)eObject));
+						retVal.appendPreConditions(exportPreCondition(translation, (PreCondition)eObject));
 					}	
 				}
 			}
@@ -1046,7 +1046,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Procedure exportProcedure ( org.openetcs.model.ertmsformalspecs.Procedure source )
+	public static org.openetcs.es3f.generated.Procedure exportProcedure ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.Procedure source )
 	{
 		org.openetcs.es3f.generated.Procedure retVal = null; 
 		
@@ -1063,7 +1063,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -1074,7 +1074,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getParameter().equals(eObject.eClass()))
 					{
-						retVal.appendParameters(exportParameter((Parameter)eObject));
+						retVal.appendParameters(exportParameter(translation, (Parameter)eObject));
 					}	
 				}
 			}
@@ -1084,20 +1084,20 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getRule().equals(eObject.eClass()))
 					{
-						retVal.appendRules(exportRule((Rule)eObject));
+						retVal.appendRules(exportRule(translation, (Rule)eObject));
 					}	
 				}
 			}
 			if ( source.getStateMachine() != null )
 			{
-				retVal.setStateMachine(exportStateMachine(source.getStateMachine()));	
+				retVal.setStateMachine(exportStateMachine(translation, source.getStateMachine()));	
 			}
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.StateMachine exportStateMachine ( org.openetcs.model.ertmsformalspecs.StateMachine source )
+	public static org.openetcs.es3f.generated.StateMachine exportStateMachine ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.StateMachine source )
 	{
 		org.openetcs.es3f.generated.StateMachine retVal = null; 
 		
@@ -1116,7 +1116,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -1127,7 +1127,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getState().equals(eObject.eClass()))
 					{
-						retVal.appendStates(exportState((State)eObject));
+						retVal.appendStates(exportState(translation, (State)eObject));
 					}	
 				}
 			}
@@ -1137,7 +1137,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getRule().equals(eObject.eClass()))
 					{
-						retVal.appendRules(exportRule((Rule)eObject));
+						retVal.appendRules(exportRule(translation, (Rule)eObject));
 					}	
 				}
 			}
@@ -1146,7 +1146,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.State exportState ( org.openetcs.model.ertmsformalspecs.State source )
+	public static org.openetcs.es3f.generated.State exportState ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.State source )
 	{
 		org.openetcs.es3f.generated.State retVal = null; 
 		
@@ -1160,14 +1160,14 @@ public class Exporter
 			retVal.setHeight(source.getHeight());
 			if ( source.getStateMachine() != null )
 			{
-				retVal.setStateMachine(exportStateMachine(source.getStateMachine()));	
+				retVal.setStateMachine(exportStateMachine(translation, source.getStateMachine()));	
 			}
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Variable exportVariable ( org.openetcs.model.ertmsformalspecs.Variable source )
+	public static org.openetcs.es3f.generated.Variable exportVariable ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.Variable source )
 	{
 		org.openetcs.es3f.generated.Variable retVal = null; 
 		
@@ -1187,7 +1187,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -1198,7 +1198,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getVariable().equals(eObject.eClass()))
 					{
-						retVal.appendSubVariables(exportVariable((Variable)eObject));
+						retVal.appendSubVariables(exportVariable(translation, (Variable)eObject));
 					}	
 				}
 			}
@@ -1207,7 +1207,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Rule exportRule ( org.openetcs.model.ertmsformalspecs.behaviour.Rule source )
+	public static org.openetcs.es3f.generated.Rule exportRule ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.behaviour.Rule source )
 	{
 		org.openetcs.es3f.generated.Rule retVal = null; 
 		
@@ -1225,7 +1225,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -1236,7 +1236,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getRuleCondition().equals(eObject.eClass()))
 					{
-						retVal.appendConditions(exportRuleCondition((RuleCondition)eObject));
+						retVal.appendConditions(exportRuleCondition(translation, (RuleCondition)eObject));
 					}	
 				}
 			}
@@ -1245,7 +1245,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.RuleCondition exportRuleCondition ( org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition source )
+	public static org.openetcs.es3f.generated.RuleCondition exportRuleCondition ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition source )
 	{
 		org.openetcs.es3f.generated.RuleCondition retVal = null; 
 		
@@ -1262,7 +1262,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -1273,7 +1273,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getPreCondition().equals(eObject.eClass()))
 					{
-						retVal.appendPreConditions(exportPreCondition((PreCondition)eObject));
+						retVal.appendPreConditions(exportPreCondition(translation, (PreCondition)eObject));
 					}	
 				}
 			}
@@ -1283,7 +1283,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getAction().equals(eObject.eClass()))
 					{
-						retVal.appendActions(exportAction((Action)eObject));
+						retVal.appendActions(exportAction(translation, (Action)eObject));
 					}	
 				}
 			}
@@ -1293,7 +1293,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getRule().equals(eObject.eClass()))
 					{
-						retVal.appendSubRules(exportRule((Rule)eObject));
+						retVal.appendSubRules(exportRule(translation, (Rule)eObject));
 					}	
 				}
 			}
@@ -1302,7 +1302,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.PreCondition exportPreCondition ( org.openetcs.model.ertmsformalspecs.behaviour.PreCondition source )
+	public static org.openetcs.es3f.generated.PreCondition exportPreCondition ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.behaviour.PreCondition source )
 	{
 		org.openetcs.es3f.generated.PreCondition retVal = null; 
 		
@@ -1315,7 +1315,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Action exportAction ( org.openetcs.model.ertmsformalspecs.behaviour.Action source )
+	public static org.openetcs.es3f.generated.Action exportAction ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.behaviour.Action source )
 	{
 		org.openetcs.es3f.generated.Action retVal = null; 
 		
@@ -1328,7 +1328,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Frame exportFrame ( org.openetcs.model.ertmsformalspecs.test.Frame source )
+	public static org.openetcs.es3f.generated.Frame exportFrame ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.Frame source )
 	{
 		org.openetcs.es3f.generated.Frame retVal = null; 
 		
@@ -1342,7 +1342,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getSubSequence().equals(eObject.eClass()))
 					{
-						retVal.appendSubSequences(exportSubSequence((SubSequence)eObject));
+						retVal.appendSubSequences(exportSubSequence(translation, (SubSequence)eObject));
 					}	
 				}
 			}
@@ -1351,7 +1351,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.SubSequence exportSubSequence ( org.openetcs.model.ertmsformalspecs.test.SubSequence source )
+	public static org.openetcs.es3f.generated.SubSequence exportSubSequence ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.SubSequence source )
 	{
 		org.openetcs.es3f.generated.SubSequence retVal = null; 
 		
@@ -1374,7 +1374,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getSingleTestCase().equals(eObject.eClass()))
 					{
-						retVal.appendTestCases(exportTestCase((SingleTestCase)eObject));
+						retVal.appendTestCases(exportTestCase(translation, (SingleTestCase)eObject));
 					}	
 				}
 			}
@@ -1383,7 +1383,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.TestCase exportTestCase ( org.openetcs.model.ertmsformalspecs.test.SingleTestCase source )
+	public static org.openetcs.es3f.generated.TestCase exportTestCase ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.SingleTestCase source )
 	{
 		org.openetcs.es3f.generated.TestCase retVal = null; 
 		
@@ -1402,7 +1402,7 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
@@ -1413,7 +1413,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getStep().equals(eObject.eClass()))
 					{
-						retVal.appendSteps(exportStep((Step)eObject));
+						retVal.appendSteps(exportStep(translation, (Step)eObject));
 					}	
 				}
 			}
@@ -1422,7 +1422,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Step exportStep ( org.openetcs.model.ertmsformalspecs.test.Step source )
+	public static org.openetcs.es3f.generated.Step exportStep ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.Step source )
 	{
 		org.openetcs.es3f.generated.Step retVal = null; 
 		
@@ -1445,7 +1445,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getSubStep().equals(eObject.eClass()))
 					{
-						retVal.appendSubSteps(exportSubStep((SubStep)eObject));
+						retVal.appendSubSteps(exportSubStep(translation, (SubStep)eObject));
 					}	
 				}
 			}
@@ -1455,7 +1455,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getTestMessage().equals(eObject.eClass()))
 					{
-						retVal.appendMessages(exportDBMessage((TestMessage)eObject));
+						retVal.appendMessages(exportDBMessage(translation, (TestMessage)eObject));
 					}	
 				}
 			}
@@ -1467,7 +1467,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.SubStep exportSubStep ( org.openetcs.model.ertmsformalspecs.test.SubStep source )
+	public static org.openetcs.es3f.generated.SubStep exportSubStep ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.SubStep source )
 	{
 		org.openetcs.es3f.generated.SubStep retVal = null; 
 		
@@ -1482,7 +1482,7 @@ public class Exporter
 				{
 					if (BehaviourPackage.eINSTANCE.getAction().equals(eObject.eClass()))
 					{
-						retVal.appendActions(exportAction((Action)eObject));
+						retVal.appendActions(exportAction(translation, (Action)eObject));
 					}	
 				}
 			}
@@ -1492,7 +1492,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getExpectation().equals(eObject.eClass()))
 					{
-						retVal.appendExpectations(exportExpectation((Expectation)eObject));
+						retVal.appendExpectations(exportExpectation(translation, (Expectation)eObject));
 					}	
 				}
 			}
@@ -1501,7 +1501,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Expectation exportExpectation ( org.openetcs.model.ertmsformalspecs.test.Expectation source )
+	public static org.openetcs.es3f.generated.Expectation exportExpectation ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.Expectation source )
 	{
 		org.openetcs.es3f.generated.Expectation retVal = null; 
 		
@@ -1509,16 +1509,18 @@ public class Exporter
 		{
 			retVal = acceptor.getFactory().createExpectation();
 			retVal.setName(source.getName());
-			retVal.setVariable(source.getVariable());
 			retVal.setBlocking(source.isBlocking());
 			retVal.setDeadLine(source.getDeadline());
-			retVal.setValue(source.getValue());
+			retVal.setValue(source.getExpression());
+
+			// Handles the translation of Variable
+			translation.exportExpectation ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.DBMessage exportDBMessage ( org.openetcs.model.ertmsformalspecs.test.TestMessage source )
+	public static org.openetcs.es3f.generated.DBMessage exportDBMessage ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.TestMessage source )
 	{
 		org.openetcs.es3f.generated.DBMessage retVal = null; 
 		
@@ -1533,7 +1535,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getTestField().equals(eObject.eClass()))
 					{
-						retVal.appendFields(exportDBField((TestField)eObject));
+						retVal.appendFields(exportDBField(translation, (TestField)eObject));
 					}	
 				}
 			}
@@ -1543,7 +1545,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getTestPacket().equals(eObject.eClass()))
 					{
-						retVal.appendPackets(exportDBPacket((TestPacket)eObject));
+						retVal.appendPackets(exportDBPacket(translation, (TestPacket)eObject));
 					}	
 				}
 			}
@@ -1552,7 +1554,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.DBPacket exportDBPacket ( org.openetcs.model.ertmsformalspecs.test.TestPacket source )
+	public static org.openetcs.es3f.generated.DBPacket exportDBPacket ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.TestPacket source )
 	{
 		org.openetcs.es3f.generated.DBPacket retVal = null; 
 		
@@ -1566,7 +1568,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getTestField().equals(eObject.eClass()))
 					{
-						retVal.appendFields(exportDBField((TestField)eObject));
+						retVal.appendFields(exportDBField(translation, (TestField)eObject));
 					}	
 				}
 			}
@@ -1575,7 +1577,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.DBField exportDBField ( org.openetcs.model.ertmsformalspecs.test.TestField source )
+	public static org.openetcs.es3f.generated.DBField exportDBField ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.test.TestField source )
 	{
 		org.openetcs.es3f.generated.DBField retVal = null; 
 		
@@ -1590,7 +1592,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.TranslationDictionary exportTranslationDictionary ( org.openetcs.model.ertmsformalspecs.translation.TranslationFolder source )
+	public static org.openetcs.es3f.generated.TranslationDictionary exportTranslationDictionary ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.translation.TranslationFolder source )
 	{
 		org.openetcs.es3f.generated.TranslationDictionary retVal = null; 
 		
@@ -1604,7 +1606,7 @@ public class Exporter
 				{
 					if (TranslationPackage.eINSTANCE.getTranslationFolder().equals(eObject.eClass()))
 					{
-						retVal.appendFolders(exportFolder((TranslationFolder)eObject));
+						retVal.appendFolders(exportFolder(translation, (TranslationFolder)eObject));
 					}	
 				}
 			}
@@ -1614,7 +1616,7 @@ public class Exporter
 				{
 					if (TranslationPackage.eINSTANCE.getTranslation().equals(eObject.eClass()))
 					{
-						retVal.appendTranslations(exportTranslation((Translation)eObject));
+						retVal.appendTranslations(exportTranslation(translation, (Translation)eObject));
 					}	
 				}
 			}
@@ -1623,7 +1625,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Folder exportFolder ( org.openetcs.model.ertmsformalspecs.translation.TranslationFolder source )
+	public static org.openetcs.es3f.generated.Folder exportFolder ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.translation.TranslationFolder source )
 	{
 		org.openetcs.es3f.generated.Folder retVal = null; 
 		
@@ -1637,7 +1639,7 @@ public class Exporter
 				{
 					if (TranslationPackage.eINSTANCE.getTranslationFolder().equals(eObject.eClass()))
 					{
-						retVal.appendFolders(exportFolder((TranslationFolder)eObject));
+						retVal.appendFolders(exportFolder(translation, (TranslationFolder)eObject));
 					}	
 				}
 			}
@@ -1647,7 +1649,7 @@ public class Exporter
 				{
 					if (TranslationPackage.eINSTANCE.getTranslation().equals(eObject.eClass()))
 					{
-						retVal.appendTranslations(exportTranslation((Translation)eObject));
+						retVal.appendTranslations(exportTranslation(translation, (Translation)eObject));
 					}	
 				}
 			}
@@ -1656,7 +1658,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Translation exportTranslation ( org.openetcs.model.ertmsformalspecs.translation.Translation source )
+	public static org.openetcs.es3f.generated.Translation exportTranslation ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.translation.Translation source )
 	{
 		org.openetcs.es3f.generated.Translation retVal = null; 
 		
@@ -1671,7 +1673,7 @@ public class Exporter
 				{
 					if (TranslationPackage.eINSTANCE.getSourceText().equals(eObject.eClass()))
 					{
-						retVal.appendSourceTexts(exportSourceText((SourceText)eObject));
+						retVal.appendSourceTexts(exportSourceText(translation, (SourceText)eObject));
 					}	
 				}
 			}
@@ -1681,7 +1683,7 @@ public class Exporter
 				{
 					if (TestPackage.eINSTANCE.getSubStep().equals(eObject.eClass()))
 					{
-						retVal.appendSubSteps(exportSubStep((SubStep)eObject));
+						retVal.appendSubSteps(exportSubStep(translation, (SubStep)eObject));
 					}	
 				}
 			}
@@ -1691,7 +1693,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.SourceText exportSourceText ( org.openetcs.model.ertmsformalspecs.translation.SourceText source )
+	public static org.openetcs.es3f.generated.SourceText exportSourceText ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.translation.SourceText source )
 	{
 		org.openetcs.es3f.generated.SourceText retVal = null; 
 		
@@ -1704,7 +1706,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.ShortcutDictionary exportShortcutDictionary ( org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder source )
+	public static org.openetcs.es3f.generated.ShortcutDictionary exportShortcutDictionary ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder source )
 	{
 		org.openetcs.es3f.generated.ShortcutDictionary retVal = null; 
 		
@@ -1718,7 +1720,7 @@ public class Exporter
 				{
 					if (ShortcutPackage.eINSTANCE.getShortcutFolder().equals(eObject.eClass()))
 					{
-						retVal.appendFolders(exportShortcutFolder((ShortcutFolder)eObject));
+						retVal.appendFolders(exportShortcutFolder(translation, (ShortcutFolder)eObject));
 					}	
 				}
 			}
@@ -1728,7 +1730,7 @@ public class Exporter
 				{
 					if (ShortcutPackage.eINSTANCE.getShortcut().equals(eObject.eClass()))
 					{
-						retVal.appendShortcuts(exportShortcut((Shortcut)eObject));
+						retVal.appendShortcuts(exportShortcut(translation, (Shortcut)eObject));
 					}	
 				}
 			}
@@ -1737,7 +1739,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.ShortcutFolder exportShortcutFolder ( org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder source )
+	public static org.openetcs.es3f.generated.ShortcutFolder exportShortcutFolder ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder source )
 	{
 		org.openetcs.es3f.generated.ShortcutFolder retVal = null; 
 		
@@ -1751,7 +1753,7 @@ public class Exporter
 				{
 					if (ShortcutPackage.eINSTANCE.getShortcutFolder().equals(eObject.eClass()))
 					{
-						retVal.appendFolders(exportShortcutFolder((ShortcutFolder)eObject));
+						retVal.appendFolders(exportShortcutFolder(translation, (ShortcutFolder)eObject));
 					}	
 				}
 			}
@@ -1761,7 +1763,7 @@ public class Exporter
 				{
 					if (ShortcutPackage.eINSTANCE.getShortcut().equals(eObject.eClass()))
 					{
-						retVal.appendShortcuts(exportShortcut((Shortcut)eObject));
+						retVal.appendShortcuts(exportShortcut(translation, (Shortcut)eObject));
 					}	
 				}
 			}
@@ -1770,7 +1772,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Shortcut exportShortcut ( org.openetcs.model.ertmsformalspecs.shortcut.Shortcut source )
+	public static org.openetcs.es3f.generated.Shortcut exportShortcut ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.shortcut.Shortcut source )
 	{
 		org.openetcs.es3f.generated.Shortcut retVal = null; 
 		
@@ -1780,13 +1782,13 @@ public class Exporter
 			retVal.setName(source.getName());
 
 			// Handles the translation of ShortcutName
-			ManualTranslation.exportShortcut ( source, retVal );
+			translation.exportShortcut ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Specification exportSpecification ( org.openetcs.model.ertmsformalspecs.requirements.Specification source )
+	public static org.openetcs.es3f.generated.Specification exportSpecification ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.Specification source )
 	{
 		org.openetcs.es3f.generated.Specification retVal = null; 
 		
@@ -1800,19 +1802,19 @@ public class Exporter
 				{
 					if (RequirementsPackage.eINSTANCE.getParagraph().equals(eObject.eClass()))
 					{
-						retVal.appendChapters(exportChapter((Paragraph)eObject));
+						retVal.appendChapters(exportChapter(translation, (Paragraph)eObject));
 					}	
 				}
 			}
 
 			// Handles the translation of Version
-			ManualTranslation.exportSpecification ( source, retVal );
+			translation.exportSpecification ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Chapter exportChapter ( org.openetcs.model.ertmsformalspecs.requirements.Paragraph source )
+	public static org.openetcs.es3f.generated.Chapter exportChapter ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.Paragraph source )
 	{
 		org.openetcs.es3f.generated.Chapter retVal = null; 
 		
@@ -1827,7 +1829,7 @@ public class Exporter
 				{
 					if (RequirementsPackage.eINSTANCE.getParagraph().equals(eObject.eClass()))
 					{
-						retVal.appendParagraphs(exportParagraph((Paragraph)eObject));
+						retVal.appendParagraphs(exportParagraph(translation, (Paragraph)eObject));
 					}	
 				}
 			}
@@ -1837,7 +1839,7 @@ public class Exporter
 				{
 					if (MessagesPackage.eINSTANCE.getTypeSpec().equals(eObject.eClass()))
 					{
-						retVal.appendTypeSpecs(exportTypeSpec((TypeSpec)eObject));
+						retVal.appendTypeSpecs(exportTypeSpec(translation, (TypeSpec)eObject));
 					}	
 				}
 			}
@@ -1846,7 +1848,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Paragraph exportParagraph ( org.openetcs.model.ertmsformalspecs.requirements.Paragraph source )
+	public static org.openetcs.es3f.generated.Paragraph exportParagraph ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.Paragraph source )
 	{
 		org.openetcs.es3f.generated.Paragraph retVal = null; 
 		
@@ -1863,14 +1865,14 @@ public class Exporter
 				{
 					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
 					{
-						retVal.appendRequirements(exportReqRef((ReqRef)eObject));
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
 					}	
 				}
 			}
 			retVal.setComment(source.getComment());
 			if ( source.getMessage() != null )
 			{
-				retVal.setMessage(exportMessage(source.getMessage()));	
+				retVal.setMessage(exportMessage(translation, source.getMessage()));	
 			}
 			if ( source.getSubParagraphs() != null )
 			{
@@ -1878,7 +1880,7 @@ public class Exporter
 				{
 					if (RequirementsPackage.eINSTANCE.getParagraph().equals(eObject.eClass()))
 					{
-						retVal.appendParagraphs(exportParagraph((Paragraph)eObject));
+						retVal.appendParagraphs(exportParagraph(translation, (Paragraph)eObject));
 					}	
 				}
 			}
@@ -1888,7 +1890,7 @@ public class Exporter
 				{
 					if (MessagesPackage.eINSTANCE.getTypeSpec().equals(eObject.eClass()))
 					{
-						retVal.appendTypeSpecs(exportTypeSpec((TypeSpec)eObject));
+						retVal.appendTypeSpecs(exportTypeSpec(translation, (TypeSpec)eObject));
 					}	
 				}
 			}
@@ -1905,13 +1907,13 @@ public class Exporter
 			// Handles the translation of SpecIssue
 			// Handles the translation of FunctionalBlock
 			// Handles the translation of FunctionalBlockName
-			ManualTranslation.exportParagraph ( source, retVal );
+			translation.exportParagraph ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.Message exportMessage ( org.openetcs.model.ertmsformalspecs.requirements.messages.Message source )
+	public static org.openetcs.es3f.generated.Message exportMessage ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.Message source )
 	{
 		org.openetcs.es3f.generated.Message retVal = null; 
 		
@@ -1925,20 +1927,20 @@ public class Exporter
 				{
 					if (MessagesPackage.eINSTANCE.getMessageVariable().equals(eObject.eClass()))
 					{
-						retVal.appendMsgVariables(exportMsgVariable((MessageVariable)eObject));
+						retVal.appendMsgVariables(exportMsgVariable(translation, (MessageVariable)eObject));
 					}	
 				}
 			}
 
 			// Handles the translation of Media
 			// Handles the translation of Bl
-			ManualTranslation.exportMessage ( source, retVal );
+			translation.exportMessage ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.MsgVariable exportMsgVariable ( org.openetcs.model.ertmsformalspecs.requirements.messages.MessageVariable source )
+	public static org.openetcs.es3f.generated.MsgVariable exportMsgVariable ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.MessageVariable source )
 	{
 		org.openetcs.es3f.generated.MsgVariable retVal = null; 
 		
@@ -1954,19 +1956,19 @@ public class Exporter
 				{
 					if (MessagesPackage.eINSTANCE.getMessageVariable().equals(eObject.eClass()))
 					{
-						retVal.appendMsgVariables(exportMsgVariable((MessageVariable)eObject));
+						retVal.appendMsgVariables(exportMsgVariable(translation, (MessageVariable)eObject));
 					}	
 				}
 			}
 
 			// Handles the translation of Bl
-			ManualTranslation.exportMsgVariable ( source, retVal );
+			translation.exportMsgVariable ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.TypeSpec exportTypeSpec ( org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec source )
+	public static org.openetcs.es3f.generated.TypeSpec exportTypeSpec ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec source )
 	{
 		org.openetcs.es3f.generated.TypeSpec retVal = null; 
 		
@@ -1982,13 +1984,13 @@ public class Exporter
 
 			// Handles the translation of Bl
 			// Handles the translation of Values
-			ManualTranslation.exportTypeSpec ( source, retVal );
+			translation.exportTypeSpec ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.special_or_reserved_value exportspecial_or_reserved_value ( org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue source )
+	public static org.openetcs.es3f.generated.special_or_reserved_value exportspecial_or_reserved_value ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue source )
 	{
 		org.openetcs.es3f.generated.special_or_reserved_value retVal = null; 
 		
@@ -1997,26 +1999,26 @@ public class Exporter
 			retVal = acceptor.getFactory().createspecial_or_reserved_value();
 			if ( source.getMask() != null )
 			{
-				retVal.setMask(exportmask(source.getMask()));	
+				retVal.setMask(exportmask(translation, source.getMask()));	
 			}
 			if ( source.getMeaning() != null )
 			{
-				retVal.setMeaning(exportmeaning(source.getMeaning()));	
+				retVal.setMeaning(exportmeaning(translation, source.getMeaning()));	
 			}
 			if ( source.getValue() != null )
 			{
-				retVal.setValue(exportvalue(source.getValue()));	
+				retVal.setValue(exportvalue(translation, source.getValue()));	
 			}
 
 			// Handles the translation of Match
 			// Handles the translation of Match-range
-			ManualTranslation.exportspecial_or_reserved_value ( source, retVal );
+			translation.exportspecial_or_reserved_value ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.mask exportmask ( org.openetcs.model.ertmsformalspecs.requirements.messages.Mask source )
+	public static org.openetcs.es3f.generated.mask exportmask ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.Mask source )
 	{
 		org.openetcs.es3f.generated.mask retVal = null; 
 		
@@ -2029,7 +2031,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.match exportmatch ( org.openetcs.model.ertmsformalspecs.requirements.messages.Match source )
+	public static org.openetcs.es3f.generated.match exportmatch ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.Match source )
 	{
 		org.openetcs.es3f.generated.match retVal = null; 
 		
@@ -2042,7 +2044,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.meaning exportmeaning ( org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning source )
+	public static org.openetcs.es3f.generated.meaning exportmeaning ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning source )
 	{
 		org.openetcs.es3f.generated.meaning retVal = null; 
 		
@@ -2053,13 +2055,13 @@ public class Exporter
 			retVal.setValue(source.getValue());
 
 			// Handles the translation of Bl
-			ManualTranslation.exportmeaning ( source, retVal );
+			translation.exportmeaning ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.match_range exportmatch_range ( org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange source )
+	public static org.openetcs.es3f.generated.match_range exportmatch_range ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange source )
 	{
 		org.openetcs.es3f.generated.match_range retVal = null; 
 		
@@ -2069,13 +2071,13 @@ public class Exporter
 			retVal.setMinimum(source.getMinimum());
 
 			// Handles the translation of Maximum
-			ManualTranslation.exportmatch_range ( source, retVal );
+			translation.exportmatch_range ( source, retVal );
 		}
 		
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.resolution_formula exportresolution_formula ( org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormula source )
+	public static org.openetcs.es3f.generated.resolution_formula exportresolution_formula ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormula source )
 	{
 		org.openetcs.es3f.generated.resolution_formula retVal = null; 
 		
@@ -2089,7 +2091,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.value exportvalue ( org.openetcs.model.ertmsformalspecs.requirements.messages.SingleValue source )
+	public static org.openetcs.es3f.generated.value exportvalue ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.SingleValue source )
 	{
 		org.openetcs.es3f.generated.value retVal = null; 
 		
@@ -2103,7 +2105,7 @@ public class Exporter
 		return retVal;
 	}      
 
-	public static org.openetcs.es3f.generated.char_value exportchar_value ( org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue source )
+	public static org.openetcs.es3f.generated.char_value exportchar_value ( ManualTranslation translation, org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue source )
 	{
 		org.openetcs.es3f.generated.char_value retVal = null; 
 		

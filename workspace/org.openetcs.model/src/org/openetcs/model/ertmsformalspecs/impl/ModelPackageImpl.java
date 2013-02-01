@@ -594,15 +594,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getReqRef_ParagraphId() {
-		return (EAttribute)reqRefEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getReqRelated() {
 		return reqRelatedEClass;
 	}
@@ -923,7 +914,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		reqRefEClass = createEClass(REQ_REF);
 		createEReference(reqRefEClass, REQ_REF__PARAGRAPH);
-		createEAttribute(reqRefEClass, REQ_REF__PARAGRAPH_ID);
 
 		reqRelatedEClass = createEClass(REQ_RELATED);
 		createEAttribute(reqRelatedEClass, REQ_RELATED__IMPLEMENTED);
@@ -1074,7 +1064,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		initEClass(reqRefEClass, ReqRef.class, "ReqRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReqRef_Paragraph(), theRequirementsPackage.getParagraph(), null, "paragraph", null, 1, 1, ReqRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getReqRef_ParagraphId(), ecorePackage.getEString(), "paragraphId", null, 0, 1, ReqRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(reqRelatedEClass, ReqRelated.class, "ReqRelated", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReqRelated_Implemented(), ecorePackage.getEBoolean(), "implemented", null, 0, 1, ReqRelated.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

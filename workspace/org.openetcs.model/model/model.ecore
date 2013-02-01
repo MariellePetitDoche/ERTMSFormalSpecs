@@ -71,7 +71,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="ReqRef" eSuperTypes="#//CommentedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="paragraph" lowerBound="1"
         eType="#//requirements/Paragraph"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paragraphId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReqRelated" abstract="true" eSuperTypes="#//ReferencesParagraph">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implemented" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -201,8 +200,6 @@
             containment="true"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="referenceParagraph"
             eType="#//requirements/Paragraph"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceParagraphId"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="version" eType="#//BaseLine"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EEnum" name="EErtmsType">
@@ -530,8 +527,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="Expectation" eSuperTypes="#//NamedElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentSubStep" eType="#//test/SubStep"
           eOpposite="#//test/SubStep/expectations"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eClassifiers>

@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.openetcs.es3f.exporter.Exporter;
+import org.openetcs.es3f.utils.ManualTranslation;
 import org.openetcs.model.ertmsformalspecs.Baselines;
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
@@ -28,7 +29,8 @@ public class ExportUtil {
 			if(ModelPackage.eINSTANCE.getDictionary().equals(eObject.eClass()))
 			{
 				Dictionary dictonary=(Dictionary)eObject;
-				org.openetcs.es3f.generated.Dictionary exportedDictionary = Exporter.exportDictionary(dictonary);
+				ManualTranslation translation = new ManualTranslation();
+				org.openetcs.es3f.generated.Dictionary exportedDictionary = Exporter.exportDictionary(translation, dictonary);
 				if ( exportedDictionary != null )
 				{
 					try 

@@ -71,7 +71,6 @@ public class TypeSpecItemProvider
 			addResolutionFormulaPropertyDescriptor(object);
 			addErtmsTypePropertyDescriptor(object);
 			addReferenceParagraphPropertyDescriptor(object);
-			addReferenceParagraphIdPropertyDescriptor(object);
 			addVersionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -298,28 +297,6 @@ public class TypeSpecItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Reference Paragraph Id feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addReferenceParagraphIdPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_TypeSpec_referenceParagraphId_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TypeSpec_referenceParagraphId_feature", "_UI_TypeSpec_type"),
-				 MessagesPackage.Literals.TYPE_SPEC__REFERENCE_PARAGRAPH_ID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This adds a property descriptor for the Version feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -416,7 +393,6 @@ public class TypeSpecItemProvider
 			case MessagesPackage.TYPE_SPEC__MAXIMUM_VALUE:
 			case MessagesPackage.TYPE_SPEC__RESOLUTION_FORMULA:
 			case MessagesPackage.TYPE_SPEC__ERTMS_TYPE:
-			case MessagesPackage.TYPE_SPEC__REFERENCE_PARAGRAPH_ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MessagesPackage.TYPE_SPEC__VALUE:

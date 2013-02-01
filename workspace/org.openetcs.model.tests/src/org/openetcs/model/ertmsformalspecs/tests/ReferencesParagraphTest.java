@@ -2,6 +2,8 @@
  */
 package org.openetcs.model.ertmsformalspecs.tests;
 
+import junit.framework.TestCase;
+
 import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
 
 /**
@@ -16,7 +18,15 @@ import org.openetcs.model.ertmsformalspecs.ReferencesParagraph;
  * </p>
  * @generated
  */
-public abstract class ReferencesParagraphTest extends CommentedElementTest {
+public abstract class ReferencesParagraphTest extends TestCase {
+
+	/**
+	 * The fixture for this References Paragraph test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ReferencesParagraph fixture = null;
 
 	/**
 	 * Constructs a new References Paragraph test case with the given name.
@@ -29,14 +39,23 @@ public abstract class ReferencesParagraphTest extends CommentedElementTest {
 	}
 
 	/**
+	 * Sets the fixture for this References Paragraph test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void setFixture(ReferencesParagraph fixture) {
+		this.fixture = fixture;
+	}
+
+	/**
 	 * Returns the fixture for this References Paragraph test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	protected ReferencesParagraph getFixture() {
-		return (ReferencesParagraph)fixture;
+		return fixture;
 	}
 
 	/**

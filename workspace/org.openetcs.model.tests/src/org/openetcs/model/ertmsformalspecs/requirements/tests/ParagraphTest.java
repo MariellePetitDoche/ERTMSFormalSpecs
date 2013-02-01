@@ -7,28 +7,15 @@ import junit.textui.TestRunner;
 
 import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsFactory;
+import org.openetcs.model.ertmsformalspecs.tests.ReferencesParagraphTest;
 
 /**
  * <!-- begin-user-doc -->
  * A test case for the model object '<em><b>Paragraph</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * The following features are tested:
- * <ul>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.NamedElement#getName() <em>Name</em>}</li>
- * </ul>
- * </p>
  * @generated
  */
-public class ParagraphTest extends TestCase {
-
-	/**
-	 * The fixture for this Paragraph test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected Paragraph fixture = null;
+public class ParagraphTest extends ReferencesParagraphTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -50,23 +37,14 @@ public class ParagraphTest extends TestCase {
 	}
 
 	/**
-	 * Sets the fixture for this Paragraph test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void setFixture(Paragraph fixture) {
-		this.fixture = fixture;
-	}
-
-	/**
 	 * Returns the fixture for this Paragraph test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected Paragraph getFixture() {
-		return fixture;
+		return (Paragraph)fixture;
 	}
 
 	/**
@@ -89,32 +67,6 @@ public class ParagraphTest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		setFixture(null);
-	}
-
-	/**
-	 * Tests the '{@link org.openetcs.model.ertmsformalspecs.NamedElement#getName() <em>Name</em>}' feature getter.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.openetcs.model.ertmsformalspecs.NamedElement#getName()
-	 * @generated
-	 */
-	public void testGetName() {
-		// TODO: implement this feature getter test method
-		// Ensure that you remove @generated or mark it @generated NOT
-		fail();
-	}
-
-	/**
-	 * Tests the '{@link org.openetcs.model.ertmsformalspecs.NamedElement#setName(java.lang.String) <em>Name</em>}' feature setter.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.openetcs.model.ertmsformalspecs.NamedElement#setName(java.lang.String)
-	 * @generated
-	 */
-	public void testSetName() {
-		// TODO: implement this feature setter test method
-		// Ensure that you remove @generated or mark it @generated NOT
-		fail();
 	}
 
 } //ParagraphTest

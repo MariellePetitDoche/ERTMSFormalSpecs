@@ -22,8 +22,7 @@ import org.openetcs.model.ertmsformalspecs.test.TestPackage;
  * <ul>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getParentSubStep <em>Parent Sub Step</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getVariable <em>Variable</em>}</li>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getExpression <em>Expression</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#isBlocking <em>Blocking</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.test.impl.ExpectationImpl#getDeadline <em>Deadline</em>}</li>
  * </ul>
@@ -53,44 +52,24 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
+	 * The default value of the '{@link #getExpression() <em>Expression</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVariable()
+	 * @see #getExpression()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String VARIABLE_EDEFAULT = null;
+	protected static final String EXPRESSION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getVariable() <em>Variable</em>}' attribute.
+	 * The cached value of the '{@link #getExpression() <em>Expression</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVariable()
+	 * @see #getExpression()
 	 * @generated
 	 * @ordered
 	 */
-	protected String variable = VARIABLE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String VALUE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected String value = VALUE_EDEFAULT;
+	protected String expression = EXPRESSION_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isBlocking() <em>Blocking</em>}' attribute.
@@ -218,8 +197,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getVariable() {
-		return variable;
+	public String getExpression() {
+		return expression;
 	}
 
 	/**
@@ -227,32 +206,11 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setVariable(String newVariable) {
-		String oldVariable = variable;
-		variable = newVariable;
+	public void setExpression(String newExpression) {
+		String oldExpression = expression;
+		expression = newExpression;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TestPackage.EXPECTATION__VARIABLE, oldVariable, variable));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getValue() {
-		return value;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setValue(String newValue) {
-		String oldValue = value;
-		value = newValue;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TestPackage.EXPECTATION__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, TestPackage.EXPECTATION__EXPRESSION, oldExpression, expression));
 	}
 
 	/**
@@ -353,10 +311,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 				return getName();
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				return getParentSubStep();
-			case TestPackage.EXPECTATION__VARIABLE:
-				return getVariable();
-			case TestPackage.EXPECTATION__VALUE:
-				return getValue();
+			case TestPackage.EXPECTATION__EXPRESSION:
+				return getExpression();
 			case TestPackage.EXPECTATION__BLOCKING:
 				return isBlocking();
 			case TestPackage.EXPECTATION__DEADLINE:
@@ -379,11 +335,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				setParentSubStep((SubStep)newValue);
 				return;
-			case TestPackage.EXPECTATION__VARIABLE:
-				setVariable((String)newValue);
-				return;
-			case TestPackage.EXPECTATION__VALUE:
-				setValue((String)newValue);
+			case TestPackage.EXPECTATION__EXPRESSION:
+				setExpression((String)newValue);
 				return;
 			case TestPackage.EXPECTATION__BLOCKING:
 				setBlocking((Boolean)newValue);
@@ -409,11 +362,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				setParentSubStep((SubStep)null);
 				return;
-			case TestPackage.EXPECTATION__VARIABLE:
-				setVariable(VARIABLE_EDEFAULT);
-				return;
-			case TestPackage.EXPECTATION__VALUE:
-				setValue(VALUE_EDEFAULT);
+			case TestPackage.EXPECTATION__EXPRESSION:
+				setExpression(EXPRESSION_EDEFAULT);
 				return;
 			case TestPackage.EXPECTATION__BLOCKING:
 				setBlocking(BLOCKING_EDEFAULT);
@@ -437,10 +387,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case TestPackage.EXPECTATION__PARENT_SUB_STEP:
 				return getParentSubStep() != null;
-			case TestPackage.EXPECTATION__VARIABLE:
-				return VARIABLE_EDEFAULT == null ? variable != null : !VARIABLE_EDEFAULT.equals(variable);
-			case TestPackage.EXPECTATION__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+			case TestPackage.EXPECTATION__EXPRESSION:
+				return EXPRESSION_EDEFAULT == null ? expression != null : !EXPRESSION_EDEFAULT.equals(expression);
 			case TestPackage.EXPECTATION__BLOCKING:
 				return blocking != BLOCKING_EDEFAULT;
 			case TestPackage.EXPECTATION__DEADLINE:
@@ -461,10 +409,8 @@ public class ExpectationImpl extends EObjectImpl implements Expectation {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
-		result.append(", variable: ");
-		result.append(variable);
-		result.append(", value: ");
-		result.append(value);
+		result.append(", expression: ");
+		result.append(expression);
 		result.append(", blocking: ");
 		result.append(blocking);
 		result.append(", deadline: ");

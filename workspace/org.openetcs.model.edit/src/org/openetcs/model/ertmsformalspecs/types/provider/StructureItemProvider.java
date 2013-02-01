@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -58,8 +59,31 @@ public class StructureItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addElementsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Elements feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addElementsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Structure_elements_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Structure_elements_feature", "_UI_Structure_type"),
+				 TypesPackage.Literals.STRUCTURE__ELEMENTS,
+				 true,
+				 false,
+				 false,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -74,7 +98,6 @@ public class StructureItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(TypesPackage.Literals.STRUCTURE__ELEMENTS);
 			childrenFeatures.add(TypesPackage.Literals.STRUCTURE__PROCEDURES);
 			childrenFeatures.add(TypesPackage.Literals.STRUCTURE__RULES);
 		}
@@ -132,6 +155,8 @@ public class StructureItemProvider
 
 		switch (notification.getFeatureID(Structure.class)) {
 			case TypesPackage.STRUCTURE__ELEMENTS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 			case TypesPackage.STRUCTURE__PROCEDURES:
 			case TypesPackage.STRUCTURE__RULES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

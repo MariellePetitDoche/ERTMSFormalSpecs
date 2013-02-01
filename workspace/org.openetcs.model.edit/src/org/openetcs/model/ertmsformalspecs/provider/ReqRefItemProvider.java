@@ -57,7 +57,6 @@ public class ReqRefItemProvider
 			super.getPropertyDescriptors(object);
 
 			addParagraphPropertyDescriptor(object);
-			addParagraphIdPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -80,28 +79,6 @@ public class ReqRefItemProvider
 				 false,
 				 true,
 				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Paragraph Id feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addParagraphIdPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ReqRef_paragraphId_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ReqRef_paragraphId_feature", "_UI_ReqRef_type"),
-				 ModelPackage.Literals.REQ_REF__PARAGRAPH_ID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -145,12 +122,6 @@ public class ReqRefItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(ReqRef.class)) {
-			case ModelPackage.REQ_REF__PARAGRAPH_ID:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 

@@ -631,22 +631,13 @@ public interface TestPackage extends EPackage {
 	int EXPECTATION__PARENT_SUB_STEP = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Variable</b></em>' attribute.
+	 * The feature id for the '<em><b>Expression</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__VARIABLE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPECTATION__VALUE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int EXPECTATION__EXPRESSION = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Blocking</b></em>' attribute.
@@ -655,7 +646,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__BLOCKING = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int EXPECTATION__BLOCKING = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Deadline</b></em>' attribute.
@@ -664,7 +655,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION__DEADLINE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int EXPECTATION__DEADLINE = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Expectation</em>' class.
@@ -673,7 +664,7 @@ public interface TestPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPECTATION_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int EXPECTATION_FEATURE_COUNT = ModelPackage.NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.test.impl.TestMessageImpl <em>Message</em>}' class.
@@ -1379,26 +1370,15 @@ public interface TestPackage extends EPackage {
 	EReference getExpectation_ParentSubStep();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getVariable <em>Variable</em>}'.
+	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getExpression <em>Expression</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Variable</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.test.Expectation#getVariable()
+	 * @return the meta object for the attribute '<em>Expression</em>'.
+	 * @see org.openetcs.model.ertmsformalspecs.test.Expectation#getExpression()
 	 * @see #getExpectation()
 	 * @generated
 	 */
-	EAttribute getExpectation_Variable();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.Expectation#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.test.Expectation#getValue()
-	 * @see #getExpectation()
-	 * @generated
-	 */
-	EAttribute getExpectation_Value();
+	EAttribute getExpectation_Expression();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.test.Expectation#isBlocking <em>Blocking</em>}'.
@@ -1999,20 +1979,12 @@ public interface TestPackage extends EPackage {
 		EReference EXPECTATION__PARENT_SUB_STEP = eINSTANCE.getExpectation_ParentSubStep();
 
 		/**
-		 * The meta object literal for the '<em><b>Variable</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Expression</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXPECTATION__VARIABLE = eINSTANCE.getExpectation_Variable();
-
-		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EXPECTATION__VALUE = eINSTANCE.getExpectation_Value();
+		EAttribute EXPECTATION__EXPRESSION = eINSTANCE.getExpectation_Expression();
 
 		/**
 		 * The meta object literal for the '<em><b>Blocking</b></em>' attribute feature.

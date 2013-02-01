@@ -167,22 +167,13 @@ public interface MessagesPackage extends EPackage {
 	int TYPE_SPEC__REFERENCE_PARAGRAPH = RequirementsPackage.BASE_LINED_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
-	 * The feature id for the '<em><b>Reference Paragraph Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE_SPEC__REFERENCE_PARAGRAPH_ID = RequirementsPackage.BASE_LINED_ELEMENT_FEATURE_COUNT + 10;
-
-	/**
 	 * The feature id for the '<em><b>Version</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_SPEC__VERSION = RequirementsPackage.BASE_LINED_ELEMENT_FEATURE_COUNT + 11;
+	int TYPE_SPEC__VERSION = RequirementsPackage.BASE_LINED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Type Spec</em>' class.
@@ -191,7 +182,7 @@ public interface MessagesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_SPEC_FEATURE_COUNT = RequirementsPackage.BASE_LINED_ELEMENT_FEATURE_COUNT + 12;
+	int TYPE_SPEC_FEATURE_COUNT = RequirementsPackage.BASE_LINED_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.requirements.messages.Value <em>Value</em>}' class.
@@ -909,17 +900,6 @@ public interface MessagesPackage extends EPackage {
 	EReference getTypeSpec_ReferenceParagraph();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getReferenceParagraphId <em>Reference Paragraph Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Reference Paragraph Id</em>'.
-	 * @see org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getReferenceParagraphId()
-	 * @see #getTypeSpec()
-	 * @generated
-	 */
-	EAttribute getTypeSpec_ReferenceParagraphId();
-
-	/**
 	 * Returns the meta object for the reference '{@link org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec#getVersion <em>Version</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1540,14 +1520,6 @@ public interface MessagesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPE_SPEC__REFERENCE_PARAGRAPH = eINSTANCE.getTypeSpec_ReferenceParagraph();
-
-		/**
-		 * The meta object literal for the '<em><b>Reference Paragraph Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TYPE_SPEC__REFERENCE_PARAGRAPH_ID = eINSTANCE.getTypeSpec_ReferenceParagraphId();
 
 		/**
 		 * The meta object literal for the '<em><b>Version</b></em>' reference feature.

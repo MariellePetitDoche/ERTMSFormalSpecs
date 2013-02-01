@@ -128,14 +128,13 @@ public class ImportUtil {
 					fillContext(importProject, dictionary);
 					
 
-					final org.openetcs.model.ertmsformalspecs.Dictionary importedDictionary = Importer.importDictionary(importProject, dictionary);
+					ManualTranslation translation = new ManualTranslation();
+					final org.openetcs.model.ertmsformalspecs.Dictionary importedDictionary = Importer.importDictionary(importProject, translation, dictionary);
+					translation.crossReference(importProject);
 					importProject.getEditingDomain().getCommandStack().execute(new ChangeCommand(importedDictionary) {
 						@Override
 						protected void doExecute() {
 							importProject.getElements().add(importedDictionary);
-							
-							// Link references
-							ManualTranslation.crossLink(importProject);
 						}
 					});
 				}
