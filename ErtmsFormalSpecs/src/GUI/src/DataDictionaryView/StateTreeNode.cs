@@ -20,7 +20,7 @@ using System.Windows.Forms;
 
 namespace GUI.DataDictionaryView
 {
-    public class StateTreeNode : DataTreeNode<DataDictionary.Constants.State>
+    public class StateTreeNode : ReqRelatedTreeNode<DataDictionary.Constants.State>
     {
         private class InternalStateTypeConverter : StateTypeConverter
         {
@@ -31,7 +31,7 @@ namespace GUI.DataDictionaryView
             }
         }
 
-        private class ItemEditor : Editor
+        private class ItemEditor : ReqRelatedEditor
         {
             /// <summary>
             /// Constructor
@@ -113,6 +113,8 @@ namespace GUI.DataDictionaryView
                     parent.Nodes.Add(stateMachineTreeNode);
                 }
             }
+
+            base.AcceptDrop(SourceNode);
         }
 
         protected void ViewStateDiagramHandler(object sender, EventArgs args)

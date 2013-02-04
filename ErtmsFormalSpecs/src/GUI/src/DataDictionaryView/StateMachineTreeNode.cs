@@ -156,6 +156,8 @@ namespace GUI.DataDictionaryView
                     parent.Nodes.Add(stateMachineTreeNode);
                 }
             }
+
+            base.AcceptDrop(SourceNode);
         }
 
         /// <summary>

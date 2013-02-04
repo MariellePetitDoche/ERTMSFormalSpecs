@@ -536,7 +536,7 @@
   <!-- ----- -->
   <!-- State -->
   <!-- ----- -->
-  <ELEMENT NAME="State" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+  <ELEMENT NAME="State" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
     <FIELDS>
       <FIELD NAME="StateMachine" REFTYPE="StateMachine" />
       <FIELD NAME="Width"        TYPE="INTEGER" />
