@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary.Generated;
 
 namespace GUI.SpecificationView
 {
@@ -251,6 +252,17 @@ namespace GUI.SpecificationView
                     paragraphTreeNode.Delete();
                     AddParagraph(paragraph);
                 }
+            }
+
+            base.AcceptDrop(SourceNode);
+        }
+
+        public override void AcceptCopy(BaseTreeNode SourceNode)
+        {
+            if (SourceNode is ParagraphTreeNode)
+            {
+                ParagraphTreeNode paragraphTreeNode = (ParagraphTreeNode)SourceNode;
+                ReqReferences.CreateReqRef(paragraphTreeNode.Item.getId());
             }
         }
 
