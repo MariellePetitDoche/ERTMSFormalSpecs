@@ -229,8 +229,10 @@ namespace DataDictionary.Rules
         /// <returns>the number of actions that were activated during this evaluation</returns>
         public bool Evaluate(Tests.Runner.Runner runner, Generated.acceptor.RulePriority priority, Utils.IModelElement instance, List<RuleCondition> ruleConditions)
         {
+            bool retVal = false;
+
             Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(instance);
-            bool retVal = EvaluatePreConditions(context);
+            retVal = EvaluatePreConditions(context);
 
             if (retVal)
             {
@@ -244,6 +246,7 @@ namespace DataDictionary.Rules
                     ruleConditions.Add(this);
                 }
             }
+
 
             return retVal;
         }

@@ -181,6 +181,18 @@ namespace DataDictionary.Interpreter.Statement
                         break;
                     }
                 }
+
+                if (retVal == context)
+                {
+                    foreach (Utils.INamable namable in Call.Called.getCalled(context).Values)
+                    {
+                        if (namable is Variables.Procedure)
+                        {
+                            retVal = new InterpretationContext(context, namable);
+                            break;
+                        }
+                    }
+                }
             }
 
             return retVal;
