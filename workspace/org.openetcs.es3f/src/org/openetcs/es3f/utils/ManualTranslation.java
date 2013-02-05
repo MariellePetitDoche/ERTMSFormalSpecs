@@ -52,7 +52,6 @@ public class ManualTranslation {
 	private Dictionary Dictionary = null;
 	private java.util.HashMap<String, Paragraph> Paragraphs = null;
 	private java.util.HashMap<String, NamedElement> NamedElements = null;
-	private java.util.HashMap<NamedElement, String> NamedElementsFullName = null;
 	private java.util.List<Assoc<ReqRef>> ReqRef2RelatedParagraph = null; 
 	private java.util.List<Assoc<TypeSpec>> TypeSpec2RelatedParagraph = null;
 	private java.util.List<Assoc<Shortcut>> Shortcut2RelatedModelElement = null;
@@ -65,7 +64,6 @@ public class ManualTranslation {
 	{
 		Paragraphs = new HashMap<String, Paragraph>();
 		NamedElements = new HashMap<String, NamedElement>();
-		NamedElementsFullName = new HashMap<NamedElement, String>();
 		ReqRef2RelatedParagraph = new java.util.ArrayList<Assoc<ReqRef>>();
 		TypeSpec2RelatedParagraph = new java.util.ArrayList<Assoc<TypeSpec>>();
 		Shortcut2RelatedModelElement = new java.util.ArrayList<Assoc<Shortcut>>();
@@ -126,7 +124,6 @@ public class ManualTranslation {
 			{
 				String name = prefix + namedElement.getName();
 				NamedElements.put(name, namedElement);
-				NamedElementsFullName.put(namedElement, name);
 				prefix = name + ".";
 			}
 		}
@@ -136,7 +133,40 @@ public class ManualTranslation {
 			fillNamedElementDictionary(current, prefix);
 		}
 	}
+	
+	/**
+	 * Provides the full name of a named element
+	 * @param eObject
+	 * @return
+	 */
+	private String getElementFullName ( EObject eObject )
+	{
+		String retVal = "";
+		if ( eObject != null )
+		{
+			retVal = getElementFullName(eObject.eContainer());
+			
+			if (ModelPackage.eINSTANCE.getNamedElement().isSuperTypeOf(eObject.eClass()))
+			{
+				NamedElement namedElement = (NamedElement) eObject;
+				
+				if ( namedElement.getName()!= null && !namedElement.getName().equals(""))
+				{
+					if ( !retVal.equals(""))
+					{
+						retVal = retVal + "." + namedElement.getName();
+					}
+					else 
+					{
+						retVal = namedElement.getName();
+					}
+				}
+			}
+		}
 		
+		return retVal;
+	}
+	
 	private org.openetcs.model.ertmsformalspecs.BaseLine getBaseline ( ECPProject project, String name )
 	{
 		org.openetcs.model.ertmsformalspecs.Baselines baselines = null;
@@ -590,7 +620,7 @@ public class ManualTranslation {
 			org.openetcs.model.ertmsformalspecs.shortcut.Shortcut source,
 			org.openetcs.es3f.generated.Shortcut retVal) 
 	{
-		retVal.setShortcutName(NamedElementsFullName.get(source.getRef()));
+		retVal.setShortcutName(getElementFullName(source.getRef()));
 	}
 	
 	public void importReqRef(
@@ -619,12 +649,12 @@ public class ManualTranslation {
 	{
 		RuleDisabling2RelatedModelElement.add(new Assoc<RuleDisabling>(retVal, ruleDisabling.getRule()));
 	}
-	
+		
 	public void exportRuleDisabling(
 			org.openetcs.model.ertmsformalspecs.customization.RuleDisabling source,
 			org.openetcs.es3f.generated.RuleDisabling retVal) 
 	{
-		retVal.setRule(NamedElementsFullName.get(source.getRule()));
+		retVal.setRule(getElementFullName(source.getRule()));
 	}
 
 	public void importParagraph(
