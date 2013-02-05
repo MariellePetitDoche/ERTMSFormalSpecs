@@ -34,7 +34,7 @@ public class ResolutionFormulaImpl extends EObjectImpl implements ResolutionForm
 	 * @generated
 	 * @ordered
 	 */
-	protected static final ResolutionFormulaUnit UNIT_EDEFAULT = ResolutionFormulaUnit.QSCALE;
+	protected static final ResolutionFormulaUnit UNIT_EDEFAULT = ResolutionFormulaUnit.NONE;
 
 	/**
 	 * The cached value of the '{@link #getUnit() <em>Unit</em>}' attribute.
@@ -54,7 +54,7 @@ public class ResolutionFormulaImpl extends EObjectImpl implements ResolutionForm
 	 * @generated
 	 * @ordered
 	 */
-	protected static final ResolutionFormulaValue VALUE_EDEFAULT = ResolutionFormulaValue.X0_02;
+	protected static final ResolutionFormulaValue VALUE_EDEFAULT = ResolutionFormulaValue.NONE;
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.

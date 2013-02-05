@@ -320,10 +320,10 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl1063;
-Folder fl1065;
-boolean fl1076;
-Translation fl1078;
+boolean fl1070;
+Folder fl1072;
+boolean fl1083;
+Translation fl1085;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
@@ -331,8 +331,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<Folders")){
 ctxt.skipWhiteSpace();
-fl1063 = true ; 
-while (fl1063) { // BeginLoop 
+fl1070 = true ; 
+while (fl1070) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -343,7 +343,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1063 = false ; 
+fl1070 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -353,10 +353,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl1065 = null;
+fl1072 = null;
 while(ctxt.lookAheadOpeningTag ("<Folder")) {
-fl1065 = acceptor.lAccept_Folder(ctxt, "</Folder>");
-appendFolders(fl1065);
+fl1072 = acceptor.lAccept_Folder(ctxt, "</Folder>");
+appendFolders(fl1072);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -369,8 +369,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<Translations")){
 ctxt.skipWhiteSpace();
-fl1076 = true ; 
-while (fl1076) { // BeginLoop 
+fl1083 = true ; 
+while (fl1083) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -381,7 +381,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1076 = false ; 
+fl1083 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -391,10 +391,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl1078 = null;
+fl1085 = null;
 while(ctxt.lookAheadOpeningTag ("<Translation")) {
-fl1078 = acceptor.lAccept_Translation(ctxt, "</Translation>");
-appendTranslations(fl1078);
+fl1085 = acceptor.lAccept_Translation(ctxt, "</Translation>");
+appendTranslations(fl1085);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -418,28 +418,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1089;
-boolean fl1090;
+boolean fl1096;
+boolean fl1097;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1089 = false ; 
-fl1090 = true ; 
-while (fl1090) { // BeginLoop 
+fl1096 = false ; 
+fl1097 = true ; 
+while (fl1097) { // BeginLoop 
 if (ctxt.lookAheadString("Name=")){
-indicator = 1089;
+indicator = 1096;
 } else {
-indicator = 1091;
+indicator = 1098;
 } // If
 switch (indicator) {
-case 1089: {
+case 1096: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl1089){
+if (fl1096){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl1089 = true ; 
+fl1096 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -447,7 +447,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1091: {
+case 1098: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -458,7 +458,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1090 = false ; 
+fl1097 = false ; 
 } // If
 break;
 } // End of dispatch label

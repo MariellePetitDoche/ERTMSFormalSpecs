@@ -68,28 +68,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1157;
-boolean fl1158;
+boolean fl1164;
+boolean fl1165;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1157 = false ; 
-fl1158 = true ; 
-while (fl1158) { // BeginLoop 
+fl1164 = false ; 
+fl1165 = true ; 
+while (fl1165) { // BeginLoop 
 if (ctxt.lookAheadString("Name=")){
-indicator = 1157;
+indicator = 1164;
 } else {
-indicator = 1159;
+indicator = 1166;
 } // If
 switch (indicator) {
-case 1157: {
+case 1164: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl1157){
+if (fl1164){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl1157 = true ; 
+fl1164 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -97,7 +97,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1159: {
+case 1166: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -108,7 +108,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1158 = false ; 
+fl1165 = false ; 
 } // If
 break;
 } // End of dispatch label

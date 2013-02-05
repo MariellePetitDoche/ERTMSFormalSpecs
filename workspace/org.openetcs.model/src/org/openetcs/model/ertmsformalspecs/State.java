@@ -24,7 +24,7 @@ package org.openetcs.model.ertmsformalspecs;
  * @model
  * @generated
  */
-public interface State extends NamedElement {
+public interface State extends ReqRelated {
 	/**
 	 * Returns the value of the '<em><b>Parent State Machine</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.openetcs.model.ertmsformalspecs.StateMachine#getStates <em>States</em>}'.

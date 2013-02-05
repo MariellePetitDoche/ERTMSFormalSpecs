@@ -1154,10 +1154,24 @@ public class Exporter
 		{
 			retVal = acceptor.getFactory().createState();
 			retVal.setName(source.getName());
+			retVal.setImplemented(source.isImplemented());
+			retVal.setVerified(source.isVerified());
+			retVal.setNeedsRequirement(source.isNeedsRequirement());
 			retVal.setX(source.getX());
 			retVal.setY(source.getY());
 			retVal.setWidth(source.getWidth());
 			retVal.setHeight(source.getHeight());
+			if ( source.getRequirements() != null )
+			{
+				for ( EObject eObject: source.getRequirements())
+				{
+					if (ModelPackage.eINSTANCE.getReqRef().equals(eObject.eClass()))
+					{
+						retVal.appendRequirements(exportReqRef(translation, (ReqRef)eObject));
+					}	
+				}
+			}
+			retVal.setComment(source.getComment());
 			if ( source.getStateMachine() != null )
 			{
 				retVal.setStateMachine(exportStateMachine(translation, source.getStateMachine()));	

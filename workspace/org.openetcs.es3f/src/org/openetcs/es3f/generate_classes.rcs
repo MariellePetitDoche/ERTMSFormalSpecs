@@ -99,13 +99,14 @@ BEGIN
     END;
     defaultValue := FIRST IN enum.GetElementChildNodes("ENUMVALUE") :- BoolValue ( X!USEASNULL ); 
     IF defaultValue = VOID THEN
-      defaultValue := enum.GetElementChildNodes("ENUMVALUE")[1];
+      defaultValue := "null";
+    ELSE
+      defaultValue := package &"."& name &"."& ValidName ( STR.UpperCase ( TargetName ( defaultValue ) ) );  
     END; 
-    defaultValue := ValidName ( STR.UpperCase ( TargetName ( defaultValue ) ) );
     FILE1.WriteList ({
 `	public static `package`.`name` import`name`( int val )
 `	{
-`		`package`.`name` retVal = `package`.`name`.`defaultValue`;
+`		`package`.`name` retVal = `defaultValue`;
 `		
 `		switch (val)
 `		{
@@ -359,6 +360,11 @@ BEGIN
         FILE1.WriteList ({
 `	public static `package`.`class` import`name`( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.`name` source )
 `	{
+`		if ( source == null )
+`		{
+`			return null;
+`		}
+`		
 `		`package`.`class` retVal = `factory`.eINSTANCE.create`class`();;
 `		
         });

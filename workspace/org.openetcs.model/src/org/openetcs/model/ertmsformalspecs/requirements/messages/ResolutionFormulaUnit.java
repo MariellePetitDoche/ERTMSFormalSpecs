@@ -19,6 +19,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ResolutionFormulaUnit implements Enumerator {
 	/**
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NONE(0, "None", "None"), /**
 	 * The '<em><b>Qscale</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -127,6 +135,21 @@ public enum ResolutionFormulaUnit implements Enumerator {
 	 * @ordered
 	 */
 	KM_H(0, "Km_h", "Km_h");
+
+	/**
+	 * The '<em><b>None</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @model name="None"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NONE_VALUE = 0;
 
 	/**
 	 * The '<em><b>Qscale</b></em>' literal value.
@@ -301,6 +324,7 @@ public enum ResolutionFormulaUnit implements Enumerator {
 	 */
 	private static final ResolutionFormulaUnit[] VALUES_ARRAY =
 		new ResolutionFormulaUnit[] {
+			NONE,
 			QSCALE,
 			PERCENT,
 			BYTE,
@@ -362,7 +386,7 @@ public enum ResolutionFormulaUnit implements Enumerator {
 	 */
 	public static ResolutionFormulaUnit get(int value) {
 		switch (value) {
-			case QSCALE_VALUE: return QSCALE;
+			case NONE_VALUE: return NONE;
 		}
 		return null;
 	}

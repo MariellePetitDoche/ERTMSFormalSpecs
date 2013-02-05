@@ -185,8 +185,8 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl816;
-SubSequence fl818;
+boolean fl823;
+SubSequence fl825;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
@@ -194,8 +194,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<SubSequences")){
 ctxt.skipWhiteSpace();
-fl816 = true ; 
-while (fl816) { // BeginLoop 
+fl823 = true ; 
+while (fl823) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -206,7 +206,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl816 = false ; 
+fl823 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -216,10 +216,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl818 = null;
+fl825 = null;
 while(ctxt.lookAheadOpeningTag ("<SubSequence")) {
-fl818 = acceptor.lAccept_SubSequence(ctxt, "</SubSequence>");
-appendSubSequences(fl818);
+fl825 = acceptor.lAccept_SubSequence(ctxt, "</SubSequence>");
+appendSubSequences(fl825);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -243,28 +243,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl829;
-boolean fl830;
+boolean fl836;
+boolean fl837;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl829 = false ; 
-fl830 = true ; 
-while (fl830) { // BeginLoop 
+fl836 = false ; 
+fl837 = true ; 
+while (fl837) { // BeginLoop 
 if (ctxt.lookAheadString("Name=")){
-indicator = 829;
+indicator = 836;
 } else {
-indicator = 831;
+indicator = 838;
 } // If
 switch (indicator) {
-case 829: {
+case 836: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl829){
+if (fl836){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl829 = true ; 
+fl836 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -272,7 +272,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 831: {
+case 838: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -283,7 +283,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl830 = false ; 
+fl837 = false ; 
 } // If
 break;
 } // End of dispatch label

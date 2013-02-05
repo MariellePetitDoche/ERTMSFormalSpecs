@@ -125,29 +125,29 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl991;
-boolean fl992;
-boolean fl993;
-boolean fl994;
-boolean fl995;
+boolean fl998;
+boolean fl999;
+boolean fl1000;
+boolean fl1001;
+boolean fl1002;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl991 = false ; 
-fl992 = false ; 
-fl993 = false ; 
-fl994 = false ; 
-fl995 = true ; 
-while (fl995) { // BeginLoop 
+fl998 = false ; 
+fl999 = false ; 
+fl1000 = false ; 
+fl1001 = false ; 
+fl1002 = true ; 
+while (fl1002) { // BeginLoop 
 switch (ctxt.current()) {
 case 'V':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ariable=")){
-indicator = 991;
+indicator = 998;
 } else {
-indicator = 996;
+indicator = 1003;
 } // If
 break;
 } // Case
@@ -155,9 +155,9 @@ case 'N':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ame=")){
-indicator = 994;
+indicator = 1001;
 } else {
-indicator = 996;
+indicator = 1003;
 } // If
 break;
 } // Case
@@ -165,9 +165,9 @@ case 'D':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("eadLine=")){
-indicator = 993;
+indicator = 1000;
 } else {
-indicator = 996;
+indicator = 1003;
 } // If
 break;
 } // Case
@@ -175,63 +175,63 @@ case 'B':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("locking=")){
-indicator = 992;
+indicator = 999;
 } else {
-indicator = 996;
+indicator = 1003;
 } // If
 break;
 } // Case
 default:
-indicator = 996;
+indicator = 1003;
 break;
 } // Switch
 switch (indicator) {
-case 991: {
+case 998: {
 // Handling attribute Variable
 // Also handles alien attributes with prefix Variable
-if (fl991){
+if (fl998){
 ctxt.fail ("Duplicate attribute: Variable");
 } // If
-fl991 = true ; 
+fl998 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setVariable((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 992: {
+case 999: {
 // Handling attribute Blocking
 // Also handles alien attributes with prefix Blocking
-if (fl992){
+if (fl999){
 ctxt.fail ("Duplicate attribute: Blocking");
 } // If
-fl992 = true ; 
+fl999 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setBlocking(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 993: {
+case 1000: {
 // Handling attribute DeadLine
 // Also handles alien attributes with prefix DeadLine
-if (fl993){
+if (fl1000){
 ctxt.fail ("Duplicate attribute: DeadLine");
 } // If
-fl993 = true ; 
+fl1000 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setDeadLine(ctxt.fetchInteger());
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 994: {
+case 1001: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl994){
+if (fl1001){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl994 = true ; 
+fl1001 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -239,7 +239,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 996: {
+case 1003: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -250,16 +250,16 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl991){
+if (!fl998){
 ctxt.fail ("Mandatory attribute missing: Variable in Expectation");
 } // If
-if (!fl992){
+if (!fl999){
 this.setBlocking( false);
 } // If
-if (!fl993){
+if (!fl1000){
 this.setDeadLine(0);
 } // If
-fl995 = false ; 
+fl1002 = false ; 
 } // If
 break;
 } // End of dispatch label

@@ -2,12 +2,16 @@
  */
 package org.openetcs.model.ertmsformalspecs.requirements.messages.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.openetcs.model.ertmsformalspecs.BaseLine;
 import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType;
@@ -198,7 +202,7 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final EErtmsType ERTMS_TYPE_EDEFAULT = EErtmsType.DISTANCE;
+	protected static final EErtmsType ERTMS_TYPE_EDEFAULT = EErtmsType.NONE;
 
 	/**
 	 * The cached value of the '{@link #getErtmsType() <em>Ertms Type</em>}' attribute.
@@ -642,6 +646,7 @@ public class TypeSpecImpl extends EObjectImpl implements TypeSpec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {

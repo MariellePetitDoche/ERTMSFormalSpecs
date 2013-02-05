@@ -261,15 +261,15 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-MsgVariable fl1357;
+MsgVariable fl1364;
 
 ctxt.skipWhiteSpace();
 // Repeat
 ctxt.skipWhiteSpace();
-fl1357 = null;
+fl1364 = null;
 while(ctxt.lookAheadOpeningTag ("<MsgVariable")) {
-fl1357 = acceptor.lAccept_MsgVariable(ctxt, null);
-appendMsgVariables(fl1357);
+fl1364 = acceptor.lAccept_MsgVariable(ctxt, null);
+appendMsgVariables(fl1364);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -288,29 +288,29 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1368;
-boolean fl1369;
-boolean fl1370;
-boolean fl1371;
-boolean fl1372;
+boolean fl1375;
+boolean fl1376;
+boolean fl1377;
+boolean fl1378;
+boolean fl1379;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1368 = false ; 
-fl1369 = false ; 
-fl1370 = false ; 
-fl1371 = false ; 
-fl1372 = true ; 
-while (fl1372) { // BeginLoop 
+fl1375 = false ; 
+fl1376 = false ; 
+fl1377 = false ; 
+fl1378 = false ; 
+fl1379 = true ; 
+while (fl1379) { // BeginLoop 
 switch (ctxt.current()) {
 case 'n':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ame=")){
-indicator = 1368;
+indicator = 1375;
 } else {
-indicator = 1373;
+indicator = 1380;
 } // If
 break;
 } // Case
@@ -318,9 +318,9 @@ case 'l':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ength=")){
-indicator = 1369;
+indicator = 1376;
 } else {
-indicator = 1373;
+indicator = 1380;
 } // If
 break;
 } // Case
@@ -328,9 +328,9 @@ case 'c':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("omment=")){
-indicator = 1370;
+indicator = 1377;
 } else {
-indicator = 1373;
+indicator = 1380;
 } // If
 break;
 } // Case
@@ -338,63 +338,63 @@ case 'b':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('l','=')){
-indicator = 1371;
+indicator = 1378;
 } else {
-indicator = 1373;
+indicator = 1380;
 } // If
 break;
 } // Case
 default:
-indicator = 1373;
+indicator = 1380;
 break;
 } // Switch
 switch (indicator) {
-case 1368: {
+case 1375: {
 // Handling attribute name
 // Also handles alien attributes with prefix name
-if (fl1368){
+if (fl1375){
 ctxt.fail ("Duplicate attribute: name");
 } // If
-fl1368 = true ; 
+fl1375 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1369: {
+case 1376: {
 // Handling attribute length
 // Also handles alien attributes with prefix length
-if (fl1369){
+if (fl1376){
 ctxt.fail ("Duplicate attribute: length");
 } // If
-fl1369 = true ; 
+fl1376 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setLength((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1370: {
+case 1377: {
 // Handling attribute comment
 // Also handles alien attributes with prefix comment
-if (fl1370){
+if (fl1377){
 ctxt.fail ("Duplicate attribute: comment");
 } // If
-fl1370 = true ; 
+fl1377 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setComment((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1371: {
+case 1378: {
 // Handling attribute bl
 // Also handles alien attributes with prefix bl
-if (fl1371){
+if (fl1378){
 ctxt.fail ("Duplicate attribute: bl");
 } // If
-fl1371 = true ; 
+fl1378 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setBl((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -402,7 +402,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1373: {
+case 1380: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -413,13 +413,13 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl1368){
+if (!fl1375){
 ctxt.fail ("Mandatory attribute missing: name in MsgVariable");
 } // If
-if (!fl1370){
+if (!fl1377){
 ctxt.fail ("Mandatory attribute missing: comment in MsgVariable");
 } // If
-fl1372 = false ; 
+fl1379 = false ; 
 } // If
 break;
 } // End of dispatch label

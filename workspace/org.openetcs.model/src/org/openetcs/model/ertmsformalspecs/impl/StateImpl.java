@@ -20,7 +20,6 @@ import org.openetcs.model.ertmsformalspecs.StateMachine;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.StateImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.StateImpl#getParentStateMachine <em>Parent State Machine</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.StateImpl#getStateMachine <em>State Machine</em>}</li>
  *   <li>{@link org.openetcs.model.ertmsformalspecs.impl.StateImpl#getWidth <em>Width</em>}</li>
@@ -32,27 +31,7 @@ import org.openetcs.model.ertmsformalspecs.StateMachine;
  *
  * @generated
  */
-public class StateImpl extends EObjectImpl implements State {
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class StateImpl extends ReqRelatedImpl implements State {
 	/**
 	 * The cached value of the '{@link #getStateMachine() <em>State Machine</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -160,27 +139,6 @@ public class StateImpl extends EObjectImpl implements State {
 	@Override
 	protected EClass eStaticClass() {
 		return ModelPackage.Literals.STATE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.STATE__NAME, oldName, name));
 	}
 
 	/**
@@ -409,8 +367,6 @@ public class StateImpl extends EObjectImpl implements State {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.STATE__NAME:
-				return getName();
 			case ModelPackage.STATE__PARENT_STATE_MACHINE:
 				return getParentStateMachine();
 			case ModelPackage.STATE__STATE_MACHINE:
@@ -435,9 +391,6 @@ public class StateImpl extends EObjectImpl implements State {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.STATE__NAME:
-				setName((String)newValue);
-				return;
 			case ModelPackage.STATE__PARENT_STATE_MACHINE:
 				setParentStateMachine((StateMachine)newValue);
 				return;
@@ -468,9 +421,6 @@ public class StateImpl extends EObjectImpl implements State {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.STATE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
 			case ModelPackage.STATE__PARENT_STATE_MACHINE:
 				setParentStateMachine((StateMachine)null);
 				return;
@@ -501,8 +451,6 @@ public class StateImpl extends EObjectImpl implements State {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.STATE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case ModelPackage.STATE__PARENT_STATE_MACHINE:
 				return getParentStateMachine() != null;
 			case ModelPackage.STATE__STATE_MACHINE:
@@ -529,9 +477,7 @@ public class StateImpl extends EObjectImpl implements State {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", width: ");
+		result.append(" (width: ");
 		result.append(width);
 		result.append(", height: ");
 		result.append(height);

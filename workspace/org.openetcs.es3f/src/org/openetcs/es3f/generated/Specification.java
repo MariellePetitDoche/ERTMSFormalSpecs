@@ -201,16 +201,16 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-Chapter fl1227;
+Chapter fl1234;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
 // Repeat
 ctxt.skipWhiteSpace();
-fl1227 = null;
+fl1234 = null;
 while(ctxt.lookAheadOpeningTag ("<Chapter")) {
-fl1227 = acceptor.lAccept_Chapter(ctxt, "</Chapter>");
-appendChapters(fl1227);
+fl1234 = acceptor.lAccept_Chapter(ctxt, "</Chapter>");
+appendChapters(fl1234);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -229,25 +229,25 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1238;
-boolean fl1239;
-boolean fl1240;
+boolean fl1245;
+boolean fl1246;
+boolean fl1247;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1238 = false ; 
-fl1239 = false ; 
-fl1240 = true ; 
-while (fl1240) { // BeginLoop 
+fl1245 = false ; 
+fl1246 = false ; 
+fl1247 = true ; 
+while (fl1247) { // BeginLoop 
 switch (ctxt.current()) {
 case 'v':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ersion=")){
-indicator = 1238;
+indicator = 1245;
 } else {
-indicator = 1241;
+indicator = 1248;
 } // If
 break;
 } // Case
@@ -255,37 +255,37 @@ case 'N':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ame=")){
-indicator = 1239;
+indicator = 1246;
 } else {
-indicator = 1241;
+indicator = 1248;
 } // If
 break;
 } // Case
 default:
-indicator = 1241;
+indicator = 1248;
 break;
 } // Switch
 switch (indicator) {
-case 1238: {
+case 1245: {
 // Handling attribute version
 // Also handles alien attributes with prefix version
-if (fl1238){
+if (fl1245){
 ctxt.fail ("Duplicate attribute: version");
 } // If
-fl1238 = true ; 
+fl1245 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setVersion((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1239: {
+case 1246: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl1239){
+if (fl1246){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl1239 = true ; 
+fl1246 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -293,7 +293,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1241: {
+case 1248: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -304,7 +304,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1240 = false ; 
+fl1247 = false ; 
 } // If
 break;
 } // End of dispatch label

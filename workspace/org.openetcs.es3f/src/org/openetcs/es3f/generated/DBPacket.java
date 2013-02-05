@@ -185,8 +185,8 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl1038;
-DBField fl1040;
+boolean fl1045;
+DBField fl1047;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
@@ -194,8 +194,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<Fields")){
 ctxt.skipWhiteSpace();
-fl1038 = true ; 
-while (fl1038) { // BeginLoop 
+fl1045 = true ; 
+while (fl1045) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -206,7 +206,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1038 = false ; 
+fl1045 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -216,10 +216,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl1040 = null;
+fl1047 = null;
 while(ctxt.lookAheadOpeningTag ("<DBField")) {
-fl1040 = acceptor.lAccept_DBField(ctxt, "</DBField>");
-appendFields(fl1040);
+fl1047 = acceptor.lAccept_DBField(ctxt, "</DBField>");
+appendFields(fl1047);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -243,28 +243,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1051;
-boolean fl1052;
+boolean fl1058;
+boolean fl1059;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1051 = false ; 
-fl1052 = true ; 
-while (fl1052) { // BeginLoop 
+fl1058 = false ; 
+fl1059 = true ; 
+while (fl1059) { // BeginLoop 
 if (ctxt.lookAheadString("Name=")){
-indicator = 1051;
+indicator = 1058;
 } else {
-indicator = 1053;
+indicator = 1060;
 } // If
 switch (indicator) {
-case 1051: {
+case 1058: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl1051){
+if (fl1058){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl1051 = true ; 
+fl1058 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -272,7 +272,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1053: {
+case 1060: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -283,7 +283,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1052 = false ; 
+fl1059 = false ; 
 } // If
 break;
 } // End of dispatch label

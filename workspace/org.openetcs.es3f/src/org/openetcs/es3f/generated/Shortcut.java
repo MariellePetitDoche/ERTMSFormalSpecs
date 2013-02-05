@@ -66,7 +66,7 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl1221;
+boolean fl1228;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
@@ -74,8 +74,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<ShortcutName")){
 ctxt.skipWhiteSpace();
-fl1221 = true ; 
-while (fl1221) { // BeginLoop 
+fl1228 = true ; 
+while (fl1228) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -86,7 +86,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1221 = false ; 
+fl1228 = false ; 
 } // If
 } // While
 ctxt.accept('>');
@@ -113,28 +113,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1222;
-boolean fl1223;
+boolean fl1229;
+boolean fl1230;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1222 = false ; 
-fl1223 = true ; 
-while (fl1223) { // BeginLoop 
+fl1229 = false ; 
+fl1230 = true ; 
+while (fl1230) { // BeginLoop 
 if (ctxt.lookAheadString("Name=")){
-indicator = 1222;
+indicator = 1229;
 } else {
-indicator = 1224;
+indicator = 1231;
 } // If
 switch (indicator) {
-case 1222: {
+case 1229: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl1222){
+if (fl1229){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl1222 = true ; 
+fl1229 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -142,7 +142,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1224: {
+case 1231: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -153,7 +153,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1223 = false ; 
+fl1230 = false ; 
 } // If
 break;
 } // End of dispatch label

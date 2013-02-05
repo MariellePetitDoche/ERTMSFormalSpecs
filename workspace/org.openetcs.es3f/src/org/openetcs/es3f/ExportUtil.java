@@ -30,6 +30,7 @@ public class ExportUtil {
 			{
 				Dictionary dictonary=(Dictionary)eObject;
 				ManualTranslation translation = new ManualTranslation();
+				translation.setupNames ( projectToExport, dictonary );
 				org.openetcs.es3f.generated.Dictionary exportedDictionary = Exporter.exportDictionary(translation, dictonary);
 				if ( exportedDictionary != null )
 				{
