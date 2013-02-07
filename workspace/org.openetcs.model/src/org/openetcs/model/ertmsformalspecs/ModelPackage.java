@@ -833,7 +833,52 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__NAME = NAMED_ELEMENT__NAME;
+	int STATE__NAME = REQ_RELATED__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__COMMENT = REQ_RELATED__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Requirements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__REQUIREMENTS = REQ_RELATED__REQUIREMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Implemented</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__IMPLEMENTED = REQ_RELATED__IMPLEMENTED;
+
+	/**
+	 * The feature id for the '<em><b>Verified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__VERIFIED = REQ_RELATED__VERIFIED;
+
+	/**
+	 * The feature id for the '<em><b>Needs Requirement</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__NEEDS_REQUIREMENT = REQ_RELATED__NEEDS_REQUIREMENT;
 
 	/**
 	 * The feature id for the '<em><b>Parent State Machine</b></em>' container reference.
@@ -842,7 +887,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__PARENT_STATE_MACHINE = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int STATE__PARENT_STATE_MACHINE = REQ_RELATED_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>State Machine</b></em>' containment reference.
@@ -851,7 +896,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__STATE_MACHINE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int STATE__STATE_MACHINE = REQ_RELATED_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
@@ -860,7 +905,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__WIDTH = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int STATE__WIDTH = REQ_RELATED_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Height</b></em>' attribute.
@@ -869,7 +914,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__HEIGHT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int STATE__HEIGHT = REQ_RELATED_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -878,7 +923,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__X = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int STATE__X = REQ_RELATED_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -887,7 +932,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__Y = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int STATE__Y = REQ_RELATED_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>State</em>' class.
@@ -896,7 +941,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int STATE_FEATURE_COUNT = REQ_RELATED_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.openetcs.model.ertmsformalspecs.impl.DefaultValueElementImpl <em>Default Value Element</em>}' class.

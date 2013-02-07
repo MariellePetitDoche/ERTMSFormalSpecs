@@ -347,11 +347,11 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl1123;
-SourceText fl1125;
-boolean fl1136;
-SubStep fl1138;
-boolean fl1149;
+boolean fl1130;
+SourceText fl1132;
+boolean fl1143;
+SubStep fl1145;
+boolean fl1156;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
@@ -359,8 +359,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<SourceTexts")){
 ctxt.skipWhiteSpace();
-fl1123 = true ; 
-while (fl1123) { // BeginLoop 
+fl1130 = true ; 
+while (fl1130) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -371,7 +371,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1123 = false ; 
+fl1130 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -381,10 +381,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl1125 = null;
+fl1132 = null;
 while(ctxt.lookAheadOpeningTag ("<SourceText")) {
-fl1125 = acceptor.lAccept_SourceText(ctxt, "</SourceText>");
-appendSourceTexts(fl1125);
+fl1132 = acceptor.lAccept_SourceText(ctxt, "</SourceText>");
+appendSourceTexts(fl1132);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -397,8 +397,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<SubSteps")){
 ctxt.skipWhiteSpace();
-fl1136 = true ; 
-while (fl1136) { // BeginLoop 
+fl1143 = true ; 
+while (fl1143) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -409,7 +409,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1136 = false ; 
+fl1143 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -419,10 +419,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl1138 = null;
+fl1145 = null;
 while(ctxt.lookAheadOpeningTag ("<SubStep")) {
-fl1138 = acceptor.lAccept_SubStep(ctxt, "</SubStep>");
-appendSubSteps(fl1138);
+fl1145 = acceptor.lAccept_SubStep(ctxt, "</SubStep>");
+appendSubSteps(fl1145);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -435,8 +435,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<Comment")){
 ctxt.skipWhiteSpace();
-fl1149 = true ; 
-while (fl1149) { // BeginLoop 
+fl1156 = true ; 
+while (fl1156) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -447,7 +447,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1149 = false ; 
+fl1156 = false ; 
 } // If
 } // While
 ctxt.accept('>');
@@ -474,25 +474,25 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1150;
-boolean fl1151;
-boolean fl1152;
+boolean fl1157;
+boolean fl1158;
+boolean fl1159;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1150 = false ; 
-fl1151 = false ; 
-fl1152 = true ; 
-while (fl1152) { // BeginLoop 
+fl1157 = false ; 
+fl1158 = false ; 
+fl1159 = true ; 
+while (fl1159) { // BeginLoop 
 switch (ctxt.current()) {
 case 'N':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ame=")){
-indicator = 1151;
+indicator = 1158;
 } else {
-indicator = 1153;
+indicator = 1160;
 } // If
 break;
 } // Case
@@ -500,37 +500,37 @@ case 'I':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("mplemented=")){
-indicator = 1150;
+indicator = 1157;
 } else {
-indicator = 1153;
+indicator = 1160;
 } // If
 break;
 } // Case
 default:
-indicator = 1153;
+indicator = 1160;
 break;
 } // Switch
 switch (indicator) {
-case 1150: {
+case 1157: {
 // Handling attribute Implemented
 // Also handles alien attributes with prefix Implemented
-if (fl1150){
+if (fl1157){
 ctxt.fail ("Duplicate attribute: Implemented");
 } // If
-fl1150 = true ; 
+fl1157 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setImplemented(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1151: {
+case 1158: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl1151){
+if (fl1158){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl1151 = true ; 
+fl1158 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -538,7 +538,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1153: {
+case 1160: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -549,10 +549,10 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl1150){
+if (!fl1157){
 this.setImplemented( false);
 } // If
-fl1152 = false ; 
+fl1159 = false ; 
 } // If
 break;
 } // End of dispatch label

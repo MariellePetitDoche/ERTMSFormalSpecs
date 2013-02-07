@@ -95,28 +95,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1457;
-boolean fl1458;
+boolean fl1464;
+boolean fl1465;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1457 = false ; 
-fl1458 = true ; 
-while (fl1458) { // BeginLoop 
+fl1464 = false ; 
+fl1465 = true ; 
+while (fl1465) { // BeginLoop 
 if (ctxt.lookAheadString("encoding=")){
-indicator = 1457;
+indicator = 1464;
 } else {
-indicator = 1459;
+indicator = 1466;
 } // If
 switch (indicator) {
-case 1457: {
+case 1464: {
 // Handling attribute encoding
 // Also handles alien attributes with prefix encoding
-if (fl1457){
+if (fl1464){
 ctxt.fail ("Duplicate attribute: encoding");
 } // If
-fl1457 = true ; 
+fl1464 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setEncoding((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -124,7 +124,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1459: {
+case 1466: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -135,10 +135,10 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl1457){
+if (!fl1464){
 ctxt.fail ("Mandatory attribute missing: encoding in char-value");
 } // If
-fl1458 = false ; 
+fl1465 = false ; 
 } // If
 break;
 } // End of dispatch label

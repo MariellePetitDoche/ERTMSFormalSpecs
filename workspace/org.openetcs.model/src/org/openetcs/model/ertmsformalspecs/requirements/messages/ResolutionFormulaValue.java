@@ -19,6 +19,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ResolutionFormulaValue implements Enumerator {
 	/**
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NONE(0, "None", "None"), /**
 	 * The '<em><b>X0 02</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -117,6 +125,21 @@ public enum ResolutionFormulaValue implements Enumerator {
 	 * @ordered
 	 */
 	BIT_SET(0, "BitSet", "BitSet");
+
+	/**
+	 * The '<em><b>None</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @model name="None"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NONE_VALUE = 0;
 
 	/**
 	 * The '<em><b>X0 02</b></em>' literal value.
@@ -276,6 +299,7 @@ public enum ResolutionFormulaValue implements Enumerator {
 	 */
 	private static final ResolutionFormulaValue[] VALUES_ARRAY =
 		new ResolutionFormulaValue[] {
+			NONE,
 			X0_02,
 			X0_05,
 			X1,
@@ -336,7 +360,7 @@ public enum ResolutionFormulaValue implements Enumerator {
 	 */
 	public static ResolutionFormulaValue get(int value) {
 		switch (value) {
-			case X0_02_VALUE: return X0_02;
+			case NONE_VALUE: return NONE;
 		}
 		return null;
 	}

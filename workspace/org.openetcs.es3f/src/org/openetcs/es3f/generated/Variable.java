@@ -243,8 +243,8 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl703;
-Variable fl705;
+boolean fl710;
+Variable fl712;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
@@ -252,8 +252,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<SubVariables")){
 ctxt.skipWhiteSpace();
-fl703 = true ; 
-while (fl703) { // BeginLoop 
+fl710 = true ; 
+while (fl710) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -264,7 +264,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl703 = false ; 
+fl710 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -274,10 +274,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl705 = null;
+fl712 = null;
 while(ctxt.lookAheadOpeningTag ("<Variable")) {
-fl705 = acceptor.lAccept_Variable(ctxt, "</Variable>");
-appendSubVariables(fl705);
+fl712 = acceptor.lAccept_Variable(ctxt, "</Variable>");
+appendSubVariables(fl712);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -301,27 +301,27 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl716;
-boolean fl717;
-boolean fl718;
-boolean fl719;
-boolean fl720;
-boolean fl721;
-boolean fl722;
 boolean fl723;
+boolean fl724;
+boolean fl725;
+boolean fl726;
+boolean fl727;
+boolean fl728;
+boolean fl729;
+boolean fl730;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl716 = false ; 
-fl717 = false ; 
-fl718 = false ; 
-fl719 = false ; 
-fl720 = false ; 
-fl721 = false ; 
-fl722 = false ; 
-fl723 = true ; 
-while (fl723) { // BeginLoop 
+fl723 = false ; 
+fl724 = false ; 
+fl725 = false ; 
+fl726 = false ; 
+fl727 = false ; 
+fl728 = false ; 
+fl729 = false ; 
+fl730 = true ; 
+while (fl730) { // BeginLoop 
 switch (ctxt.current()) {
 case 'V':
 {
@@ -331,9 +331,9 @@ case 'e':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("rified=")){
-indicator = 720;
+indicator = 727;
 } else {
-indicator = 724;
+indicator = 731;
 } // If
 break;
 } // Case
@@ -341,14 +341,14 @@ case 'a':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("riableMode=")){
-indicator = 718;
+indicator = 725;
 } else {
-indicator = 724;
+indicator = 731;
 } // If
 break;
 } // Case
 default:
-indicator = 724;
+indicator = 731;
 break;
 } // Switch
 break;
@@ -357,9 +357,9 @@ case 'T':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ype=")){
-indicator = 716;
+indicator = 723;
 } else {
-indicator = 724;
+indicator = 731;
 } // If
 break;
 } // Case
@@ -371,9 +371,9 @@ case 'e':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("edsRequirement=")){
-indicator = 721;
+indicator = 728;
 } else {
-indicator = 724;
+indicator = 731;
 } // If
 break;
 } // Case
@@ -381,14 +381,14 @@ case 'a':
 {
 ctxt.advance();
 if (ctxt.lookAhead3('m','e','=')){
-indicator = 722;
+indicator = 729;
 } else {
-indicator = 724;
+indicator = 731;
 } // If
 break;
 } // Case
 default:
-indicator = 724;
+indicator = 731;
 break;
 } // Switch
 break;
@@ -397,9 +397,9 @@ case 'I':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("mplemented=")){
-indicator = 719;
+indicator = 726;
 } else {
-indicator = 724;
+indicator = 731;
 } // If
 break;
 } // Case
@@ -407,102 +407,102 @@ case 'D':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("efaultValue=")){
-indicator = 717;
-} else {
 indicator = 724;
+} else {
+indicator = 731;
 } // If
 break;
 } // Case
 default:
-indicator = 724;
+indicator = 731;
 break;
 } // Switch
 switch (indicator) {
-case 716: {
+case 723: {
 // Handling attribute Type
 // Also handles alien attributes with prefix Type
-if (fl716){
+if (fl723){
 ctxt.fail ("Duplicate attribute: Type");
 } // If
-fl716 = true ; 
+fl723 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setTypeName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 717: {
+case 724: {
 // Handling attribute DefaultValue
 // Also handles alien attributes with prefix DefaultValue
-if (fl717){
+if (fl724){
 ctxt.fail ("Duplicate attribute: DefaultValue");
 } // If
-fl717 = true ; 
+fl724 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setDefaultValue((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 718: {
+case 725: {
 // Handling attribute VariableMode
 // Also handles alien attributes with prefix VariableMode
-if (fl718){
+if (fl725){
 ctxt.fail ("Duplicate attribute: VariableMode");
 } // If
-fl718 = true ; 
+fl725 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setVariableMode(acceptor.lAcceptEnum_VariableModeEnumType(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 719: {
+case 726: {
 // Handling attribute Implemented
 // Also handles alien attributes with prefix Implemented
-if (fl719){
+if (fl726){
 ctxt.fail ("Duplicate attribute: Implemented");
 } // If
-fl719 = true ; 
+fl726 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setImplemented(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 720: {
+case 727: {
 // Handling attribute Verified
 // Also handles alien attributes with prefix Verified
-if (fl720){
+if (fl727){
 ctxt.fail ("Duplicate attribute: Verified");
 } // If
-fl720 = true ; 
+fl727 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setVerified(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 721: {
+case 728: {
 // Handling attribute NeedsRequirement
 // Also handles alien attributes with prefix NeedsRequirement
-if (fl721){
+if (fl728){
 ctxt.fail ("Duplicate attribute: NeedsRequirement");
 } // If
-fl721 = true ; 
+fl728 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setNeedsRequirement(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 722: {
+case 729: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl722){
+if (fl729){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl722 = true ; 
+fl729 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -510,7 +510,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 724: {
+case 731: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -521,19 +521,19 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl718){
+if (!fl725){
 this.setVariableMode(acceptor.aInternal);
 } // If
-if (!fl719){
+if (!fl726){
 this.setImplemented( false);
 } // If
-if (!fl720){
+if (!fl727){
 this.setVerified( false);
 } // If
-if (!fl721){
+if (!fl728){
 this.setNeedsRequirement( true);
 } // If
-fl723 = false ; 
+fl730 = false ; 
 } // If
 break;
 } // End of dispatch label

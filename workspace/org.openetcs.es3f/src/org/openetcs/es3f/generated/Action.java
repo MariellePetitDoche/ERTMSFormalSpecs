@@ -98,11 +98,11 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl815;
+boolean fl822;
 
 ctxt.skipWhiteSpace();
-fl815 = true ; 
-while (fl815) { // BeginLoop 
+fl822 = true ; 
+while (fl822) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -113,7 +113,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl815 = false ; 
+fl822 = false ; 
 } // If
 } // While
 ctxt.skipWhiteSpace();

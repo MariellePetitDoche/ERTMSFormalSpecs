@@ -325,10 +325,10 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl958;
-Action fl960;
-boolean fl971;
-Expectation fl973;
+boolean fl965;
+Action fl967;
+boolean fl978;
+Expectation fl980;
 
 ctxt.skipWhiteSpace();
 super.parseBody(ctxt);
@@ -336,8 +336,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<Actions")){
 ctxt.skipWhiteSpace();
-fl958 = true ; 
-while (fl958) { // BeginLoop 
+fl965 = true ; 
+while (fl965) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -348,7 +348,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl958 = false ; 
+fl965 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -358,10 +358,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl960 = null;
+fl967 = null;
 while(ctxt.lookAheadOpeningTag ("<Action")) {
-fl960 = acceptor.lAccept_Action(ctxt, null);
-appendActions(fl960);
+fl967 = acceptor.lAccept_Action(ctxt, null);
+appendActions(fl967);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -374,8 +374,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<Expectations")){
 ctxt.skipWhiteSpace();
-fl971 = true ; 
-while (fl971) { // BeginLoop 
+fl978 = true ; 
+while (fl978) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -386,7 +386,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl971 = false ; 
+fl978 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -396,10 +396,10 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl973 = null;
+fl980 = null;
 while(ctxt.lookAheadOpeningTag ("<Expectation")) {
-fl973 = acceptor.lAccept_Expectation(ctxt, "</Expectation>");
-appendExpectations(fl973);
+fl980 = acceptor.lAccept_Expectation(ctxt, "</Expectation>");
+appendExpectations(fl980);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -423,25 +423,25 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl984;
-boolean fl985;
-boolean fl986;
+boolean fl991;
+boolean fl992;
+boolean fl993;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl984 = false ; 
-fl985 = false ; 
-fl986 = true ; 
-while (fl986) { // BeginLoop 
+fl991 = false ; 
+fl992 = false ; 
+fl993 = true ; 
+while (fl993) { // BeginLoop 
 switch (ctxt.current()) {
 case 'S':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("kipEngine=")){
-indicator = 984;
+indicator = 991;
 } else {
-indicator = 987;
+indicator = 994;
 } // If
 break;
 } // Case
@@ -449,37 +449,37 @@ case 'N':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ame=")){
-indicator = 985;
+indicator = 992;
 } else {
-indicator = 987;
+indicator = 994;
 } // If
 break;
 } // Case
 default:
-indicator = 987;
+indicator = 994;
 break;
 } // Switch
 switch (indicator) {
-case 984: {
+case 991: {
 // Handling attribute SkipEngine
 // Also handles alien attributes with prefix SkipEngine
-if (fl984){
+if (fl991){
 ctxt.fail ("Duplicate attribute: SkipEngine");
 } // If
-fl984 = true ; 
+fl991 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setSkipEngine(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 985: {
+case 992: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl985){
+if (fl992){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl985 = true ; 
+fl992 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -487,7 +487,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 987: {
+case 994: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -498,10 +498,10 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl984){
+if (!fl991){
 this.setSkipEngine( false);
 } // If
-fl986 = false ; 
+fl993 = false ; 
 } // If
 break;
 } // End of dispatch label

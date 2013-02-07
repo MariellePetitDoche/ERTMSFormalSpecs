@@ -88,7 +88,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentProcedure" eType="#//Procedure"
         eOpposite="#//Procedure/stateMachine"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//ReqRelated">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentStateMachine" eType="#//StateMachine"
         eOpposite="#//StateMachine/states"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateMachine" eType="#//StateMachine"
@@ -203,6 +203,7 @@
         <eStructuralFeatures xsi:type="ecore:EReference" name="version" eType="#//BaseLine"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EEnum" name="EErtmsType">
+        <eLiterals name="None"/>
         <eLiterals name="distance" literal="Distance"/>
         <eLiterals name="Gradient"/>
         <eLiterals name="Length"/>
@@ -230,6 +231,7 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//requirements/messages/ResolutionFormulaValue"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EEnum" name="ResolutionFormulaUnit">
+        <eLiterals name="None"/>
         <eLiterals name="Q_scale"/>
         <eLiterals name="Percent"/>
         <eLiterals name="Byte"/>
@@ -243,6 +245,7 @@
         <eLiterals name="Km_h"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EEnum" name="ResolutionFormulaValue">
+        <eLiterals name="None"/>
         <eLiterals name="X0_02"/>
         <eLiterals name="X0_05"/>
         <eLiterals name="X1"/>

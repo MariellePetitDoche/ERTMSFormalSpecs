@@ -1023,6 +1023,7 @@ public class MessagesPackageImpl extends EPackageImpl implements MessagesPackage
 
 		// Initialize enums and add enum literals
 		initEEnum(eErtmsTypeEEnum, EErtmsType.class, "EErtmsType");
+		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.NONE);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.DISTANCE);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.GRADIENT);
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.LENGTH);
@@ -1035,6 +1036,7 @@ public class MessagesPackageImpl extends EPackageImpl implements MessagesPackage
 		addEEnumLiteral(eErtmsTypeEEnum, EErtmsType.TEXT);
 
 		initEEnum(resolutionFormulaUnitEEnum, ResolutionFormulaUnit.class, "ResolutionFormulaUnit");
+		addEEnumLiteral(resolutionFormulaUnitEEnum, ResolutionFormulaUnit.NONE);
 		addEEnumLiteral(resolutionFormulaUnitEEnum, ResolutionFormulaUnit.QSCALE);
 		addEEnumLiteral(resolutionFormulaUnitEEnum, ResolutionFormulaUnit.PERCENT);
 		addEEnumLiteral(resolutionFormulaUnitEEnum, ResolutionFormulaUnit.BYTE);
@@ -1048,6 +1050,7 @@ public class MessagesPackageImpl extends EPackageImpl implements MessagesPackage
 		addEEnumLiteral(resolutionFormulaUnitEEnum, ResolutionFormulaUnit.KM_H);
 
 		initEEnum(resolutionFormulaValueEEnum, ResolutionFormulaValue.class, "ResolutionFormulaValue");
+		addEEnumLiteral(resolutionFormulaValueEEnum, ResolutionFormulaValue.NONE);
 		addEEnumLiteral(resolutionFormulaValueEEnum, ResolutionFormulaValue.X0_02);
 		addEEnumLiteral(resolutionFormulaValueEEnum, ResolutionFormulaValue.X0_05);
 		addEEnumLiteral(resolutionFormulaValueEEnum, ResolutionFormulaValue.X1);

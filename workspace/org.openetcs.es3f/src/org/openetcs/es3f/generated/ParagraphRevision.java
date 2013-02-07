@@ -115,28 +115,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1461;
-boolean fl1462;
+boolean fl1468;
+boolean fl1469;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1461 = false ; 
-fl1462 = true ; 
-while (fl1462) { // BeginLoop 
+fl1468 = false ; 
+fl1469 = true ; 
+while (fl1469) { // BeginLoop 
 if (ctxt.lookAheadString("version=")){
-indicator = 1461;
+indicator = 1468;
 } else {
-indicator = 1463;
+indicator = 1470;
 } // If
 switch (indicator) {
-case 1461: {
+case 1468: {
 // Handling attribute version
 // Also handles alien attributes with prefix version
-if (fl1461){
+if (fl1468){
 ctxt.fail ("Duplicate attribute: version");
 } // If
-fl1461 = true ; 
+fl1468 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setVersion((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -144,7 +144,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1463: {
+case 1470: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -155,10 +155,10 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl1461){
+if (!fl1468){
 ctxt.fail ("Mandatory attribute missing: version in ParagraphRevision");
 } // If
-fl1462 = false ; 
+fl1469 = false ; 
 } // If
 break;
 } // End of dispatch label

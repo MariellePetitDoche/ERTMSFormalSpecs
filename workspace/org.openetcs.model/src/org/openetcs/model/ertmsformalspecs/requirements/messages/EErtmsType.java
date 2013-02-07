@@ -19,6 +19,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum EErtmsType implements Enumerator {
 	/**
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NONE(0, "None", "None"), /**
 	 * The '<em><b>Distance</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -115,6 +123,21 @@ public enum EErtmsType implements Enumerator {
 	 * @ordered
 	 */
 	TEXT(0, "Text", "Text");
+
+	/**
+	 * The '<em><b>None</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @model name="None"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NONE_VALUE = 0;
 
 	/**
 	 * The '<em><b>Distance</b></em>' literal value.
@@ -274,6 +297,7 @@ public enum EErtmsType implements Enumerator {
 	 */
 	private static final EErtmsType[] VALUES_ARRAY =
 		new EErtmsType[] {
+			NONE,
 			DISTANCE,
 			GRADIENT,
 			LENGTH,
@@ -334,7 +358,7 @@ public enum EErtmsType implements Enumerator {
 	 */
 	public static EErtmsType get(int value) {
 		switch (value) {
-			case DISTANCE_VALUE: return DISTANCE;
+			case NONE_VALUE: return NONE;
 		}
 		return null;
 	}

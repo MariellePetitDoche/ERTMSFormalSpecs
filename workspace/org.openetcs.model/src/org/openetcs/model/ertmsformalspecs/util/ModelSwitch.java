@@ -178,7 +178,10 @@ public class ModelSwitch<T> extends Switch<T> {
 			case ModelPackage.STATE: {
 				State state = (State)theEObject;
 				T result = caseState(state);
+				if (result == null) result = caseReqRelated(state);
+				if (result == null) result = caseReferencesParagraph(state);
 				if (result == null) result = caseNamedElement(state);
+				if (result == null) result = caseCommentedElement(state);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

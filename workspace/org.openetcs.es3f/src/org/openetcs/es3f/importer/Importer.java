@@ -50,7 +50,7 @@ public class Importer
 
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType importEErtmsType( int val )
 	{
-		org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType.DISTANCE;
+		org.openetcs.model.ertmsformalspecs.requirements.messages.EErtmsType retVal = null;
 		
 		switch (val)
 		{
@@ -91,7 +91,7 @@ public class Importer
 
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType importEMeaningType( int val )
 	{
-		org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType.INVALID;
+		org.openetcs.model.ertmsformalspecs.requirements.messages.EMeaningType retVal = null;
 		
 		switch (val)
 		{
@@ -114,7 +114,7 @@ public class Importer
 
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit importResolutionFormulaUnit( int val )
 	{
-		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit.MS2;
+		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaUnit retVal = null;
 		
 		switch (val)
 		{
@@ -158,7 +158,7 @@ public class Importer
 
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue importResolutionFormulaValue( int val )
 	{
-		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue retVal = org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue.X0_05;
+		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormulaValue retVal = null;
 		
 		switch (val)
 		{
@@ -431,6 +431,11 @@ public class Importer
 
 	public static org.openetcs.model.ertmsformalspecs.Dictionary importDictionary( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Dictionary source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.Dictionary retVal = ModelFactory.eINSTANCE.createDictionary();;
 		
 		if ( source.getSpecification() != null )
@@ -475,6 +480,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.customization.RuleDisabling importRuleDisabling( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.RuleDisabling source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.customization.RuleDisabling retVal = CustomizationFactory.eINSTANCE.createRuleDisabling();;
 		
 		retVal.setName(source.getName());
@@ -497,6 +507,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.Namespace importNameSpace( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.NameSpace source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.Namespace retVal = ModelFactory.eINSTANCE.createNamespace();;
 		
 		retVal.setName(source.getName());
@@ -568,6 +583,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.ReqRef importReqRef( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.ReqRef source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.ReqRef retVal = ModelFactory.eINSTANCE.createReqRef();;
 		
 		retVal.setComment(source.getComment());
@@ -579,6 +599,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.Enumeration importEnum( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Enum source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.Enumeration retVal = TypesFactory.eINSTANCE.createEnumeration();;
 		
 		retVal.setName(source.getName());
@@ -613,6 +638,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.EnumValue importEnumValue( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.EnumValue source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.EnumValue retVal = TypesFactory.eINSTANCE.createEnumValue();;
 		
 		retVal.setName(source.getName());
@@ -622,6 +652,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.Range importRange( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Range source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.Range retVal = TypesFactory.eINSTANCE.createRange();;
 		
 		retVal.setName(source.getName());
@@ -652,6 +687,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.Structure importStructure( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Structure source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.Structure retVal = TypesFactory.eINSTANCE.createStructure();;
 		
 		retVal.setName(source.getName());
@@ -693,6 +733,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.StructureElement importStructureElement( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.StructureElement source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.StructureElement retVal = TypesFactory.eINSTANCE.createStructureElement();;
 		
 		retVal.setName(source.getName());
@@ -715,6 +760,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.Procedure importStructureProcedure( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.StructureProcedure source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.Procedure retVal = ModelFactory.eINSTANCE.createProcedure();;
 		
 		retVal.setName(source.getName());
@@ -752,6 +802,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.Collection importCollection( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Collection source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.Collection retVal = TypesFactory.eINSTANCE.createCollection();;
 		
 		retVal.setName(source.getName());
@@ -774,6 +829,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.Function importFunction( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Function source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.Function retVal = TypesFactory.eINSTANCE.createFunction();;
 		
 		retVal.setName(source.getName());
@@ -809,6 +869,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.Parameter importParameter( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Parameter source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.Parameter retVal = ModelFactory.eINSTANCE.createParameter();;
 		
 		retVal.setName(source.getName());
@@ -818,6 +883,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.types.Case importCase( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Case source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.types.Case retVal = TypesFactory.eINSTANCE.createCase();;
 		
 		retVal.setName(source.getName());
@@ -834,6 +904,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.Procedure importProcedure( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Procedure source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.Procedure retVal = ModelFactory.eINSTANCE.createProcedure();;
 		
 		retVal.setName(source.getName());
@@ -871,6 +946,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.StateMachine importStateMachine( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.StateMachine source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.StateMachine retVal = ModelFactory.eINSTANCE.createStateMachine();;
 		
 		retVal.setName(source.getName());
@@ -906,13 +986,29 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.State importState( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.State source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.State retVal = ModelFactory.eINSTANCE.createState();;
 		
 		retVal.setName(source.getName());
+		retVal.setImplemented(source.getImplemented());
+		retVal.setVerified(source.getVerified());
+		retVal.setNeedsRequirement(source.getNeedsRequirement());
 		retVal.setX(source.getX());
 		retVal.setY(source.getY());
 		retVal.setWidth(source.getWidth());
 		retVal.setHeight(source.getHeight());
+		if ( source.allRequirements() != null )
+		{
+			for ( Object obj: source.allRequirements())
+			{
+				retVal.getRequirements().add(importReqRef( project, translation, (org.openetcs.es3f.generated.ReqRef) obj ));	
+			}
+		}
+		retVal.setComment(source.getComment());
 		if ( source.getStateMachine() != null )
 		{
 			retVal.setStateMachine(importStateMachine(project, translation,  (org.openetcs.es3f.generated.StateMachine) source.getStateMachine()));	
@@ -922,6 +1018,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.Variable importVariable( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Variable source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.Variable retVal = ModelFactory.eINSTANCE.createVariable();;
 		
 		retVal.setName(source.getName());
@@ -951,6 +1052,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.behaviour.Rule importRule( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Rule source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.behaviour.Rule retVal = BehaviourFactory.eINSTANCE.createRule();;
 		
 		retVal.setName(source.getName());
@@ -978,6 +1084,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition importRuleCondition( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.RuleCondition source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.behaviour.RuleCondition retVal = BehaviourFactory.eINSTANCE.createRuleCondition();;
 		
 		retVal.setName(source.getName());
@@ -1018,6 +1129,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.behaviour.PreCondition importPreCondition( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.PreCondition source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.behaviour.PreCondition retVal = BehaviourFactory.eINSTANCE.createPreCondition();;
 		
 		retVal.setCondition(source.getCondition());
@@ -1026,6 +1142,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.behaviour.Action importAction( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Action source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.behaviour.Action retVal = BehaviourFactory.eINSTANCE.createAction();;
 		
 		retVal.setExpression(source.getExpression());
@@ -1034,6 +1155,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.Frame importFrame( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Frame source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.Frame retVal = TestFactory.eINSTANCE.createFrame();;
 		
 		retVal.setName(source.getName());
@@ -1049,6 +1175,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.SubSequence importSubSequence( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.SubSequence source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.SubSequence retVal = TestFactory.eINSTANCE.createSubSequence();;
 		
 		retVal.setName(source.getName());
@@ -1073,6 +1204,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.SingleTestCase importTestCase( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.TestCase source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.SingleTestCase retVal = TestFactory.eINSTANCE.createSingleTestCase();;
 		
 		retVal.setName(source.getName());
@@ -1101,6 +1237,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.Step importStep( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Step source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.Step retVal = TestFactory.eINSTANCE.createStep();;
 		
 		retVal.setName(source.getName());
@@ -1135,6 +1276,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.SubStep importSubStep( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.SubStep source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.SubStep retVal = TestFactory.eINSTANCE.createSubStep();;
 		
 		retVal.setName(source.getName());
@@ -1158,6 +1304,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.Expectation importExpectation( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Expectation source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.Expectation retVal = TestFactory.eINSTANCE.createExpectation();;
 		
 		retVal.setName(source.getName());
@@ -1172,6 +1323,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.TestMessage importDBMessage( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.DBMessage source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.TestMessage retVal = TestFactory.eINSTANCE.createTestMessage();;
 		
 		retVal.setName(source.getName());
@@ -1195,6 +1351,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.TestPacket importDBPacket( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.DBPacket source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.TestPacket retVal = TestFactory.eINSTANCE.createTestPacket();;
 		
 		retVal.setName(source.getName());
@@ -1210,6 +1371,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.test.TestField importDBField( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.DBField source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.test.TestField retVal = TestFactory.eINSTANCE.createTestField();;
 		
 		retVal.setName(source.getName());
@@ -1220,6 +1386,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.translation.TranslationFolder importTranslationDictionary( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.TranslationDictionary source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.translation.TranslationFolder retVal = TranslationFactory.eINSTANCE.createTranslationFolder();;
 		
 		retVal.setName(source.getName());
@@ -1242,6 +1413,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.translation.TranslationFolder importFolder( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Folder source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.translation.TranslationFolder retVal = TranslationFactory.eINSTANCE.createTranslationFolder();;
 		
 		retVal.setName(source.getName());
@@ -1264,6 +1440,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.translation.Translation importTranslation( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Translation source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.translation.Translation retVal = TranslationFactory.eINSTANCE.createTranslation();;
 		
 		retVal.setName(source.getName());
@@ -1288,6 +1469,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.translation.SourceText importSourceText( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.SourceText source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.translation.SourceText retVal = TranslationFactory.eINSTANCE.createSourceText();;
 		
 		retVal.setName(source.getName());
@@ -1296,6 +1482,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder importShortcutDictionary( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.ShortcutDictionary source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder retVal = ShortcutFactory.eINSTANCE.createShortcutFolder();;
 		
 		retVal.setName(source.getName());
@@ -1318,6 +1509,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder importShortcutFolder( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.ShortcutFolder source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.shortcut.ShortcutFolder retVal = ShortcutFactory.eINSTANCE.createShortcutFolder();;
 		
 		retVal.setName(source.getName());
@@ -1340,6 +1536,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.shortcut.Shortcut importShortcut( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Shortcut source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.shortcut.Shortcut retVal = ShortcutFactory.eINSTANCE.createShortcut();;
 		
 		retVal.setName(source.getName());
@@ -1351,6 +1552,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.Specification importSpecification( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Specification source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.Specification retVal = RequirementsFactory.eINSTANCE.createSpecification();;
 		
 		retVal.setName(source.getName());
@@ -1369,6 +1575,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.Paragraph importChapter( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Chapter source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.Paragraph retVal = RequirementsFactory.eINSTANCE.createParagraph();;
 		
 		retVal.setName(source.getName());
@@ -1392,6 +1603,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.Paragraph importParagraph( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Paragraph source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.Paragraph retVal = RequirementsFactory.eINSTANCE.createParagraph();;
 		
 		retVal.setName(source.getName());
@@ -1443,6 +1659,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.Message importMessage( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.Message source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.Message retVal = MessagesFactory.eINSTANCE.createMessage();;
 		
 		retVal.setDescription(source.getDescription());
@@ -1462,6 +1683,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.MessageVariable importMsgVariable( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.MsgVariable source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.MessageVariable retVal = MessagesFactory.eINSTANCE.createMessageVariable();;
 		
 		retVal.setName(source.getName());
@@ -1482,6 +1708,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec importTypeSpec( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.TypeSpec source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec retVal = MessagesFactory.eINSTANCE.createTypeSpec();;
 		
 		retVal.setLength(source.getLength());
@@ -1499,6 +1730,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue importspecial_or_reserved_value( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.special_or_reserved_value source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue retVal = MessagesFactory.eINSTANCE.createSpecialOrReservedValue();;
 		
 		if ( source.getMask() != null )
@@ -1522,6 +1758,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.Mask importmask( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.mask source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.Mask retVal = MessagesFactory.eINSTANCE.createMask();;
 		
 		retVal.setValue(source.getValue());
@@ -1530,6 +1771,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.Match importmatch( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.match source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.Match retVal = MessagesFactory.eINSTANCE.createMatch();;
 		
 		retVal.setValue(source.getValue());
@@ -1538,6 +1784,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning importmeaning( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.meaning source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning retVal = MessagesFactory.eINSTANCE.createMeaning();;
 		
 		retVal.setType(importEMeaningType(source.getType()));
@@ -1550,6 +1801,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange importmatch_range( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.match_range source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange retVal = MessagesFactory.eINSTANCE.createMatchRange();;
 		
 		retVal.setMinimum(source.getMinimum());
@@ -1561,6 +1817,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormula importresolution_formula( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.resolution_formula source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.ResolutionFormula retVal = MessagesFactory.eINSTANCE.createResolutionFormula();;
 		
 		retVal.setUnit(importResolutionFormulaUnit(source.getUnits()));
@@ -1570,6 +1831,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.SingleValue importvalue( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.value source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.SingleValue retVal = MessagesFactory.eINSTANCE.createSingleValue();;
 		
 		retVal.setUnits(source.getUnits());
@@ -1579,6 +1845,11 @@ public class Importer
 	}
 	public static org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue importchar_value( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.char_value source )
 	{
+		if ( source == null )
+		{
+			return null;
+		}
+		
 		org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue retVal = MessagesFactory.eINSTANCE.createCharValue();;
 		
 		retVal.setEncoding(source.getEncoding());

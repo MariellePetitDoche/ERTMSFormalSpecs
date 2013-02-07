@@ -390,7 +390,7 @@ public  void visit(State obj)
 
 public  void visit(State obj, boolean visitSubNodes)
 {
-visit ((Namable) obj, false);
+visit ((ReqRelated) obj, false);
 if (visitSubNodes){
 xmlBBaseInter Subs[] = acceptor.subElements((xmlBBaseInter)obj);
 if (Subs != null){

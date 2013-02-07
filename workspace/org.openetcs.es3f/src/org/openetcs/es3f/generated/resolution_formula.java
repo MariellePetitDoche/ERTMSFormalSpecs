@@ -135,28 +135,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1449;
-boolean fl1450;
+boolean fl1456;
+boolean fl1457;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1449 = false ; 
-fl1450 = true ; 
-while (fl1450) { // BeginLoop 
+fl1456 = false ; 
+fl1457 = true ; 
+while (fl1457) { // BeginLoop 
 if (ctxt.lookAheadString("units=")){
-indicator = 1449;
+indicator = 1456;
 } else {
-indicator = 1451;
+indicator = 1458;
 } // If
 switch (indicator) {
-case 1449: {
+case 1456: {
 // Handling attribute units
 // Also handles alien attributes with prefix units
-if (fl1449){
+if (fl1456){
 ctxt.fail ("Duplicate attribute: units");
 } // If
-fl1449 = true ; 
+fl1456 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setUnits(acceptor.lAcceptEnum_resolution_formula_units(ctxt));
 ctxt.accept(quoteChar);
@@ -164,7 +164,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1451: {
+case 1458: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -175,7 +175,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1450 = false ; 
+fl1457 = false ; 
 } // If
 break;
 } // End of dispatch label

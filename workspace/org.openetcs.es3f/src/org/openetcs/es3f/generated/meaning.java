@@ -140,25 +140,25 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1439;
-boolean fl1440;
-boolean fl1441;
+boolean fl1446;
+boolean fl1447;
+boolean fl1448;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1439 = false ; 
-fl1440 = false ; 
-fl1441 = true ; 
-while (fl1441) { // BeginLoop 
+fl1446 = false ; 
+fl1447 = false ; 
+fl1448 = true ; 
+while (fl1448) { // BeginLoop 
 switch (ctxt.current()) {
 case 't':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("ype=")){
-indicator = 1439;
+indicator = 1446;
 } else {
-indicator = 1442;
+indicator = 1449;
 } // If
 break;
 } // Case
@@ -166,37 +166,37 @@ case 'b':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('l','=')){
-indicator = 1440;
+indicator = 1447;
 } else {
-indicator = 1442;
+indicator = 1449;
 } // If
 break;
 } // Case
 default:
-indicator = 1442;
+indicator = 1449;
 break;
 } // Switch
 switch (indicator) {
-case 1439: {
+case 1446: {
 // Handling attribute type
 // Also handles alien attributes with prefix type
-if (fl1439){
+if (fl1446){
 ctxt.fail ("Duplicate attribute: type");
 } // If
-fl1439 = true ; 
+fl1446 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setType(acceptor.lAcceptEnum_meaning_type(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1440: {
+case 1447: {
 // Handling attribute bl
 // Also handles alien attributes with prefix bl
-if (fl1440){
+if (fl1447){
 ctxt.fail ("Duplicate attribute: bl");
 } // If
-fl1440 = true ; 
+fl1447 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setBl((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -204,7 +204,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1442: {
+case 1449: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -215,10 +215,10 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl1439){
+if (!fl1446){
 ctxt.fail ("Mandatory attribute missing: type in meaning");
 } // If
-fl1441 = false ; 
+fl1448 = false ; 
 } // If
 break;
 } // End of dispatch label

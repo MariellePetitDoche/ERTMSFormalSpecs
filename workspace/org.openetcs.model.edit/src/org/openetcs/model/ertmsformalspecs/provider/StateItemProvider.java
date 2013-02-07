@@ -31,7 +31,7 @@ import org.openetcs.model.ertmsformalspecs.State;
  * @generated
  */
 public class StateItemProvider
-	extends ItemProviderAdapter
+	extends ReqRelatedItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -59,32 +59,9 @@ public class StateItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 			addStateMachinePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 ModelPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -176,7 +153,6 @@ public class StateItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(State.class)) {
-			case ModelPackage.STATE__NAME:
 			case ModelPackage.STATE__WIDTH:
 			case ModelPackage.STATE__HEIGHT:
 			case ModelPackage.STATE__X:
@@ -205,17 +181,6 @@ public class StateItemProvider
 			(createChildParameter
 				(ModelPackage.Literals.STATE__STATE_MACHINE,
 				 ModelFactory.eINSTANCE.createStateMachine()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return ModelEditPlugin.INSTANCE;
 	}
 
 }

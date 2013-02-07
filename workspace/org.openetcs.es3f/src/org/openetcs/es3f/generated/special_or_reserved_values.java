@@ -191,18 +191,18 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-special_or_reserved_value fl1417;
+special_or_reserved_value fl1424;
 
 ctxt.skipWhiteSpace();
 // Repeat
 ctxt.skipWhiteSpace();
-fl1417 = null;
+fl1424 = null;
 while(ctxt.lookAheadOpeningTag ("<special-or-reserved-value")) {
-fl1417 = acceptor.lAccept_special_or_reserved_value(ctxt, null);
-appendSpecial_or_reserved_values(fl1417);
+fl1424 = acceptor.lAccept_special_or_reserved_value(ctxt, null);
+appendSpecial_or_reserved_values(fl1424);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
-if (fl1417 == null){
+if (fl1424 == null){
 ctxt.fail ("At least one element expected in repetition");
 } // If
 // EndRepeat
@@ -221,11 +221,11 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1428;
+boolean fl1435;
 
 ctxt.skipWhiteSpace();
-fl1428 = true ; 
-while (fl1428) { // BeginLoop 
+fl1435 = true ; 
+while (fl1435) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -236,7 +236,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1428 = false ; 
+fl1435 = false ; 
 } // If
 } // While
 ctxt.skipWhiteSpace();

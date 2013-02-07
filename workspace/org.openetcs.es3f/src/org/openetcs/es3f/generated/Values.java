@@ -104,7 +104,7 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-int fl1410;
+int fl1417;
 
 ctxt.skipWhiteSpace();
 // Element Ref : resolution-formula
@@ -120,7 +120,7 @@ ctxt.skipWhiteSpace();
 // Disjunct
 ctxt.skipWhiteSpace();
 // Nullable formula
-fl1410 = ctxt.getPtr();
+fl1417 = ctxt.getPtr();
 switch (ctxt.current()) {
 case '<':
 {
@@ -130,26 +130,26 @@ switch (ctxt.current()) {
 case 's':
 {
 ctxt.advance();
-indicator = 1408;
+indicator = 1415;
 break;
 } // Case
 default:
-indicator = 1409;
+indicator = 1416;
 break;
 } // Switch
 } else {
 ctxt.moveBack(1);
-indicator = 1411;
+indicator = 1418;
 } // If
 break;
 } // Case
 default:
-indicator = 1411;
+indicator = 1418;
 break;
 } // Switch
 switch (indicator) {
 // Dispatch Lablel
-case 1408: {
+case 1415: {
 ctxt.moveBack(27);
 // Element Ref : special-or-reserved-values
 ctxt.skipWhiteSpace();
@@ -164,7 +164,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Dispatch Lablel
-case 1409: {
+case 1416: {
 ctxt.moveBack(26);
 // Element Ref : special-or-reserved-value
 ctxt.skipWhiteSpace();
@@ -179,8 +179,8 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Optional of PCdata
-case 1411: {
-ctxt.setPtr(fl1410);
+case 1418: {
+ctxt.setPtr(fl1417);
 // Doing nothing, optional disj
 break;
 } // End of dispatch label
@@ -201,11 +201,11 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1415;
+boolean fl1422;
 
 ctxt.skipWhiteSpace();
-fl1415 = true ; 
-while (fl1415) { // BeginLoop 
+fl1422 = true ; 
+while (fl1422) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -216,7 +216,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1415 = false ; 
+fl1422 = false ; 
 } // If
 } // While
 ctxt.skipWhiteSpace();

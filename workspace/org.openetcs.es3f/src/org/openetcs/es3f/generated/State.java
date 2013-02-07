@@ -21,7 +21,7 @@ import java.util.*;
   * as this code is not meant to be maintained at all.
   */
 public class State
-extends org.openetcs.es3f.DataDictionary.Namable
+extends org.openetcs.es3f.DataDictionary.ReqRelated
 {
 public  boolean find(Object search){
 if (search instanceof String ) {
@@ -142,6 +142,9 @@ boolean fl692;
 boolean fl693;
 boolean fl694;
 boolean fl695;
+boolean fl696;
+boolean fl697;
+boolean fl698;
 
 ctxt.skipWhiteSpace();
 {
@@ -151,8 +154,11 @@ fl691 = false ;
 fl692 = false ; 
 fl693 = false ; 
 fl694 = false ; 
-fl695 = true ; 
-while (fl695) { // BeginLoop 
+fl695 = false ; 
+fl696 = false ; 
+fl697 = false ; 
+fl698 = true ; 
+while (fl698) { // BeginLoop 
 switch (ctxt.current()) {
 case 'Y':
 {
@@ -160,7 +166,7 @@ ctxt.advance();
 if (ctxt.lookAhead1('=')){
 indicator = 691;
 } else {
-indicator = 696;
+indicator = 699;
 } // If
 break;
 } // Case
@@ -170,7 +176,7 @@ ctxt.advance();
 if (ctxt.lookAhead1('=')){
 indicator = 690;
 } else {
-indicator = 696;
+indicator = 699;
 } // If
 break;
 } // Case
@@ -180,17 +186,57 @@ ctxt.advance();
 if (ctxt.lookAheadString("idth=")){
 indicator = 692;
 } else {
-indicator = 696;
+indicator = 699;
+} // If
+break;
+} // Case
+case 'V':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("erified=")){
+indicator = 695;
+} else {
+indicator = 699;
 } // If
 break;
 } // Case
 case 'N':
 {
 ctxt.advance();
-if (ctxt.lookAheadString("ame=")){
+switch (ctxt.current()) {
+case 'e':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("edsRequirement=")){
+indicator = 696;
+} else {
+indicator = 699;
+} // If
+break;
+} // Case
+case 'a':
+{
+ctxt.advance();
+if (ctxt.lookAhead3('m','e','=')){
+indicator = 697;
+} else {
+indicator = 699;
+} // If
+break;
+} // Case
+default:
+indicator = 699;
+break;
+} // Switch
+break;
+} // Case
+case 'I':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("mplemented=")){
 indicator = 694;
 } else {
-indicator = 696;
+indicator = 699;
 } // If
 break;
 } // Case
@@ -200,12 +246,12 @@ ctxt.advance();
 if (ctxt.lookAheadString("eight=")){
 indicator = 693;
 } else {
-indicator = 696;
+indicator = 699;
 } // If
 break;
 } // Case
 default:
-indicator = 696;
+indicator = 699;
 break;
 } // Switch
 switch (indicator) {
@@ -262,12 +308,51 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 case 694: {
-// Handling attribute Name
-// Also handles alien attributes with prefix Name
+// Handling attribute Implemented
+// Also handles alien attributes with prefix Implemented
 if (fl694){
-ctxt.fail ("Duplicate attribute: Name");
+ctxt.fail ("Duplicate attribute: Implemented");
 } // If
 fl694 = true ; 
+quoteChar = ctxt.acceptQuote();
+this.setImplemented(acceptor.lAcceptBoolean(ctxt));
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+break;
+} // End of dispatch label
+case 695: {
+// Handling attribute Verified
+// Also handles alien attributes with prefix Verified
+if (fl695){
+ctxt.fail ("Duplicate attribute: Verified");
+} // If
+fl695 = true ; 
+quoteChar = ctxt.acceptQuote();
+this.setVerified(acceptor.lAcceptBoolean(ctxt));
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+break;
+} // End of dispatch label
+case 696: {
+// Handling attribute NeedsRequirement
+// Also handles alien attributes with prefix NeedsRequirement
+if (fl696){
+ctxt.fail ("Duplicate attribute: NeedsRequirement");
+} // If
+fl696 = true ; 
+quoteChar = ctxt.acceptQuote();
+this.setNeedsRequirement(acceptor.lAcceptBoolean(ctxt));
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+break;
+} // End of dispatch label
+case 697: {
+// Handling attribute Name
+// Also handles alien attributes with prefix Name
+if (fl697){
+ctxt.fail ("Duplicate attribute: Name");
+} // If
+fl697 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -275,7 +360,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 696: {
+case 699: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -298,7 +383,16 @@ this.setWidth(0);
 if (!fl693){
 this.setHeight(0);
 } // If
-fl695 = false ; 
+if (!fl694){
+this.setImplemented( false);
+} // If
+if (!fl695){
+this.setVerified( false);
+} // If
+if (!fl696){
+this.setNeedsRequirement( true);
+} // If
+fl698 = false ; 
 } // If
 break;
 } // End of dispatch label
@@ -359,6 +453,24 @@ pw.println();
 if (this.getHeight() != 0){
 pw.print(" Height=\"");
 acceptor.unParsePcData(pw, this.getHeight());
+pw.print('"');
+pw.println();
+} // If
+if (this.getImplemented()){
+pw.print(" Implemented=\"");
+acceptor.unParsePcData(pw, this.getImplemented());
+pw.print('"');
+pw.println();
+} // If
+if (this.getVerified()){
+pw.print(" Verified=\"");
+acceptor.unParsePcData(pw, this.getVerified());
+pw.print('"');
+pw.println();
+} // If
+if (!this.getNeedsRequirement()){
+pw.print(" NeedsRequirement=\"");
+acceptor.unParsePcData(pw, this.getNeedsRequirement());
 pw.print('"');
 pw.println();
 } // If

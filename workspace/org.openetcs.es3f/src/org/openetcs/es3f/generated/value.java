@@ -110,28 +110,28 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1453;
-boolean fl1454;
+boolean fl1460;
+boolean fl1461;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1453 = false ; 
-fl1454 = true ; 
-while (fl1454) { // BeginLoop 
+fl1460 = false ; 
+fl1461 = true ; 
+while (fl1461) { // BeginLoop 
 if (ctxt.lookAheadString("units=")){
-indicator = 1453;
+indicator = 1460;
 } else {
-indicator = 1455;
+indicator = 1462;
 } // If
 switch (indicator) {
-case 1453: {
+case 1460: {
 // Handling attribute units
 // Also handles alien attributes with prefix units
-if (fl1453){
+if (fl1460){
 ctxt.fail ("Duplicate attribute: units");
 } // If
-fl1453 = true ; 
+fl1460 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setUnits((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -139,7 +139,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1455: {
+case 1462: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -150,10 +150,10 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl1453){
+if (!fl1460){
 ctxt.fail ("Mandatory attribute missing: units in value");
 } // If
-fl1454 = false ; 
+fl1461 = false ; 
 } // If
 break;
 } // End of dispatch label

@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using DataDictionary.Generated;
 
 namespace GUI.SpecificationView
 {
@@ -259,10 +258,20 @@ namespace GUI.SpecificationView
 
         public override void AcceptCopy(BaseTreeNode SourceNode)
         {
-            if (SourceNode is ParagraphTreeNode)
+            if (SourceNode is SpecificationView.ParagraphTreeNode)
             {
-                ParagraphTreeNode paragraphTreeNode = (ParagraphTreeNode)SourceNode;
-                ReqReferences.CreateReqRef(paragraphTreeNode.Item.getId());
+                if (HandleRequirements && ReqReferences == null)
+                {
+                    ReqReferences = new ReqRefsTreeNode(Item);
+                    Nodes.Add(ReqReferences);
+                    RefreshNode();
+                }
+
+                if (ReqReferences != null)
+                {
+                    SpecificationView.ParagraphTreeNode paragraphTreeNode = (SpecificationView.ParagraphTreeNode)SourceNode;
+                    ReqReferences.CreateReqRef(paragraphTreeNode.Item.FullId);
+                }
             }
         }
 

@@ -24,7 +24,7 @@ public class CreateProjectFromImportHandler extends AbstractHandler {
 		String pathToImport=fd.open();
 		if(pathToImport==null)
 			return null;
-		ECPProject project=HandlerHelper.createProject(new WizardUICallback(HandlerUtil.getActiveShell(event), new CreateProjectWizard()));
+		ECPProject project=HandlerHelper.createProject(HandlerUtil.getActiveShell(event));
 		
 		ImportUtil.importModel(new File(pathToImport), project);
 		return null;

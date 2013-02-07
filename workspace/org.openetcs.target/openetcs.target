@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="openetcs" sequenceNumber="32">
+<?pde version="3.8"?>
+
+<target name="openetcs" sequenceNumber="32">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.ecp.ui3x.feature.group" version="1.0.0.201301180503"/>
-<unit id="org.eclipse.emf.ecp.validation.feature.feature.group" version="1.0.0.201301180503"/>
-<unit id="org.eclipse.emf.ecp.feature.group" version="1.0.0.201301180503"/>
-<unit id="org.eclipse.emf.ecp.emfstore.feature.group" version="1.0.0.201301180503"/>
+<unit id="org.eclipse.emf.ecp.ui3x.feature.group" version="1.0.0.201302040503"/>
+<unit id="org.eclipse.emf.ecp.validation.feature.feature.group" version="1.0.0.201302040503"/>
+<unit id="org.eclipse.emf.ecp.feature.group" version="1.0.0.201302040503"/>
+<unit id="org.eclipse.emf.ecp.emfstore.feature.group" version="1.0.0.201302040503"/>
 <repository location="https://hudson.eclipse.org/hudson/job/emf-emfclient-maintenance/lastSuccessfulBuild/artifact/git/ECP2/org.eclipse.emf.ecp.site-feature/target/repository/"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -31,11 +33,11 @@
 <repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.emfstore.client.feature.feature.group" version="0.9.3.201212231232"/>
-<unit id="org.eclipse.emf.emfstore.client.ui.feature.feature.group" version="0.9.3.201212231232"/>
-<unit id="org.eclipse.emf.emfstore.common.feature.feature.group" version="0.9.3.201212231232"/>
-<unit id="org.eclipse.emf.emfstore.server.feature.feature.group" version="0.9.3.201212231232"/>
-<unit id="org.eclipse.emf.emfstore.client.transaction.feature.feature.group" version="0.9.3.201212231232"/>
+<unit id="org.eclipse.emf.emfstore.client.feature.feature.group" version="0.9.3.201301221243"/>
+<unit id="org.eclipse.emf.emfstore.client.ui.feature.feature.group" version="0.9.3.201301221243"/>
+<unit id="org.eclipse.emf.emfstore.common.feature.feature.group" version="0.9.3.201301221243"/>
+<unit id="org.eclipse.emf.emfstore.server.feature.feature.group" version="0.9.3.201301221243"/>
+<unit id="org.eclipse.emf.emfstore.client.transaction.feature.feature.group" version="0.9.3.201301221243"/>
 <repository location="http://download.eclipse.org/emfclient/graphiti/emfstore_transaction/"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">

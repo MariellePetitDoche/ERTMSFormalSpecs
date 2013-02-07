@@ -3,6 +3,7 @@ package org.openetcs.es3f.utils;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecp.core.ECPProject;
@@ -10,22 +11,29 @@ import org.openetcs.model.ertmsformalspecs.BaseLine;
 import org.openetcs.model.ertmsformalspecs.Dictionary;
 import org.openetcs.model.ertmsformalspecs.ModelFactory;
 import org.openetcs.model.ertmsformalspecs.ModelPackage;
+import org.openetcs.model.ertmsformalspecs.NamedElement;
 import org.openetcs.model.ertmsformalspecs.ReqRef;
 import org.openetcs.model.ertmsformalspecs.behaviour.BehaviourPackage;
+import org.openetcs.model.ertmsformalspecs.behaviour.Rule;
 import org.openetcs.model.ertmsformalspecs.customization.RuleDisabling;
 import org.openetcs.model.ertmsformalspecs.requirements.Paragraph;
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsFactory;
 import org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage;
 import org.openetcs.model.ertmsformalspecs.requirements.Specification;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.CharValue;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesFactory;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.MessagesPackage;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue;
 import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeSpec;
+import org.openetcs.model.ertmsformalspecs.requirements.messages.TypeValue;
 import org.openetcs.model.ertmsformalspecs.shortcut.Shortcut;
 import org.openetcs.es3f.exporter.Exporter;
 import org.openetcs.es3f.generated.Expectation;
+import org.openetcs.es3f.generated.Values;
 import org.openetcs.es3f.generated.acceptor;
+import org.openetcs.es3f.generated.char_value;
 import org.openetcs.es3f.generated.special_or_reserved_value;
+import org.openetcs.es3f.generated.special_or_reserved_values;
 import org.openetcs.es3f.importer.Importer;
 
 public class ManualTranslation {
@@ -40,20 +48,26 @@ public class ManualTranslation {
 			Id = id;
 		}
 	}
-	
+
+	private Dictionary Dictionary = null;
 	private java.util.HashMap<String, Paragraph> Paragraphs = null;
+	private java.util.HashMap<String, NamedElement> NamedElements = null;
 	private java.util.List<Assoc<ReqRef>> ReqRef2RelatedParagraph = null; 
 	private java.util.List<Assoc<TypeSpec>> TypeSpec2RelatedParagraph = null;
+	private java.util.List<Assoc<Shortcut>> Shortcut2RelatedModelElement = null;
+	private java.util.List<Assoc<RuleDisabling>> RuleDisabling2RelatedModelElement = null;
 	
-
 	/**
 	 * Constructor
 	 */
 	public ManualTranslation()
 	{
 		Paragraphs = new HashMap<String, Paragraph>();
+		NamedElements = new HashMap<String, NamedElement>();
 		ReqRef2RelatedParagraph = new java.util.ArrayList<Assoc<ReqRef>>();
 		TypeSpec2RelatedParagraph = new java.util.ArrayList<Assoc<TypeSpec>>();
+		Shortcut2RelatedModelElement = new java.util.ArrayList<Assoc<Shortcut>>();
+		RuleDisabling2RelatedModelElement = new java.util.ArrayList<Assoc<RuleDisabling>>();
 	}
 
 	/**
@@ -61,6 +75,8 @@ public class ManualTranslation {
 	 * @param project
 	 */
 	public void crossReference(ECPProject project) {
+		setupNames(project, Dictionary);
+		
 		for ( Assoc<ReqRef> assoc : ReqRef2RelatedParagraph)
 		{
 			assoc.Element.setParagraph(Paragraphs.get(assoc.Id));			
@@ -70,25 +86,79 @@ public class ManualTranslation {
 		{
 			assoc.Element.setReferenceParagraph(Paragraphs.get(assoc.Id));			
 		}
+
+		for ( Assoc<Shortcut> assoc : Shortcut2RelatedModelElement)
+		{
+			assoc.Element.setRef(NamedElements.get(assoc.Id));
+		}
+		
+		for ( Assoc<RuleDisabling> assoc : RuleDisabling2RelatedModelElement)
+		{
+			NamedElement namedElement = NamedElements.get(assoc.Id);
+			if ( BehaviourPackage.eINSTANCE.getRule().equals(namedElement.eClass()))
+			{
+				assoc.Element.setRule((Rule)NamedElements.get(assoc.Id));				
+			}
+		}
 	}
 
-	private org.openetcs.model.ertmsformalspecs.NamedElement getNamedElement ( ECPProject project, String name, EClass expectedClass )
-	{
-		org.openetcs.model.ertmsformalspecs.NamedElement retVal = null;
-
+	/**
+	 * Fills the dictionary of named elements
+	 * @param project
+	 * @param dictionary
+	 */
+	public void setupNames(ECPProject project, Dictionary dictionary) {
 		List<Object> elements=project.getElements();
-		for(Object object:elements){
-			EObject eObject=(EObject)object;
-			TreeIterator<EObject> iterator = eObject.eAllContents();
-			for ( EObject current = eObject; iterator.hasNext(); current = iterator.next())
+		for(Object object:elements){			
+			fillNamedElementDictionary((EObject)object, "");
+		}
+		fillNamedElementDictionary(dictionary, "");
+	}
+
+	private void fillNamedElementDictionary(EObject eObject, String prefix) {
+		if (ModelPackage.eINSTANCE.getNamedElement().isSuperTypeOf(eObject.eClass()))
+		{
+			org.openetcs.model.ertmsformalspecs.NamedElement namedElement = (org.openetcs.model.ertmsformalspecs.NamedElement) eObject;
+			
+			if ( namedElement.getName() != null && !namedElement.getName().equals(""))
 			{
-				if (expectedClass.equals(current.eClass()))
+				String name = prefix + namedElement.getName();
+				NamedElements.put(name, namedElement);
+				prefix = name + ".";
+			}
+		}
+		
+		for ( EObject current : eObject.eContents())
+		{
+			fillNamedElementDictionary(current, prefix);
+		}
+	}
+	
+	/**
+	 * Provides the full name of a named element
+	 * @param eObject
+	 * @return
+	 */
+	private String getElementFullName ( EObject eObject )
+	{
+		String retVal = "";
+		if ( eObject != null )
+		{
+			retVal = getElementFullName(eObject.eContainer());
+			
+			if (ModelPackage.eINSTANCE.getNamedElement().isSuperTypeOf(eObject.eClass()))
+			{
+				NamedElement namedElement = (NamedElement) eObject;
+				
+				if ( namedElement.getName()!= null && !namedElement.getName().equals(""))
 				{
-					org.openetcs.model.ertmsformalspecs.NamedElement namedElement = (org.openetcs.model.ertmsformalspecs.NamedElement) current;
-					if ( namedElement.getName() != null && namedElement.getName().equals(name) )
+					if ( !retVal.equals(""))
 					{
-						retVal = namedElement;
-						break;
+						retVal = retVal + "." + namedElement.getName();
+					}
+					else 
+					{
+						retVal = namedElement.getName();
 					}
 				}
 			}
@@ -96,7 +166,7 @@ public class ManualTranslation {
 		
 		return retVal;
 	}
-		
+	
 	private org.openetcs.model.ertmsformalspecs.BaseLine getBaseline ( ECPProject project, String name )
 	{
 		org.openetcs.model.ertmsformalspecs.Baselines baselines = null;
@@ -173,7 +243,7 @@ public class ManualTranslation {
 		
 		return retVal;
 	}
-	
+
 	public void importMessage(
 			ECPProject project, 
 			org.openetcs.es3f.generated.Message message,
@@ -225,7 +295,11 @@ public class ManualTranslation {
 			org.openetcs.model.ertmsformalspecs.requirements.messages.Message message, 
 			org.openetcs.es3f.generated.Message retVal)
 	{
-		retVal.setBl(getName(message.getBaseline()));
+		if ( message.getBaseline() != null )
+		{
+			retVal.setBl(getName(message.getBaseline()));
+		}
+		
 		if ( message.getMedia().isBalise())
 		{
 			if  (message.getMedia().isLoop())
@@ -281,6 +355,14 @@ public class ManualTranslation {
 				}
 			}
 			else if ( message.getMedia().isRiu())
+			{
+				// Balise message
+				// Not loop message
+				// Not RBC message
+				// RIU message
+				retVal.setMedia(acceptor.aAny);
+			}
+			else 
 			{
 				// Balise message
 				// Not loop message
@@ -371,13 +453,17 @@ public class ManualTranslation {
 			org.openetcs.es3f.generated.Dictionary dictionary,
 			org.openetcs.model.ertmsformalspecs.Dictionary retVal) 
 	{
-		// Nothing to do : handles XSI and XSI location
+		// Nothing to do for XSI and XSI location
+		
+		// Store the dictionary currently being imported
+		Dictionary = retVal;
 	}
 	
 	public void exportDictionary(
 			org.openetcs.model.ertmsformalspecs.Dictionary source,
 			org.openetcs.es3f.generated.Dictionary retVal) 
 	{
+		// Set default XSI and XSI location
 		retVal.setXsi("http://www.w3.org/2001/XMLSchema-instance");
 		retVal.setXsiLocation("DataDictionary.xsd");
 	}
@@ -394,7 +480,10 @@ public class ManualTranslation {
 			org.openetcs.model.ertmsformalspecs.requirements.messages.Meaning meaning, 
 			org.openetcs.es3f.generated.meaning retVal)
 	{
-		retVal.setBl(getName(meaning.getBaseline()));
+		if (meaning.getBaseline() != null )
+		{
+			retVal.setBl(getName(meaning.getBaseline()));
+		}
 	}
 
 	public void importMsgVariable(
@@ -412,10 +501,6 @@ public class ManualTranslation {
 		if ( messageVariable.getBaseline() != null )
 		{
 			retVal.setBl(getName(messageVariable.getBaseline()));		
-		}
-		else 
-		{
-			retVal.setBl(null);
 		}
 	}
 
@@ -446,10 +531,35 @@ public class ManualTranslation {
 		// Crosslink with the paragraph
 		TypeSpec2RelatedParagraph.add(new Assoc<TypeSpec>(retVal,  typeSpec.getReference()));
 		
-		// TODO : Handle type spec values
-		if ( typeSpec.getValues() != null )
+		Values values = typeSpec.getValues();
+		if ( values != null )
 		{
-			// retVal.setValue(Importer.importvalue(project, typeSpec.getValues()));
+			TypeValue typeValue = MessagesFactory.eINSTANCE.createTypeValue();
+			typeValue.setResolutionFormula(Importer.importresolution_formula(project, this, values.getResolution_formula_1()));
+			retVal.setValue(typeValue);
+			
+			if ( values.getSpecial_or_reserved_value() != null )
+			{				
+				special_or_reserved_value value = values.getSpecial_or_reserved_value();
+				typeValue.getSpecialOrReservedValues().add(Importer.importspecial_or_reserved_value(project,  this,  value));	
+			}
+			
+			special_or_reserved_values tmp = values.getSpecial_or_reserved_values();
+			if ( tmp !=null )
+			{
+				for ( Object obj : tmp.allSpecial_or_reserved_values() )
+				{
+					org.openetcs.es3f.generated.special_or_reserved_value value = (org.openetcs.es3f.generated.special_or_reserved_value) obj;
+					
+					typeValue.getSpecialOrReservedValues().add(Importer.importspecial_or_reserved_value(project,  this,  value));	
+				}
+			}
+		}
+		
+		char_value charValue = typeSpec.getChar_value();
+		if ( charValue != null )
+		{
+			retVal.setValue(Importer.importchar_value(project,  this,  charValue));
 		}
 	}
 
@@ -468,13 +578,34 @@ public class ManualTranslation {
 		}
 		retVal.setErtms_type(Exporter.exportEErtmsType(typeSpec.getErtmsType()));
 		
-		// TODO : Use the paragraph when available
 		if ( typeSpec.getReferenceParagraph() != null )
 		{
 			retVal.setReference(typeSpec.getReferenceParagraph().getId());
 		}
 		
-		// TODO : Also handles the values
+		if ( typeSpec.getValue() != null && MessagesPackage.eINSTANCE.getTypeValue().equals(typeSpec.getValue().eClass()))
+		{
+			TypeValue typeValue = (TypeValue) typeSpec.getValue(); 
+			
+			Values values = acceptor.getFactory().createValues();
+			values.setResolution_formula_1(Exporter.exportresolution_formula(this,  typeValue.getResolutionFormula()));
+			retVal.setValues(values);
+			
+			if ( typeValue.getSpecialOrReservedValues().size() >= 1 )
+			{
+				values.setSpecial_or_reserved_values(acceptor.getFactory().createspecial_or_reserved_values());			
+				for ( SpecialOrReservedValue specialOrReservedValue : typeValue.getSpecialOrReservedValues())
+				{
+					values.getSpecial_or_reserved_values().appendSpecial_or_reserved_values(Exporter.exportspecial_or_reserved_value(this,  specialOrReservedValue));
+				}
+			}
+		}
+		
+		if ( typeSpec.getValue() != null && MessagesPackage.eINSTANCE.getCharValue().equals(typeSpec.getValue().eClass()))
+		{
+			CharValue charValue = (CharValue) typeSpec.getValue();
+			retVal.setChar_value(Exporter.exportchar_value(this, charValue));
+		}
 	}
 
 	public void importShortcut(
@@ -482,14 +613,14 @@ public class ManualTranslation {
 			org.openetcs.es3f.generated.Shortcut shortcut,
 			org.openetcs.model.ertmsformalspecs.shortcut.Shortcut retVal) 
 	{
-		retVal.setRef(getNamedElement(project, shortcut.getShortcutName(), ModelPackage.eINSTANCE.getNamedElement()));
+		Shortcut2RelatedModelElement.add(new Assoc<Shortcut>(retVal, shortcut.getShortcutName()));
 	}
 	
 	public void exportShortcut(
 			org.openetcs.model.ertmsformalspecs.shortcut.Shortcut source,
 			org.openetcs.es3f.generated.Shortcut retVal) 
 	{
-		retVal.setShortcutName(getName(source.getRef()));
+		retVal.setShortcutName(getElementFullName(source.getRef()));
 	}
 	
 	public void importReqRef(
@@ -516,14 +647,14 @@ public class ManualTranslation {
 			org.openetcs.es3f.generated.RuleDisabling ruleDisabling,
 			org.openetcs.model.ertmsformalspecs.customization.RuleDisabling retVal) 
 	{
-		retVal.setRule((org.openetcs.model.ertmsformalspecs.behaviour.Rule)getNamedElement(project, ruleDisabling.getRule(), BehaviourPackage.eINSTANCE.getRule()));
+		RuleDisabling2RelatedModelElement.add(new Assoc<RuleDisabling>(retVal, ruleDisabling.getRule()));
 	}
-	
+		
 	public void exportRuleDisabling(
 			org.openetcs.model.ertmsformalspecs.customization.RuleDisabling source,
 			org.openetcs.es3f.generated.RuleDisabling retVal) 
 	{
-		retVal.setRule(getName(source.getRule()));
+		retVal.setRule(getElementFullName(source.getRule()));
 	}
 
 	public void importParagraph(
@@ -656,16 +787,19 @@ public class ManualTranslation {
 			org.openetcs.model.ertmsformalspecs.requirements.messages.SpecialOrReservedValue source,
 			org.openetcs.es3f.generated.special_or_reserved_value retVal )
 	{
-		if ( MessagesPackage.eINSTANCE.getMatch().equals(source.getMatch().eClass()))
+		if ( source != null && source.getMatch() != null )
 		{
-			org.openetcs.model.ertmsformalspecs.requirements.messages.Match match = (org.openetcs.model.ertmsformalspecs.requirements.messages.Match) source.getMatch();
-			retVal.setMatch(Exporter.exportmatch(this, match));
-		}
+			if ( MessagesPackage.eINSTANCE.getMatch().equals(source.getMatch().eClass()))
+			{
+				org.openetcs.model.ertmsformalspecs.requirements.messages.Match match = (org.openetcs.model.ertmsformalspecs.requirements.messages.Match) source.getMatch();
+				retVal.setMatch(Exporter.exportmatch(this, match));
+			}
 		
-		if ( MessagesPackage.eINSTANCE.getMatchRange().equals(source.getMatch().eClass()))
-		{
-			org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange matchRange = (org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange) source.getMatch();
-			retVal.setMatch_range(Exporter.exportmatch_range(this, matchRange));
+			if ( MessagesPackage.eINSTANCE.getMatchRange().equals(source.getMatch().eClass()))
+			{
+				org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange matchRange = (org.openetcs.model.ertmsformalspecs.requirements.messages.MatchRange) source.getMatch();
+				retVal.setMatch_range(Exporter.exportmatch_range(this, matchRange));
+			}
 		}
 	}
 
@@ -673,13 +807,13 @@ public class ManualTranslation {
 			org.openetcs.es3f.generated.Expectation source,
 			org.openetcs.model.ertmsformalspecs.test.Expectation retVal) 
 	{
-		// Northing to do : Variable is no more used.
+		// Nothing to do : Variable is no more used.
 	}
 
 	public void exportExpectation(
 			org.openetcs.model.ertmsformalspecs.test.Expectation source,
 			org.openetcs.es3f.generated.Expectation retVal) 
 	{
-		// Northing to do : Variable is no more used.
+		// Nothing to do : Variable is no more used.
 	}
 }

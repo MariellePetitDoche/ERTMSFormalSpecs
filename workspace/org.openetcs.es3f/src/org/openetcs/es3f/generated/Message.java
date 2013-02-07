@@ -255,15 +255,15 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-MsgVariable fl1336;
+MsgVariable fl1343;
 
 ctxt.skipWhiteSpace();
 // Repeat
 ctxt.skipWhiteSpace();
-fl1336 = null;
+fl1343 = null;
 while(ctxt.lookAheadOpeningTag ("<MsgVariable")) {
-fl1336 = acceptor.lAccept_MsgVariable(ctxt, null);
-appendMsgVariables(fl1336);
+fl1343 = acceptor.lAccept_MsgVariable(ctxt, null);
+appendMsgVariables(fl1343);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -282,27 +282,27 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1347;
-boolean fl1348;
-boolean fl1349;
-boolean fl1350;
+boolean fl1354;
+boolean fl1355;
+boolean fl1356;
+boolean fl1357;
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl1347 = false ; 
-fl1348 = false ; 
-fl1349 = false ; 
-fl1350 = true ; 
-while (fl1350) { // BeginLoop 
+fl1354 = false ; 
+fl1355 = false ; 
+fl1356 = false ; 
+fl1357 = true ; 
+while (fl1357) { // BeginLoop 
 switch (ctxt.current()) {
 case 'm':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("edia=")){
-indicator = 1348;
+indicator = 1355;
 } else {
-indicator = 1351;
+indicator = 1358;
 } // If
 break;
 } // Case
@@ -310,9 +310,9 @@ case 'd':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("escription=")){
-indicator = 1347;
+indicator = 1354;
 } else {
-indicator = 1351;
+indicator = 1358;
 } // If
 break;
 } // Case
@@ -320,50 +320,50 @@ case 'b':
 {
 ctxt.advance();
 if (ctxt.lookAhead2('l','=')){
-indicator = 1349;
+indicator = 1356;
 } else {
-indicator = 1351;
+indicator = 1358;
 } // If
 break;
 } // Case
 default:
-indicator = 1351;
+indicator = 1358;
 break;
 } // Switch
 switch (indicator) {
-case 1347: {
+case 1354: {
 // Handling attribute description
 // Also handles alien attributes with prefix description
-if (fl1347){
+if (fl1354){
 ctxt.fail ("Duplicate attribute: description");
 } // If
-fl1347 = true ; 
+fl1354 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setDescription((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1348: {
+case 1355: {
 // Handling attribute media
 // Also handles alien attributes with prefix media
-if (fl1348){
+if (fl1355){
 ctxt.fail ("Duplicate attribute: media");
 } // If
-fl1348 = true ; 
+fl1355 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setMedia(acceptor.lAcceptEnum_Message_media(ctxt));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 1349: {
+case 1356: {
 // Handling attribute bl
 // Also handles alien attributes with prefix bl
-if (fl1349){
+if (fl1356){
 ctxt.fail ("Duplicate attribute: bl");
 } // If
-fl1349 = true ; 
+fl1356 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setBl((acceptor.lAcceptPcData(ctxt,-1, quoteChar, xmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
@@ -371,7 +371,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 1351: {
+case 1358: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -382,13 +382,13 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl1347){
+if (!fl1354){
 ctxt.fail ("Mandatory attribute missing: description in Message");
 } // If
-if (!fl1348){
+if (!fl1355){
 ctxt.fail ("Mandatory attribute missing: media in Message");
 } // If
-fl1350 = false ; 
+fl1357 = false ; 
 } // If
 break;
 } // End of dispatch label

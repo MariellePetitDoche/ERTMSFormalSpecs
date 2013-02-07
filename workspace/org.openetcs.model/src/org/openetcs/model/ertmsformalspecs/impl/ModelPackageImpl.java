@@ -1011,7 +1011,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		reqRefEClass.getESuperTypes().add(this.getCommentedElement());
 		reqRelatedEClass.getESuperTypes().add(this.getReferencesParagraph());
 		stateMachineEClass.getESuperTypes().add(theTypesPackage.getType());
-		stateEClass.getESuperTypes().add(this.getNamedElement());
+		stateEClass.getESuperTypes().add(this.getReqRelated());
 		variableEClass.getESuperTypes().add(this.getNamedElement());
 		variableEClass.getESuperTypes().add(this.getReqRelated());
 		variableEClass.getESuperTypes().add(theTypesPackage.getTypedElement());

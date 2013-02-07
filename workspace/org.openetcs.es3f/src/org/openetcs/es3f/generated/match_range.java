@@ -104,8 +104,8 @@ throws xmlBException, xmlBRecoveryException
 int indicator=0;
 char quoteChar;
  String  tempStr;
-boolean fl1446;
-boolean fl1447;
+boolean fl1453;
+boolean fl1454;
 
 ctxt.skipWhiteSpace();
 ctxt.skipWhiteSpace();
@@ -115,8 +115,8 @@ if (ctxt.isAlNum()){
 ctxt.fail ("White space expected after TAG");
 } // If
 ctxt.skipWhiteSpace();
-fl1446 = true ; 
-while (fl1446) { // BeginLoop 
+fl1453 = true ; 
+while (fl1453) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -127,7 +127,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1446 = false ; 
+fl1453 = false ; 
 } // If
 } // While
 ctxt.accept('>');
@@ -145,8 +145,8 @@ if (ctxt.isAlNum()){
 ctxt.fail ("White space expected after TAG");
 } // If
 ctxt.skipWhiteSpace();
-fl1447 = true ; 
-while (fl1447) { // BeginLoop 
+fl1454 = true ; 
+while (fl1454) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -157,7 +157,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1447 = false ; 
+fl1454 = false ; 
 } // If
 } // While
 ctxt.accept('>');
@@ -184,11 +184,11 @@ throws xmlBException, xmlBRecoveryException
 int indicator = 0;
 char quoteChar;
  String  tempStr = null;
-boolean fl1448;
+boolean fl1455;
 
 ctxt.skipWhiteSpace();
-fl1448 = true ; 
-while (fl1448) { // BeginLoop 
+fl1455 = true ; 
+while (fl1455) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -199,7 +199,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl1448 = false ; 
+fl1455 = false ; 
 } // If
 } // While
 ctxt.skipWhiteSpace();
