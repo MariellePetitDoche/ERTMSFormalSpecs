@@ -69,6 +69,7 @@ namespace GUI
             Item.appendRequirements(req);
             Nodes.Add(new ReqRefTreeNode(req));
             SortSubNodes();
+            RefreshNode();
         }
 
         public void AddHandler(object sender, EventArgs args)
