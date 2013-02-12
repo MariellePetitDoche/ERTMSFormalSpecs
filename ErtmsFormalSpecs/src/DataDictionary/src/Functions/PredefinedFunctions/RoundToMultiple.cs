@@ -47,7 +47,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="efsSystem"></param>
         public RoundToMultiple(EFSSystem efsSystem)
-            : base(efsSystem, "ROUND_TO_MULTIPLE")
+            : base(efsSystem, "RoundToMultiple")
         {
             Value = (Parameter)Generated.acceptor.getFactory().createParameter();
             Value.Name = "Value";
