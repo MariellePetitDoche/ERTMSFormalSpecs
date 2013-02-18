@@ -129,7 +129,7 @@ public interface Paragraph extends ReferencesParagraph, BaseLinedElement {
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
 	 * @see org.openetcs.model.ertmsformalspecs.requirements.RequirementsPackage#getParagraph_Id()
-	 * @model id="true"
+	 * @model
 	 * @generated
 	 */
 	String getId();
