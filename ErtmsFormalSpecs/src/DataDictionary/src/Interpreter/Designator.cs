@@ -236,12 +236,12 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Performs the semantic analysis of the term
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public void SemanticAnalysis(InterpretationContext context, Expression.AcceptableChoice expectation)
+        public void SemanticAnalysis(Utils.INamable instance, Expression.AcceptableChoice expectation)
         {
-            ReturnValue tmp = getReferences(context.Instance, expectation);
+            ReturnValue tmp = getReferences(instance, expectation);
             if (tmp.IsUnique)
             {
                 Ref = tmp.Values[0].Value;

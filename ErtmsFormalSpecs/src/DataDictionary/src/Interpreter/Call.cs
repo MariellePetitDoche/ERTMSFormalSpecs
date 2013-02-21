@@ -205,19 +205,19 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                Called.SemanticAnalysis(context, IsCallable);
+                Called.SemanticAnalysis(instance, IsCallable);
                 foreach (Expression actual in AllParameters)
                 {
-                    actual.SemanticAnalysis(context, IsVariableOrValue);
+                    actual.SemanticAnalysis(instance, IsVariableOrValue);
                 }
             }
 
@@ -233,7 +233,7 @@ namespace DataDictionary.Interpreter
         {
             Types.Type retVal = null;
 
-            Functions.Function function = getFunction(new InterpretationContext(Root));
+            Functions.Function function = getFunction(new InterpretationContext());
             if (function != null)
             {
                 retVal = function.ReturnType;

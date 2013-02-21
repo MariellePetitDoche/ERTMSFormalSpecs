@@ -283,8 +283,7 @@ namespace DataDictionary.Variables
 
                         if (retVal == null)
                         {
-                            Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-                            Interpreter.Expression expression = parser.Expression(this, getDefaultValue());
+                            Interpreter.Expression expression = EFSSystem.Parser.Expression(this, getDefaultValue());
                             if (expression != null)
                             {
                                 retVal = expression.GetValue(new Interpreter.InterpretationContext(this));

@@ -203,7 +203,7 @@ namespace DataDictionary.Functions
             {
                 try
                 {
-                    Interpreter.InterpretationContext ctxt = new Interpreter.InterpretationContext(context, this);
+                    Interpreter.InterpretationContext ctxt = new Interpreter.InterpretationContext(context);
                     if (Cases.Count > 0)
                     {
                         // For now, just create graphs for functions using 0 or 1 parameter.

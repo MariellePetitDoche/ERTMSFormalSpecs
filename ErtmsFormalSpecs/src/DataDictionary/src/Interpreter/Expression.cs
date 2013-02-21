@@ -303,17 +303,6 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="instance">The evaluation instance</param>
-        /// <param name="localScope">the local scope</param>
-        public InterpretationContext(Utils.INamable instance, SymbolTable localScope)
-        {
-            LocalScope = localScope;
-            Instance = instance;
-        }
-
-        /// <summary>
         /// Provides the list of parameters whose value is a placeholder
         /// </summary>
         /// <returns></returns>
@@ -450,14 +439,14 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Provides the possible references types for this expression (used in semantic analysis)
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="expectation"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns></returns>
-        public virtual ReturnValue getReferenceTypes(InterpretationContext context, AcceptableChoice expectation)
+        public virtual ReturnValue getReferenceTypes(Utils.INamable instance, AcceptableChoice expectation)
         {
             ReturnValue retVal = new ReturnValue(this);
 
-            SemanticAnalysis(context, AllMatches);
+            SemanticAnalysis(instance, AllMatches);
             retVal.Add(GetExpressionType());
 
             return retVal;
@@ -466,10 +455,10 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public virtual bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public virtual bool SemanticAnalysis(INamable instance, AcceptableChoice expectation)
         {
             bool retVal = !SemanticAnalysisDone;
 
@@ -484,11 +473,11 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public virtual bool SemanticAnalysis(InterpretationContext context)
+        public virtual bool SemanticAnalysis(INamable instance = null)
         {
-            return SemanticAnalysis(context, AllMatches);
+            return SemanticAnalysis(instance, AllMatches);
         }
 
         /// <summary>
@@ -550,7 +539,7 @@ namespace DataDictionary.Interpreter
             try
             {
                 explain = true;
-                InterpretationContext context = new InterpretationContext(Root);
+                InterpretationContext context = new InterpretationContext();
                 Values.IValue value = GetValue(context);
                 if (value != null)
                 {

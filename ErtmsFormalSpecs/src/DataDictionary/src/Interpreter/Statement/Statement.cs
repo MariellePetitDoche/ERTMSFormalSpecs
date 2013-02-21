@@ -36,9 +36,9 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Performs the semantic analysis of the statement
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>true if semantical analysis should be performed</returns>
-        public virtual bool SemanticalAnalysis(InterpretationContext context)
+        public virtual bool SemanticAnalysis(Utils.INamable instance = null)
         {
             bool retVal = !SemanticalAnalysisDone;
 

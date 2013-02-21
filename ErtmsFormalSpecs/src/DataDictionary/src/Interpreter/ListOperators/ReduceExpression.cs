@@ -56,18 +56,16 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                PrepareIteration(context);
-                InitialValue.SemanticAnalysis(context, AllMatches);
-                EndIteration(context);
+                InitialValue.SemanticAnalysis(instance, AllMatches);
 
                 AccumulatorVariable.Type = InitialValue.GetExpressionType();
             }
@@ -94,28 +92,26 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             Values.IValue retVal = null;
 
-            InterpretationContext ctxt = new InterpretationContext(context, Root);
-
-            Values.ListValue value = ListExpression.GetValue(ctxt) as Values.ListValue;
+            Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(ctxt);
-                ctxt.LocalScope.setVariable(AccumulatorVariable);
-                AccumulatorVariable.Value = InitialValue.GetValue(ctxt);
+                PrepareIteration(context);
+                context.LocalScope.setVariable(AccumulatorVariable);
+                AccumulatorVariable.Value = InitialValue.GetValue(context);
 
                 foreach (Values.IValue v in value.Val)
                 {
                     if (v != EFSSystem.EmptyValue)
                     {
                         IteratorVariable.Value = v;
-                        if (conditionSatisfied(ctxt))
+                        if (conditionSatisfied(context))
                         {
-                            AccumulatorVariable.Value = IteratorExpression.GetValue(ctxt);
+                            AccumulatorVariable.Value = IteratorExpression.GetValue(context);
                         }
                     }
                     NextIteration();
                 }
-                EndIteration(ctxt);
+                EndIteration(context);
                 retVal = AccumulatorVariable.Value;
             }
             else

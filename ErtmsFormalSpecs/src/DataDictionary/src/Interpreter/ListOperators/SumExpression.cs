@@ -16,7 +16,7 @@
 
 namespace DataDictionary.Interpreter.ListOperators
 {
-    public class SumExpression : ExpressionBasedListExpression
+    public class SumExpression : ExpressionBasedListExpression, Utils.ISubDeclarator
     {
         /// <summary>
         /// The operator for this expression
@@ -43,14 +43,10 @@ namespace DataDictionary.Interpreter.ListOperators
         public SumExpression(ModelElement root, Expression listExpression, Expression condition, Expression expression)
             : base(root, listExpression, condition, expression)
         {
-
             AccumulatorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             AccumulatorVariable.Enclosing = this;
             AccumulatorVariable.Name = "RESULT";
-
-            InterpretationContext context = new InterpretationContext(root);
-            context.LocalScope.setVariable(IteratorVariable);
-            AccumulatorVariable.Type = expression.GetExpressionType();
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, AccumulatorVariable);
 
             Accumulator = new BinaryExpression(root, expression, BinaryExpression.OPERATOR.ADD, new UnaryExpression(root, new Term(root, new Designator(root, "RESULT"))));
         }
@@ -58,18 +54,18 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                PrepareIteration(context);
-                Accumulator.SemanticAnalysis(context, AllMatches);
-                EndIteration(context);
+                AccumulatorVariable.Type = IteratorExpression.GetExpressionType();
+
+                Accumulator.SemanticAnalysis(instance, AllMatches);
             }
 
             return retVal;

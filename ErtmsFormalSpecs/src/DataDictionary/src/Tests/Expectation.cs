@@ -124,8 +124,7 @@ namespace DataDictionary.Tests
             {
                 if (expressionTree == null)
                 {
-                    Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-                    expressionTree = parser.Expression(this, Expression);
+                    expressionTree = EFSSystem.Parser.Expression(this, Expression);
                 }
                 return expressionTree;
             }

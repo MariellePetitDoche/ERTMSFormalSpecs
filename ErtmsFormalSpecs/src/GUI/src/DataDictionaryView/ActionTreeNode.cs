@@ -81,8 +81,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         public virtual void SplitHandler(object sender, EventArgs args)
         {
-            DataDictionary.Interpreter.Parser parser = new DataDictionary.Interpreter.Parser(Item.EFSSystem);
-            DataDictionary.Interpreter.Statement.Statement statement = parser.Statement(Item, Item.ExpressionText);
+            DataDictionary.Interpreter.Statement.Statement statement = Item.EFSSystem.Parser.Statement(Item, Item.ExpressionText);
             DataDictionary.Interpreter.Statement.VariableUpdateStatement variableUpdateStatement = statement as DataDictionary.Interpreter.Statement.VariableUpdateStatement;
             if (variableUpdateStatement != null)
             {

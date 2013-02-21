@@ -126,22 +126,22 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Provides the possible references types for this expression (used in semantic analysis)
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="expectation"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns></returns>
-        public override ReturnValue getReferenceTypes(InterpretationContext context, AcceptableChoice expectation)
+        public override ReturnValue getReferenceTypes(Utils.INamable instance, AcceptableChoice expectation)
         {
             ReturnValue retVal = ReturnValue.Empty;
 
             if (Term != null)
             {
-                retVal = Term.getReferenceTypes(context, expectation);
+                retVal = Term.getReferenceTypes(instance, expectation);
             }
             else
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.getReferenceTypes(context, expectation);
+                    retVal = Expression.getReferenceTypes(instance, expectation);
                 }
             }
 
@@ -151,22 +151,22 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
                 if (Term != null)
                 {
-                    Term.SemanticAnalysis(context, expectation);
+                    Term.SemanticAnalysis(instance, expectation);
                 }
                 else if (Expression != null)
                 {
-                    Expression.SemanticAnalysis(context, expectation);
+                    Expression.SemanticAnalysis(instance, expectation);
                 }
             }
 

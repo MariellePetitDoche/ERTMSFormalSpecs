@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter
 {
-    class StabilizeExpression : Expression
+    class StabilizeExpression : Expression, Utils.ISubDeclarator
     {
         /// <summary>
         /// The expression to stabilize
@@ -54,6 +54,8 @@ namespace DataDictionary.Interpreter
         public StabilizeExpression(ModelElement root, Expression expression, Expression initialValue, Expression condition)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
+
             Expression = expression;
             Expression.Enclosing = this;
 
@@ -66,35 +68,44 @@ namespace DataDictionary.Interpreter
             LastIteration = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             LastIteration.Enclosing = this;
             LastIteration.Name = "PREVIOUS";
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, LastIteration);
 
             CurrentIteration = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             CurrentIteration.Enclosing = this;
             CurrentIteration.Name = "CURRENT";
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, CurrentIteration);
+        }
+
+        /// <summary>
+        /// The elements declared by this declarator
+        /// </summary>
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
+        {
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                InitialValue.SemanticAnalysis(context, IsVariableOrValue);
-
-                // Expression depends on the last iteration value
-                context.LocalScope.PushContext();
-                context.LocalScope.setVariable(LastIteration);
-                Expression.SemanticAnalysis(context, AllMatches);
-
-                // Condition depends on both the last iteration and the current iteration values
-                context.LocalScope.setVariable(CurrentIteration);
-                Condition.SemanticAnalysis(context, AllMatches);
-                context.LocalScope.PopContext();
+                InitialValue.SemanticAnalysis(instance, IsVariableOrValue);
+                Expression.SemanticAnalysis(instance, AllMatches);
+                Condition.SemanticAnalysis(instance, AllMatches);
 
                 LastIteration.Type = InitialValue.GetExpressionType();
                 CurrentIteration.Type = InitialValue.GetExpressionType();

@@ -62,8 +62,6 @@ namespace DataDictionary
 
                 if (retVal != null)
                 {
-                    Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(model);
-                    retVal.SemanticAnalysis(context);
                     retVal.checkExpression();
                     Types.Type type = retVal.GetExpressionType();
                     if (type == null)
@@ -97,7 +95,6 @@ namespace DataDictionary
             try
             {
                 retVal = parser.Statement(model, expression);
-                retVal.SemanticalAnalysis(new Interpreter.InterpretationContext(model));
                 retVal.CheckStatement();
             }
             catch (Exception exception)

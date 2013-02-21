@@ -59,19 +59,19 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Performs the semantic analysis of the statement
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns>true if semantical analysis should be performed</returns>
-        public override bool SemanticalAnalysis(InterpretationContext context)
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance)
         {
-            bool retVal = base.SemanticalAnalysis(context);
+            bool retVal = base.SemanticAnalysis(instance);
 
             if (retVal)
             {
-                Value.SemanticAnalysis(context);
-                ListExpression.SemanticAnalysis(context);
+                Value.SemanticAnalysis(instance);
+                ListExpression.SemanticAnalysis(instance);
                 if (ReplaceElement != null)
                 {
-                    ReplaceElement.SemanticAnalysis(context);
+                    ReplaceElement.SemanticAnalysis(instance);
                 }
             }
 

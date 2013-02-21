@@ -43,6 +43,8 @@ namespace DataDictionary.Interpreter.Statement
         public ApplyStatement(ModelElement root, ProcedureCallStatement call, Expression listExpression)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
+
             Call = call;
             Call.Enclosing = this;
 
@@ -52,49 +54,13 @@ namespace DataDictionary.Interpreter.Statement
             IteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
             IteratorVariable.Name = "X";
-        }
-
-        /// <summary>
-        /// Performs the semantic analysis of the statement
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns>true if semantical analysis should be performed</returns>
-        public override bool SemanticalAnalysis(InterpretationContext context)
-        {
-            bool retVal = base.SemanticalAnalysis(context);
-
-            if (retVal)
-            {
-                ListExpression.SemanticAnalysis(context);
-                Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
-                if (collectionType != null)
-                {
-                    IteratorVariable.Type = collectionType.Type;
-                }
-
-                context.LocalScope.PushContext();
-                context.LocalScope.setVariable(IteratorVariable);
-                Call.SemanticalAnalysis(context);
-                context.LocalScope.PopContext();
-            }
-
-            return retVal;
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, IteratorVariable);
         }
 
         /// <summary>
         /// The elements declared by this declarator
         /// </summary>
-        public Dictionary<string, List<Utils.INamable>> DeclaredElements
-        {
-            get
-            {
-                Dictionary<string, List<Utils.INamable>> retVal = new Dictionary<string, List<Utils.INamable>>();
-
-                Utils.ISubDeclaratorUtils.AppendNamable(retVal, IteratorVariable);
-
-                return retVal;
-            }
-        }
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
 
         /// <summary>
         /// Appends the INamable which match the name provided in retVal
@@ -103,10 +69,31 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="retVal"></param>
         public void find(string name, List<Utils.INamable> retVal)
         {
-            if (IteratorVariable.Name.CompareTo(name) == 0)
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance)
+        {
+            bool retVal = base.SemanticAnalysis(instance);
+
+            if (retVal)
             {
-                retVal.Add(IteratorVariable);
+                ListExpression.SemanticAnalysis(instance);
+                Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
+                if (collectionType != null)
+                {
+                    IteratorVariable.Type = collectionType.Type;
+                }
+
+                Call.SemanticAnalysis(instance);
             }
+
+            return retVal;
         }
 
         /// <summary>

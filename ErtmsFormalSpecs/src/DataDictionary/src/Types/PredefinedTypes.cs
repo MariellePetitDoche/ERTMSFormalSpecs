@@ -633,18 +633,13 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public override Values.IValue getValue(string image)
         {
-            Interpreter.Expression expression = null;
-
-            Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-            expression = parser.Expression(this, image);
-
             Values.IValue retVal = null;
 
+            Interpreter.Expression expression = EFSSystem.Parser.Expression(this, image);
             Types.Type type = expression.GetExpressionType() as Types.Type;
             if (type != null && Match(type))
             {
-                Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(this);
-                retVal = expression.GetValue(context);
+                retVal = expression.GetValue(new Interpreter.InterpretationContext());
             }
 
             return retVal;

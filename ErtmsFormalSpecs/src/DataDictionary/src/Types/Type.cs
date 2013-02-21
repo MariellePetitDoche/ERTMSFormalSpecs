@@ -131,8 +131,7 @@ namespace DataDictionary.Types
 
                         if (retVal == null)
                         {
-                            Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-                            Interpreter.Expression expression = parser.Expression(this, Default);
+                            Interpreter.Expression expression = EFSSystem.Parser.Expression(this, Default);
                             retVal = expression.GetValue(new InterpretationContext(this));
                         }
                     }

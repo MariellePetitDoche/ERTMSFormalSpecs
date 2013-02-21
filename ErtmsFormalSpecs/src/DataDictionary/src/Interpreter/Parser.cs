@@ -1022,9 +1022,7 @@ namespace DataDictionary.Interpreter
                     Root.AddError("End of expression expected, but found EOF");
                 }
             }
-
-            InterpretationContext context = new InterpretationContext();
-            retVal.SemanticAnalysis(context);
+            retVal.SemanticAnalysis();
 
             return retVal;
         }
@@ -1185,8 +1183,7 @@ namespace DataDictionary.Interpreter
                     throw new ParseErrorException("End of statement expected at " + Index + ", but found " + Buffer[Index]);
                 }
             }
-            InterpretationContext context = new InterpretationContext(root);
-            retVal.SemanticalAnalysis(context);
+            retVal.SemanticAnalysis();
 
             return retVal;
         }

@@ -58,37 +58,61 @@ namespace DataDictionary.Interpreter.ListOperators
         public ListOperatorExpression(ModelElement root, Expression listExpression)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
+
             ListExpression = listExpression;
             ListExpression.Enclosing = this;
 
             IteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
             IteratorVariable.Name = "X";
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, IteratorVariable);
 
             PreviousIteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             PreviousIteratorVariable.Enclosing = this;
             PreviousIteratorVariable.Name = "prevX";
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, PreviousIteratorVariable);
+
+        }
+
+        /// <summary>
+        /// The elements declared by this declarator
+        /// </summary>
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
+        {
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                ListExpression.SemanticAnalysis(context, expectation);
+                ListExpression.SemanticAnalysis(instance, expectation);
 
                 Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
                 if (collectionType != null)
                 {
                     IteratorVariable.Type = collectionType.Type;
                     PreviousIteratorVariable.Type = collectionType.Type;
+                }
+                else
+                {
+                    AddError("Cannot determine collection type on list expression " + ToString());
                 }
             }
 
@@ -143,34 +167,6 @@ namespace DataDictionary.Interpreter.ListOperators
         public override void fillLiterals(List<Values.IValue> retVal)
         {
             ListExpression.fillLiterals(retVal);
-        }
-
-        /// <summary>
-        /// The elements declared by this declarator
-        /// </summary>
-        public Dictionary<string, List<Utils.INamable>> DeclaredElements
-        {
-            get
-            {
-                Dictionary<string, List<Utils.INamable>> retVal = new Dictionary<string, List<Utils.INamable>>();
-
-                Utils.ISubDeclaratorUtils.AppendNamable(retVal, IteratorVariable);
-
-                return retVal;
-            }
-        }
-
-        /// <summary>
-        /// Appends the INamable which match the name provided in retVal
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="retVal"></param>
-        public void find(string name, List<Utils.INamable> retVal)
-        {
-            if (IteratorVariable.Name.CompareTo(name) == 0)
-            {
-                retVal.Add(IteratorVariable);
-            }
         }
 
         /// <summary>

@@ -43,20 +43,18 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
                 if (Condition != null)
                 {
-                    PrepareIteration(context);
-                    Condition.SemanticAnalysis(context, expectation);
-                    EndIteration(context);
+                    Condition.SemanticAnalysis(instance, expectation);
                 }
             }
 

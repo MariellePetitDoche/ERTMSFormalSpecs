@@ -62,12 +62,12 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, expectation);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
@@ -76,7 +76,7 @@ namespace DataDictionary.Interpreter
                 ReturnValue tmp = Arguments[0].getReferences(null, AllMatches);
                 if (tmp.IsEmpty)
                 {
-                    tmp = Arguments[0].getReferenceTypes(context, AllMatches);
+                    tmp = Arguments[0].getReferenceTypes(instance, AllMatches);
                 }
 
                 if (!tmp.IsEmpty)
@@ -113,11 +113,9 @@ namespace DataDictionary.Interpreter
                     for (int i = Arguments.Count - 1; i > 0; i--)
                     {
                         current = current.PreviousElement;
-                        InterpretationContext ctxt2 = new InterpretationContext(context, current.Value);
-                        Arguments[i].SemanticAnalysis(ctxt2);
+                        Arguments[i].SemanticAnalysis(current.Value);
                     }
-                    InterpretationContext ctxt = new InterpretationContext(context, null);
-                    Arguments[0].SemanticAnalysis(ctxt);
+                    Arguments[0].SemanticAnalysis(null);
                 }
                 else
                 {

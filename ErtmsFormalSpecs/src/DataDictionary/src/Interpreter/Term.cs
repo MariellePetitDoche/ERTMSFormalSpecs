@@ -76,10 +76,10 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Provides the possible references types for this expression (used in semantic analysis)
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="expectation"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns></returns>
-        public ReturnValue getReferenceTypes(InterpretationContext context, Expression.AcceptableChoice expectation)
+        public ReturnValue getReferenceTypes(Utils.INamable instance, Expression.AcceptableChoice expectation)
         {
             ReturnValue retVal = null;
 
@@ -87,7 +87,7 @@ namespace DataDictionary.Interpreter
             {
                 retVal = new ReturnValue();
 
-                foreach (ReturnValueElement element in Designator.getReferences(context.Instance, expectation).Values)
+                foreach (ReturnValueElement element in Designator.getReferences(instance, expectation).Values)
                 {
                     if (element.Value is Types.Type)
                     {
@@ -97,7 +97,7 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.getReferenceTypes(context, expectation);
+                retVal = LiteralValue.getReferenceTypes(instance, expectation);
             }
 
             return retVal;
@@ -106,18 +106,18 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Performs the semantic analysis of the term
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public void SemanticAnalysis(InterpretationContext context, Expression.AcceptableChoice expectation)
+        public void SemanticAnalysis(Utils.INamable instance, Expression.AcceptableChoice expectation)
         {
             if (Designator != null)
             {
-                Designator.SemanticAnalysis(context, expectation);
+                Designator.SemanticAnalysis(instance, expectation);
             }
             else if (LiteralValue != null)
             {
-                LiteralValue.SemanticAnalysis(context, expectation);
+                LiteralValue.SemanticAnalysis(instance, expectation);
             }
         }
 

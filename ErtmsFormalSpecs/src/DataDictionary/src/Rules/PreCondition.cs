@@ -13,7 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 
 namespace DataDictionary.Rules
 {
@@ -64,17 +63,9 @@ namespace DataDictionary.Rules
         {
             get
             {
-                try
+                if (expressionTree == null)
                 {
-                    if (expressionTree == null)
-                    {
-                        Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-                        expressionTree = parser.Expression(this, Expression);
-                    }
-                }
-                catch (Exception e)
-                {
-                    AddException(e);
+                    expressionTree = EFSSystem.Parser.Expression(this, Expression);
                 }
 
                 return expressionTree;
