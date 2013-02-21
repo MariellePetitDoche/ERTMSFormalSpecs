@@ -13,12 +13,11 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using Utils;
-
 namespace DataDictionary.Interpreter
 {
+    using System;
+    using System.Collections.Generic;
+
     public class UnaryExpression : Expression, IReference
     {
         /// <summary>
@@ -75,7 +74,7 @@ namespace DataDictionary.Interpreter
         /// The model element referenced by this designator.
         /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
         /// </summary>
-        public INamable Ref { get; private set; }
+        public Utils.INamable Ref { get; private set; }
 
         /// <summary>
         /// Sets the element referenced by this Deref expression
@@ -104,7 +103,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
         /// <returns></returns>
-        public override ReturnValue getReferences(Utils.INamable instance, AcceptableChoice expectation)
+        public override ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue retVal = ReturnValue.Empty;
 
@@ -129,7 +128,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns></returns>
-        public override ReturnValue getReferenceTypes(Utils.INamable instance, AcceptableChoice expectation)
+        public override ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue retVal = ReturnValue.Empty;
 
@@ -154,7 +153,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             bool retVal = base.SemanticAnalysis(instance, expectation);
 
@@ -340,23 +339,19 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of variables used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <context></context>
-        /// <param name="variables"></param>
-        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
             if (Term != null)
             {
-                Variables.IVariable variable = Term.GetVariable(context);
-                if (variables != null)
-                {
-                    variables.Add(variable);
-                }
+                Term.fill(retVal, filter);
             }
             if (Expression != null)
             {
-                Expression.FillVariables(context, variables);
+                Expression.fill(retVal, filter);
             }
         }
 
@@ -381,23 +376,6 @@ namespace DataDictionary.Interpreter
             }
 
             return retVal;
-        }
-
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            if (Term != null && Term.LiteralValue != null)
-            {
-                Term.LiteralValue.fillLiterals(retVal);
-            }
-            else if (Expression != null)
-            {
-                Expression.fillLiterals(retVal);
-            }
         }
 
         /// <summary>

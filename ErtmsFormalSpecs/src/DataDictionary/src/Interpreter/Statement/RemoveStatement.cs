@@ -121,15 +121,12 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="retVal">the list to fill</param>
         public override void ReadElements(List<Variables.IVariable> retVal)
         {
-            InterpretationContext context = new InterpretationContext(Root);
+            retVal.AddRange(ListExpression.GetVariables());
 
             if (Condition != null)
             {
-                Condition.FillVariables(context, retVal);
+                retVal.AddRange(Condition.GetVariables());
             }
-
-            Variables.IVariable elem = ListExpression.GetVariable(context);
-            retVal.Add(elem);
         }
 
         /// <summary>

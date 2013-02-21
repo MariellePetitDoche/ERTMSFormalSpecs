@@ -80,7 +80,7 @@ namespace DataDictionary.Interpreter
         /// Provides the identifier at the current position
         /// </summary>
         /// <returns></returns>
-        private string Identifier()
+        private string Identifier(bool acceptDot = false)
         {
             string retVal = null;
 
@@ -91,7 +91,9 @@ namespace DataDictionary.Interpreter
                 {
                     int i = 1;
 
-                    while (Index + i < Buffer.Length && (Char.IsLetterOrDigit(Buffer[Index + i]) || Buffer[Index + i] == '_'))
+                    while (Index + i < Buffer.Length && (Char.IsLetterOrDigit(Buffer[Index + i]) ||
+                                                         Buffer[Index + i] == '_' ||
+                                                         (acceptDot && Buffer[Index + i] == '.')))
                     {
                         i = i + 1;
                     }
@@ -947,20 +949,14 @@ namespace DataDictionary.Interpreter
                     {
                         skipWhiteSpaces();
                         Match(":");
-                        Expression type = Expression(0);
-                        if (type != null)
+                        skipWhiteSpaces();
+                        string typeName = Identifier(true);
+                        if (typeName != null)
                         {
                             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
                             parameter.Name = id;
-                            parameter.Type = type.GetExpressionType();
-                            if (parameter.Type != null)
-                            {
-                                parameters.Add(parameter);
-                            }
-                            else
-                            {
-                                throw new ParseErrorException("Cannot determine type for " + type.ToString());
-                            }
+                            parameter.TypeName = typeName;
+                            parameters.Add(parameter);
                         }
                         else
                         {

@@ -13,9 +13,10 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-
 namespace DataDictionary.Interpreter
 {
+    using System.Collections.Generic;
+
     public class Term : InterpreterTreeNode
     {
         /// <summary>
@@ -57,7 +58,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
         /// <returns></returns>
-        public ReturnValue getReferences(Utils.INamable instance, Expression.AcceptableChoice expectation)
+        public ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue retVal = null;
 
@@ -79,7 +80,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns></returns>
-        public ReturnValue getReferenceTypes(Utils.INamable instance, Expression.AcceptableChoice expectation)
+        public ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue retVal = null;
 
@@ -109,7 +110,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public void SemanticAnalysis(Utils.INamable instance, Expression.AcceptableChoice expectation)
+        public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             if (Designator != null)
             {
@@ -182,6 +183,23 @@ namespace DataDictionary.Interpreter
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Fills the list provided with the element matching the filter provided
+        /// </summary>
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
+        {
+            if (Designator != null)
+            {
+                // Nothing to do.
+            }
+            else if (LiteralValue != null)
+            {
+                LiteralValue.fill(retVal, filter);
+            }
         }
 
         public override string ToString()

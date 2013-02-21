@@ -65,7 +65,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             bool retVal = base.SemanticAnalysis(instance, expectation);
 
@@ -73,10 +73,10 @@ namespace DataDictionary.Interpreter
             {
                 Ref = null;
 
-                ReturnValue tmp = Arguments[0].getReferences(null, AllMatches);
+                ReturnValue tmp = Arguments[0].getReferences(null, Filter.AllMatches);
                 if (tmp.IsEmpty)
                 {
-                    tmp = Arguments[0].getReferenceTypes(instance, AllMatches);
+                    tmp = Arguments[0].getReferenceTypes(instance, Filter.AllMatches);
                 }
 
                 if (!tmp.IsEmpty)
@@ -88,7 +88,7 @@ namespace DataDictionary.Interpreter
 
                         foreach (ReturnValueElement elem in tmp2.Values)
                         {
-                            tmp.Merge(elem, Arguments[i].getReferences(elem.Value, AllMatches));
+                            tmp.Merge(elem, Arguments[i].getReferences(elem.Value, Filter.AllMatches));
                         }
 
                         if (tmp.IsEmpty)
@@ -212,35 +212,15 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of variables used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <context></context>
-        /// <param name="variables"></param>
-        public override void FillVariables(InterpretationContext ctxt, List<Variables.IVariable> variables)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
-            if (Ref != null)
+            if (filter(Ref))
             {
-                Variables.IVariable variable = Ref as Variables.IVariable;
-                if (variable != null)
-                {
-                    variables.Add(variable);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            if (Ref != null)
-            {
-                Values.IValue value = Ref as Values.IValue;
-                if (value != null)
-                {
-                    retVal.Add(value);
-                }
+                retVal.Add(Ref);
             }
         }
 

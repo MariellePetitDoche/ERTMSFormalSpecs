@@ -253,43 +253,57 @@ namespace DataDictionary
 
             if (name != null)
             {
-                if (!cache.ContainsKey(nameSpace))
+                if (nameSpace != null)
                 {
-                    cache[nameSpace] = new Dictionary<string, Types.Type>();
-                }
-                Dictionary<string, Types.Type> subCache = cache[nameSpace];
-
-                if (!subCache.ContainsKey(name))
-                {
-                    Types.Type tmp = null;
-
-                    if (!Utils.Utils.isEmpty(name))
+                    if (!cache.ContainsKey(nameSpace))
                     {
-                        tmp = nameSpace.findTypeByName(name);
+                        cache[nameSpace] = new Dictionary<string, Types.Type>();
+                    }
+                    Dictionary<string, Types.Type> subCache = cache[nameSpace];
 
-                        if (tmp == null)
+                    if (!subCache.ContainsKey(name))
+                    {
+                        Types.Type tmp = null;
+
+                        if (!Utils.Utils.isEmpty(name))
                         {
-                            if (DefinedTypes.ContainsKey(name))
+                            tmp = nameSpace.findTypeByName(name);
+
+                            if (tmp == null)
                             {
-                                tmp = DefinedTypes[name];
+                                if (DefinedTypes.ContainsKey(name))
+                                {
+                                    tmp = DefinedTypes[name];
+                                }
+                            }
+
+                            if (tmp == null && DefinedTypes.ContainsKey("Default." + name))
+                            {
+                                tmp = DefinedTypes["Default." + name];
                             }
                         }
 
-                        if (tmp == null && DefinedTypes.ContainsKey("Default." + name))
+                        if (tmp == null)
                         {
-                            tmp = DefinedTypes["Default." + name];
+                            Log.Error("Cannot find type named " + name);
                         }
+
+                        subCache[name] = tmp;
                     }
 
-                    if (tmp == null)
-                    {
-                        Log.Error("Cannot find type named " + name);
-                    }
-
-                    subCache[name] = tmp;
+                    retVal = subCache[name];
                 }
-
-                retVal = subCache[name];
+                else
+                {
+                    if (DefinedTypes.ContainsKey(name))
+                    {
+                        retVal = DefinedTypes[name];
+                    }
+                    else if (DefinedTypes.ContainsKey("Default." + name))
+                    {
+                        retVal = DefinedTypes["Default." + name];
+                    }
+                }
             }
 
             return retVal;

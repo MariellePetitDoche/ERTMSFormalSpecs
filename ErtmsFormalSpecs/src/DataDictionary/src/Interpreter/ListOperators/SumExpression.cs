@@ -57,7 +57,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             bool retVal = base.SemanticAnalysis(instance, expectation);
 
@@ -65,7 +65,7 @@ namespace DataDictionary.Interpreter.ListOperators
             {
                 AccumulatorVariable.Type = IteratorExpression.GetExpressionType();
 
-                Accumulator.SemanticAnalysis(instance, AllMatches);
+                Accumulator.SemanticAnalysis(instance, Filter.AllMatches);
             }
 
             return retVal;

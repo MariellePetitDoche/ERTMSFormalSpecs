@@ -102,7 +102,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
         /// <returns></returns>
-        public ReturnValue getReferences(INamable instance, Expression.AcceptableChoice expectation)
+        public ReturnValue getReferences(INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue retVal = new ReturnValue(this);
 
@@ -190,7 +190,7 @@ namespace DataDictionary.Interpreter
         /// <param name="namable"></param>
         /// <param name="expectation"></param>
         /// <param name="resultSet"></param>
-        private void addReference(INamable namable, Expression.AcceptableChoice expectation, ReturnValue resultSet)
+        private void addReference(INamable namable, Filter.AcceptableChoice expectation, ReturnValue resultSet)
         {
             if (namable != null)
             {
@@ -209,7 +209,7 @@ namespace DataDictionary.Interpreter
         /// <param name="location">The location of the element found</param>
         /// <param name="values">The return value to update</param>
         /// <return>the number of elements added</return>
-        private int FillBySubdeclarator(Utils.ISubDeclarator subDeclarator, Expression.AcceptableChoice expectation, ReturnValue values)
+        private int FillBySubdeclarator(Utils.ISubDeclarator subDeclarator, Filter.AcceptableChoice expectation, ReturnValue values)
         {
             int retVal = 0;
 
@@ -239,7 +239,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public void SemanticAnalysis(Utils.INamable instance, Expression.AcceptableChoice expectation)
+        public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue tmp = getReferences(instance, expectation);
             if (tmp.IsUnique)

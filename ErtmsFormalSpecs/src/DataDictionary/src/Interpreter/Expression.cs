@@ -1,4 +1,3 @@
-using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -14,11 +13,11 @@ using System;
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System.Collections.Generic;
-using Utils;
-
 namespace DataDictionary.Interpreter
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Stores the association between a interpreter tree node and a value
     /// </summary>
@@ -141,7 +140,6 @@ namespace DataDictionary.Interpreter
             {
                 foreach (ReturnValueElement elem in Values)
                 {
-                    Values.IValue value = elem.Value as Values.IValue;
                     if (retVal != null)
                     {
                         retVal = retVal + ", ";
@@ -150,7 +148,16 @@ namespace DataDictionary.Interpreter
                     {
                         retVal = "";
                     }
-                    retVal = retVal + value.LiteralName;
+
+                    Values.IValue value = elem.Value as Values.IValue;
+                    if (value != null)
+                    {
+                        retVal = retVal + value.LiteralName;
+                    }
+                    else
+                    {
+                        retVal = retVal + "<unknown value>";
+                    }
                 }
             }
             else
@@ -168,7 +175,7 @@ namespace DataDictionary.Interpreter
         /// <param name="filterOutValues"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool filterOut(bool filterOutTypes, bool filterOutValues, INamable value)
+        public static bool filterOut(bool filterOutTypes, bool filterOutValues, Utils.INamable value)
         {
             bool retVal = false;
 
@@ -201,30 +208,10 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Filters out types or values according to parameters
-        /// </summary>
-        /// <param name="filterOutTypes"></param>
-        /// <param name="filterOutValues"></param>
-        public void filterTypeOrValue(bool filterOutTypes, bool filterOutValues)
-        {
-            List<ReturnValueElement> tmp = new List<ReturnValueElement>();
-
-            foreach (ReturnValueElement element in Values)
-            {
-                if (!filterOut(filterOutTypes, filterOutValues, element.Value))
-                {
-                    tmp.Add(element);
-                }
-            }
-
-            Values = tmp;
-        }
-
-        /// <summary>
         /// Filters out value according to predicate
         /// </summary>
         /// <param name="accept"></param>
-        public void filter(Expression.AcceptableChoice accept)
+        public void filter(Filter.AcceptableChoice accept)
         {
             List<ReturnValueElement> tmp = new List<ReturnValueElement>();
 
@@ -237,7 +224,6 @@ namespace DataDictionary.Interpreter
             }
 
             Values = tmp;
-
         }
 
         /// <summary>
@@ -359,79 +345,12 @@ namespace DataDictionary.Interpreter
         protected bool SemanticAnalysisDone { get; private set; }
 
         /// <summary>
-        /// Predicate which indicates whether the namable provided matches the expectation for the semantic analysis
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public delegate bool AcceptableChoice(INamable value);
-
-        /// <summary>
-        /// Predicate which indicates that all namables match
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected static bool AllMatches(INamable value)
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// Predicates which indicates that the namable is either a variable or a value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected bool IsVariableOrValue(Utils.INamable value)
-        {
-            return value is Variables.IVariable || value is Values.IValue;
-        }
-
-        /// <summary>
-        /// Predicates which indicates that the namable is a typed element
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected bool IsTypedElement(Utils.INamable value)
-        {
-            return value is Types.ITypedElement;
-        }
-
-        /// <summary>
-        /// Predicates which indicates that the namable is a typed element
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected bool IsLeftSide(Utils.INamable value)
-        {
-            return IsVariableOrValue(value) || value is Types.StructureElement;
-        }
-
-        /// <summary>
-        /// Predicates which indicates that the namable is a structure type
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected bool IsStructure(Utils.INamable value)
-        {
-            return value is Types.Structure;
-        }
-
-        /// <summary>
-        /// Predicate which indicates that the namable can be called
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected bool IsCallable(Utils.INamable value)
-        {
-            return (value is ICallable) || (value is Types.Range);
-        }
-
-        /// <summary>
         /// Provides the possible references for this expression (only available during semantic analysis)
         /// </summary>
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
         /// <returns></returns>
-        public virtual ReturnValue getReferences(Utils.INamable instance, AcceptableChoice expectation)
+        public virtual ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             return ReturnValue.Empty;
         }
@@ -442,11 +361,11 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns></returns>
-        public virtual ReturnValue getReferenceTypes(Utils.INamable instance, AcceptableChoice expectation)
+        public virtual ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue retVal = new ReturnValue(this);
 
-            SemanticAnalysis(instance, AllMatches);
+            SemanticAnalysis(instance, Filter.AllMatches);
             retVal.Add(GetExpressionType());
 
             return retVal;
@@ -458,7 +377,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public virtual bool SemanticAnalysis(INamable instance, AcceptableChoice expectation)
+        public virtual bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             bool retVal = !SemanticAnalysisDone;
 
@@ -475,9 +394,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public virtual bool SemanticAnalysis(INamable instance = null)
+        public virtual bool SemanticAnalysis(Utils.INamable instance = null)
         {
-            return SemanticAnalysis(instance, AllMatches);
+            return SemanticAnalysis(instance, Filter.AllMatches);
         }
 
         /// <summary>
@@ -573,7 +492,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        protected Values.IValue getValue(INamable namable)
+        protected Values.IValue getValue(Utils.INamable namable)
         {
             Values.IValue retVal = null;
 
@@ -616,11 +535,11 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of variables used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <context></context>
-        /// <param name="variables"></param>
-        public abstract void FillVariables(InterpretationContext context, List<Variables.IVariable> variables);
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public abstract void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter);
 
         /// <summary>
         /// Provides the variables used by this expression
@@ -629,18 +548,42 @@ namespace DataDictionary.Interpreter
         {
             List<Variables.IVariable> retVal = new List<Variables.IVariable>();
 
-            bool prev = ModelElement.PerformLog;
-            ModelElement.PerformLog = false;
-            try
+            List<Utils.INamable> tmp = new List<Utils.INamable>();
+            fill(tmp, Filter.IsVariable);
+
+            foreach (Utils.INamable namable in tmp)
             {
-                FillVariables(new InterpretationContext(Root), retVal);
-            }
-            finally
-            {
-                ModelElement.PerformLog = prev;
+                Variables.IVariable variable = namable as Variables.IVariable;
+                if (variable != null)
+                {
+                    retVal.Add(variable);
+                }
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Provides the list of literals found in the expression
+        /// </summary>
+        public List<Values.IValue> GetLiterals()
+        {
+            List<Values.IValue> retVal = new List<Values.IValue>();
+
+            List<Utils.INamable> tmp = new List<Utils.INamable>();
+            fill(tmp, Filter.IsValue);
+
+            foreach (Utils.INamable namable in tmp)
+            {
+                Values.IValue value = namable as Values.IValue;
+                if (value != null)
+                {
+                    retVal.Add(value);
+                }
+            }
+
+            return retVal;
+
         }
 
         /// <summary>
@@ -648,36 +591,6 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <returns></returns>
         public override abstract string ToString();
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public abstract void fillLiterals(List<Values.IValue> retVal);
-
-        /// <summary>
-        /// Provides the list of literals found in the expression
-        /// </summary>
-        public List<Values.IValue> Literals
-        {
-            get
-            {
-                List<Values.IValue> retVal = new List<Values.IValue>();
-
-                bool prev = ModelElement.PerformLog;
-                ModelElement.PerformLog = false;
-                try
-                {
-
-                    fillLiterals(retVal);
-                }
-                finally
-                {
-                    ModelElement.PerformLog = prev;
-                }
-                return retVal;
-            }
-        }
 
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found

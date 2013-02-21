@@ -46,16 +46,16 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                Structure.SemanticAnalysis(instance, IsStructure);
+                Structure.SemanticAnalysis(instance, Filter.IsStructure);
                 foreach (Expression expr in Associations.Values)
                 {
-                    expr.SemanticAnalysis(instance, IsVariableOrValue);
+                    expr.SemanticAnalysis(instance, Filter.IsVariableOrValue);
                 }
             }
 
@@ -107,15 +107,15 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of variables used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <context></context>
-        /// <param name="variables"></param>
-        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
             foreach (Expression expression in Associations.Values)
             {
-                expression.FillVariables(context, variables);
+                expression.fill(retVal, filter);
             }
         }
 
@@ -168,18 +168,6 @@ namespace DataDictionary.Interpreter
             retVal = retVal + "\n" + indentAccolade + "}";
 
             return retVal;
-        }
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            foreach (Expression expression in Associations.Values)
-            {
-                fillLiterals(retVal);
-            }
         }
 
         /// <summary>

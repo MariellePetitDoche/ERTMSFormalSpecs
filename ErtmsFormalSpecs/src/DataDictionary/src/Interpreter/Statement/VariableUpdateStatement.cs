@@ -117,8 +117,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="retVal">the list to fill</param>
         public override void ReadElements(List<Variables.IVariable> retVal)
         {
-            Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(Root);
-            Expression.FillVariables(context, retVal);
+            retVal.AddRange(Expression.GetVariables());
         }
 
         /// <summary>

@@ -97,15 +97,15 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                InitialValue.SemanticAnalysis(instance, IsVariableOrValue);
-                Expression.SemanticAnalysis(instance, AllMatches);
-                Condition.SemanticAnalysis(instance, AllMatches);
+                InitialValue.SemanticAnalysis(instance, Filter.IsVariableOrValue);
+                Expression.SemanticAnalysis(instance, Filter.AllMatches);
+                Condition.SemanticAnalysis(instance, Filter.AllMatches);
 
                 LastIteration.Type = InitialValue.GetExpressionType();
                 CurrentIteration.Type = InitialValue.GetExpressionType();
@@ -159,15 +159,15 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of variables used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <context></context>
-        /// <param name="variables"></param>
-        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
-            Expression.FillVariables(context, variables);
-            InitialValue.FillVariables(context, variables);
-            Condition.FillVariables(context, variables);
+            Expression.fill(retVal, filter);
+            InitialValue.fill(retVal, filter);
+            Condition.fill(retVal, filter);
         }
 
         /// <summary>
@@ -179,17 +179,6 @@ namespace DataDictionary.Interpreter
             string retVal = "STABILIZE " + Expression.ToString() + " INITIAL_VALUE " + InitialValue.ToString() + " STOP_CONDITION " + Condition.ToString();
 
             return retVal;
-        }
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            Expression.fillLiterals(retVal);
-            InitialValue.fillLiterals(retVal);
-            Condition.fillLiterals(retVal);
         }
 
         /// <summary>

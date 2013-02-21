@@ -97,14 +97,14 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
-        public override bool SemanticAnalysis(Utils.INamable instance, AcceptableChoice expectation)
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             bool retVal = base.SemanticAnalysis(instance, expectation);
 
             if (retVal)
             {
-                Left.SemanticAnalysis(instance, IsLeftSide);
-                Right.SemanticAnalysis(instance, IsTypedElement);
+                Left.SemanticAnalysis(instance, Filter.IsLeftSide);
+                Right.SemanticAnalysis(instance, Filter.IsTypedElement);
             }
 
             return retVal;
@@ -454,14 +454,14 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of variables used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <context></context>
-        /// <param name="variables"></param>
-        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
-            Left.FillVariables(context, variables);
-            Right.FillVariables(context, variables);
+            Left.fill(retVal, filter);
+            Right.fill(retVal, filter);
         }
 
         /// <summary>
@@ -498,16 +498,6 @@ namespace DataDictionary.Interpreter
             retVal += Right.ToString();
 
             return retVal;
-        }
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            Left.fillLiterals(retVal);
-            Right.fillLiterals(retVal);
         }
 
         /// <summary>
@@ -618,29 +608,6 @@ namespace DataDictionary.Interpreter
                 case Interpreter.BinaryExpression.OPERATOR.DIV:
                     retVal = leftGraph.DivGraph(rightGraph);
                     break;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the graph associated to the function
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="function"></param>
-        /// <param name="graph"></param>
-        /// <param name="surface"></param>
-        private Functions.Graph GetGraph(Interpreter.InterpretationContext context, Functions.Function function)
-        {
-            Functions.Graph retVal = null;
-
-            if (function != null)
-            {
-                retVal = function.createGraph(context);
-                if (retVal == null)
-                {
-                    AddError("Cannot apply operator on left function which cannot be interpreted as a Graph");
-                }
             }
 
             return retVal;

@@ -326,7 +326,7 @@ namespace DataDictionary.Types
 
             if (expression != null)
             {
-                foreach (Values.IValue value in expression.Literals)
+                foreach (Values.IValue value in expression.GetLiterals())
                 {
                     Constants.State state = value as Constants.State;
                     if (state != null)
