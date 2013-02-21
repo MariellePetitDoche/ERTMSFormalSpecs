@@ -182,6 +182,15 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
+        /// Perform additional checks based on the parameter types
+        /// </summary>
+        /// <param name="root">The element on which the errors should be reported</param>
+        /// <param name="actualParameters">The parameters applied to this function call</param>
+        public void additionalChecks(ModelElement root, Dictionary<string, Interpreter.Expression> actualParameters)
+        {
+        }
+
+        /// <summary>
         /// Provides the graph of this function if it has been statically defined
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
@@ -194,7 +203,7 @@ namespace DataDictionary.Functions
             {
                 try
                 {
-                    Interpreter.InterpretationContext ctxt = new Interpreter.InterpretationContext(context, this, true);
+                    Interpreter.InterpretationContext ctxt = new Interpreter.InterpretationContext(context, this);
                     if (Cases.Count > 0)
                     {
                         // For now, just create graphs for functions using 0 or 1 parameter.
@@ -264,9 +273,9 @@ namespace DataDictionary.Functions
         /// <param name="right"></param>
         /// <param name="Operator"></param>
         /// <returns></returns>
-        public override Interpreter.ReturnValue CombineType(Types.Type right, Interpreter.BinaryExpression.OPERATOR Operator)
+        public override Types.Type CombineType(Types.Type right, Interpreter.BinaryExpression.OPERATOR Operator)
         {
-            Interpreter.ReturnValue retVal = new Interpreter.ReturnValue(); ;
+            Types.Type retVal = null;
 
             Function function = right as Function;
             if (function != null)
@@ -275,11 +284,11 @@ namespace DataDictionary.Functions
                 {
                     if (this.FormalParameters.Count >= function.FormalParameters.Count)
                     {
-                        retVal.Add(null, this);
+                        retVal = this;
                     }
                     else
                     {
-                        retVal.Add(null, function);
+                        retVal = function;
                     }
                 }
                 else
@@ -289,7 +298,7 @@ namespace DataDictionary.Functions
             }
             else if (right.IsDouble())
             {
-                retVal.Add(this);
+                retVal = this;
             }
             else
             {
@@ -344,8 +353,8 @@ namespace DataDictionary.Functions
             Interpreter.BinaryExpression binaryExpression = expression as Interpreter.BinaryExpression;
             if (binaryExpression != null)
             {
-                retVal = binaryExpression.Right.GetTypedElement(context) == parameter
-                      || binaryExpression.Left.GetTypedElement(context) == parameter
+                retVal = binaryExpression.Right.GetVariable(context) == parameter
+                      || binaryExpression.Left.GetVariable(context) == parameter
                       || FunctionCallOnParameter(context, binaryExpression.Right, parameter)
                       || FunctionCallOnParameter(context, binaryExpression.Left, parameter);
             }
@@ -407,7 +416,7 @@ namespace DataDictionary.Functions
                 if (ExpressionBasedOnParameter(context, parameter, expression))
                 {
                     Values.IValue val;
-                    if (expression.Right.GetTypedElement(context) == parameter)
+                    if (expression.Right.GetVariable(context) == parameter)
                     {
                         // Expression like xxx <= Parameter
                         val = expression.Left.GetValue(context);
@@ -429,7 +438,7 @@ namespace DataDictionary.Functions
                     }
                     else
                     {
-                        if (expression.Left.GetTypedElement(context) == parameter)
+                        if (expression.Left.GetVariable(context) == parameter)
                         {
                             // Expression like Parameter <= xxx
                             val = expression.Right.GetValue(context);
@@ -954,10 +963,9 @@ namespace DataDictionary.Functions
                 // Statically defined function
                 foreach (Case aCase in Cases)
                 {
-                    Interpreter.InterpretationContext ctxt = new Interpreter.InterpretationContext(context, true);
-                    if (aCase.EvaluatePreConditions(ctxt))
+                    if (aCase.EvaluatePreConditions(context))
                     {
-                        retVal = aCase.Expression.GetValue(ctxt);
+                        retVal = aCase.Expression.GetValue(context);
                         break;
                     }
                 }

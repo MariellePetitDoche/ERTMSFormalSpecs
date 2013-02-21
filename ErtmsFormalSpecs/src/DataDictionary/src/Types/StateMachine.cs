@@ -413,7 +413,7 @@ namespace DataDictionary.Types
                 {
                     foreach (Interpreter.Statement.VariableUpdateStatement update in action.UpdateStatements)
                     {
-                        ITypedElement element = update.Target;
+                        Variables.IVariable element = update.Target;
                         if (element != null && element.Type is StateMachine)
                         {
                             Interpreter.Expression expressionTree = update.Expression;

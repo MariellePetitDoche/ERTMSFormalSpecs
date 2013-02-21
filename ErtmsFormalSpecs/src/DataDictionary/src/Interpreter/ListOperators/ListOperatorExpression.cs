@@ -68,29 +68,28 @@ namespace DataDictionary.Interpreter.ListOperators
             PreviousIteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             PreviousIteratorVariable.Enclosing = this;
             PreviousIteratorVariable.Name = "prevX";
-
-            Types.Collection collectionType = listExpression.getExpressionType() as Types.Collection;
-            if (collectionType != null)
-            {
-                IteratorVariable.Type = collectionType.Type;
-                PreviousIteratorVariable.Type = collectionType.Type;
-            }
         }
 
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, type);
+            bool retVal = base.SemanticAnalysis(context, expectation);
 
             if (retVal)
             {
-                PrepareIteration(context);
-                ListExpression.SemanticAnalysis(context, false);
-                EndIteration(context);
+                ListExpression.SemanticAnalysis(context, expectation);
+
+                Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
+                if (collectionType != null)
+                {
+                    IteratorVariable.Type = collectionType.Type;
+                    PreviousIteratorVariable.Type = collectionType.Type;
+                }
             }
 
             return retVal;
@@ -128,12 +127,13 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
-        /// Fills the list of typed element used by this expression
+        /// Fills the list of variables used by this expression
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <context></context>
+        /// <param name="variables"></param>
+        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
         {
-            ListExpression.Elements(context, elements);
+            ListExpression.FillVariables(context, variables);
         }
 
         /// <summary>
@@ -143,18 +143,6 @@ namespace DataDictionary.Interpreter.ListOperators
         public override void fillLiterals(List<Values.IValue> retVal)
         {
             ListExpression.fillLiterals(retVal);
-        }
-
-        /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            ListExpression = ListExpression.Update(source, target);
-
-            return this;
         }
 
         /// <summary>
@@ -188,15 +176,15 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            Types.Type listExpressionType = ListExpression.getExpressionType(context);
+            base.checkExpression();
+
+            Types.Type listExpressionType = ListExpression.GetExpressionType();
             if (!(listExpressionType is Types.Collection))
             {
                 AddError("List expression " + ListExpression.ToString() + " should hold a collection");
             }
-
-            base.getExpressionType(context);
         }
 
     }

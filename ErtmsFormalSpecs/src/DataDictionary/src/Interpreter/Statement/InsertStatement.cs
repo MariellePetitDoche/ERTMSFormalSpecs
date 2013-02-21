@@ -60,52 +60,44 @@ namespace DataDictionary.Interpreter.Statement
         /// Performs the semantic analysis of the statement
         /// </summary>
         /// <param name="context"></param>
-        public override void SemanticalAnalysis(InterpretationContext context)
+        /// <returns>true if semantical analysis should be performed</returns>
+        public override bool SemanticalAnalysis(InterpretationContext context)
         {
-            base.SemanticalAnalysis(context);
+            bool retVal = base.SemanticalAnalysis(context);
 
-            Value.SemanticAnalysis(context, false);
-            ListExpression.SemanticAnalysis(context, false);
-            if (ReplaceElement != null)
+            if (retVal)
             {
-                ReplaceElement.SemanticAnalysis(context, false);
+                Value.SemanticAnalysis(context);
+                ListExpression.SemanticAnalysis(context);
+                if (ReplaceElement != null)
+                {
+                    ReplaceElement.SemanticAnalysis(context);
+                }
             }
+
+            return retVal;
         }
-
-        /// <summary>
-        /// Indicates whether this statement reads the element
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
-        {
-            List<Types.ITypedElement> elements = new List<Types.ITypedElement>();
-            ReadElements(elements);
-
-            return elements.Contains(element);
-        }
-
 
         /// <summary>
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Types.ITypedElement> retVal)
+        public override void ReadElements(List<Variables.IVariable> retVal)
         {
             InterpretationContext context = new InterpretationContext(Root);
 
-            Value.Elements(context, retVal);
+            Value.FillVariables(context, retVal);
+            Variables.IVariable elem = ListExpression.GetVariable(context);
 
-            Types.ITypedElement elem = ListExpression.GetTypedElement(context);
             retVal.Add(elem);
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public override VariableUpdateStatement Modifies(Variables.IVariable variable)
         {
             VariableUpdateStatement retVal = null;
 
@@ -125,53 +117,43 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            InterpretationContext context = new InterpretationContext(Root);
+            Value.checkExpression();
 
-            Value.checkExpression(context);
-
-            Types.ITypedElement targetList = ListExpression.GetTypedElement(context);
-            if (targetList != null)
+            Types.Collection targetListType = ListExpression.GetExpressionType() as Types.Collection;
+            if (targetListType != null)
             {
-                Types.Collection targetListType = targetList.Type as Types.Collection;
-                if (targetListType != null)
+                Types.Type elementType = Value.GetExpressionType();
+                if (elementType != targetListType.Type)
                 {
-                    Types.Type elementType = Value.getExpressionType(context);
-                    if (elementType != targetListType.Type)
-                    {
-                        Root.AddError("Inserted element type does not corresponds to list type");
-                    }
-                }
-                else
-                {
-                    Root.AddError("Target is not a collection");
-                }
-
-                if (ReplaceElement != null)
-                {
-                    Types.Type replaceElementType = ReplaceElement.getExpressionType(context);
-                    if (replaceElementType != null)
-                    {
-                        if (targetListType.Type != null)
-                        {
-                            if (replaceElementType != targetListType.Type)
-                            {
-                                Root.AddError("The replace element type (" + replaceElementType.FullName + ") does not correspond to the list type (" + targetListType.Type.FullName + ")");
-                            }
-                        }
-                        else
-                        {
-                            Root.AddError("Cannot determine list element's type for " + targetListType.FullName);
-                        }
-                    }
-                    else
-                    {
-                        Root.AddError("Cannot determine replacement element type");
-                    }
+                    Root.AddError("Inserted element type does not corresponds to list type");
                 }
             }
             else
             {
-                Root.AddError("Cannot find target list");
+                Root.AddError("Target is not a collection");
+            }
+
+            if (ReplaceElement != null)
+            {
+                Types.Type replaceElementType = ReplaceElement.GetExpressionType();
+                if (replaceElementType != null)
+                {
+                    if (targetListType.Type != null)
+                    {
+                        if (replaceElementType != targetListType.Type)
+                        {
+                            Root.AddError("The replace element type (" + replaceElementType.FullName + ") does not correspond to the list type (" + targetListType.Type.FullName + ")");
+                        }
+                    }
+                    else
+                    {
+                        Root.AddError("Cannot determine list element's type for " + targetListType.FullName);
+                    }
+                }
+                else
+                {
+                    Root.AddError("Cannot determine replacement element type");
+                }
             }
         }
 

@@ -123,7 +123,8 @@ namespace DataDictionary.Rules
                         if (states.Count == 1)
                         {
                             DataDictionary.Interpreter.Expression expr = PreCondition.ExpressionTree;
-                            expr.Update(states[0], initialState);
+                            // TODO
+                            // expr.Update(states[0], initialState);
                             PreCondition.ExpressionTree = expr;
                             InitialState = initialState;
                         }

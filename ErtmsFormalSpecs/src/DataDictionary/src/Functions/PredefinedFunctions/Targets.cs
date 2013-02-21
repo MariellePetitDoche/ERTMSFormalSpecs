@@ -85,9 +85,9 @@ namespace DataDictionary.Functions.PredefinedFunctions
             CheckFunctionalParameter(root, context, actualParameters[Targets2.Name], 1);
             CheckFunctionalParameter(root, context, actualParameters[Targets3.Name], 1);
 
-            Function function1 = actualParameters[Targets1.Name].getExpressionType() as Function;
-            Function function2 = actualParameters[Targets2.Name].getExpressionType() as Function;
-            Function function3 = actualParameters[Targets3.Name].getExpressionType() as Function;
+            Function function1 = actualParameters[Targets1.Name].GetExpressionType() as Function;
+            Function function2 = actualParameters[Targets2.Name].GetExpressionType() as Function;
+            Function function3 = actualParameters[Targets3.Name].GetExpressionType() as Function;
 
             if (function1 != null && function2 != null && function3 != null)
             {

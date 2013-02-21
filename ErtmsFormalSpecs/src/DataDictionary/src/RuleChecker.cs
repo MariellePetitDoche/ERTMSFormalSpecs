@@ -63,9 +63,9 @@ namespace DataDictionary
                 if (retVal != null)
                 {
                     Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(model);
-                    retVal.SemanticAnalysis(context, false);
-                    retVal.checkExpression(context);
-                    Types.Type type = retVal.getExpressionType();
+                    retVal.SemanticAnalysis(context);
+                    retVal.checkExpression();
+                    Types.Type type = retVal.GetExpressionType();
                     if (type == null)
                     {
                         model.AddError("Cannot determine expression type (5) for " + retVal.ToString());
@@ -315,18 +315,16 @@ namespace DataDictionary
                         Interpreter.BinaryExpression expression = checkExpression(preCondition, preCondition.Expression) as Interpreter.BinaryExpression;
                         if (expression != null)
                         {
-                            expression.SemanticAnalysis(context, false);
-                            if (expression.IsSimpleEquality())
+                            if (expression.IsSimpleEquality(context))
                             {
-
-                                Types.ITypedElement element = expression.Left.GetTypedElement(new Interpreter.InterpretationContext(preCondition));
-                                if (element != null)
+                                Variables.IVariable variable = expression.Left.GetVariable(context);
+                                if (variable != null)
                                 {
-                                    if (element.Type != null)
+                                    if (variable.Type != null)
                                     {
                                         // Check that when preconditions are based on a request, 
                                         // the corresponding action affects the value Request.Disabled to the same variable
-                                        if (element.Type.Name.Equals("Request") && expression.Right != null && expression.Right is Interpreter.UnaryExpression)
+                                        if (variable.Type.Name.Equals("Request") && expression.Right != null && expression.Right is Interpreter.UnaryExpression)
                                         {
                                             Values.IValue val2 = ((Interpreter.UnaryExpression)expression.Right).Term.LiteralValue.GetValue(context);
                                             if (val2 != null && "Response".CompareTo(val2.Name) == 0)
@@ -336,7 +334,7 @@ namespace DataDictionary
                                                     found = false;
                                                     foreach (Rules.Action action in ruleCondition.Actions)
                                                     {
-                                                        Types.ITypedElement var = OverallTypedElementFinder.INSTANCE.findByName(action, preCondition.findVariable());
+                                                        Variables.IVariable var = OverallVariableFinder.INSTANCE.findByName(action, preCondition.findVariable());
                                                         Interpreter.Statement.VariableUpdateStatement update = action.Modifies(var);
                                                         if (update != null)
                                                         {
@@ -363,18 +361,18 @@ namespace DataDictionary
                                     }
 
                                     // Check that the outgoing variables are not read
-                                    if (element.Mode == Generated.acceptor.VariableModeEnumType.aOutgoing)
+                                    if (variable.Mode == Generated.acceptor.VariableModeEnumType.aOutgoing)
                                     {
-                                        if (ruleCondition.Reads(element))
+                                        if (ruleCondition.Reads(variable))
                                         {
                                             preCondition.AddError("An outgoing variable cannot be read");
                                         }
                                     }
 
                                     // Check that the incoming variables are not modified
-                                    if (element.Mode == Generated.acceptor.VariableModeEnumType.aIncoming)
+                                    if (variable.Mode == Generated.acceptor.VariableModeEnumType.aIncoming)
                                     {
-                                        if (ruleCondition.Modifies(element) != null)
+                                        if (ruleCondition.Modifies(variable) != null)
                                         {
                                             preCondition.AddError("An incoming variable cannot be written");
                                         }
@@ -403,7 +401,7 @@ namespace DataDictionary
                 {
                     // Check whether the expression is valid
                     Interpreter.Expression expression = checkExpression(preCondition, preCondition.Condition);
-                    if (!preCondition.Dictionary.EFSSystem.BoolType.Match(expression.getExpressionType()))
+                    if (!preCondition.Dictionary.EFSSystem.BoolType.Match(expression.GetExpressionType()))
                     {
                         preCondition.AddError("Expression type should be Boolean");
                     }
@@ -471,7 +469,7 @@ namespace DataDictionary
                     if (!expect.Expression.Contains("%"))
                     {
                         Interpreter.Expression expression = checkExpression(expect, expect.Expression);
-                        if (!expect.EFSSystem.BoolType.Match(expression.getExpressionType()))
+                        if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
                         {
                             expect.AddError("Expression type should be Boolean");
                         }
@@ -626,8 +624,8 @@ namespace DataDictionary
                 Interpreter.Expression expression = cas.Expression;
                 if (expression != null)
                 {
-                    expression.checkExpression(new Interpreter.InterpretationContext(cas));
-                    Types.Type expressionType = cas.Expression.getExpressionType();
+                    expression.checkExpression();
+                    Types.Type expressionType = cas.Expression.GetExpressionType();
                     if (expressionType != null)
                     {
                         if (!cas.EnclosingFunction.ReturnType.Match(expressionType))

@@ -879,7 +879,7 @@ namespace DataDictionary.Interpreter
             {
                 Match(unaryOp);
                 Expression expression = Expression(6);
-                retVal = new UnaryExpression(Root, unaryOp, expression);
+                retVal = new UnaryExpression(Root, expression, unaryOp);
             }
             else
             {
@@ -952,7 +952,7 @@ namespace DataDictionary.Interpreter
                         {
                             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
                             parameter.Name = id;
-                            parameter.Type = type.getExpressionType(false);
+                            parameter.Type = type.GetExpressionType();
                             if (parameter.Type != null)
                             {
                                 parameters.Add(parameter);
@@ -1022,6 +1022,9 @@ namespace DataDictionary.Interpreter
                     Root.AddError("End of expression expected, but found EOF");
                 }
             }
+
+            InterpretationContext context = new InterpretationContext();
+            retVal.SemanticAnalysis(context);
 
             return retVal;
         }
@@ -1182,6 +1185,8 @@ namespace DataDictionary.Interpreter
                     throw new ParseErrorException("End of statement expected at " + Index + ", but found " + Buffer[Index]);
                 }
             }
+            InterpretationContext context = new InterpretationContext(root);
+            retVal.SemanticalAnalysis(context);
 
             return retVal;
         }

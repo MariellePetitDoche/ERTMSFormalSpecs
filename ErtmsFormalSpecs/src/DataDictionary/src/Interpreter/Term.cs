@@ -13,12 +13,10 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System.Collections.Generic;
-using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class Term : InterpreterTreeNode, IReference
+    public class Term : InterpreterTreeNode
     {
         /// <summary>
         /// The designator of this term
@@ -54,98 +52,129 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Sets the element referenced by this Deref expression
+        /// Provides the possible references for this term (only available during semantic analysis)
         /// </summary>
-        /// <param name="reference"></param>
+        /// <param name="instance">the instance on which this element should be found.</param>
+        /// <param name="expectation">the expectation on the element found</param>
         /// <returns></returns>
-        public bool setReference(Utils.INamable reference)
-        {
-            bool retVal = false;
-
-            Variables.IVariable variable = reference as Variables.IVariable;
-            if (variable == null)
-            {
-                // We do not want to hard code reference to variables since they can belong to a structure, 
-                // or be variables available on the stack.
-                Ref = reference;
-                retVal = true;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// The model element referenced by this designator.
-        /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
-        /// </summary>
-        public INamable Ref { get; private set; }
-
-        /// <summary>
-        /// Indicates whether the semantic analysis has been performed
-        /// </summary>
-        protected bool SemanticAnalysisDone { get; private set; }
-
-        /// <summary>
-        /// Performs the semantic analysis of the expression
-        /// </summary>
-        /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public bool SemanticAnalysis(InterpretationContext context, bool type)
-        {
-            bool retVal = !SemanticAnalysisDone;
-
-            if (!SemanticAnalysisDone)
-            {
-                SemanticAnalysisDone = true;
-                if (Designator != null)
-                {
-                    Designator.SemanticAnalysis(context, type);
-                }
-                else if (LiteralValue != null)
-                {
-                    LiteralValue.SemanticAnalysis(context, type);
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the typed element associated to this Term
-        /// </summary>
-        /// <param name="instance">The instance on which the value must be computed</param>
-        /// <returns></returns>
-        public ReturnValue GetTypedElement(InterpretationContext context)
+        public ReturnValue getReferences(Utils.INamable instance, Expression.AcceptableChoice expectation)
         {
             ReturnValue retVal = null;
 
             if (Designator != null)
             {
-                retVal = Designator.getReferences(context, false);
+                retVal = Designator.getReferences(instance, expectation);
             }
             else if (LiteralValue != null)
             {
-                retVal = new ReturnValue(this);
-                retVal.Add(LiteralValue.GetValue(context));
+                retVal = LiteralValue.getReferences(instance, expectation);
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the possible references types for this expression (used in semantic analysis)
         /// </summary>
-        /// <param name="instance">The instance on which the value must be computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context"></param>
+        /// <param name="expectation"></param>
         /// <returns></returns>
-        public INamable GetValue(InterpretationContext context)
+        public ReturnValue getReferenceTypes(InterpretationContext context, Expression.AcceptableChoice expectation)
         {
-            INamable retVal = null;
+            ReturnValue retVal = null;
 
-            SemanticAnalysis(context, false);
             if (Designator != null)
             {
-                retVal = Designator.GetValue(context, null);
+                retVal = new ReturnValue();
+
+                foreach (ReturnValueElement element in Designator.getReferences(context.Instance, expectation).Values)
+                {
+                    if (element.Value is Types.Type)
+                    {
+                        retVal.Add(element.Value);
+                    }
+                }
+            }
+            else if (LiteralValue != null)
+            {
+                retVal = LiteralValue.getReferenceTypes(context, expectation);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the term
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public void SemanticAnalysis(InterpretationContext context, Expression.AcceptableChoice expectation)
+        {
+            if (Designator != null)
+            {
+                Designator.SemanticAnalysis(context, expectation);
+            }
+            else if (LiteralValue != null)
+            {
+                LiteralValue.SemanticAnalysis(context, expectation);
+            }
+        }
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public Types.Type GetExpressionType()
+        {
+            Types.Type retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.GetDesignatorType();
+            }
+            else if (LiteralValue != null)
+            {
+                retVal = LiteralValue.GetExpressionType();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the variable referenced by this expression, if any
+        /// </summary>
+        /// <param name="context">The context on which the variable must be found</param>
+        /// <returns></returns>
+        public Variables.IVariable GetVariable(InterpretationContext context)
+        {
+            Variables.IVariable retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.GetVariable(context);
+            }
+            else if (LiteralValue != null)
+            {
+                retVal = null;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.GetValue(context) as Values.IValue;
             }
             else if (LiteralValue != null)
             {
@@ -153,25 +182,6 @@ namespace DataDictionary.Interpreter
             }
 
             return retVal;
-        }
-
-        /// <summary>
-        /// Fills the elements with the elements used by this term
-        /// </summary>
-        /// <param name="elements"></param>
-        public void TypedElements(InterpretationContext context, List<Types.ITypedElement> elements)
-        {
-            if (Designator != null)
-            {
-                foreach (ReturnValueElement elem in Designator.getReferences(context, true).Values)
-                {
-                    Types.ITypedElement element = elem.Value as Types.ITypedElement;
-                    if (element != null)
-                    {
-                        elements.Add(element);
-                    }
-                }
-            }
         }
 
         public override string ToString()
@@ -190,11 +200,18 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-        public void Update(Values.IValue source, Values.IValue target)
+        /// <summary>
+        /// Checks the expression and appends errors to the root tree node when inconsistencies are found
+        /// </summary>
+        public void checkExpression()
         {
-            if (LiteralValue != null)
+            if (Designator != null)
             {
-                LiteralValue.Update(source, target);
+                Designator.checkExpression();
+            }
+            else if (LiteralValue != null)
+            {
+                LiteralValue.checkExpression();
             }
         }
     }

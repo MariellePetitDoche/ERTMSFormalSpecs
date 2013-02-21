@@ -168,30 +168,30 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public Interpreter.Statement.VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public Interpreter.Statement.VariableUpdateStatement Modifies(Variables.IVariable variable)
         {
             if (Statement != null)
             {
-                return Statement.Modifies(element);
+                return Statement.Modifies(variable);
             }
 
             return null;
         }
 
         /// <summary>
-        /// Indicates whether this action reads the element
+        /// Indicates whether this action reads the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Reads(Types.ITypedElement element)
+        public bool Reads(Variables.IVariable variable)
         {
             if (Statement != null)
             {
-                return Statement.Reads(element);
+                return Statement.Reads(variable);
             }
 
             return false;

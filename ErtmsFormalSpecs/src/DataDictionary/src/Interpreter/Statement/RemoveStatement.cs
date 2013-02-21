@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter.Statement
 {
-    public class RemoveStatement : Statement
+    public class RemoveStatement : Statement, Utils.ISubDeclarator
     {
         /// <summary>
         /// The condition which should be true on the element to be removed
@@ -68,59 +68,52 @@ namespace DataDictionary.Interpreter.Statement
             IteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
             IteratorVariable.Name = "X";
-            Types.Collection collectionType = ListExpression.getExpressionType() as Types.Collection;
-            if (collectionType != null)
-            {
-                IteratorVariable.Type = collectionType.Type;
-            }
         }
 
         /// <summary>
         /// Performs the semantic analysis of the statement
         /// </summary>
         /// <param name="context"></param>
-        public override void SemanticalAnalysis(InterpretationContext context)
+        /// <returns>true if semantical analysis should be performed</returns>
+        public override bool SemanticalAnalysis(InterpretationContext context)
         {
-            base.SemanticalAnalysis(context);
+            bool retVal = base.SemanticalAnalysis(context);
 
-            ListExpression.SemanticAnalysis(context, false);
-            if (Condition != null)
+            if (retVal)
             {
-                context.LocalScope.PushContext();
-                context.LocalScope.setVariable(IteratorVariable);
-                Condition.SemanticAnalysis(context, false);
-                context.LocalScope.PopContext();
+                ListExpression.SemanticAnalysis(context);
+                Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
+                if (collectionType != null)
+                {
+                    IteratorVariable.Type = collectionType.Type;
+                }
+
+                if (Condition != null)
+                {
+                    context.LocalScope.PushContext();
+                    context.LocalScope.setVariable(IteratorVariable);
+                    Condition.SemanticAnalysis(context);
+                    context.LocalScope.PopContext();
+                }
             }
+
+            return retVal;
         }
 
         /// <summary>
-        /// Indicates whether this statement reads the element
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
-        {
-            List<Types.ITypedElement> elements = new List<Types.ITypedElement>();
-            ReadElements(elements);
-
-            return elements.Contains(element);
-        }
-
-
-        /// <summary>
-        /// Provides the list of elements read by this statement
+        /// Provides the list of variable read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Types.ITypedElement> retVal)
+        public override void ReadElements(List<Variables.IVariable> retVal)
         {
             InterpretationContext context = new InterpretationContext(Root);
 
             if (Condition != null)
             {
-                Condition.Elements(context, retVal);
+                Condition.FillVariables(context, retVal);
             }
 
-            Types.ITypedElement elem = ListExpression.GetTypedElement(context);
+            Variables.IVariable elem = ListExpression.GetVariable(context);
             retVal.Add(elem);
         }
 
@@ -129,7 +122,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="element"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public override VariableUpdateStatement Modifies(Variables.IVariable element)
         {
             VariableUpdateStatement retVal = null;
 
@@ -155,8 +148,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (Condition != null)
             {
-                InterpretationContext ctxt = new InterpretationContext(context, true);
-                Values.BoolValue b = Condition.GetValue(ctxt) as Values.BoolValue;
+                Values.BoolValue b = Condition.GetValue(context) as Values.BoolValue;
                 if (b == null)
                 {
                     retVal = false;
@@ -177,7 +169,7 @@ namespace DataDictionary.Interpreter.Statement
         {
             InterpretationContext context = new InterpretationContext(Root);
 
-            Types.ITypedElement targetList = ListExpression.GetTypedElement(context);
+            Values.IValue targetList = ListExpression.GetValue(context);
             if (targetList == null)
             {
                 Root.AddError("Cannot find target list");
@@ -186,8 +178,8 @@ namespace DataDictionary.Interpreter.Statement
             if (Condition != null)
             {
                 context.LocalScope.setVariable(IteratorVariable);
-                Condition.checkExpression(context);
-                Types.BoolType conditionType = Condition.getExpressionType(context) as Types.BoolType;
+                Condition.checkExpression();
+                Types.BoolType conditionType = Condition.GetExpressionType() as Types.BoolType;
                 if (conditionType == null)
                 {
                     Root.AddError("Condition does not evaluates to boolean");
@@ -302,6 +294,34 @@ namespace DataDictionary.Interpreter.Statement
             else
             {
                 newListValue.Val.Add(value);
+            }
+        }
+
+        /// <summary>
+        /// The elements declared by this declarator
+        /// </summary>
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements
+        {
+            get
+            {
+                Dictionary<string, List<Utils.INamable>> retVal = new Dictionary<string, List<Utils.INamable>>();
+
+                Utils.ISubDeclaratorUtils.AppendNamable(retVal, IteratorVariable);
+
+                return retVal;
+            }
+        }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
+        {
+            if (IteratorVariable.Name.CompareTo(name) == 0)
+            {
+                retVal.Add(IteratorVariable);
             }
         }
 

@@ -39,57 +39,6 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Sets the element referenced by this Deref expression
-        /// </summary>
-        /// <param name="reference"></param>
-        /// <returns></returns>
-        public bool setReference(Utils.INamable reference)
-        {
-            bool retVal = false;
-
-            Variables.IVariable variable = reference as Variables.IVariable;
-            if (variable == null)
-            {
-                // We do not want to hard code reference to variables since they can belong to a structure, 
-                // or be variables available on the stack.
-                Ref = reference;
-                retVal = true;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// The model element referenced by this designator.
-        /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
-        /// </summary>
-        public INamable Ref { get; private set; }
-
-        /// <summary>
-        /// Performs the semantic analysis of the expression
-        /// </summary>
-        /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
-        {
-            bool retVal = base.SemanticAnalysis(context, type);
-
-            if (retVal)
-            {
-                if (Term != null)
-                {
-                    Term.SemanticAnalysis(context, false);
-                }
-                else if (Expression != null)
-                {
-                    Expression.SemanticAnalysis(context, false);
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// The expression for the unary op
         /// </summary>
         public Expression Expression { get; private set; }
@@ -111,8 +60,9 @@ namespace DataDictionary.Interpreter
         /// Constructor
         /// </summary>
         /// <param name="root">The root for which this expression should be evaluated</param>
+        /// <param name="expression">The enclosed expression</param>
         /// <param name="unaryOp">the unary operator for this unary expression</parparam>
-        public UnaryExpression(ModelElement root, string unaryOp, Expression expression)
+        public UnaryExpression(ModelElement root, Expression expression, string unaryOp = null)
             : base(root)
         {
             Expression = expression;
@@ -122,55 +72,201 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Constructor
+        /// The model element referenced by this designator.
+        /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
         /// </summary>
-        /// <param name="root">The root for which this expression should be evaluated</param>
-        /// <param name="unaryOp">the unary operator for this unary expression</parparam>
-        public UnaryExpression(ModelElement root, Expression expression)
-            : base(root)
-        {
-            Expression = expression;
-            Expression.Enclosing = this;
-
-            UnaryOp = null;
-        }
+        public INamable Ref { get; private set; }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Sets the element referenced by this Deref expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="reference"></param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public bool setReference(Utils.INamable reference)
         {
-            ReturnValue retVal = new ReturnValue(this);
+            bool retVal = false;
 
-            if (Term != null)
+            Variables.IVariable variable = reference as Variables.IVariable;
+            if (variable == null)
             {
-                retVal = Term.GetTypedElement(context);
-            }
-            else if (Expression != null)
-            {
-                retVal.Add(null, Expression.GetTypedElement(context));
+                // We do not want to hard code reference to variables since they can belong to a structure, 
+                // or be variables available on the stack.
+                Ref = reference;
+                retVal = true;
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the possible references for this dereference expression (only available during semantic analysis)
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="instance">the instance on which this element should be found.</param>
+        /// <param name="expectation">the expectation on the element found</param>
         /// <returns></returns>
-        public override INamable InnerGetValue(InterpretationContext context)
+        public override ReturnValue getReferences(Utils.INamable instance, AcceptableChoice expectation)
         {
-            INamable retVal = null;
+            ReturnValue retVal = ReturnValue.Empty;
+
+            if (Term != null)
+            {
+                retVal = Term.getReferences(instance, expectation);
+            }
+            else
+            {
+                if (UnaryOp == null)
+                {
+                    retVal = Expression.getReferences(instance, expectation);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the possible references types for this expression (used in semantic analysis)
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="expectation"></param>
+        /// <returns></returns>
+        public override ReturnValue getReferenceTypes(InterpretationContext context, AcceptableChoice expectation)
+        {
+            ReturnValue retVal = ReturnValue.Empty;
+
+            if (Term != null)
+            {
+                retVal = Term.getReferenceTypes(context, expectation);
+            }
+            else
+            {
+                if (UnaryOp == null)
+                {
+                    retVal = Expression.getReferenceTypes(context, expectation);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
+        {
+            bool retVal = base.SemanticAnalysis(context, expectation);
+
+            if (retVal)
+            {
+                if (Term != null)
+                {
+                    Term.SemanticAnalysis(context, expectation);
+                }
+                else if (Expression != null)
+                {
+                    Expression.SemanticAnalysis(context, expectation);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public override Types.Type GetExpressionType()
+        {
+            Types.Type retVal = null;
+
+            if (Term != null)
+            {
+                retVal = Term.GetExpressionType();
+
+                Variables.IProcedure procedure = retVal as Variables.IProcedure;
+                if (procedure != null && procedure.CurrentState != null)
+                {
+                    retVal = procedure.CurrentState.Type;
+                }
+            }
+            else if (Expression != null)
+            {
+                if (NOT.CompareTo(UnaryOp) == 0)
+                {
+                    Types.Type type = Expression.GetExpressionType();
+                    if (type is Types.BoolType)
+                    {
+                        retVal = type;
+                    }
+                    else
+                    {
+                        AddError("Cannot apply NOT on non boolean types");
+                    }
+                }
+                else if (MINUS.CompareTo(UnaryOp) == 0)
+                {
+                    Types.Type type = Expression.GetExpressionType();
+                    if (type == EFSSystem.IntegerType || type == EFSSystem.DoubleType || type is Types.Range)
+                    {
+                        retVal = type;
+                    }
+                    else
+                    {
+                        AddError("Cannot apply - on non integral types");
+                    }
+                }
+                else
+                {
+                    retVal = Expression.GetExpressionType();
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the variable referenced by this expression, if any
+        /// </summary>
+        /// <param name="context">The context on which the variable must be found</param>
+        /// <returns></returns>
+        public override Variables.IVariable GetVariable(InterpretationContext context)
+        {
+            Variables.IVariable retVal = null;
 
             if (Ref != null)
             {
-                retVal = Ref;
+                retVal = Ref as Variables.IVariable;
+            }
+            else
+            {
+                if (Term != null)
+                {
+                    retVal = Term.GetVariable(context);
+                }
+                else
+                {
+                    AddError("Cannot get variable from expression" + ToString());
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public override Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
+
+            if (Ref != null)
+            {
+                retVal = getValue(Ref);
             }
             else
             {
@@ -194,6 +290,10 @@ namespace DataDictionary.Interpreter
                                 retVal = EFSSystem.BoolType.True;
                             }
                         }
+                        else
+                        {
+                            AddError("Expression " + Expression.ToString() + " does not evaluate to boolean");
+                        }
                     }
                     else if (MINUS.CompareTo(UnaryOp) == 0)
                     {
@@ -211,10 +311,15 @@ namespace DataDictionary.Interpreter
                                 retVal = new Values.DoubleValue(doubleValue.Type, -doubleValue.Val);
                             }
                         }
+
+                        if (retVal == null)
+                        {
+                            AddError("Cannot negate value for " + Expression.ToString());
+                        }
                     }
                     else
                     {
-                        retVal = Expression.InnerGetValue(context);
+                        retVal = Expression.GetValue(context);
                     }
                 }
             }
@@ -223,18 +328,35 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Provides the callable that is called by this expression
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <param name="namable"></param>
+        /// <returns></returns>
+        public override ICallable getCalled(InterpretationContext context)
+        {
+            ICallable retVal = null;
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Fills the list of variables used by this expression
+        /// </summary>
+        /// <context></context>
+        /// <param name="variables"></param>
+        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
         {
             if (Term != null)
             {
-                Term.TypedElements(context, elements);
+                Variables.IVariable variable = Term.GetVariable(context);
+                if (variables != null)
+                {
+                    variables.Add(variable);
+                }
             }
             if (Expression != null)
             {
-                Expression.Elements(context, elements);
+                Expression.FillVariables(context, variables);
             }
         }
 
@@ -279,116 +401,19 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            if (Term != null)
-            {
-                Term.Update(source, target);
-            }
-            else if (Expression != null)
-            {
-                Expression = Expression.Update(source, target);
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            if (context.Instance is Types.StateMachine)
-            {
-                retVal.Add(context.Instance as Types.StateMachine);
-            }
-            else
-            {
-                if (Term != null)
-                {
-                    foreach (ReturnValueElement elem in Term.GetTypedElement(context).Values)
-                    {
-                        Types.ITypedElement element = elem.Value as Types.ITypedElement;
-                        if (element != null)
-                        {
-                            retVal.Add(element.Type);
-                        }
-                        else
-                        {
-                            Variables.Procedure procedure = elem.Value as Variables.Procedure;
-                            if (procedure != null && procedure.CurrentState != null)
-                            {
-                                retVal.Add(procedure.CurrentState.Type);
-                            }
-                            else
-                            {
-                                retVal.Add(elem.Value);
-                            }
-                        }
-                    }
-                }
-                else if (Expression != null)
-                {
-                    if (NOT.CompareTo(UnaryOp) == 0)
-                    {
-                        InterpretationContext ctxt = new InterpretationContext(context, true);
-                        foreach (ReturnValueElement elem in Expression.getExpressionTypes(ctxt).Values)
-                        {
-                            Types.Type type = elem.Value as Types.Type;
-                            if (type is Types.BoolType)
-                            {
-                                retVal.Add(type);
-                            }
-                            else
-                            {
-                                AddError("Cannot apply NOT on non boolean types");
-                            }
-                        }
-                    }
-                    else if (MINUS.CompareTo(UnaryOp) == 0)
-                    {
-                        InterpretationContext ctxt = new InterpretationContext(context, true);
-                        foreach (ReturnValueElement elem in Expression.getExpressionTypes(ctxt).Values)
-                        {
-                            Types.Type type = elem.Value as Types.Type;
-                            if (type == EFSSystem.IntegerType || type == EFSSystem.DoubleType || type is Types.Range)
-                            {
-                                retVal.Add(type);
-                            }
-                            else
-                            {
-                                AddError("Cannot apply - on non integral types");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        retVal = Expression.getExpressionTypes(context);
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            base.getExpressionType(context);
+            base.checkExpression();
+
+            if (Term != null)
+            {
+                Term.checkExpression();
+            }
             if (Expression != null)
             {
-                Expression.checkExpression(context);
+                Expression.checkExpression();
             }
         }
 

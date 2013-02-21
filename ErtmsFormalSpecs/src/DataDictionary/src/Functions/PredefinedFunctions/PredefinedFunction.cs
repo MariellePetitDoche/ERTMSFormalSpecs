@@ -103,7 +103,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="count">the expected number of parameters</param>
         protected virtual void CheckFunctionalParameter(ModelElement root, Interpreter.InterpretationContext context, Interpreter.Expression expression, int count)
         {
-            Types.Type type = expression.getExpressionType(context);
+            Types.Type type = expression.GetExpressionType();
 
             Function function = type as Function;
             if (function != null)

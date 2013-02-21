@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -54,47 +53,62 @@ namespace DataDictionary.Interpreter
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, type);
+            bool retVal = base.SemanticAnalysis(context, expectation);
 
             if (retVal)
             {
-                Expression.SemanticAnalysis(context, false);
+                context.LocalScope.PushContext();
+                foreach (Parameter parameter in Parameters)
+                {
+                    context.LocalScope.setVariable(parameter);
+                }
+                Expression.SemanticAnalysis(context, AllMatches);
+                context.LocalScope.PopContext();
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            return getExpressionTypes(context);
+            Functions.Function retVal = (Functions.Function)Generated.acceptor.getFactory().createFunction();
+            retVal.Name = ToString();
+            retVal.ReturnType = Expression.GetExpressionType();
+
+            foreach (Parameter parameter in Parameters)
+            {
+                Parameter param = (Parameter)Generated.acceptor.getFactory().createParameter();
+                param.Name = parameter.Name;
+                param.Type = parameter.Type;
+                retVal.appendParameters(param);
+            }
+
+            return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the value associated to this Expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public override INamable InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            INamable retVal = null;
+            Values.IValue retVal = null;
 
             try
             {
-                InterpretationContext ctxt = new InterpretationContext(context);
                 if (Parameters.Count == 1)
                 {
-                    Functions.Graph graph = createGraphForParameter(ctxt, Parameters[0]);
+                    Functions.Graph graph = createGraphForParameter(context, Parameters[0]);
                     if (graph != null)
                     {
                         retVal = graph.Function;
@@ -102,7 +116,7 @@ namespace DataDictionary.Interpreter
                 }
                 else if (Parameters.Count == 2)
                 {
-                    Functions.Surface surface = createSurface(ctxt, Parameters[0], Parameters[1]);
+                    Functions.Surface surface = createSurface(context, Parameters[0], Parameters[1]);
                     if (surface != null)
                     {
                         retVal = surface.Function;
@@ -113,21 +127,22 @@ namespace DataDictionary.Interpreter
             {
                 /// TODO Ugly hack, because functions & function types are merged.
                 /// This provides an empty function as the type of this
-                retVal = getExpressionTypes(context).Values[0].Value;
+                retVal = GetExpressionType() as Values.IValue;
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list of variables used by this expression
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <context></context>
+        /// <param name="variables"></param>
+        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
         {
             if (Expression != null)
             {
-                Expression.Elements(context, elements);
+                Expression.FillVariables(context, variables);
             }
         }
 
@@ -165,64 +180,14 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            if (Expression != null)
-            {
-                Expression = Expression.Update(source, target);
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            Functions.Function function = (Functions.Function)Generated.acceptor.getFactory().createFunction();
-            function.Name = ToString();
-            context.LocalScope.PushContext();
-            foreach (Parameter parameter in Parameters)
-            {
-                context.LocalScope.setVariable(parameter);
-            }
-            function.ReturnType = Expression.getExpressionType(context);
-            context.LocalScope.PopContext();
-
-            foreach (Parameter parameter in Parameters)
-            {
-                Parameter param = (Parameter)Generated.acceptor.getFactory().createParameter();
-                param.Name = parameter.Name;
-                param.Type = parameter.Type;
-                function.appendParameters(param);
-            }
-            retVal.Add(function);
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            context.LocalScope.PushContext();
-            foreach (Parameter parameter in Parameters)
-            {
-                context.LocalScope.setVariable(parameter);
-            }
-            Expression.checkExpression(context);
-            context.LocalScope.PopContext();
+            base.checkExpression();
+
+            Expression.checkExpression();
         }
 
         /// <summary>

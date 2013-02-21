@@ -175,19 +175,19 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Indicates whether this preCondition reads the element
+        /// Indicates whether this preCondition reads the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Reads(Types.ITypedElement element)
+        public bool Reads(Variables.IVariable variable)
         {
             bool retVal = false;
 
             if (ExpressionTree != null)
             {
-                foreach (Types.ITypedElement el in ExpressionTree.Elements())
+                foreach (Types.ITypedElement el in ExpressionTree.GetVariables())
                 {
-                    if (el == element)
+                    if (el == variable)
                     {
                         retVal = true;
                         break;

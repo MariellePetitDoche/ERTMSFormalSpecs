@@ -41,15 +41,16 @@ namespace DataDictionary.Interpreter.ListOperators
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, type);
+            bool retVal = base.SemanticAnalysis(context, expectation);
 
             if (retVal)
             {
                 PrepareIteration(context);
-                IteratorExpression.SemanticAnalysis(context, false);
+                IteratorExpression.SemanticAnalysis(context, AllMatches);
                 EndIteration(context);
             }
 

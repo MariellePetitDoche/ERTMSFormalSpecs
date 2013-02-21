@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -96,30 +95,117 @@ namespace DataDictionary.Interpreter
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, type);
+            bool retVal = base.SemanticAnalysis(context, expectation);
 
             if (retVal)
             {
-                Left.SemanticAnalysis(context, false);
-                Right.SemanticAnalysis(context, false);
+                Left.SemanticAnalysis(context, IsLeftSide);
+                Right.SemanticAnalysis(context, IsTypedElement);
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            ReturnValue retVal = getExpressionTypes(context);
+            Types.Type retVal = null;
+
+            Types.Type leftType = Left.GetExpressionType();
+            if (leftType == null)
+            {
+                AddError("Cannot determine expression type (1) for " + Left.ToString());
+            }
+            else
+            {
+                Types.Type rightType = Right.GetExpressionType();
+                if (rightType == null)
+                {
+                    AddError("Cannot determine expression type (2) for " + Right.ToString());
+                }
+                else
+                {
+                    switch (Operation)
+                    {
+                        case OPERATOR.EXP:
+                        case OPERATOR.MULT:
+                        case OPERATOR.DIV:
+                        case OPERATOR.ADD:
+                        case OPERATOR.SUB:
+                            if (leftType.Match(rightType))
+                            {
+                                if (leftType is Types.IntegerType || leftType is Types.DoubleType)
+                                {
+                                    retVal = rightType;
+                                }
+                                else
+                                {
+                                    retVal = leftType;
+                                }
+                            }
+                            else
+                            {
+                                retVal = leftType.CombineType(rightType, Operation);
+                            }
+
+                            break;
+
+                        case OPERATOR.AND:
+                        case OPERATOR.OR:
+                            if (leftType == EFSSystem.BoolType && rightType == EFSSystem.BoolType)
+                            {
+                                retVal = EFSSystem.BoolType;
+                            }
+                            break;
+
+                        case OPERATOR.EQUAL:
+                        case OPERATOR.NOT_EQUAL:
+                        case OPERATOR.LESS:
+                        case OPERATOR.LESS_OR_EQUAL:
+                        case OPERATOR.GREATER:
+                        case OPERATOR.GREATER_OR_EQUAL:
+                            if (leftType.Match(rightType) || rightType.Match(leftType))
+                            {
+                                retVal = EFSSystem.BoolType;
+                            }
+                            break;
+
+                        case OPERATOR.IN:
+                        case OPERATOR.NOT_IN:
+                            Types.Collection collection = rightType as Types.Collection;
+                            if (collection != null)
+                            {
+                                if (collection.Type == null)
+                                {
+                                    retVal = EFSSystem.BoolType;
+                                }
+                                else if (collection.Type == leftType)
+                                {
+                                    retVal = EFSSystem.BoolType;
+                                }
+                            }
+                            else
+                            {
+                                Types.StateMachine stateMachine = rightType as Types.StateMachine;
+                                if (stateMachine != null && leftType.Match(stateMachine))
+                                {
+                                    retVal = EFSSystem.BoolType;
+                                }
+                            }
+                            break;
+
+                        case OPERATOR.UNDEF:
+                            break;
+                    }
+                }
+            }
 
             return retVal;
         }
@@ -130,9 +216,9 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which the value is computed</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override INamable InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            INamable retVal = null;
+            Values.IValue retVal = null;
             ExplanationPart previous = SetupExplanation();
 
             Values.IValue leftValue = null;
@@ -368,35 +454,32 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list of variables used by this expression
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <context></context>
+        /// <param name="variables"></param>
+        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
         {
-            Left.Elements(context, elements);
-            Right.Elements(context, elements);
+            Left.FillVariables(context, variables);
+            Right.FillVariables(context, variables);
         }
 
         /// <summary>
-        /// Indicates that the expression is an equality of the form a == b
+        /// Indicates that the expression is an equality of the form variable == literal
         /// </summary>
         /// <returns></returns>
-        public bool IsSimpleEquality()
+        public bool IsSimpleEquality(InterpretationContext context)
         {
             bool retVal = false;
 
-            bool prev = ModelElement.PerformLog;
-            ModelElement.PerformLog = false;
-            try
+            if (Operation == OPERATOR.EQUAL)
             {
-                Types.ITypedElement element = Left.GetTypedElement(new InterpretationContext(Root));
-                Values.IValue value = Right.GetValue(new InterpretationContext(Root)) as Values.IValue;
-
-                retVal = Operation == OPERATOR.EQUAL && element != null && value != null;
-            }
-            finally
-            {
-                ModelElement.PerformLog = prev;
+                Variables.IVariable variable = Left.GetVariable(context);
+                UnaryExpression value = Right as Interpreter.UnaryExpression;
+                if (variable != null && value != null && value.Term != null)
+                {
+                    retVal = value.Term.LiteralValue != null;
+                }
             }
 
             return retVal;
@@ -425,130 +508,6 @@ namespace DataDictionary.Interpreter
         {
             Left.fillLiterals(retVal);
             Right.fillLiterals(retVal);
-        }
-
-        /// <summary>
-        /// Updates the expression text
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            Left = Left.Update(source, target);
-            Right = Right.Update(source, target);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            ReturnValue lTypes = Left.getExpressionTypes(context);
-            if (lTypes.IsEmpty)
-            {
-                AddError("Cannot determine expression type (1) for " + Left.ToString());
-            }
-
-            ReturnValue rTypes = Right.getExpressionTypes(context);
-            if (rTypes.IsEmpty)
-            {
-                AddError("Cannot determine expression type (2) for " + Right.ToString());
-            }
-
-            foreach (ReturnValueElement lelem in lTypes.Values)
-            {
-                Types.Type left = lelem.Value as Types.Type;
-                if (left != null)
-                {
-                    foreach (ReturnValueElement relem in rTypes.Values)
-                    {
-                        Types.Type right = relem.Value as Types.Type;
-                        if (right != null)
-                        {
-                            switch (Operation)
-                            {
-                                case OPERATOR.EXP:
-                                case OPERATOR.MULT:
-                                case OPERATOR.DIV:
-                                case OPERATOR.ADD:
-                                case OPERATOR.SUB:
-                                    if (left.Match(right))
-                                    {
-                                        if (left is Types.IntegerType || left is Types.DoubleType)
-                                        {
-                                            retVal.Add(right);
-                                        }
-                                        else
-                                        {
-                                            retVal.Add(left);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        retVal = left.CombineType(right, Operation);
-                                    }
-
-                                    break;
-
-                                case OPERATOR.AND:
-                                case OPERATOR.OR:
-                                    if (left == EFSSystem.BoolType && right == EFSSystem.BoolType)
-                                    {
-                                        retVal.Add(EFSSystem.BoolType);
-                                    }
-                                    break;
-
-                                case OPERATOR.EQUAL:
-                                case OPERATOR.NOT_EQUAL:
-                                case OPERATOR.LESS:
-                                case OPERATOR.LESS_OR_EQUAL:
-                                case OPERATOR.GREATER:
-                                case OPERATOR.GREATER_OR_EQUAL:
-                                    if (left.Match(right) || right.Match(left))
-                                    {
-                                        retVal.Add(EFSSystem.BoolType);
-                                    }
-                                    break;
-
-                                case OPERATOR.IN:
-                                case OPERATOR.NOT_IN:
-                                    Types.Collection collection = right as Types.Collection;
-                                    if (collection != null)
-                                    {
-                                        if (collection.Type == null)
-                                        {
-                                            retVal.Add(EFSSystem.BoolType);
-                                        }
-                                        else if (collection.Type == left)
-                                        {
-                                            retVal.Add(EFSSystem.BoolType);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Types.StateMachine stateMachine = right as Types.StateMachine;
-                                        if (stateMachine != null && left.Match(stateMachine))
-                                        {
-                                            retVal.Add(EFSSystem.BoolType);
-                                        }
-                                    }
-                                    break;
-
-                                case OPERATOR.UNDEF:
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return retVal;
         }
 
         /// <summary>
@@ -614,12 +573,12 @@ namespace DataDictionary.Interpreter
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            Left.checkExpression(context);
-            Right.checkExpression(context);
+            base.checkExpression();
 
-            base.checkExpression(context);
+            Left.checkExpression();
+            Right.checkExpression();
         }
 
         /// <summary>

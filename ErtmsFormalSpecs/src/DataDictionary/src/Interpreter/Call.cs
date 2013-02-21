@@ -1,4 +1,3 @@
-using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -14,6 +13,7 @@ using System;
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using Utils;
 
@@ -45,9 +45,8 @@ namespace DataDictionary.Interpreter
         /// Perform additional checks based on the parameter types
         /// </summary>
         /// <param name="root">The element on which the errors should be reported</param>
-        /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        void additionalChecks(ModelElement root, Interpreter.InterpretationContext context, Dictionary<string, Expression> actualParameters);
+        void additionalChecks(ModelElement root, Dictionary<string, Expression> actualParameters);
     }
 
     public class Call : Expression
@@ -61,7 +60,6 @@ namespace DataDictionary.Interpreter
         /// The unnamed actual parameters
         /// </summary>
         private List<Expression> actualParameters;
-
         public List<Expression> ActualParameters
         {
             get
@@ -82,7 +80,6 @@ namespace DataDictionary.Interpreter
         /// The list of named actual parameters
         /// </summary>
         private Dictionary<string, Expression> namedActualParameters;
-
         public Dictionary<string, Expression> NamedActualParameters
         {
             get
@@ -125,27 +122,6 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Performs the semantic analysis of the expression
-        /// </summary>
-        /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
-        {
-            bool retVal = base.SemanticAnalysis(context, type);
-
-            if (retVal)
-            {
-                Called.SemanticAnalysis(context, false);
-                foreach (Expression actual in AllParameters)
-                {
-                    actual.SemanticAnalysis(context, false);
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Adds an expression as a parameter
         /// </summary>
         /// <param name="name">the name of the actual parameter</param>
@@ -180,11 +156,11 @@ namespace DataDictionary.Interpreter
         {
             ICallable retVal = null;
 
-            INamable namable = Called.InnerGetValue(context);
+            INamable namable = Called.GetValue(context);
             retVal = namable as ICallable;
             if (retVal == null)
             {
-                Types.Range range = namable as Types.Range;
+                Types.Range range = Called.GetExpressionType() as Types.Range;
                 if (range != null)
                 {
                     retVal = range.CastFunction;
@@ -227,28 +203,57 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression
+        /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        /// <param name="context"></param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            ReturnValue retVal = getExpressionTypes(context);
+            bool retVal = base.SemanticAnalysis(context, expectation);
+
+            if (retVal)
+            {
+                Called.SemanticAnalysis(context, IsCallable);
+                foreach (Expression actual in AllParameters)
+                {
+                    actual.SemanticAnalysis(context, IsVariableOrValue);
+                }
+            }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value for this function call
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the function call value must be computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override INamable InnerGetValue(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            INamable retVal = null;
+            Types.Type retVal = null;
+
+            Functions.Function function = getFunction(new InterpretationContext(Root));
+            if (function != null)
+            {
+                retVal = function.ReturnType;
+            }
+            else
+            {
+                AddError("Cannot get type of function call " + ToString());
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public override Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
             ExplanationPart previous = SetupExplanation();
 
             Functions.Function function = getFunction(context);
@@ -257,7 +262,6 @@ namespace DataDictionary.Interpreter
                 long start = System.Environment.TickCount;
 
                 Dictionary<string, Values.IValue> parameterValues = AssignParameterValues(context, function, true);
-
                 List<Parameter> parameters = GetPlaceHolders(function, parameterValues);
                 if (parameters == null)
                 {
@@ -368,7 +372,6 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public Dictionary<string, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
         {
-            InterpretationContext ctxt = new InterpretationContext(context, true);
             // Compute the unnamed actual parameter values
             Dictionary<string, Values.IValue> retVal = new Dictionary<string, Values.IValue>();
 
@@ -378,7 +381,7 @@ namespace DataDictionary.Interpreter
                 foreach (Expression expression in ActualParameters)
                 {
                     Parameter parameter = callable.FormalParameters[i] as Parameter;
-                    Values.IValue val = expression.GetValue(ctxt);
+                    Values.IValue val = expression.GetValue(context);
                     if (val != null)
                     {
                         val = val.RightSide(parameter, false);
@@ -398,7 +401,7 @@ namespace DataDictionary.Interpreter
                 foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
                 {
                     Parameter parameter = callable.getFormalParameter(pair.Key);
-                    Values.IValue val = pair.Value.GetValue(ctxt);
+                    Values.IValue val = pair.Value.GetValue(context);
                     if (val != null)
                     {
                         val = val.RightSide(parameter, false);
@@ -419,82 +422,20 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the type of the called element
+        /// Fills the list of variables used by this expression
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private ReturnValue getCalledTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            foreach (ReturnValueElement elem in Called.InnerGetTypedElement(context).Values)
-            {
-                Interpreter.ICallable callable = elem.Value as Interpreter.ICallable;
-                if (callable != null)
-                {
-                    retVal.Add(callable);
-                }
-                else
-                {
-                    Types.Range range = elem.Value as Types.Range;
-                    if (range != null)
-                    {
-                        retVal.Add(range.CastFunction);
-                    }
-                    else
-                    {
-                        Variables.IVariable variable = elem.Value as Variables.IVariable;
-                        if (variable != null)
-                        {
-                            DataDictionary.Functions.Function function = variable.Value as DataDictionary.Functions.Function;
-                            if (function != null)
-                            {
-                                retVal.Add(function);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the return type of the function
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            foreach (ReturnValueElement elem in getCalledTypes(context).Values)
-            {
-                ICallable callable = elem.Value as ICallable;
-                if (callable != null)
-                {
-                    retVal.Add(callable.ReturnType);
-                }
-            }
-
-            if (retVal.IsEmpty)
-            {
-                AddError("Cannot determine the called function for " + ToString());
-            }
-
-            return retVal;
-        }
-
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <context></context>
+        /// <param name="variables"></param>
+        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
         {
             foreach (Expression expression in NamedActualParameters.Values)
             {
-                expression.Elements(context, elements);
+                expression.FillVariables(context, variables);
             }
 
             foreach (Expression expression in ActualParameters)
             {
-                expression.Elements(context, elements);
+                expression.FillVariables(context, variables);
             }
         }
 
@@ -512,28 +453,6 @@ namespace DataDictionary.Interpreter
             {
                 expression.fillLiterals(retVal);
             }
-        }
-
-        /// <summary>
-        /// Updates the literal in this expression
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            foreach (string name in NamedActualParameters.Keys)
-            {
-                NamedActualParameters[name] = NamedActualParameters[name].Update(source, target);
-            }
-
-            List<Expression> newExpressions = new List<Expression>();
-            foreach (Expression expression in ActualParameters)
-            {
-                newExpressions.Add(expression.Update(source, target));
-            }
-            ActualParameters = newExpressions;
-
-            return this;
         }
 
         public override string ToString()
@@ -567,118 +486,101 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            base.checkExpression(context);
-            Called.checkExpression(context);
+            base.checkExpression();
 
-            InterpretationContext ctxt = new InterpretationContext(context, true);
-
-            ICallable called = null;
-            foreach (ReturnValueElement elem in getCalledTypes(context).Values)
+            Called.checkExpression();
+            Types.Type calledType = Called.GetExpressionType();
+            ICallable called = calledType as ICallable;
+            if (called == null)
             {
-                ICallable callable = elem.Value as ICallable;
-                if (callable != null)
+                Types.Range range = calledType as Types.Range;
+                if (range != null)
                 {
-                    if (called == null)
+                    called = range.CastFunction;
+                }
+            }
+
+            if (called != null)
+            {
+                if (called.FormalParameters.Count != NamedActualParameters.Count + ActualParameters.Count)
+                {
+                    AddError("Invalid number of arguments provided for function call " + ToString() + " expected " + called.FormalParameters.Count + " actual " + NamedActualParameters.Count);
+
+                }
+                else
+                {
+                    Dictionary<string, Expression> actuals = new Dictionary<string, Expression>();
+
+                    int i = 0;
+                    foreach (Expression expression in ActualParameters)
                     {
-                        called = callable;
-                        if (called.FormalParameters.Count == NamedActualParameters.Count + ActualParameters.Count)
+                        Parameter parameter = called.FormalParameters[i] as Parameter;
+                        CheckActualAgainstFormal(actuals, expression, parameter);
+                        i = i + 1;
+                    }
+
+                    foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
+                    {
+                        string name = pair.Key;
+                        Expression expression = pair.Value;
+                        Parameter parameter = called.getFormalParameter(name);
+                        if (parameter == null)
                         {
-                            Dictionary<string, Expression> actuals = new Dictionary<string, Expression>();
-
-                            int i = 0;
-                            foreach (Expression expression in ActualParameters)
-                            {
-                                expression.checkExpression(ctxt);
-
-                                Types.Type argumentType = expression.getExpressionType(ctxt);
-                                if (argumentType != null)
-                                {
-                                    Parameter parameter = called.FormalParameters[i] as Parameter;
-
-                                    actuals[parameter.Name] = expression;
-                                    if (parameter.Type != null)
-                                    {
-                                        if (!parameter.Type.Match(argumentType))
-                                        {
-                                            AddError("Invalid argument " + expression.ToString() + " type, expected " + parameter.Type.FullName + ", actual " + argumentType.FullName);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        AddError("Cannot evaluate formal parameter type for " + parameter.Name);
-                                    }
-                                }
-                                else
-                                {
-                                    AddError("Cannot evaluate argument type for argument " + expression.ToString());
-                                }
-
-                                i = i + 1;
-                            }
-
-                            foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
-                            {
-                                string name = pair.Key;
-                                Expression expression = pair.Value;
-
-                                expression.checkExpression(ctxt);
-                                Types.Type argumentType = expression.getExpressionType(ctxt);
-                                if (argumentType != null)
-                                {
-                                    Parameter parameter = called.getFormalParameter(name);
-                                    if (parameter != null)
-                                    {
-                                        if (!actuals.ContainsKey(name))
-                                        {
-                                            actuals[parameter.Name] = expression;
-                                            if (parameter.Type != null)
-                                            {
-                                                if (!parameter.Type.Match(argumentType))
-                                                {
-                                                    AddError("Invalid argument " + expression.ToString() + " type, expected " + parameter.Type.FullName + ", actual " + argumentType.FullName);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                AddError("Cannot evaluate formal parameter type for " + parameter.Name);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            AddError("Parameter " + name + " isassigned twice in " + ToString());
-                                        }
-                                    }
-                                    else
-                                    {
-                                        AddError("Parameter " + name + " is not defined as formal parameter of function " + called.FullName);
-                                    }
-                                }
-                                else
-                                {
-                                    AddError("Cannot evaluate argument type for argument " + name + " => " + expression.ToString());
-                                }
-                            }
-
-                            if (called.FormalParameters.Count > 2)
-                            {
-                                if (ActualParameters.Count > 0)
-                                {
-                                    AddWarning("Calls where more than two parameters are provided must be performed using named association");
-                                }
-                            }
-
-                            called.additionalChecks(Root, context, actuals);
+                            AddError("Parameter " + name + " is not defined as formal parameter of function " + called.FullName);
                         }
                         else
                         {
-                            AddError("Invalid number of arguments provided for function call " + ToString() + " expected " + called.FormalParameters.Count + " actual " + NamedActualParameters.Count);
+                            if (actuals.ContainsKey(name))
+                            {
+                                AddError("Parameter " + name + " isassigned twice in " + ToString());
+                            }
+                            else
+                            {
+                                CheckActualAgainstFormal(actuals, expression, parameter);
+                            }
                         }
                     }
-                    else
+
+                    if (called.FormalParameters.Count > 2)
                     {
-                        AddError("More than one callable can be invoked: " + callable.FullName + " and " + called.FullName);
+                        if (ActualParameters.Count > 0)
+                        {
+                            AddWarning("Calls where more than two parameters are provided must be performed using named association");
+                        }
+                    }
+
+                    called.additionalChecks(Root, actuals);
+                }
+            }
+            else
+            {
+                AddError("Cannot determine callable referenced by " + ToString());
+            }
+        }
+
+        private void CheckActualAgainstFormal(Dictionary<string, Expression> actuals, Expression expression, Parameter parameter)
+        {
+            actuals[parameter.Name] = expression;
+
+            expression.checkExpression();
+            Types.Type argumentType = expression.GetExpressionType();
+            if (argumentType == null)
+            {
+                AddError("Cannot evaluate argument type for argument " + expression.ToString());
+            }
+            else
+            {
+                if (parameter.Type == null)
+                {
+                    AddError("Cannot evaluate formal parameter type for " + parameter.Name);
+                }
+                else
+                {
+                    if (!parameter.Type.Match(argumentType))
+                    {
+                        AddError("Invalid argument " + expression.ToString() + " type, expected " + parameter.Type.FullName + ", actual " + argumentType.FullName);
                     }
                 }
             }

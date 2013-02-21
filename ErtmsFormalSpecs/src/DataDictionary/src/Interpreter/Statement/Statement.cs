@@ -29,11 +29,22 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
+        /// Indicates whether the semantical analysis has already been performed
+        /// </summary>
+        protected bool SemanticalAnalysisDone { get; set; }
+
+        /// <summary>
         /// Performs the semantic analysis of the statement
         /// </summary>
         /// <param name="context"></param>
-        public virtual void SemanticalAnalysis(InterpretationContext context)
+        /// <returns>true if semantical analysis should be performed</returns>
+        public virtual bool SemanticalAnalysis(InterpretationContext context)
         {
+            bool retVal = !SemanticalAnalysisDone;
+
+            SemanticalAnalysisDone = true;
+
+            return retVal;
         }
 
         /// <summary>
@@ -53,11 +64,11 @@ namespace DataDictionary.Interpreter.Statement
         public abstract void CheckStatement();
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public abstract VariableUpdateStatement Modifies(Types.ITypedElement element);
+        public abstract VariableUpdateStatement Modifies(Variables.IVariable variable);
 
         /// <summary>
         /// Provides the list of update statements induced by this statement
@@ -66,17 +77,26 @@ namespace DataDictionary.Interpreter.Statement
         public abstract void UpdateStatements(List<VariableUpdateStatement> retVal);
 
         /// <summary>
-        /// Indicates whether this statement reads the element
+        /// Indicates whether this statement reads the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public abstract bool Reads(Types.ITypedElement element);
+        public virtual bool Reads(Variables.IVariable variable)
+        {
+            bool retVal = false;
+
+            List<Variables.IVariable> variablesRead = new List<Variables.IVariable>();
+            ReadElements(variablesRead);
+            retVal = variablesRead.Contains(variable);
+
+            return retVal;
+        }
 
         /// <summary>
-        /// Provides the list of elements read by this statement
+        /// Provides the list of variables read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public abstract void ReadElements(List<Types.ITypedElement> retVal);
+        public abstract void ReadElements(List<Variables.IVariable> retVal);
 
         /// <summary>
         /// Provides the changes performed by this statement

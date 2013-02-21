@@ -393,13 +393,13 @@ namespace DataDictionary.Rules
             /// <summary>
             /// The element looked for
             /// </summary>
-            public Types.ITypedElement Target { get; private set; }
+            public Variables.IVariable Target { get; private set; }
 
             /// <summary>
             /// Constructor
             /// </summary>
             /// <param name="target"></param>
-            public UsageVisitor(Types.ITypedElement target)
+            public UsageVisitor(Variables.IVariable target)
             {
                 Target = target;
                 Usages = new HashSet<RuleCondition>();
@@ -424,11 +424,11 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Provides the set of rules which uses this element
+        /// Provides the set of rules which uses this variable
         /// </summary>
         /// <param name="node">the element to find in rules</param>
         /// <returns>the list of rules which use the element provided</returns>
-        public static HashSet<Rules.RuleCondition> RulesUsingThisElement(Types.ITypedElement node)
+        public static HashSet<Rules.RuleCondition> RulesUsingThisElement(Variables.IVariable node)
         {
             UsageVisitor visitor = new UsageVisitor(node);
 

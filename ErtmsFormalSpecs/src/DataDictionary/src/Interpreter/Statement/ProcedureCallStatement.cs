@@ -42,11 +42,17 @@ namespace DataDictionary.Interpreter.Statement
         /// Performs the semantic analysis of the statement
         /// </summary>
         /// <param name="context"></param>
-        public override void SemanticalAnalysis(InterpretationContext context)
+        /// <returns>true if semantical analysis should be performed</returns>
+        public override bool SemanticalAnalysis(InterpretationContext context)
         {
-            base.SemanticalAnalysis(context);
+            bool retVal = base.SemanticalAnalysis(context);
 
-            Call.SemanticAnalysis(context, false);
+            if (retVal)
+            {
+                Call.SemanticAnalysis(context);
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -95,17 +101,17 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public override VariableUpdateStatement Modifies(Variables.IVariable variable)
         {
             VariableUpdateStatement retVal = null;
 
             foreach (Rules.Action action in Actions)
             {
-                retVal = action.Modifies(element);
+                retVal = action.Modifies(variable);
                 if (retVal != null)
                 {
                     return retVal;
@@ -142,13 +148,13 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Indicates whether this statement reads the element
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
+        public override bool Reads(Variables.IVariable variable)
         {
             foreach (Rules.Action action in Actions)
             {
-                if (action.Reads(element))
+                if (action.Reads(variable))
                 {
                     return true;
                 }
@@ -157,12 +163,11 @@ namespace DataDictionary.Interpreter.Statement
             return false;
         }
 
-
         /// <summary>
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Types.ITypedElement> retVal)
+        public override void ReadElements(List<Variables.IVariable> retVal)
         {
             foreach (Rules.Action action in Actions)
             {
@@ -206,7 +211,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public void CheckStatement(InterpretationContext context)
         {
-            Call.checkExpression(context);
+            Call.checkExpression();
             if (Call != null)
             {
                 DataDictionary.Variables.IProcedure procedure = Call.getProcedure(context);

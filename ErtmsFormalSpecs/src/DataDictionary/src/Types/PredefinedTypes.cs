@@ -503,9 +503,9 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public override DataDictionary.Interpreter.ReturnValue CombineType(Type right, DataDictionary.Interpreter.BinaryExpression.OPERATOR Operator)
+        public override Types.Type CombineType(Type right, DataDictionary.Interpreter.BinaryExpression.OPERATOR Operator)
         {
-            DataDictionary.Interpreter.ReturnValue retVal = new DataDictionary.Interpreter.ReturnValue();
+            Types.Type retVal = null;
 
             if (Operator == DataDictionary.Interpreter.BinaryExpression.OPERATOR.MULT)
             {
@@ -514,7 +514,7 @@ namespace DataDictionary.Types
                 {
                     if (range.getPrecision() == Generated.acceptor.PrecisionEnum.aIntegerPrecision)
                     {
-                        retVal.Add(this);
+                        retVal = this;
                     }
                 }
             }
@@ -640,10 +640,11 @@ namespace DataDictionary.Types
 
             Values.IValue retVal = null;
 
-            Types.Type type = expression.GetTypedElement(new Interpreter.InterpretationContext(this)) as Types.Type;
+            Types.Type type = expression.GetExpressionType() as Types.Type;
             if (type != null && Match(type))
             {
-                retVal = expression.GetValue(new Interpreter.InterpretationContext(this));
+                Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(this);
+                retVal = expression.GetValue(context);
             }
 
             return retVal;

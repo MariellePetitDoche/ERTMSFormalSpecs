@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
-using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -52,53 +51,48 @@ namespace DataDictionary.Interpreter.ListOperators
             AccumulatorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             AccumulatorVariable.Enclosing = this;
             AccumulatorVariable.Name = "RESULT";
-            AccumulatorVariable.Type = InitialValue.getExpressionType();
         }
 
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, type);
+            bool retVal = base.SemanticAnalysis(context, expectation);
 
             if (retVal)
             {
                 PrepareIteration(context);
-                base.SemanticAnalysis(context, type);
-
-                InitialValue.SemanticAnalysis(context, false);
+                InitialValue.SemanticAnalysis(context, AllMatches);
                 EndIteration(context);
+
+                AccumulatorVariable.Type = InitialValue.GetExpressionType();
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            ReturnValue retVal = getExpressionTypes(context);
-
-            return retVal;
+            return IteratorExpression.GetExpressionType();
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the value associated to this Expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public override INamable InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            INamable retVal = null;
+            Values.IValue retVal = null;
 
             InterpretationContext ctxt = new InterpretationContext(context, Root);
 
@@ -128,23 +122,6 @@ namespace DataDictionary.Interpreter.ListOperators
             {
                 AddError("Cannot evaluate list value " + ListExpression.ToString());
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            PrepareIteration(context);
-            context.LocalScope.setVariable(AccumulatorVariable);
-            retVal.Add(IteratorExpression.getExpressionType(context));
-            EndIteration(context);
 
             return retVal;
         }
@@ -198,19 +175,17 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            base.checkExpression(context);
+            base.checkExpression();
 
-            Types.Type initialValueType = InitialValue.getExpressionType(context);
+            Types.Type initialValueType = InitialValue.GetExpressionType();
             if (initialValueType != null)
             {
-                Types.Collection listExpressionType = ListExpression.getExpressionType(context) as Types.Collection;
+                Types.Collection listExpressionType = ListExpression.GetExpressionType() as Types.Collection;
                 if (listExpressionType != null)
                 {
-                    PrepareIteration(context);
-                    IteratorExpression.checkExpression(context);
-                    EndIteration(context);
+                    IteratorExpression.checkExpression();
                 }
             }
             else

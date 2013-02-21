@@ -44,17 +44,18 @@ namespace DataDictionary.Interpreter.ListOperators
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, type);
+            bool retVal = base.SemanticAnalysis(context, expectation);
 
             if (retVal)
             {
                 if (Condition != null)
                 {
                     PrepareIteration(context);
-                    Condition.SemanticAnalysis(context, false);
+                    Condition.SemanticAnalysis(context, expectation);
                     EndIteration(context);
                 }
             }
@@ -63,15 +64,16 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
-        /// Fills the list of typed element used by this expression
+        /// Fills the list of variables used by this expression
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <context></context>
+        /// <param name="variables"></param>
+        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
         {
-            base.Elements(context, elements);
+            base.FillVariables(context, variables);
             if (Condition != null)
             {
-                Condition.Elements(context, elements);
+                Condition.FillVariables(context, variables);
             }
         }
 
@@ -89,21 +91,6 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            if (Condition != null)
-            {
-                Condition = Condition.Update(source, target);
-            }
-
-            return base.Update(source, target);
-        }
-
-        /// <summary>
         /// Indicates whether the condition is satisfied with the value provided
         /// Hyp : the value of the iterator variable has been assigned before
         /// </summary>
@@ -114,8 +101,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
             if (Condition != null)
             {
-                InterpretationContext ctxt = new InterpretationContext(context, true);
-                Values.BoolValue b = Condition.GetValue(ctxt) as Values.BoolValue;
+                Values.BoolValue b = Condition.GetValue(context) as Values.BoolValue;
                 if (b == null)
                 {
                     retVal = false;
@@ -132,29 +118,19 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            PrepareIteration(context);
+            base.checkExpression();
 
             Types.Type conditionType = null;
             if (Condition != null)
             {
-                foreach (ReturnValueElement elem in Condition.getExpressionTypes(context).Values)
-                {
-                    conditionType = elem.Value as Types.BoolType;
-                    if (conditionType != null)
-                    {
-                        break;
-                    }
-                }
+                conditionType = Condition.GetExpressionType() as Types.BoolType;
                 if (conditionType == null)
                 {
                     AddError("Conditions on list expressions should be a predicate (return a boolean value)");
                 }
             }
-            EndIteration(context);
-
-            base.getExpressionType(context);
         }
     }
 }

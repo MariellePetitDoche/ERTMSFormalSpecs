@@ -315,7 +315,7 @@ namespace DataDictionary.Variables
         /// <param name="root">The element on which the errors should be reported</param>
         /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        public virtual void additionalChecks(ModelElement root, Interpreter.InterpretationContext context, Dictionary<string, Interpreter.Expression> actualParameters)
+        public virtual void additionalChecks(ModelElement root, Dictionary<string, Interpreter.Expression> actualParameters)
         {
         }
 

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -13,101 +15,75 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System.Collections.Generic;
 using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class DesignatorCache : Utils.IFinder
-    {
-        /// <summary>
-        /// Constrctor
-        /// </summary>
-        public DesignatorCache()
-        {
-        }
-
-        /// <summary>
-        /// The cache
-        /// </summary>
-        private Dictionary<Designator, Dictionary<ModelElement, Dictionary<string, ReturnValue>>> cache = new Dictionary<Designator, Dictionary<ModelElement, Dictionary<string, ReturnValue>>>();
-
-        /// <summary>
-        /// Clears the cache
-        /// </summary>
-        public void ClearCache()
-        {
-            cache = new Dictionary<Designator, Dictionary<ModelElement, Dictionary<string, ReturnValue>>>();
-        }
-
-        /// <summary>
-        /// Gets the cached result
-        /// </summary>
-        /// <param name="designator"></param>
-        /// <param name="root"></param>
-        /// <param name="Image"></param>
-        /// <returns></returns>
-        public ReturnValue getReferences(Designator designator, ModelElement root, string Image)
-        {
-            ReturnValue retVal = null;
-
-            Dictionary<ModelElement, Dictionary<string, ReturnValue>> c1;
-            if (!cache.ContainsKey(designator))
-            {
-                cache[designator] = new Dictionary<ModelElement, Dictionary<string, ReturnValue>>();
-            }
-            c1 = cache[designator];
-
-            Dictionary<string, ReturnValue> c2;
-            if (!c1.ContainsKey(root))
-            {
-                c1[root] = new Dictionary<string, ReturnValue>();
-            }
-            c2 = c1[root];
-
-            if (c2.ContainsKey(Image))
-            {
-                retVal = c2[Image];
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Stores the cached value
-        /// </summary>
-        /// <param name="designator"></param>
-        /// <param name="root"></param>
-        /// <param name="Image"></param>
-        /// <param name="returnValue"></param>
-        public void storeReferences(Designator designator, ModelElement root, string Image, ReturnValue returnValue)
-        {
-            ReturnValue retVal = null;
-
-            Dictionary<ModelElement, Dictionary<string, ReturnValue>> c1;
-            if (!cache.ContainsKey(designator))
-            {
-                cache[designator] = new Dictionary<ModelElement, Dictionary<string, ReturnValue>>();
-            }
-            c1 = cache[designator];
-
-            Dictionary<string, ReturnValue> c2;
-            if (!c1.ContainsKey(root))
-            {
-                c1[root] = new Dictionary<string, ReturnValue>();
-            }
-            c2 = c1[root];
-
-            c2[Image] = returnValue;
-        }
-    }
-
     public class Designator : InterpreterTreeNode, IReference
     {
         /// <summary>
         /// Provides the designator image
         /// </summary>
         public string Image { get; private set; }
+
+        /// <summary>
+        /// Indicates whether this designator references
+        ///   - an element from the stack 
+        ///   - an element from the model
+        ///   - an element from the current instance
+        /// </summary>
+        public enum LocationEnum { NotDefined, Stack, Model, Instance };
+
+        /// <summary>
+        /// The location referenced by this designator
+        /// </summary>
+        public LocationEnum Location
+        {
+            get
+            {
+                LocationEnum retVal = LocationEnum.NotDefined;
+
+                if (Ref != null)
+                {
+                    if (Ref is Variables.IVariable)
+                    {
+                        INamable current = INamableUtils.getEnclosing(Ref);
+                        while (current != null && retVal == LocationEnum.NotDefined)
+                        {
+                            if ((current is Functions.Function) ||
+                                (current is Variables.IProcedure) ||
+                                (current is ListOperators.ListOperatorExpression))
+                            {
+                                retVal = LocationEnum.Stack;
+                            }
+
+                            if ((current is Types.Structure) ||
+                                (current is Types.StructureProcedure))
+                            {
+                                retVal = LocationEnum.Instance;
+                            }
+
+                            if (current is Types.NameSpace)
+                            {
+                                retVal = LocationEnum.Model;
+                            }
+
+                            current = INamableUtils.getEnclosing(current);
+                        }
+                    }
+                    else if (Ref is Types.StructureElement)
+                    {
+                        retVal = LocationEnum.Instance;
+                    }
+                    else
+                    {
+                        retVal = LocationEnum.Model;
+                    }
+                }
+
+                return retVal;
+            }
+        }
 
         /// <summary>
         /// Constructor
@@ -121,87 +97,86 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the object referenced by this designator
+        /// Provides the possible references for this designator (only available during semantic analysis)
         /// </summary>
-        /// <param name="context">the context used to interpret the designator</param>
-        /// <param name="type">Indicates that a type is expected</param>
-        /// <returns>The list of objects which might be referenced by this designator, according to the context</returns>
-        public ReturnValue getReferences(InterpretationContext context, bool type)
+        /// <param name="instance">the instance on which this element should be found.</param>
+        /// <param name="expectation">the expectation on the element found</param>
+        /// <returns></returns>
+        public ReturnValue getReferences(INamable instance, Expression.AcceptableChoice expectation)
         {
             ReturnValue retVal = new ReturnValue(this);
 
-            if (context.GlobalFind)
+            if (instance == null)
             {
-                retVal.Add(null, context.LocalScope.getVariable(Image));
-            }
-
-            // Gets the instance on which the dereference should be performed
-            Utils.INamable instance = context.Instance;
-            if (type && instance is Types.ITypedElement)
-            {
-                Types.ITypedElement element = instance as Types.ITypedElement;
-
-                instance = element.Type;
-            }
-
-            // Dereferences based on Image
-            while (instance != null)
-            {
-                Utils.ISubDeclarator subDeclarator = instance as Utils.ISubDeclarator;
-                if (subDeclarator != null)
-                {
-                    FillBySubdeclarator(retVal, subDeclarator);
-                }
-                // Apply the same search on enclosing variable
-                do
-                {
-                    Utils.IEnclosed enclosed = instance as Utils.IEnclosed;
-                    if (enclosed != null)
-                    {
-                        instance = enclosed.Enclosing as Utils.INamable;
-                    }
-                    else
-                    {
-                        instance = null;
-                    }
-                } while (instance != null && !(instance is Variables.IVariable) && !(instance is Values.IValue) && !(instance is Variables.IProcedure));
-            }
-
-            if (context.GlobalFind)
-            {
-                retVal.Add(null, EFSSystem.getPredefinedItem(Image));
-
-                // Find in the enclosing items
-                // Except the enclosing dictionary since dictionaries are handled in a later step
-                INamable current = Root;
+                // No enclosing instance. Try to first name of a . separated list of names
+                //  . First in the enclosing expression
+                InterpreterTreeNode current = this;
                 while (current != null)
                 {
-                    Utils.ISubDeclarator subDeclarator = current as Utils.ISubDeclarator;
-                    if (subDeclarator != null && !(subDeclarator is Dictionary))
-                    {
-                        FillBySubdeclarator(retVal, subDeclarator);
-                    }
-
-                    IEnclosed enclosed = current as IEnclosed;
-                    if (enclosed != null)
-                    {
-                        current = enclosed.Enclosing as INamable;
-                    }
-                    else
+                    ISubDeclarator subDeclarator = current as ISubDeclarator;
+                    if (FillBySubdeclarator(subDeclarator, expectation, retVal) > 0)
                     {
                         current = null;
                     }
+                    else
+                    {
+                        current = current.Enclosing;
+                    }
                 }
 
-                // Find in the dictionaries declared in the system
+                // . In the predefined elements
+                addReference(EFSSystem.getPredefinedItem(Image), expectation, retVal);
+
+                // . In the enclosing items, except the enclosing dictionary since dictionaries are handled in a later step
+                INamable currentNamable = Root;
+                while (currentNamable != null)
+                {
+                    Utils.ISubDeclarator subDeclarator = currentNamable as Utils.ISubDeclarator;
+                    if (subDeclarator != null && !(subDeclarator is Dictionary))
+                    {
+                        FillBySubdeclarator(subDeclarator, expectation, retVal);
+                    }
+
+                    currentNamable = enclosingSubDeclarator(currentNamable);
+                }
+
+                // . In the dictionaries declared in the system
                 foreach (Dictionary dictionary in EFSSystem.Dictionaries)
                 {
-                    FillBySubdeclarator(retVal, dictionary);
+                    FillBySubdeclarator(dictionary, expectation, retVal);
 
                     Types.NameSpace defaultNameSpace = dictionary.findNameSpace("Default");
                     if (defaultNameSpace != null)
                     {
-                        FillBySubdeclarator(retVal, defaultNameSpace);
+                        FillBySubdeclarator(defaultNameSpace, expectation, retVal);
+                    }
+                }
+            }
+            else
+            {
+                // The instance is provided, hence, this is not the first designator in the . separated list of designators
+                if (instance is Types.ITypedElement && !expectation(instance))
+                {
+                    // If the instance is a typed element, dereference it to its corresponding type
+                    Types.ITypedElement element = instance as Types.ITypedElement;
+                    instance = element.Type;
+                    if (!expectation(instance))
+                    {
+                        instance = null;
+                    }
+                }
+
+                // Find the element in all enclosing sub declarators of the instance
+                while (instance != null)
+                {
+                    Utils.ISubDeclarator subDeclarator = instance as Utils.ISubDeclarator;
+                    if (FillBySubdeclarator(subDeclarator, expectation, retVal) > 0)
+                    {
+                        instance = null;
+                    }
+                    else
+                    {
+                        instance = enclosingSubDeclarator(instance);
                     }
                 }
             }
@@ -210,36 +185,43 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the retVal result set according to the subDeclarator class provided as parameter
+        /// Adds a reference which satisfies the provided expectation in the result set
         /// </summary>
-        /// <param name="retVal"></param>
-        /// <param name="subDeclarator"></param>
-        private void FillBySubdeclarator(ReturnValue retVal, Utils.ISubDeclarator subDeclarator)
+        /// <param name="namable"></param>
+        /// <param name="expectation"></param>
+        /// <param name="resultSet"></param>
+        private void addReference(INamable namable, Expression.AcceptableChoice expectation, ReturnValue resultSet)
         {
-            List<Utils.INamable> tmp = new List<Utils.INamable>();
-            subDeclarator.find(Image, tmp);
-            foreach (Utils.INamable namable in tmp)
+            if (namable != null)
             {
-                retVal.Add(this, namable);
+                if (expectation(namable))
+                {
+                    resultSet.Add(namable);
+                }
             }
         }
 
         /// <summary>
-        /// Sets the element referenced by this Deref expression
+        /// Fills the retVal result set according to the subDeclarator class provided as parameter
         /// </summary>
-        /// <param name="reference"></param>
-        /// <returns></returns>
-        public bool setReference(Utils.INamable reference)
+        /// <param name="subDeclarator">The subdeclarator used to get the image</param>
+        /// <param name="expectation">The expectatino of the desired element</param>
+        /// <param name="location">The location of the element found</param>
+        /// <param name="values">The return value to update</param>
+        /// <return>the number of elements added</return>
+        private int FillBySubdeclarator(Utils.ISubDeclarator subDeclarator, Expression.AcceptableChoice expectation, ReturnValue values)
         {
-            bool retVal = false;
+            int retVal = 0;
 
-            Variables.IVariable variable = reference as Variables.IVariable;
-            if (variable == null)
+            if (subDeclarator != null)
             {
-                // We do not want to hard code reference to variables since they can belong to a structure, 
-                // or be variables available on the stack.
-                Ref = reference;
-                retVal = true;
+                List<Utils.INamable> tmp = new List<Utils.INamable>();
+                subDeclarator.find(Image, tmp);
+                foreach (Utils.INamable namable in tmp)
+                {
+                    addReference(namable, expectation, values);
+                    retVal += 1;
+                }
             }
 
             return retVal;
@@ -252,31 +234,18 @@ namespace DataDictionary.Interpreter
         public INamable Ref { get; private set; }
 
         /// <summary>
-        /// Indicates whether the semantic analysis has been performed
-        /// </summary>
-        protected bool SemanticAnalysisDone { get; private set; }
-
-        /// <summary>
-        /// Performs the semantic analysis of the expression
+        /// Performs the semantic analysis of the term
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public void SemanticAnalysis(InterpretationContext context, Expression.AcceptableChoice expectation)
         {
-            bool retVal = !SemanticAnalysisDone;
-
-            if (!SemanticAnalysisDone)
+            ReturnValue tmp = getReferences(context.Instance, expectation);
+            if (tmp.IsUnique)
             {
-                SemanticAnalysisDone = true;
-
-                ReturnValue tmp = getReferences(context, type);
-                if (tmp.IsUnique)
-                {
-                    setReference(tmp.Values[0].Value);
-                }
+                Ref = tmp.Values[0].Value;
             }
-
-            return retVal;
         }
 
         /// <summary>
@@ -284,65 +253,60 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="enclosing"></param>
         /// <returns></returns>
-        public INamable getReference(InterpretationContext context, INamable enclosing, bool type)
+        public INamable getReference(InterpretationContext context, bool type)
         {
             INamable retVal = null;
 
-            if (enclosing == null)
+            switch (Location)
             {
-                if (context.GlobalFind)
-                {
+                case LocationEnum.Stack:
                     retVal = context.LocalScope.getVariable(Image);
-                }
 
-                // Gets the instance on which the dereference should be performed
-                Utils.INamable instance = context.Instance;
-                if (type && instance is Types.ITypedElement)
-                {
-                    Types.ITypedElement element = instance as Types.ITypedElement;
-
-                    instance = element.Type;
-                }
-
-                // Dereferences based on Image
-                while (instance != null)
-                {
-                    Utils.ISubDeclarator subDeclarator = instance as Utils.ISubDeclarator;
-                    if (subDeclarator != null)
+                    if (retVal == null)
                     {
-                        INamable tmp = getReferenceBySubDeclarator(subDeclarator, type);
-                        if (tmp != null)
+                        AddError(Image + " not found on the stack");
+                    }
+                    break;
+
+                case LocationEnum.Instance:
+                    Utils.INamable instance = context.Instance;
+                    while (instance != null)
+                    {
+                        ISubDeclarator subDeclarator = instance as ISubDeclarator;
+                        if (subDeclarator != null)
                         {
-                            if (retVal == null)
+                            INamable tmp = getReferenceBySubDeclarator(subDeclarator, type);
+                            if (tmp != null)
                             {
-                                retVal = tmp;
-                            }
-                            else
-                            {
-                                AddError("Too many references for " + Image);
+                                if (retVal == null)
+                                {
+                                    retVal = tmp;
+                                    instance = null;
+                                }
                             }
                         }
+
+                        instance = enclosingSubDeclarator(instance);
                     }
 
-                    instance = enclosingSubDeclarator(instance);
-                }
+                    if (retVal == null)
+                    {
+                        AddError(Image + " not found in the current instance " + context.Instance.Name);
+                    }
+                    break;
 
-                if (retVal == null)
-                {
-                    AddError("No definition of " + Image + " found");
-                }
-            }
-            else
-            {
-                ISubDeclarator subDeclarator = enclosing as ISubDeclarator;
-                if (subDeclarator != null)
-                {
-                    retVal = getReferenceBySubDeclarator(subDeclarator, type);
-                }
-                else
-                {
-                    AddError(subDeclarator.ToString() + " cannot declare " + Image);
-                }
+                case LocationEnum.Model:
+                    retVal = Ref;
+
+                    if (retVal == null)
+                    {
+                        AddError(Image + " not found in the enclosing model");
+                    }
+                    break;
+
+                case LocationEnum.NotDefined:
+                    AddError("Semantic analysis not performed on " + ToString());
+                    break;
             }
 
             return retVal;
@@ -418,19 +382,66 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-        public INamable GetValue(InterpretationContext context, INamable enclosing)
+        /// <summary>
+        /// Provides the type designated by this designator
+        /// </summary>
+        /// <returns></returns>
+        public Types.Type GetDesignatorType()
         {
-            INamable retVal = null;
-            if (Ref != null)
+            Types.Type retVal = null;
+
+            if (Ref is Types.ITypedElement)
             {
-                retVal = Ref;
+                retVal = (Ref as Types.ITypedElement).Type;
             }
             else
             {
-                retVal = getReference(context, enclosing, false);
+                retVal = Ref as Types.Type;
+            }
+
+            if (retVal == null)
+            {
+                AddError("Cannot determine typed element referenced by " + ToString());
             }
 
             return retVal;
+        }
+
+        public Variables.IVariable GetVariable(InterpretationContext context)
+        {
+            Variables.IVariable retVal = null;
+
+            INamable reference = getReference(context, false);
+            retVal = reference as Variables.IVariable;
+
+            return retVal;
+        }
+
+        public Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
+
+            INamable reference = getReference(context, false);
+
+            // Deref the reference, if required
+            if (reference is Variables.IVariable)
+            {
+                retVal = (reference as Variables.IVariable).Value;
+            }
+            else
+            {
+                retVal = reference as Values.IValue;
+            }
+
+            return retVal;
+        }
+
+        public void checkExpression()
+        {
+            if (Location == LocationEnum.NotDefined)
+            {
+                throw new Exception("Cannot find location of " + ToString());
+            }
         }
 
         public override string ToString()

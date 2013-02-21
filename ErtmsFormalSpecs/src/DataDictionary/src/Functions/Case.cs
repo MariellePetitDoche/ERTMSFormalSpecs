@@ -97,10 +97,8 @@ namespace DataDictionary.Functions
             bool retVal = true;
             foreach (DataDictionary.Rules.PreCondition preCondition in PreConditions)
             {
-                InterpretationContext ctxt = new InterpretationContext(context, true);
-
                 Interpreter.Expression expression = preCondition.ExpressionTree;
-                Values.BoolValue value = expression.GetValue(ctxt) as Values.BoolValue;
+                Values.BoolValue value = expression.GetValue(context) as Values.BoolValue;
 
                 if (value != null)
                 {

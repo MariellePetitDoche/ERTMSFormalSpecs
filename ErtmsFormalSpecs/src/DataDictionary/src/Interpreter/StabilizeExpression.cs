@@ -13,9 +13,7 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
-using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -68,60 +66,64 @@ namespace DataDictionary.Interpreter
             LastIteration = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             LastIteration.Enclosing = this;
             LastIteration.Name = "PREVIOUS";
-            LastIteration.Type = InitialValue.getExpressionType();
 
             CurrentIteration = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             CurrentIteration.Enclosing = this;
             CurrentIteration.Name = "CURRENT";
-            CurrentIteration.Type = InitialValue.getExpressionType();
         }
 
         /// <summary>
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="context"></param>
-        /// <paraparam name="type">Indicates whether we are looking for a type or a value</paraparam>
-        public override bool SemanticAnalysis(InterpretationContext context, bool type)
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(InterpretationContext context, AcceptableChoice expectation)
         {
-            bool retVal = base.SemanticAnalysis(context, type);
+            bool retVal = base.SemanticAnalysis(context, expectation);
 
             if (retVal)
             {
-                Expression.SemanticAnalysis(context, false);
-                InitialValue.SemanticAnalysis(context, false);
-                Condition.SemanticAnalysis(context, false);
+                InitialValue.SemanticAnalysis(context, IsVariableOrValue);
+
+                // Expression depends on the last iteration value
+                context.LocalScope.PushContext();
+                context.LocalScope.setVariable(LastIteration);
+                Expression.SemanticAnalysis(context, AllMatches);
+
+                // Condition depends on both the last iteration and the current iteration values
+                context.LocalScope.setVariable(CurrentIteration);
+                Condition.SemanticAnalysis(context, AllMatches);
+                context.LocalScope.PopContext();
+
+                LastIteration.Type = InitialValue.GetExpressionType();
+                CurrentIteration.Type = InitialValue.GetExpressionType();
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            return InitialValue.InnerGetTypedElement(context);
+            return InitialValue.GetExpressionType();
         }
-
 
         /// <summary>
         /// Provides the value associated to this Expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public override INamable InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            INamable retVal = null;
-
             LastIteration.Value = InitialValue.GetValue(context);
 
-            bool stop;
-            do
+            bool stop = false;
+            while (!stop)
             {
                 context.LocalScope.PushContext();
                 context.LocalScope.setVariable(LastIteration);
@@ -136,27 +138,25 @@ namespace DataDictionary.Interpreter
                 else
                 {
                     AddError("Cannot evaluate condition " + Condition.ToString());
-                    stop = false;
+                    stop = true;
                 }
                 context.LocalScope.PopContext();
                 LastIteration.Value = CurrentIteration.Value;
-            } while (!stop);
+            }
 
-            retVal = CurrentIteration.Value;
-
-            return retVal;
+            return CurrentIteration.Value;
         }
 
-
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list of variables used by this expression
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <context></context>
+        /// <param name="variables"></param>
+        public override void FillVariables(InterpretationContext context, List<Variables.IVariable> variables)
         {
-            Expression.Elements(context, elements);
-            InitialValue.Elements(context, elements);
-            Condition.Elements(context, elements);
+            Expression.FillVariables(context, variables);
+            InitialValue.FillVariables(context, variables);
+            Condition.FillVariables(context, variables);
         }
 
         /// <summary>
@@ -181,48 +181,20 @@ namespace DataDictionary.Interpreter
             Condition.fillLiterals(retVal);
         }
 
-
-        /// <summary>
-        /// Updates the expression text
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            Expression = Expression.Update(source, target);
-            InitialValue = InitialValue.Update(source, target);
-            Condition = Condition.Update(source, target);
-
-            return this;
-        }
-
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = InitialValue.getExpressionTypes(context);
-
-            return retVal;
-        }
-
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            InitialValue.checkExpression(context);
-            Types.Type initialValueType = InitialValue.getExpressionType(context);
+            base.checkExpression();
+
+            InitialValue.checkExpression();
+            Types.Type initialValueType = InitialValue.GetExpressionType();
             if (initialValueType != null)
             {
-                context.LocalScope.PushContext();
-                context.LocalScope.setVariable(LastIteration);
-                Expression.checkExpression(context);
-                Types.Type expressionType = Expression.getExpressionType(context);
+                Expression.checkExpression();
+                Types.Type expressionType = Expression.GetExpressionType();
                 if (expressionType != null)
                 {
                     if (expressionType != initialValueType)
@@ -235,8 +207,7 @@ namespace DataDictionary.Interpreter
                     AddError("Cannot determine type of expression " + Expression);
                 }
 
-                context.LocalScope.setVariable(CurrentIteration);
-                Types.Type conditionType = Condition.getExpressionType(context);
+                Types.Type conditionType = Condition.GetExpressionType();
                 if (conditionType != null)
                 {
                     if (!(conditionType is Types.BoolType))
@@ -248,14 +219,11 @@ namespace DataDictionary.Interpreter
                 {
                     AddError("Cannot determine type of condition " + Condition);
                 }
-                context.LocalScope.PopContext();
             }
             else
             {
                 AddError("Cannot determine type of the initial value " + InitialValue);
             }
-
-            base.checkExpression(context);
         }
 
         /// <summary>
@@ -266,31 +234,6 @@ namespace DataDictionary.Interpreter
         public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
         {
             return Functions.Graph.createGraph(GetValue(context));
-        }
-
-
-        /// <summary>
-        /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
-        {
-            throw new Exception("Cannot create graph for Stabilize Expression");
-        }
-
-
-        /// <summary>
-        /// Provides the surface of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the surface</param>
-        /// <param name="xParam">The X axis of this surface</param>
-        /// <param name="yParam">The Y axis of this surface</param>
-        /// <returns>The surface which corresponds to this expression</returns>
-        public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
-        {
-            throw new Exception("Cannot create surface for Stabilize Expression");
         }
     }
 }

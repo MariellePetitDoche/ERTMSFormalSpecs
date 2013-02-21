@@ -26,8 +26,8 @@ namespace GUI.DataDictionaryView.UsageTreeView
                 // This takes too much time. Do not do, for now.
                 if (Root is DataDictionary.Types.ITypedElement)
                 {
-                    DataDictionary.Types.ITypedElement element = Root as DataDictionary.Types.ITypedElement;
-                    foreach (DataDictionary.Rules.RuleCondition ruleCondition in DataDictionary.Rules.Rule.RulesUsingThisElement(element))
+                    DataDictionary.Variables.IVariable variable = Root as DataDictionary.Variables.IVariable;
+                    foreach (DataDictionary.Rules.RuleCondition ruleCondition in DataDictionary.Rules.Rule.RulesUsingThisElement(variable))
                     {
                         Nodes.Add(new RuleUsageTreeNode(ruleCondition));
                     }

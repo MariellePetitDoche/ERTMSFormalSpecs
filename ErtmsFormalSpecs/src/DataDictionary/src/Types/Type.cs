@@ -374,9 +374,9 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public virtual ReturnValue CombineType(Type right, BinaryExpression.OPERATOR Operator)
+        public virtual Type CombineType(Type right, BinaryExpression.OPERATOR Operator)
         {
-            return new ReturnValue();
+            return null;
         }
     }
 
