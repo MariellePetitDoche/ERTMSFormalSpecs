@@ -51,10 +51,17 @@ namespace DataDictionary.Interpreter
                         while (current != null && retVal == LocationEnum.NotDefined)
                         {
                             if ((current is Functions.Function) ||
+                                (current is FunctionExpression) ||
                                 (current is Variables.IProcedure) ||
-                                (current is ListOperators.ListOperatorExpression))
+                                (current is ListOperators.ListOperatorExpression) ||
+                                (current is Statement.Statement) ||
+                                (current is StabilizeExpression))
                             {
-                                retVal = LocationEnum.Stack;
+                                ISubDeclarator subDeclarator = current as ISubDeclarator;
+                                if (ISubDeclaratorUtils.ContainsValue(subDeclarator.DeclaredElements, Ref))
+                                {
+                                    retVal = LocationEnum.Stack;
+                                }
                             }
 
                             if ((current is Types.Structure) ||
@@ -155,15 +162,11 @@ namespace DataDictionary.Interpreter
             else
             {
                 // The instance is provided, hence, this is not the first designator in the . separated list of designators
-                if (instance is Types.ITypedElement && !expectation(instance))
+                if (instance is Types.ITypedElement && !(instance is Constants.State))
                 {
                     // If the instance is a typed element, dereference it to its corresponding type
                     Types.ITypedElement element = instance as Types.ITypedElement;
                     instance = element.Type;
-                    if (!expectation(instance))
-                    {
-                        instance = null;
-                    }
                 }
 
                 // Find the element in all enclosing sub declarators of the instance
@@ -242,6 +245,7 @@ namespace DataDictionary.Interpreter
         public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
             ReturnValue tmp = getReferences(instance, expectation);
+            tmp.filter(expectation);
             if (tmp.IsUnique)
             {
                 Ref = tmp.Values[0].Value;
@@ -253,7 +257,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="enclosing"></param>
         /// <returns></returns>
-        public INamable getReference(InterpretationContext context, bool type)
+        public INamable getReference(InterpretationContext context)
         {
             INamable retVal = null;
 
@@ -275,7 +279,7 @@ namespace DataDictionary.Interpreter
                         ISubDeclarator subDeclarator = instance as ISubDeclarator;
                         if (subDeclarator != null)
                         {
-                            INamable tmp = getReferenceBySubDeclarator(subDeclarator, type);
+                            INamable tmp = getReferenceBySubDeclarator(subDeclarator);
                             if (tmp != null)
                             {
                                 if (retVal == null)
@@ -340,39 +344,36 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Provides the reference for this subdeclarator
         /// </summary>
-        /// <param name="retVal"></param>   
         /// <param name="subDeclarator"></param>
         /// <returns></returns>
-        private INamable getReferenceBySubDeclarator(ISubDeclarator subDeclarator, bool type)
+        private INamable getReferenceBySubDeclarator(ISubDeclarator subDeclarator)
         {
             INamable retVal = null;
 
             List<INamable> tmp;
             if (subDeclarator.DeclaredElements.TryGetValue(Image, out tmp))
             {
+                // Remove duplicates
                 List<INamable> tmp2 = new List<INamable>();
                 foreach (INamable namable in tmp)
                 {
-                    if (!ReturnValue.filterOut(!type, type, namable))
+                    bool found = false;
+                    foreach (INamable other in tmp2)
                     {
-                        bool found = false;
-                        foreach (INamable other in tmp2)
+                        if (namable == other)
                         {
-                            if (namable == other)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if (!found)
-                        {
-                            tmp2.Add(namable);
+                            found = true;
+                            break;
                         }
                     }
-                    Types.Type theType = namable as Types.Type;
+
+                    if (!found)
+                    {
+                        tmp2.Add(namable);
+                    }
                 }
 
+                // Provide the result, if it is unique
                 if (tmp2.Count == 1)
                 {
                     retVal = tmp2[0];
@@ -411,7 +412,7 @@ namespace DataDictionary.Interpreter
         {
             Variables.IVariable retVal = null;
 
-            INamable reference = getReference(context, false);
+            INamable reference = getReference(context);
             retVal = reference as Variables.IVariable;
 
             return retVal;
@@ -421,7 +422,7 @@ namespace DataDictionary.Interpreter
         {
             Values.IValue retVal = null;
 
-            INamable reference = getReference(context, false);
+            INamable reference = getReference(context);
 
             // Deref the reference, if required
             if (reference is Variables.IVariable)
@@ -431,6 +432,22 @@ namespace DataDictionary.Interpreter
             else
             {
                 retVal = reference as Values.IValue;
+            }
+
+            return retVal;
+        }
+
+        public ICallable getCalled(InterpretationContext context)
+        {
+            ICallable retVal = getReference(context) as ICallable;
+
+            if (retVal == null)
+            {
+                Types.Range range = GetDesignatorType() as Types.Range;
+                if (range != null)
+                {
+                    retVal = range.CastFunction;
+                }
             }
 
             return retVal;

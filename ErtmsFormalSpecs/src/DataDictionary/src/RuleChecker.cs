@@ -305,16 +305,15 @@ namespace DataDictionary
                 {
                     bool found = false;
                     ruleCondition.Messages.Clear();
-                    Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(ruleCondition);
 
                     foreach (Rules.PreCondition preCondition in ruleCondition.PreConditions)
                     {
                         Interpreter.BinaryExpression expression = checkExpression(preCondition, preCondition.Expression) as Interpreter.BinaryExpression;
                         if (expression != null)
                         {
-                            if (expression.IsSimpleEquality(context))
+                            if (expression.IsSimpleEquality())
                             {
-                                Variables.IVariable variable = expression.Left.GetVariable(context);
+                                Types.ITypedElement variable = expression.Left.Ref as Types.ITypedElement;
                                 if (variable != null)
                                 {
                                     if (variable.Type != null)
@@ -323,7 +322,7 @@ namespace DataDictionary
                                         // the corresponding action affects the value Request.Disabled to the same variable
                                         if (variable.Type.Name.Equals("Request") && expression.Right != null && expression.Right is Interpreter.UnaryExpression)
                                         {
-                                            Values.IValue val2 = ((Interpreter.UnaryExpression)expression.Right).Term.LiteralValue.GetValue(context);
+                                            Values.IValue val2 = expression.Right.Ref as Values.IValue;
                                             if (val2 != null && "Response".CompareTo(val2.Name) == 0)
                                             {
                                                 if (ruleCondition != null)
@@ -338,7 +337,7 @@ namespace DataDictionary
                                                             Interpreter.UnaryExpression updateExpr = update.Expression as Interpreter.UnaryExpression;
                                                             if (updateExpr != null)
                                                             {
-                                                                Values.IValue val3 = updateExpr.Term.LiteralValue.GetValue(context);
+                                                                Values.IValue val3 = updateExpr.Ref as Values.IValue;
                                                                 if (val3 != null && val3.Name.CompareTo("Disabled") == 0)
                                                                 {
                                                                     found = true;

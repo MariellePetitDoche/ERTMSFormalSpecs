@@ -19,7 +19,7 @@ using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class DerefExpression : Expression, IReference
+    public class DerefExpression : Expression
     {
         /// <summary>
         /// Desig elements of this designator
@@ -46,7 +46,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// The model element referenced by this designator.
         /// </summary>
-        public INamable Ref { get; private set; }
+        public override INamable Ref { get; protected set; }
 
         /// <summary>
         /// Provides the ICallable referenced by this 
@@ -55,7 +55,18 @@ namespace DataDictionary.Interpreter
         {
             get
             {
-                return Ref as ICallable;
+                ICallable retVal = Ref as ICallable;
+
+                if (retVal == null)
+                {
+                    Types.Range range = GetExpressionType() as Types.Range;
+                    if (range != null)
+                    {
+                        retVal = range.CastFunction;
+                    }
+                }
+
+                return retVal;
             }
         }
 
@@ -115,12 +126,18 @@ namespace DataDictionary.Interpreter
                         current = current.PreviousElement;
                         Arguments[i].SemanticAnalysis(current.Value);
                     }
-                    Arguments[0].SemanticAnalysis(null);
+                    Arguments[0].SemanticAnalysis();
+                }
+                else if (tmp.IsAmbiguous)
+                {
+                    // Several possible interpretations for this deref expression, not allowed
+                    AddError("Expression " + ToString() + " may have several interpretations " + tmp.ToString() + ", please disambiguate");
                 }
                 else
                 {
-                    // Several interpretation possible for this deref expression is not allowed
-                    AddError("Expression " + ToString() + " may have several interpretations " + tmp.ToString() + ", please disambiguate");
+                    // No possible interpretation for this deref expression, not allowed
+                    AddError("Expression " + ToString() + " has no interpretation");
+
                 }
             }
 
@@ -179,19 +196,27 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public override Values.IValue GetValue(InterpretationContext context)
         {
-            INamable current = null;
+            INamable retVal = Ref as Values.IValue;
 
-            InterpretationContext ctxt = new InterpretationContext(context);
-            for (int i = 0; i < Arguments.Count; i++)
+            if (retVal == null)
             {
-                if (current != null)
+                InterpretationContext ctxt = new InterpretationContext(context);
+                for (int i = 0; i < Arguments.Count; i++)
                 {
-                    ctxt.Instance = current;
+                    if (retVal != null)
+                    {
+                        ctxt.Instance = retVal;
+                    }
+                    retVal = Arguments[i].GetValue(ctxt);
                 }
-                current = Arguments[i].GetValue(ctxt);
             }
 
-            return current as Values.IValue;
+            if (retVal == null)
+            {
+                AddError(ToString() + " does not refer to a value");
+            }
+
+            return retVal as Values.IValue;
         }
 
         /// <summary>

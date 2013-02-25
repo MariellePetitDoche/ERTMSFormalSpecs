@@ -293,7 +293,6 @@ namespace DataDictionary.Types
                         break;
                 }
                 retVal = tmp.Function;
-
             }
 
             return retVal;

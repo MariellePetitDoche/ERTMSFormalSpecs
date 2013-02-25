@@ -103,7 +103,7 @@ namespace DataDictionary.Interpreter
 
             if (retVal)
             {
-                InitialValue.SemanticAnalysis(instance, Filter.IsVariableOrValue);
+                InitialValue.SemanticAnalysis(instance, Filter.IsRightSide);
                 Expression.SemanticAnalysis(instance, Filter.AllMatches);
                 Condition.SemanticAnalysis(instance, Filter.AllMatches);
 

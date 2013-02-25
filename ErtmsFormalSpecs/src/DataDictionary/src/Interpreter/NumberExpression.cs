@@ -71,6 +71,14 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Provides the INamable which is referenced by this expression, if any
+        /// </summary>
+        public override Utils.INamable Ref
+        {
+            get { return Value; }
+        }
+
+        /// <summary>
         /// Provides the type of this expression
         /// </summary>
         /// <param name="context">The interpretation context</param>

@@ -119,7 +119,7 @@ namespace DataDictionary.Interpreter.Statement
         /// Provides the list of variable read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Variables.IVariable> retVal)
+        public override void ReadElements(List<Types.ITypedElement> retVal)
         {
             retVal.AddRange(ListExpression.GetVariables());
 
@@ -134,7 +134,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="element"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Variables.IVariable element)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
         {
             VariableUpdateStatement retVal = null;
 
@@ -179,22 +179,21 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            InterpretationContext context = new InterpretationContext(Root);
-
-            Values.IValue targetList = ListExpression.GetValue(context);
-            if (targetList == null)
+            Types.Collection targetListType = ListExpression.GetExpressionType() as Types.Collection;
+            if (targetListType == null)
             {
-                Root.AddError("Cannot find target list");
+                Root.AddError("Cannot determine type of " + ListExpression);
             }
-
-            if (Condition != null)
+            else
             {
-                context.LocalScope.setVariable(IteratorVariable);
-                Condition.checkExpression();
-                Types.BoolType conditionType = Condition.GetExpressionType() as Types.BoolType;
-                if (conditionType == null)
+                if (Condition != null)
                 {
-                    Root.AddError("Condition does not evaluates to boolean");
+                    Condition.checkExpression();
+                    Types.BoolType conditionType = Condition.GetExpressionType() as Types.BoolType;
+                    if (conditionType == null)
+                    {
+                        Root.AddError("Condition does not evaluates to boolean");
+                    }
                 }
             }
         }

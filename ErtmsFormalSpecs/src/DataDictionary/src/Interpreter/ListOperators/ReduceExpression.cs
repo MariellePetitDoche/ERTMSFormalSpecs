@@ -13,11 +13,12 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
+using Utils;
 using System;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
-    public class ReduceExpression : ExpressionBasedListExpression
+    public class ReduceExpression : ExpressionBasedListExpression, ISubDeclarator
     {
         /// <summary>
         /// The operator for this expression
@@ -51,6 +52,7 @@ namespace DataDictionary.Interpreter.ListOperators
             AccumulatorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             AccumulatorVariable.Enclosing = this;
             AccumulatorVariable.Name = "RESULT";
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, AccumulatorVariable);
         }
 
         /// <summary>
@@ -71,6 +73,11 @@ namespace DataDictionary.Interpreter.ListOperators
             }
 
             return retVal;
+        }
+
+        public override ICallable getStaticCallable()
+        {
+            return InitialValue.getStaticCallable();
         }
 
         /// <summary>

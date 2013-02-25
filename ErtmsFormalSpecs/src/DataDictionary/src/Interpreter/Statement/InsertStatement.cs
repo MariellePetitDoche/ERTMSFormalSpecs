@@ -68,7 +68,7 @@ namespace DataDictionary.Interpreter.Statement
             if (retVal)
             {
                 Value.SemanticAnalysis(instance);
-                ListExpression.SemanticAnalysis(instance);
+                ListExpression.SemanticAnalysis(instance, Filter.IsLeftSide);
                 if (ReplaceElement != null)
                 {
                     ReplaceElement.SemanticAnalysis(instance);
@@ -82,7 +82,7 @@ namespace DataDictionary.Interpreter.Statement
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Variables.IVariable> retVal)
+        public override void ReadElements(List<Types.ITypedElement> retVal)
         {
             retVal.AddRange(Value.GetVariables());
             retVal.AddRange(ListExpression.GetVariables());
@@ -93,7 +93,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Variables.IVariable variable)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
@@ -126,7 +126,7 @@ namespace DataDictionary.Interpreter.Statement
             }
             else
             {
-                Root.AddError("Target is not a collection");
+                Root.AddError("Cannot determine collection type of " + ListExpression);
             }
 
             if (ReplaceElement != null)

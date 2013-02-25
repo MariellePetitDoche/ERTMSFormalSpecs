@@ -49,6 +49,7 @@ namespace DataDictionary.Interpreter.ListOperators
             Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, AccumulatorVariable);
 
             Accumulator = new BinaryExpression(root, expression, BinaryExpression.OPERATOR.ADD, new UnaryExpression(root, new Term(root, new Designator(root, "RESULT"))));
+            Accumulator.Enclosing = this;
         }
 
         /// <summary>

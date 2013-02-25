@@ -72,7 +72,6 @@ namespace DataDictionary.Interpreter.ListOperators
             PreviousIteratorVariable.Enclosing = this;
             PreviousIteratorVariable.Name = "prevX";
             Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, PreviousIteratorVariable);
-
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
             if (retVal)
             {
-                ListExpression.SemanticAnalysis(instance, expectation);
+                ListExpression.SemanticAnalysis(instance, Filter.IsLeftSide);
 
                 Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
                 if (collectionType != null)

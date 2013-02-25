@@ -170,7 +170,7 @@ namespace DataDictionary.Rules
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Reads(Variables.IVariable variable)
+        public bool Reads(Types.ITypedElement variable)
         {
             bool retVal = false;
 

@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using Utils;
 
 namespace DataDictionary.Interpreter
 {
@@ -156,8 +155,7 @@ namespace DataDictionary.Interpreter
         {
             ICallable retVal = null;
 
-            INamable namable = Called.GetValue(context);
-            retVal = namable as ICallable;
+            retVal = Called.getCalled(context);
             if (retVal == null)
             {
                 Types.Range range = Called.GetExpressionType() as Types.Range;
@@ -167,7 +165,8 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    Variables.IVariable variable = namable as Variables.IVariable;
+                    // TODO : Investigate where this is used
+                    Variables.IVariable variable = GetValue(context) as Variables.IVariable;
                     if (variable != null)
                     {
                         Functions.Function function = variable.Value as Functions.Function;
@@ -217,8 +216,24 @@ namespace DataDictionary.Interpreter
                 Called.SemanticAnalysis(instance, Filter.IsCallable);
                 foreach (Expression actual in AllParameters)
                 {
-                    actual.SemanticAnalysis(instance, Filter.IsVariableOrValue);
+                    actual.SemanticAnalysis(instance, Filter.IsActualParameter);
                 }
+            }
+
+            return retVal;
+        }
+
+
+        /// <summary>
+        /// Provides the ICallable that is statically defined
+        /// </summary>
+        public override ICallable getStaticCallable()
+        {
+            ICallable retVal = base.getStaticCallable();
+
+            if (retVal == null)
+            {
+                retVal = Called.getStaticCallable().ReturnType as ICallable;
             }
 
             return retVal;
@@ -233,7 +248,7 @@ namespace DataDictionary.Interpreter
         {
             Types.Type retVal = null;
 
-            Functions.Function function = getFunction(new InterpretationContext());
+            Functions.Function function = Called.getStaticCallable() as Functions.Function;
             if (function != null)
             {
                 retVal = function.ReturnType;
@@ -475,17 +490,7 @@ namespace DataDictionary.Interpreter
             base.checkExpression();
 
             Called.checkExpression();
-            Types.Type calledType = Called.GetExpressionType();
-            ICallable called = calledType as ICallable;
-            if (called == null)
-            {
-                Types.Range range = calledType as Types.Range;
-                if (range != null)
-                {
-                    called = range.CastFunction;
-                }
-            }
-
+            ICallable called = Called.getStaticCallable();
             if (called != null)
             {
                 if (called.FormalParameters.Count != NamedActualParameters.Count + ActualParameters.Count)

@@ -18,7 +18,7 @@ namespace DataDictionary.Interpreter
     using System;
     using System.Collections.Generic;
 
-    public class UnaryExpression : Expression, IReference
+    public class UnaryExpression : Expression
     {
         /// <summary>
         /// The term of this expression
@@ -68,33 +68,6 @@ namespace DataDictionary.Interpreter
             Expression.Enclosing = this;
 
             UnaryOp = unaryOp;
-        }
-
-        /// <summary>
-        /// The model element referenced by this designator.
-        /// This value can be null. In that case, reference should be done by dereferencing each argument of the Deref expression
-        /// </summary>
-        public Utils.INamable Ref { get; private set; }
-
-        /// <summary>
-        /// Sets the element referenced by this Deref expression
-        /// </summary>
-        /// <param name="reference"></param>
-        /// <returns></returns>
-        public bool setReference(Utils.INamable reference)
-        {
-            bool retVal = false;
-
-            Variables.IVariable variable = reference as Variables.IVariable;
-            if (variable == null)
-            {
-                // We do not want to hard code reference to variables since they can belong to a structure, 
-                // or be variables available on the stack.
-                Ref = reference;
-                retVal = true;
-            }
-
-            return retVal;
         }
 
         /// <summary>
@@ -170,6 +143,50 @@ namespace DataDictionary.Interpreter
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Provides the ICallable that is statically defined
+        /// </summary>
+        public override ICallable getStaticCallable()
+        {
+            ICallable retVal = null;
+
+            if (Term != null)
+            {
+                retVal = base.getStaticCallable();
+            }
+            else if (Expression != null)
+            {
+                retVal = Expression.getStaticCallable();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// The model element referenced by this expression.
+        /// </summary>
+        public override Utils.INamable Ref
+        {
+            get
+            {
+                Utils.INamable retVal = null;
+
+                if (Term != null)
+                {
+                    retVal = Term.Ref;
+                }
+                else if (Expression != null)
+                {
+                    if (UnaryOp == null)
+                    {
+                        retVal = Expression.Ref;
+                    }
+                }
+
+                return retVal;
+            }
         }
 
         /// <summary>
@@ -265,7 +282,15 @@ namespace DataDictionary.Interpreter
 
             if (Ref != null)
             {
-                retVal = getValue(Ref);
+                Variables.IVariable variable = Ref as Variables.IVariable;
+                if (variable != null)
+                {
+                    retVal = variable.Value;
+                }
+                else
+                {
+                    retVal = Ref as Values.IValue;
+                }
             }
             else
             {
@@ -334,6 +359,21 @@ namespace DataDictionary.Interpreter
         public override ICallable getCalled(InterpretationContext context)
         {
             ICallable retVal = null;
+
+            if (Term != null)
+            {
+                retVal = Term.getCalled(context);
+            }
+            else if (Expression != null)
+            {
+                retVal = Expression.getCalled(context);
+            }
+
+            // TODO : Investigate why this 
+            if (retVal == null)
+            {
+                retVal = GetValue(context) as ICallable;
+            }
 
             return retVal;
         }

@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using DataDictionary.Functions;
 
 namespace DataDictionary.Interpreter
 {
@@ -103,11 +104,106 @@ namespace DataDictionary.Interpreter
 
             if (retVal)
             {
-                Left.SemanticAnalysis(instance, Filter.IsLeftSide);
-                Right.SemanticAnalysis(instance, Filter.IsTypedElement);
+                Left.SemanticAnalysis(instance, Filter.IsRightSide);
+                Right.SemanticAnalysis(instance, Filter.IsRightSide);
             }
 
             return retVal;
+        }
+
+        private ICallable __staticCallable = null;
+
+        public override ICallable getStaticCallable()
+        {
+            if (__staticCallable == null)
+            {
+                ICallable left = Left.getStaticCallable();
+                if (left != null)
+                {
+                    ICallable right = Right.getStaticCallable();
+                    if (right != null)
+                    {
+                        if (left.FormalParameters.Count == right.FormalParameters.Count)
+                        {
+                            bool match = true;
+                            for (int i = 0; i < left.FormalParameters.Count; i++)
+                            {
+                                Types.Type leftType = ((Parameter)left.FormalParameters[i]).Type;
+                                Types.Type rightType = ((Parameter)right.FormalParameters[i]).Type;
+                                if (!leftType.Equals(rightType))
+                                {
+                                    AddError("Non matching formal parameter type for parameter " + i + " " + leftType + " vs " + rightType);
+                                    match = false;
+                                }
+                            }
+
+                            if (left.ReturnType != right.ReturnType)
+                            {
+                                AddError("Non matching return types " + left.ReturnType + " vs " + right.ReturnType);
+                                match = false;
+                            }
+
+                            if (match)
+                            {
+                                // Create a dummy funciton for type analysis
+                                Function function = (Function)Generated.acceptor.getFactory().createFunction();
+                                function.Name = ToString();
+                                function.ReturnType = left.ReturnType;
+                                foreach (Parameter param in left.FormalParameters)
+                                {
+                                    Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
+                                    parameter.Name = param.Name;
+                                    parameter.Type = param.Type;
+                                    parameter.Enclosing = function;
+                                    function.appendParameters(parameter);
+                                }
+                                function.Enclosing = Root;
+                                __staticCallable = function;
+                            }
+                        }
+                        else
+                        {
+                            AddError("Invalid number of parameters, " + Left + " and " + Right + " should have the same number of parameters");
+                        }
+                    }
+                    else
+                    {
+                        // Left is not null, but right is. 
+                        // Ensure that right type corresponds to left return type 
+                        // and return left
+                        Types.Type rightType = Right.GetExpressionType();
+                        if (rightType.Match(left.ReturnType))
+                        {
+                            __staticCallable = left;
+                        }
+                        else
+                        {
+                            AddError(Left + "(" + left.ReturnType + " ) does not correspond to " + Right + "(" + rightType + ")");
+                        }
+                    }
+                }
+                else
+                {
+                    ICallable right = Right.getStaticCallable();
+                    if (right != null)
+                    {
+                        // Right is not null, but left is. 
+                        // Ensure that left type corresponds to right return type 
+                        // and return right
+                        Types.Type leftType = Left.GetExpressionType();
+                        if ((leftType.Match(right.ReturnType)))
+                        {
+                            __staticCallable = right;
+                        }
+                        else
+                        {
+                            AddError(Left + "(" + leftType + ") does not correspond to " + Right + "(" + right.ReturnType + ")");
+                        }
+                    }
+                }
+            }
+
+            return __staticCallable;
         }
 
         /// <summary>
@@ -453,6 +549,99 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
+        public override ICallable getCalled(InterpretationContext context)
+        {
+            ICallable retVal = null;
+
+            Functions.Function leftFunction = Left.getCalled(context) as Functions.Function;
+            Functions.Function rigthFunction = Right.getCalled(context) as Functions.Function;
+
+            // Ensure that both left function and right function are functions (and have a corresponding Graph or Surface)
+            if (rigthFunction == null && leftFunction != null)
+            {
+                if (leftFunction.Graph != null)
+                {
+                    Functions.Graph graph = Functions.Graph.createGraph(Functions.Function.getDoubleValue(Right.GetValue(context)));
+                    rigthFunction = graph.Function;
+                }
+                else
+                {
+                    Functions.Surface surface = Functions.Surface.createSurface(Functions.Function.getDoubleValue(Right.GetValue(context)), leftFunction.Surface.XParameter, leftFunction.Surface.YParameter);
+                    rigthFunction = surface.Function;
+                }
+            }
+            else if (rigthFunction != null)
+            {
+                // leftFunction is null
+                if (rigthFunction.Graph != null)
+                {
+                    Functions.Graph graph = Functions.Graph.createGraph(Functions.Function.getDoubleValue(Left.GetValue(context)));
+                    leftFunction = graph.Function;
+                }
+                else
+                {
+                    Functions.Surface surface = Functions.Surface.createSurface(Functions.Function.getDoubleValue(Left.GetValue(context)), rigthFunction.Surface.XParameter, rigthFunction.Surface.YParameter);
+                    leftFunction = surface.Function;
+                }
+            }
+            else
+            {
+                throw new Exception("Cannot determine function paramters for " + Left.ToString() + " and " + Right.ToString());
+            }
+
+            // Perform the composition
+            if (leftFunction.Graph != null)
+            {
+                Functions.Graph tmp = null;
+                switch (Operation)
+                {
+                    case BinaryExpression.OPERATOR.ADD:
+                        tmp = leftFunction.Graph.AddGraph(rigthFunction.Graph);
+                        break;
+
+                    case BinaryExpression.OPERATOR.SUB:
+                        tmp = leftFunction.Graph.SubstractGraph(rigthFunction.Graph);
+                        break;
+
+                    case BinaryExpression.OPERATOR.MULT:
+                        tmp = leftFunction.Graph.MultGraph(rigthFunction.Graph);
+                        break;
+
+                    case BinaryExpression.OPERATOR.DIV:
+                        tmp = leftFunction.Graph.DivGraph(rigthFunction.Graph);
+                        break;
+                }
+                retVal = tmp.Function;
+            }
+            else
+            {
+                Functions.Surface rightSurface = rigthFunction.getSurface(leftFunction.Surface.XParameter, leftFunction.Surface.YParameter);
+                Functions.Surface tmp = null;
+                switch (Operation)
+                {
+                    case BinaryExpression.OPERATOR.ADD:
+                        tmp = leftFunction.Surface.AddSurface(rightSurface);
+                        break;
+
+                    case BinaryExpression.OPERATOR.SUB:
+                        tmp = leftFunction.Surface.SubstractSurface(rightSurface);
+                        break;
+
+                    case BinaryExpression.OPERATOR.MULT:
+                        tmp = leftFunction.Surface.MultiplySurface(rightSurface);
+                        break;
+
+                    case BinaryExpression.OPERATOR.DIV:
+                        tmp = leftFunction.Surface.DivideSurface(rightSurface);
+                        break;
+                }
+                retVal = tmp.Function;
+            }
+
+            return retVal;
+        }
+
+
         /// <summary>
         /// Fills the list provided with the element matching the filter provided
         /// </summary>
@@ -468,18 +657,13 @@ namespace DataDictionary.Interpreter
         /// Indicates that the expression is an equality of the form variable == literal
         /// </summary>
         /// <returns></returns>
-        public bool IsSimpleEquality(InterpretationContext context)
+        public bool IsSimpleEquality()
         {
             bool retVal = false;
 
             if (Operation == OPERATOR.EQUAL)
             {
-                Variables.IVariable variable = Left.GetVariable(context);
-                UnaryExpression value = Right as Interpreter.UnaryExpression;
-                if (variable != null && value != null && value.Term != null)
-                {
-                    retVal = value.Term.LiteralValue != null;
-                }
+                retVal = Filter.IsLeftSide(Left.Ref) && Filter.IsLiteral(Right.Ref);
             }
 
             return retVal;

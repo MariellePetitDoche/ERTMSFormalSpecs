@@ -16,7 +16,7 @@
 
 namespace DataDictionary.Interpreter
 {
-    public class InterpreterTreeNode
+    public class InterpreterTreeNode : Utils.INamable
     {
         /// <summary>
         /// Some logging facility
@@ -42,6 +42,9 @@ namespace DataDictionary.Interpreter
         {
             Root = root;
         }
+
+        public string Name { get { return ToString(); } set { } }
+        public string FullName { get { return Name; } }
 
         /// <summary>
         /// The EFS System for which this interpreter tree node is created

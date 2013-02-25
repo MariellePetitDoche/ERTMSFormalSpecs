@@ -15,10 +15,12 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using DataDictionary.Functions;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class FunctionExpression : Expression
+    public class FunctionExpression : Expression, ISubDeclarator
     {
         /// <summary>
         /// The parameters for this function expression
@@ -39,14 +41,32 @@ namespace DataDictionary.Interpreter
         public FunctionExpression(ModelElement root, List<Parameter> parameters, Expression expression)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<INamable>>();
+
             Parameters = parameters;
             foreach (Parameter parameter in parameters)
             {
                 parameter.Enclosing = this;
+                Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, parameter);
             }
 
             Expression = expression;
             Expression.Enclosing = this;
+        }
+
+        /// <summary>
+        /// The elements declared by this declarator
+        /// </summary>
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
+        {
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
         /// <summary>
@@ -67,6 +87,20 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
+        private ICallable __staticCallable = null;
+
+        /// <summary>
+        /// Provides the ICallable that is statically defined
+        /// </summary>
+        public override ICallable getStaticCallable()
+        {
+            if (__staticCallable == null)
+            {
+                __staticCallable = GetExpressionType() as ICallable;
+            }
+
+            return __staticCallable;
+        }
         /// <summary>
         /// Provides the type of this expression
         /// </summary>
@@ -85,6 +119,7 @@ namespace DataDictionary.Interpreter
                 param.Type = parameter.Type;
                 retVal.appendParameters(param);
             }
+            retVal.Enclosing = Root;
 
             return retVal;
         }

@@ -43,7 +43,7 @@ namespace DataDictionary
         /// <returns></returns>
         public static bool IsVariable(INamable value)
         {
-            return value is Variables.IVariable;
+            return value is Variables.IVariable || value is Types.StructureElement;
         }
 
         /// <summary>
@@ -77,13 +77,33 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Predicates which indicates that the namable is a typed element
+        /// Predicates which indicates that the namable can be assigned to
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public static bool IsLeftSide(INamable value)
         {
-            return IsVariableOrValue(value) || value is Types.StructureElement;
+            return IsVariable(value) || value is Types.StructureElement;
+        }
+
+        /// <summary>
+        /// Predicates which indicates that the namable can be the right side of an assignment
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsRightSide(INamable value)
+        {
+            return (IsVariableOrValue(value) || value is Types.StructureElement) && !IsCallable(value);
+        }
+
+        /// <summary>
+        /// Predicates which indicates that the namable can be an actual parameter
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsActualParameter(INamable value)
+        {
+            return (IsVariableOrValue(value) || value is Types.StructureElement);
         }
 
         /// <summary>
@@ -105,5 +125,16 @@ namespace DataDictionary
         {
             return (value is Interpreter.ICallable) || (value is Types.Range);
         }
+
+        /// <summary>
+        /// Predicate which indicates that the namable can be called
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsLiteral(INamable value)
+        {
+            return (value is Values.IValue);
+        }
+
     }
 }

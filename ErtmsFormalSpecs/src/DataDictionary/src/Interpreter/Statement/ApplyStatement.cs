@@ -83,7 +83,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (retVal)
             {
-                ListExpression.SemanticAnalysis(instance);
+                ListExpression.SemanticAnalysis(instance, Filter.IsRightSide);
                 Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
                 if (collectionType != null)
                 {
@@ -101,7 +101,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Variables.IVariable variable)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = Call.Modifies(variable);
 
@@ -121,7 +121,7 @@ namespace DataDictionary.Interpreter.Statement
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Variables.IVariable> retVal)
+        public override void ReadElements(List<Types.ITypedElement> retVal)
         {
             Call.ReadElements(retVal);
         }

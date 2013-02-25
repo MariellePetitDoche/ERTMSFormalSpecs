@@ -54,8 +54,8 @@ namespace DataDictionary.Interpreter.Statement
 
             if (retVal)
             {
-                VariableIdentification.SemanticAnalysis(instance);
-                Expression.SemanticAnalysis(instance);
+                VariableIdentification.SemanticAnalysis(instance, Filter.IsLeftSide);
+                Expression.SemanticAnalysis(instance, Filter.IsRightSide);
             }
 
             return retVal;
@@ -64,22 +64,11 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Provides the target of this update statement
         /// </summary>
-        public Variables.IVariable Target
+        public Types.ITypedElement Target
         {
             get
             {
-                Variables.IVariable retVal = null;
-
-                bool prev = ModelElement.PerformLog;
-                ModelElement.PerformLog = false;
-                try
-                {
-                    retVal = VariableIdentification.GetVariable(new Interpreter.InterpretationContext(Root));
-                }
-                finally
-                {
-                    ModelElement.PerformLog = prev;
-                }
+                Types.ITypedElement retVal = VariableIdentification.Ref as Types.ITypedElement;
 
                 return retVal;
             }
@@ -90,7 +79,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Variables.IVariable variable)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
@@ -115,7 +104,7 @@ namespace DataDictionary.Interpreter.Statement
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Variables.IVariable> retVal)
+        public override void ReadElements(List<Types.ITypedElement> retVal)
         {
             retVal.AddRange(Expression.GetVariables());
         }
@@ -125,17 +114,6 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            InterpretationContext context = new InterpretationContext(Root);
-
-            Variables.IProcedure procedure = Utils.EnclosingFinder<Variables.IProcedure>.find(Root);
-            if (procedure != null)
-            {
-                foreach (Parameter parameter in procedure.FormalParameters)
-                {
-                    context.LocalScope.setVariable(parameter);
-                }
-            }
-
             Types.Type targetType = VariableIdentification.GetExpressionType();
             if (targetType == null)
             {

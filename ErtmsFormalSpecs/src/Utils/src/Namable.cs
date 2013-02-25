@@ -147,13 +147,16 @@ namespace Utils
         /// <returns></returns>
         public static INamable getEnclosing(INamable current)
         {
+            INamable retVal = null;
+
             // Gets the enclosing element in the tree
             IEnclosed enclosed = current as IEnclosed;
             if (enclosed != null)
             {
-                current = enclosed.Enclosing as INamable;
+                retVal = enclosed.Enclosing as INamable;
             }
-            return current;
+
+            return retVal;
         }
 
     }

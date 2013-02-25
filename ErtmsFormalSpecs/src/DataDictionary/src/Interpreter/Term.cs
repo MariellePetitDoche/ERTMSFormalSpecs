@@ -17,7 +17,7 @@ namespace DataDictionary.Interpreter
 {
     using System.Collections.Generic;
 
-    public class Term : InterpreterTreeNode
+    public class Term : InterpreterTreeNode, IReference
     {
         /// <summary>
         /// The designator of this term
@@ -123,6 +123,28 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// The model element referenced by this term.
+        /// </summary>
+        public Utils.INamable Ref
+        {
+            get
+            {
+                Utils.INamable retVal = null;
+
+                if (Designator != null)
+                {
+                    retVal = Designator.Ref;
+                }
+                else if (LiteralValue != null)
+                {
+                    retVal = LiteralValue.Ref;
+                }
+
+                return retVal;
+            }
+        }
+
+        /// <summary>
         /// Provides the type of this expression
         /// </summary>
         /// <param name="context">The interpretation context</param>
@@ -175,11 +197,28 @@ namespace DataDictionary.Interpreter
 
             if (Designator != null)
             {
-                retVal = Designator.GetValue(context) as Values.IValue;
+                retVal = Designator.GetValue(context);
             }
             else if (LiteralValue != null)
             {
                 retVal = LiteralValue.GetValue(context);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the element called by this term, if any
+        /// </summary>
+        /// <param name="context">The context on which the variable must be found</param>
+        /// <returns></returns>
+        public ICallable getCalled(InterpretationContext context)
+        {
+            ICallable retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.getCalled(context);
             }
 
             return retVal;

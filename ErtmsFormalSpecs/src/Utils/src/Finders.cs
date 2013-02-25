@@ -159,6 +159,32 @@ namespace Utils
                 retVal.AddRange(tmp);
             }
         }
+
+        /// <summary>
+        /// Indicates whether the declarator contains the value provided as parameter
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool ContainsValue(Dictionary<string, List<INamable>> dictionary, INamable value)
+        {
+            bool retVal = false;
+
+            List<INamable> tmp;
+            if (dictionary.TryGetValue(value.FullName, out tmp))
+            {
+                foreach (INamable namable in tmp)
+                {
+                    if (namable == value)
+                    {
+                        retVal = true;
+                        break;
+                    }
+                }
+            }
+
+            return retVal;
+        }
     }
 
     ///

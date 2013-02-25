@@ -172,7 +172,7 @@ namespace DataDictionary.Rules
         /// </summary>
         /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public Interpreter.Statement.VariableUpdateStatement Modifies(Variables.IVariable variable)
+        public Interpreter.Statement.VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             if (Statement != null)
             {
@@ -187,7 +187,7 @@ namespace DataDictionary.Rules
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Reads(Variables.IVariable variable)
+        public bool Reads(Types.ITypedElement variable)
         {
             if (Statement != null)
             {

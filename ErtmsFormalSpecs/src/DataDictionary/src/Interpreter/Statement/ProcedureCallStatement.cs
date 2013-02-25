@@ -105,7 +105,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Variables.IVariable variable)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
@@ -150,7 +150,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
-        public override bool Reads(Variables.IVariable variable)
+        public override bool Reads(Types.ITypedElement variable)
         {
             foreach (Rules.Action action in Actions)
             {
@@ -167,7 +167,7 @@ namespace DataDictionary.Interpreter.Statement
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Variables.IVariable> retVal)
+        public override void ReadElements(List<Types.ITypedElement> retVal)
         {
             foreach (Rules.Action action in Actions)
             {

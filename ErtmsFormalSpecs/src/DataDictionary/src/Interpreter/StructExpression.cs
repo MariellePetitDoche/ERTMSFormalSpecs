@@ -38,6 +38,10 @@ namespace DataDictionary.Interpreter
         {
             Structure = structure;
             Associations = associations;
+            foreach (Expression expr in Associations.Values)
+            {
+                expr.Enclosing = this;
+            }
         }
 
         /// <summary>
@@ -55,7 +59,7 @@ namespace DataDictionary.Interpreter
                 Structure.SemanticAnalysis(instance, Filter.IsStructure);
                 foreach (Expression expr in Associations.Values)
                 {
-                    expr.SemanticAnalysis(instance, Filter.IsVariableOrValue);
+                    expr.SemanticAnalysis(instance, Filter.IsRightSide);
                 }
             }
 

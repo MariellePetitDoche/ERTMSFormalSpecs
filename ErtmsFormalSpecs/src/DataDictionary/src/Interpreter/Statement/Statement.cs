@@ -68,7 +68,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public abstract VariableUpdateStatement Modifies(Variables.IVariable variable);
+        public abstract VariableUpdateStatement Modifies(Types.ITypedElement variable);
 
         /// <summary>
         /// Provides the list of update statements induced by this statement
@@ -81,11 +81,11 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns></returns>
-        public virtual bool Reads(Variables.IVariable variable)
+        public virtual bool Reads(Types.ITypedElement variable)
         {
             bool retVal = false;
 
-            List<Variables.IVariable> variablesRead = new List<Variables.IVariable>();
+            List<Types.ITypedElement> variablesRead = new List<Types.ITypedElement>();
             ReadElements(variablesRead);
             retVal = variablesRead.Contains(variable);
 
@@ -96,7 +96,7 @@ namespace DataDictionary.Interpreter.Statement
         /// Provides the list of variables read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public abstract void ReadElements(List<Variables.IVariable> retVal);
+        public abstract void ReadElements(List<Types.ITypedElement> retVal);
 
         /// <summary>
         /// Provides the changes performed by this statement

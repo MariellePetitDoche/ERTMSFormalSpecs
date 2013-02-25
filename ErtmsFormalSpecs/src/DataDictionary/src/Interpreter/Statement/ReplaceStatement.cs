@@ -94,7 +94,7 @@ namespace DataDictionary.Interpreter.Statement
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
-        public override void ReadElements(List<Variables.IVariable> retVal)
+        public override void ReadElements(List<Types.ITypedElement> retVal)
         {
             retVal.AddRange(Value.GetVariables());
             retVal.AddRange(ListExpression.GetVariables());
@@ -105,7 +105,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Variables.IVariable variable)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
@@ -150,28 +150,17 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            InterpretationContext context = new InterpretationContext(Root);
-
             Value.checkExpression();
 
-            Values.IValue targetList = ListExpression.GetValue(context);
-            if (targetList != null)
+            Types.Collection targetListType = ListExpression.GetExpressionType() as Types.Collection;
+            if (targetListType != null)
             {
-                Types.Collection targetListType = targetList.Type as Types.Collection;
-                if (targetListType != null)
+                Types.Type elementType = Value.GetExpressionType();
+                if (elementType != targetListType.Type)
                 {
-                    Types.Type elementType = Value.GetExpressionType();
-                    if (elementType != targetListType.Type)
-                    {
-                        Root.AddError("Inserted element type does not corresponds to list type");
-                    }
-                }
-                else
-                {
-                    Root.AddError("Target is not a collection");
+                    Root.AddError("Inserted element type does not corresponds to list type");
                 }
 
-                context.LocalScope.setVariable(IteratorVariable);
                 Condition.checkExpression();
                 Types.BoolType conditionType = Condition.GetExpressionType() as Types.BoolType;
                 if (conditionType == null)
@@ -182,7 +171,7 @@ namespace DataDictionary.Interpreter.Statement
             }
             else
             {
-                Root.AddError("Cannot find target list");
+                Root.AddError("Cannot determine collection type of " + ListExpression);
             }
         }
 

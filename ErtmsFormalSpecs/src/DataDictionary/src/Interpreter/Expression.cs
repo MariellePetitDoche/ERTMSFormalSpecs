@@ -149,15 +149,7 @@ namespace DataDictionary.Interpreter
                         retVal = "";
                     }
 
-                    Values.IValue value = elem.Value as Values.IValue;
-                    if (value != null)
-                    {
-                        retVal = retVal + value.LiteralName;
-                    }
-                    else
-                    {
-                        retVal = retVal + "<unknown value>";
-                    }
+                    retVal = retVal + elem.Value.FullName + "(" + elem.Value.GetType() + ")";
                 }
             }
             else
@@ -169,61 +161,58 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Indicates whether the value should be filtered out depending on the filter value flag or filter type flag
-        /// </summary>
-        /// <param name="filterOutTypes"></param>
-        /// <param name="filterOutValues"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool filterOut(bool filterOutTypes, bool filterOutValues, Utils.INamable value)
-        {
-            bool retVal = false;
-
-            Types.Type theType = value as Types.Type;
-            Types.StructureElement theElement = value as Types.StructureElement;
-            bool isType = theType != null || theElement != null;
-
-            Values.IValue theValue = value as Values.IValue;
-            Parameter theParameter = value as Parameter;
-            bool isValue = theValue != null || theParameter != null;
-            if (isType && isValue)
-            {
-                // Element is both a type and a value. Keep it.
-            }
-            else
-            {
-                if (filterOutTypes && isType)
-                {
-                    retVal = true;
-                }
-
-                // fiterOutValues => isValue
-                if (filterOutValues && isValue)
-                {
-                    retVal = true;
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Filters out value according to predicate
         /// </summary>
         /// <param name="accept"></param>
         public void filter(Filter.AcceptableChoice accept)
         {
-            List<ReturnValueElement> tmp = new List<ReturnValueElement>();
-
+            // Only keep the most specific elements.
+            string mostSpecific = null;
             foreach (ReturnValueElement element in Values)
             {
                 if (accept(element.Value))
                 {
-                    tmp.Add(element);
+                    if (mostSpecific == null)
+                    {
+                        mostSpecific = element.Value.FullName;
+                    }
+                    else
+                    {
+                        if (mostSpecific.Length < element.Value.FullName.Length)
+                        {
+                            mostSpecific = element.Value.FullName;
+                        }
+                    }
                 }
             }
 
+            // Build a new list with the filtered out elements
+            bool variable = false;
+            List<ReturnValueElement> tmp = new List<ReturnValueElement>();
+            foreach (ReturnValueElement element in Values)
+            {
+                if (accept(element.Value) && element.Value.FullName.Equals(mostSpecific))
+                {
+                    tmp.Add(element);
+                    variable = variable || element.Value is Variables.IVariable;
+                }
+            }
             Values = tmp;
+
+            // HaCK : If both Variable and StructureElement are found, only keep the variable
+            if (variable)
+            {
+                tmp = new List<ReturnValueElement>();
+                foreach (ReturnValueElement element in Values)
+                {
+                    if (!(element.Value is Types.StructureElement))
+                    {
+                        tmp.Add(element);
+                    }
+                }
+
+                Values = tmp;
+            }
         }
 
         /// <summary>
@@ -298,6 +287,16 @@ namespace DataDictionary.Interpreter
         }
     }
 
+    /// <summary>
+    /// Allows to reference a namable
+    /// </summary>
+    public interface IReference
+    {
+        /// <summary>
+        /// Provides the referenced element 
+        /// </summary>
+        Utils.INamable Ref { get; }
+    }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * The grammar is following:                                     *
@@ -328,7 +327,7 @@ namespace DataDictionary.Interpreter
      * Expression_iCont -> Epsilon                                   *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    public abstract class Expression : InterpreterTreeNode
+    public abstract class Expression : InterpreterTreeNode, IReference
     {
         /// <summary>
         /// Constructor
@@ -394,9 +393,47 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public virtual bool SemanticAnalysis(Utils.INamable instance = null)
+        public bool SemanticAnalysis(Utils.INamable instance = null)
         {
             return SemanticAnalysis(instance, Filter.AllMatches);
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public bool SemanticAnalysis(Filter.AcceptableChoice expectation)
+        {
+            return SemanticAnalysis(null, expectation);
+        }
+
+        /// <summary>
+        /// Provides the INamable which is referenced by this expression, if any
+        /// </summary>
+        public virtual Utils.INamable Ref
+        {
+            get { return null; }
+            protected set { }
+        }
+
+        /// <summary>
+        /// Provides the ICallable that is statically defined
+        /// </summary>
+        public virtual ICallable getStaticCallable()
+        {
+            ICallable retVal = Ref as ICallable;
+
+            if (retVal == null)
+            {
+                Types.Range range = Ref as Types.Range;
+                if (range != null)
+                {
+                    retVal = range.CastFunction;
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -484,34 +521,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public virtual Variables.IVariable GetVariable(InterpretationContext context)
         {
-            return null;
-        }
-
-        /// <summary>
-        /// Provides the value of the namable provided as parameter
-        /// </summary>
-        /// <param name="namable"></param>
-        /// <returns></returns>
-        protected Values.IValue getValue(Utils.INamable namable)
-        {
-            Values.IValue retVal = null;
-
-            Variables.IVariable variable = namable as Variables.IVariable;
-            if (variable != null)
-            {
-                retVal = variable.Value;
-            }
-            else
-            {
-                retVal = namable as Values.IValue;
-            }
-
-            if (retVal == null)
-            {
-                AddError(ToString() + " does not refer to a value");
-            }
-
-            return retVal;
+            throw new Exception("GetVariable() not defined for " + GetType().ToString());
         }
 
         /// <summary>
@@ -521,7 +531,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public virtual Values.IValue GetValue(InterpretationContext context)
         {
-            return null;
+            throw new Exception("GetValue() not defined for " + GetType().ToString());
         }
 
         /// <summary>
@@ -531,7 +541,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public virtual ICallable getCalled(InterpretationContext context)
         {
-            return null;
+            throw new Exception("getCalled() not defined for " + GetType().ToString());
         }
 
         /// <summary>
@@ -597,7 +607,6 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public virtual void checkExpression()
         {
-            GetType();
         }
 
         /// <summary>
@@ -633,16 +642,5 @@ namespace DataDictionary.Interpreter
         {
             throw new Exception("Cannot create surface for " + ToString());
         }
-    }
-
-    /// <summary>
-    /// Allows to reference a namable
-    /// </summary>
-    public interface IReference
-    {
-        /// <summary>
-        /// Provides the referenced element 
-        /// </summary>
-        Utils.INamable Ref { get; }
     }
 }
