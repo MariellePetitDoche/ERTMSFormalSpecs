@@ -7,8 +7,6 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecp.core.ECPProject;
 import org.eclipse.emf.ecp.ui.util.HandlerHelper;
-import org.eclipse.emf.ecp.wizards.CreateProjectWizard;
-import org.eclipse.emf.ecp.wizards.WizardUICallback;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.handlers.HandlerUtil;

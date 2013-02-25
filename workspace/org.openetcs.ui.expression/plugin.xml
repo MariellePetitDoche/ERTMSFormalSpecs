@@ -10,5 +10,32 @@
             type="java.lang.String">
       </widget>
    </extension>
+   <extension
+         point="org.eclipse.emf.ecp.edit.controls">
+      <control
+            class="org.openetcs.ui.internal.expression.ExpressionControl"
+            showLabel="true"
+            supportedCompositeClass="org.eclipse.swt.widgets.Composite">
+         <staticTest
+               priority="2"
+               singleValue="true"
+               supportedClassType="java.lang.String"
+               supportedEObject="org.openetcs.model.ertmsformalspecs.behaviour.Action"
+               supportedFeature="expression">
+         </staticTest>
+      </control>
+      <control
+            class="org.openetcs.ui.internal.expression.ExpressionControl"
+            showLabel="true"
+            supportedCompositeClass="org.eclipse.swt.widgets.Composite">
+         <staticTest
+               priority="2"
+               singleValue="true"
+               supportedClassType="java.lang.String"
+               supportedEObject="org.openetcs.model.ertmsformalspecs.behaviour.PreCondition"
+               supportedFeature="condition">
+         </staticTest>
+      </control>
+   </extension>
 
 </plugin>

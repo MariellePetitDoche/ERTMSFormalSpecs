@@ -4,8 +4,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecp.core.ECPProject;
-import org.eclipse.emf.ecp.ui.util.ActionHelper;
-import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.ecp.ui.util.HandlerHelper;
 import org.eclipse.emf.edit.command.ChangeCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -33,7 +32,7 @@ public class NewDictionaryHandler extends AbstractHandler {
 					}
 				});
 				
-				ActionHelper.openModelElement(dictionary, NewDictionaryHandler.class.getName(), project);
+				HandlerHelper.openModelElement(dictionary, NewDictionaryHandler.class.getName(), project);
 			}
 		}
 		return null;

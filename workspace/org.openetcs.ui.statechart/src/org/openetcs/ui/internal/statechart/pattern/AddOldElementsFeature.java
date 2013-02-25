@@ -48,6 +48,14 @@ public class AddOldElementsFeature extends AbstractAddFeature {
 			getFeatureProvider().addIfPossible(addContext);
 			
 		}
+		//TODO reactivate
+//		createStateConnections(stateMachine);
+        
+ 
+        return null;
+    }
+	
+	private void createStateConnections(StateMachine stateMachine) {
 		for(State state:stateMachine.getStates()){
 			StateMachine stateStateMachine= state.getStateMachine();
 			if(stateStateMachine==null)
@@ -97,12 +105,8 @@ public class AddOldElementsFeature extends AbstractAddFeature {
 				}
 			}
 		}
-		
-        
- 
-        return null;
-    }
-	
+	}
+
 	@Override
     public boolean canAdd(IAddContext context) {
 			return true;

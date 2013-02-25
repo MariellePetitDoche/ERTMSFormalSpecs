@@ -3,7 +3,6 @@
 
 <product name="OpenETCS Client" uid="org.openetcs.client" id="org.eclipse.emf.ecp.application3x.product" application="org.eclipse.emf.ecp.application3x.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -13,14 +12,12 @@
 
    <windowImages/>
 
-
    <launcher name="openETCS">
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
@@ -149,6 +146,7 @@
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.osgi" autoStart="true" startLevel="-1" />
+      <property name="org.eclipse.emf.ecp/AUTOSAVE" value="false" />
    </configurations>
 
 </product>
