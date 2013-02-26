@@ -24,6 +24,7 @@ import org.eclipse.emf.ecp.edit.internal.swt.util.SWTControl;
 import org.eclipse.emf.ecp.emfstore.core.internal.EMFStoreProvider;
 import org.eclipse.emf.ecp.spi.core.InternalProject;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.emfstore.client.ESLocalProject;
 import org.eclipse.emf.emfstore.internal.client.model.ProjectSpace;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -79,6 +80,7 @@ public class ExpressionControl extends SWTControl {
 		final ISourceViewer viewer = xtextStuff.embeddedEditor.getViewer();
 		resource=xtextStuff.resource;
 		text = viewer.getTextWidget();
+		bindValue();
 		return text;
 	}
 
@@ -145,8 +147,8 @@ public class ExpressionControl extends SWTControl {
 			Map<Object,Object> saveOptions=new HashMap<Object,Object>();
 			saveOptions.put(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
 			saveOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");
-			ProjectSpace projectSpace = EMFStoreProvider.INSTANCE.getProjectSpace(project);
-			resSetresXtext.addLoadOption("ProjectElements", projectSpace.getProject().getAllModelElements());
+			ESLocalProject projectSpace = EMFStoreProvider.INSTANCE.getProjectSpace(project);
+			resSetresXtext.addLoadOption("ProjectElements", projectSpace.getAllModelElements());
 			
 			Map<Object,Object> loadOptions=new HashMap<Object,Object>();
 			loadOptions.put(XMIResource.OPTION_ENCODING, "UTF-8");

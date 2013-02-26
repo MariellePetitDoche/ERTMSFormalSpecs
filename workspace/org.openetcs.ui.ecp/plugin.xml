@@ -25,6 +25,11 @@
             id="org.openetcs.ui.ecp.importToProject"
             name="Create new project from model">
       </command>
+      <command
+            defaultHandler="org.openetcs.ui.internal.ecp.ExportProjectHandler"
+            id="org.openetcs.ui.ecp.exportToProject"
+            name="Export project to model">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -34,6 +39,11 @@
          <command
                commandId="org.openetcs.ui.ecp.importToProject"
                label="Create new project from model"
+               style="push">
+         </command>
+         <command
+               commandId="org.openetcs.ui.ecp.exportToProject"
+               label="Export project to model"
                style="push">
          </command>
          <command

@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecp.emfstore.core.internal.EMFStoreProvider;
 import org.eclipse.emf.ecp.spi.core.InternalProject;
+import org.eclipse.emf.emfstore.client.ESLocalProject;
 import org.eclipse.emf.emfstore.internal.client.model.ProjectSpace;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.xtext.Constants;
@@ -67,8 +68,8 @@ public class XtextEmbeddedEditorProvider {
 			public XtextResource createResource() {
 				//TODO change to ESLocalProject
 				XtextResourceSet xtextResourceSet = resourceSetProvider.get();
-				ProjectSpace projectSpace = EMFStoreProvider.INSTANCE.getProjectSpace(project);
-				xtextResourceSet.addLoadOption("ProjectElements", projectSpace.getProject().getAllModelElements());
+				ESLocalProject projectSpace = EMFStoreProvider.INSTANCE.getProjectSpace(project);
+				xtextResourceSet.addLoadOption("ProjectElements", projectSpace.getAllModelElements());
 				resource = resourceFactory
 						.createResource(computeUnusedUri(xtextResourceSet));
 				xtextResourceSet.getResources().add(resource);
