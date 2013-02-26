@@ -39,11 +39,17 @@ public class ExpressionGlobalScopeProvider extends DefaultGlobalScopeProvider {
 				if(ModelPackage.eINSTANCE.getDictionary().equals(eObject.eClass()))
 					continue;
 				String text = getText(eObject);
+				if(text==null||text.isEmpty())
+					continue;
 				QualifiedName parentQualifier=getQualifiedName(eObject);
 //				if(parentQualifier==null)
 					parentQualifier=QualifiedName.create(text);
+					
 //				else
 //					parentQualifier=parentQualifier.append(text);
+					
+					if(parentQualifier==null|| parentQualifier.isEmpty())
+						continue;
 				IEObjectDescription desc = EObjectDescription.create(parentQualifier
 						, eObject);
 				descs.add(desc);
@@ -55,6 +61,8 @@ public class ExpressionGlobalScopeProvider extends DefaultGlobalScopeProvider {
 	}
 
 	private QualifiedName getQualifiedName(EObject eObject) {
+		if(eObject==null)
+			return null;
 		if (ModelPackage.eINSTANCE.getDictionary().equals(eObject.eClass())) {
 			return null;
 		}
