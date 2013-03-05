@@ -751,7 +751,7 @@ namespace DataDictionary
         {
             Rules.RuleDisabling disabling = (Rules.RuleDisabling)Generated.acceptor.getFactory().createRuleDisabling();
 
-            disabling.setName(rule.Name);
+            disabling.Name = rule.Name;
             disabling.setRule(rule.FullName);
             appendRuleDisablings(disabling);
         }

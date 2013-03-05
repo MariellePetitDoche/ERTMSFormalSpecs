@@ -533,8 +533,25 @@ namespace DataDictionary
                 return distanceForSpeedPredefinedFunction;
             }
         }
+
         /// <summary>
-        /// The predefined function
+        /// The predefined IntersectAt function
+        /// </summary>
+        private Functions.PredefinedFunctions.IntersectAt intersectAtFunction;
+        public Functions.PredefinedFunctions.IntersectAt IntersectAtFunction
+        {
+            get
+            {
+                if (intersectAtFunction == null)
+                {
+                    intersectAtFunction = new Functions.PredefinedFunctions.IntersectAt(this);
+                }
+                return intersectAtFunction;
+            }
+        }
+
+        /// <summary>
+        /// The predefined functions
         /// </summary>
         private Dictionary<String, Functions.PredefinedFunctions.PredefinedFunction> predefinedFunctions;
         public Dictionary<String, Functions.PredefinedFunctions.PredefinedFunction> PredefinedFunctions
@@ -557,6 +574,7 @@ namespace DataDictionary
                     predefinedFunctions[AddIncrementPredefinedFunction.Name] = AddIncrementPredefinedFunction;
                     predefinedFunctions[OverridePredefinedFunction.Name] = OverridePredefinedFunction;
                     predefinedFunctions[DistanceForSpeedPredefinedFunction.Name] = DistanceForSpeedPredefinedFunction;
+                    predefinedFunctions[IntersectAtFunction.Name] = IntersectAtFunction;
                 }
                 return predefinedFunctions;
             }

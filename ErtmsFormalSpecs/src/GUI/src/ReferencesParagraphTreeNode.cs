@@ -69,18 +69,17 @@ namespace GUI
         {
             base.AcceptDrop(SourceNode);
 
-            if (HandleRequirements && ReqReferences == null)
+            if (SourceNode is SpecificationView.ParagraphTreeNode)
             {
-                ReqReferences = new ReqRefsTreeNode(Item);
-                Nodes.Add(ReqReferences);
-            }
+                if (HandleRequirements && ReqReferences == null)
+                {
+                    ReqReferences = new ReqRefsTreeNode(Item);
+                    Nodes.Add(ReqReferences);
+                }
 
-            if (ReqReferences != null)
-            {
-                if (SourceNode is SpecificationView.ParagraphTreeNode)
+                if (ReqReferences != null)
                 {
                     SpecificationView.ParagraphTreeNode paragraphTreeNode = (SpecificationView.ParagraphTreeNode)SourceNode;
-
                     ReqReferences.CreateReqRef(paragraphTreeNode.Item.FullId);
                 }
             }

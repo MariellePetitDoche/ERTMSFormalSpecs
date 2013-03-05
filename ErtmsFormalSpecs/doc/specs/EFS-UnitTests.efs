@@ -859,8 +859,20 @@
 <StructureElement
  TypeName="TestStructure.Range1"
  Default="0"
+ Mode="Internal"
  NeedsRequirement="FALSE"
  Name="V1"
+>
+</StructureElement></Structure><Structure
+ NeedsRequirement="FALSE"
+ Name="Struct2"
+>
+<StructureElement
+ TypeName="Boolean"
+ Default="Boolean.False"
+ Mode="Internal"
+ NeedsRequirement="FALSE"
+ Name="a"
 >
 </StructureElement></Structure></Structures>
 <Collections>
@@ -879,10 +891,30 @@
   TestStructure.Struct1{ V1 =&gt; 0 }, 
   TestStructure.Struct1{ V1 =&gt; 0 }
 ]"
+ VariableMode="Internal"
  NeedsRequirement="FALSE"
  Name="C"
 >
 </Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ NeedsRequirement="FALSE"
+ Name="Test assignation on structures"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ NeedsRequirement="FALSE"
+ Name="Test assignation on structures"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action>Struct2.a &lt;- True</Action>
+</Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </NameSpace></NameSpaces>
 <Tests>
 <Frame
@@ -890,6 +922,15 @@
 >
 <SubSequences>
 <SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
  Name="Activation"
 >
 <TestCases>
@@ -901,6 +942,11 @@
 >
 <Steps>
 <Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
  TranslationRequired="FALSE"
  Name="Step1"
 >

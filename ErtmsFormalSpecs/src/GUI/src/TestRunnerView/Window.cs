@@ -177,6 +177,7 @@ namespace GUI.TestRunnerView
                         }
                     }
                     frameToolStripComboBox.Text = selectedFrame;
+                    frameToolStripComboBox.ToolTipText = selectedFrame;
 
                     if (Frame == null || frameToolStripComboBox.Text.CompareTo(Frame.Name) != 0)
                     {
@@ -209,6 +210,7 @@ namespace GUI.TestRunnerView
                         subSequenceSelectorComboBox.Text = EFSSystem.Runner.SubSequence.Name;
                     }
 
+                    subSequenceSelectorComboBox.ToolTipText = subSequenceSelectorComboBox.Text;
                     testBrowserStatusLabel.Text = frames.Count + " frame(s) loaded";
                 }
                 finally

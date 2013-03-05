@@ -44,6 +44,7 @@ namespace GUI.Report
         private void InitializeComponent()
         {
             this.GrB_Options = new System.Windows.Forms.GroupBox();
+            this.CB_InOutFilter = new System.Windows.Forms.CheckBox();
             this.CB_SelectAllDetails = new System.Windows.Forms.CheckBox();
             this.CB_SelectAll = new System.Windows.Forms.CheckBox();
             this.CB_AddRulesDetails = new System.Windows.Forms.CheckBox();
@@ -70,6 +71,7 @@ namespace GUI.Report
             // 
             // GrB_Options
             // 
+            this.GrB_Options.Controls.Add(this.CB_InOutFilter);
             this.GrB_Options.Controls.Add(this.CB_SelectAllDetails);
             this.GrB_Options.Controls.Add(this.CB_SelectAll);
             this.GrB_Options.Controls.Add(this.CB_AddRulesDetails);
@@ -96,11 +98,23 @@ namespace GUI.Report
             this.GrB_Options.TabStop = false;
             this.GrB_Options.Text = "Options";
             // 
+            // CB_InOutFilter
+            // 
+            this.CB_InOutFilter.AutoSize = true;
+            this.CB_InOutFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.CB_InOutFilter.Location = new System.Drawing.Point(289, 158);
+            this.CB_InOutFilter.Name = "CB_InOutFilter";
+            this.CB_InOutFilter.Size = new System.Drawing.Size(93, 17);
+            this.CB_InOutFilter.TabIndex = 19;
+            this.CB_InOutFilter.Tag = "STATa.7";
+            this.CB_InOutFilter.Text = "IN / OUT only";
+            this.CB_InOutFilter.UseVisualStyleBackColor = true;
+            // 
             // CB_SelectAllDetails
             // 
             this.CB_SelectAllDetails.AutoSize = true;
             this.CB_SelectAllDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_SelectAllDetails.Location = new System.Drawing.Point(205, 205);
+            this.CB_SelectAllDetails.Location = new System.Drawing.Point(187, 204);
             this.CB_SelectAllDetails.Name = "CB_SelectAllDetails";
             this.CB_SelectAllDetails.Size = new System.Drawing.Size(69, 17);
             this.CB_SelectAllDetails.TabIndex = 18;
@@ -128,7 +142,7 @@ namespace GUI.Report
             // 
             this.CB_AddRulesDetails.AutoSize = true;
             this.CB_AddRulesDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddRulesDetails.Location = new System.Drawing.Point(205, 182);
+            this.CB_AddRulesDetails.Location = new System.Drawing.Point(187, 181);
             this.CB_AddRulesDetails.Name = "CB_AddRulesDetails";
             this.CB_AddRulesDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddRulesDetails.TabIndex = 16;
@@ -155,7 +169,7 @@ namespace GUI.Report
             // 
             this.CB_AddStructuresDetails.AutoSize = true;
             this.CB_AddStructuresDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddStructuresDetails.Location = new System.Drawing.Point(205, 67);
+            this.CB_AddStructuresDetails.Location = new System.Drawing.Point(187, 66);
             this.CB_AddStructuresDetails.Name = "CB_AddStructuresDetails";
             this.CB_AddStructuresDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddStructuresDetails.TabIndex = 6;
@@ -167,7 +181,7 @@ namespace GUI.Report
             // 
             this.CB_AddCollectionsDetails.AutoSize = true;
             this.CB_AddCollectionsDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddCollectionsDetails.Location = new System.Drawing.Point(205, 90);
+            this.CB_AddCollectionsDetails.Location = new System.Drawing.Point(187, 89);
             this.CB_AddCollectionsDetails.Name = "CB_AddCollectionsDetails";
             this.CB_AddCollectionsDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddCollectionsDetails.TabIndex = 8;
@@ -179,7 +193,7 @@ namespace GUI.Report
             // 
             this.CB_AddFunctionsDetails.AutoSize = true;
             this.CB_AddFunctionsDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddFunctionsDetails.Location = new System.Drawing.Point(205, 113);
+            this.CB_AddFunctionsDetails.Location = new System.Drawing.Point(187, 112);
             this.CB_AddFunctionsDetails.Name = "CB_AddFunctionsDetails";
             this.CB_AddFunctionsDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddFunctionsDetails.TabIndex = 10;
@@ -190,8 +204,8 @@ namespace GUI.Report
             // CB_AddProceduresDetails
             // 
             this.CB_AddProceduresDetails.AutoSize = true;
-            this.CB_AddProceduresDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddProceduresDetails.Location = new System.Drawing.Point(205, 136);
+            this.CB_AddProceduresDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.CB_AddProceduresDetails.Location = new System.Drawing.Point(187, 135);
             this.CB_AddProceduresDetails.Name = "CB_AddProceduresDetails";
             this.CB_AddProceduresDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddProceduresDetails.TabIndex = 12;
@@ -202,8 +216,8 @@ namespace GUI.Report
             // CB_AddVariablesDetails
             // 
             this.CB_AddVariablesDetails.AutoSize = true;
-            this.CB_AddVariablesDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddVariablesDetails.Location = new System.Drawing.Point(205, 159);
+            this.CB_AddVariablesDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.CB_AddVariablesDetails.Location = new System.Drawing.Point(187, 158);
             this.CB_AddVariablesDetails.Name = "CB_AddVariablesDetails";
             this.CB_AddVariablesDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddVariablesDetails.TabIndex = 14;
@@ -290,7 +304,7 @@ namespace GUI.Report
             // 
             this.CB_AddRangesDetails.AutoSize = true;
             this.CB_AddRangesDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddRangesDetails.Location = new System.Drawing.Point(205, 21);
+            this.CB_AddRangesDetails.Location = new System.Drawing.Point(187, 20);
             this.CB_AddRangesDetails.Name = "CB_AddRangesDetails";
             this.CB_AddRangesDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddRangesDetails.TabIndex = 2;
@@ -317,7 +331,7 @@ namespace GUI.Report
             // 
             this.CB_AddEnumerationsDetails.AutoSize = true;
             this.CB_AddEnumerationsDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_AddEnumerationsDetails.Location = new System.Drawing.Point(205, 44);
+            this.CB_AddEnumerationsDetails.Location = new System.Drawing.Point(187, 43);
             this.CB_AddEnumerationsDetails.Name = "CB_AddEnumerationsDetails";
             this.CB_AddEnumerationsDetails.Size = new System.Drawing.Size(86, 17);
             this.CB_AddEnumerationsDetails.TabIndex = 4;
@@ -411,5 +425,6 @@ namespace GUI.Report
         private System.Windows.Forms.CheckBox CB_AddRules;
         private System.Windows.Forms.CheckBox CB_SelectAllDetails;
         private System.Windows.Forms.CheckBox CB_SelectAll;
+        private System.Windows.Forms.CheckBox CB_InOutFilter;
     }
 }

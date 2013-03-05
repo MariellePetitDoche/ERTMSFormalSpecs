@@ -177,10 +177,10 @@ namespace DataDictionary.Specification
             switch (Type)
             {
                 case Generated.acceptor.Paragraph_type.aREQUIREMENT:
-                    setImplementationStatus(Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNA);
+                    setImplementationStatus(Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA);
                     break;
                 default:
-                    setImplementationStatus(Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNotImplementable);
+                    setImplementationStatus(Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable);
                     break;
             }
         }

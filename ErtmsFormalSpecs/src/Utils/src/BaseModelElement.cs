@@ -217,9 +217,12 @@ namespace Utils
             {
                 if (log.Level == ElementLog.LevelEnum.Error)
                 {
+                    if (!log.FailedExpectation)  // if this is a failed expectation, this is not a model error
+                    {
+                        ErrorCount += 1;
+                    }
                     // System.Diagnostics.Debugger.Break();
                 }
-                ErrorCount += 1;
                 foreach (ElementLog other in Messages)
                 {
                     if (other.CompareTo(log) == 0)
@@ -255,6 +258,10 @@ namespace Utils
         public ElementLog AddError(string message)
         {
             ElementLog retVal = new ElementLog(ElementLog.LevelEnum.Error, message);
+            if (message.Contains("Failed expectation"))
+            {
+                retVal.FailedExpectation = true;
+            }
             AddElementLog(retVal);
             return retVal;
         }

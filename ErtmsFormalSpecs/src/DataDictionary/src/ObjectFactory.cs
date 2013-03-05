@@ -38,11 +38,6 @@ namespace DataDictionary
             return new Types.NameSpace();
         }
 
-        public override Generated.Type createType()
-        {
-            return new Types.Type();
-        }
-
         public override Generated.Enum createEnum()
         {
             return new Types.Enum();

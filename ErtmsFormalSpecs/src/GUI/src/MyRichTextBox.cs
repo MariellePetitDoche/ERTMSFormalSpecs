@@ -44,21 +44,25 @@ namespace GUI
         /// <summary>
         /// Constructor
         /// </summary>
-        public MyRichTextBox()
+        public MyRichTextBox(bool readOnly)
         {
             if (ContextMenu == null)
             {
                 ContextMenu = new ContextMenu();
             }
-            ContextMenu.MenuItems.Add(new MenuItem("Undo", new EventHandler(UndoHandler)));
-            ContextMenu.MenuItems.Add(new MenuItem("Redo", new EventHandler(RedoHandler)));
-            ContextMenu.MenuItems.Add(new MenuItem("-"));
-            ContextMenu.MenuItems.Add(new MenuItem("Cut", new EventHandler(CutHandler)));
             ContextMenu.MenuItems.Add(new MenuItem("Copy", new EventHandler(CopyHandler)));
-            ContextMenu.MenuItems.Add(new MenuItem("Paste", new EventHandler(PasteHandler)));
+            if (!readOnly)
+            {
+                ContextMenu.MenuItems.Add(new MenuItem("Cut", new EventHandler(CutHandler)));
+                ContextMenu.MenuItems.Add(new MenuItem("Paste", new EventHandler(PasteHandler)));
+                ContextMenu.MenuItems.Add(new MenuItem("-"));
+                ContextMenu.MenuItems.Add(new MenuItem("Undo", new EventHandler(UndoHandler)));
+                ContextMenu.MenuItems.Add(new MenuItem("Redo", new EventHandler(RedoHandler)));
 
-            AllowDrop = true;
-            DragDrop += new DragEventHandler(DragDropHandler);
+                AllowDrop = true;
+                DragDrop += new DragEventHandler(DragDropHandler);
+            }
+
             ShortcutsEnabled = true;
 
             GotFocus += new EventHandler(MyRichTextBox_GotFocus);

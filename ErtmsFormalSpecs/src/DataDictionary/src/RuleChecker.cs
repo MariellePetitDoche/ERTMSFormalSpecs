@@ -594,7 +594,7 @@ namespace DataDictionary
 
             if (paragraph != null)
             {
-                if (paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented)
+                if (paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented)
                 {
                     foreach (ReqRef reqRef in ImplementedParagraphsFinder.INSTANCE.findRefs(paragraph))
                     {

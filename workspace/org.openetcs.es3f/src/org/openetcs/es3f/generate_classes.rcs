@@ -1,0 +1,689 @@
+MODULE GenerateClasses;
+
+VAR 
+  lastID,
+  elements, 
+  enums;
+
+CONST
+  DONOTTRANSLATE := "DoNotTranslate",
+  PACKAGE        := "Package",
+  SOURCEPACKAGE  := "SourcePackage",
+  CLASS          := "Class",
+  TARGETNAME     := "TargetName";
+
+-- Create a valid Java name
+PROCEDURE ValidName ( name )
+BEGIN
+  RESULT := name;
+  RESULT := STR.Replace ( RESULT, "-", "_" );
+  RESULT := STR.Replace ( RESULT, "/", "_" );
+  RESULT := STR.Replace ( RESULT, ".", "_" );
+  RESULT := STR.Replace ( RESULT, " ", "_" );
+END ValidName;
+
+-- Retrieves the META named 'name' from the element provided
+PROCEDURE GetMeta ( element, name )
+BEGIN
+  FOR IN element.GetElementChildNodes("META") WHILE RESULT = VOID DO
+    IF X.NAME = name THEN 
+      RESULT := X;
+    END;
+  END;
+END GetMeta;
+
+-- Camel case
+PROCEDURE UpperCaseFirstLetter ( val )
+BEGIN
+  RESULT := STR.UpperCase (val[1]) & val [2..]; 
+END UpperCaseFirstLetter;
+
+-- Retrieves a boolean value from an XML attribute vale
+PROCEDURE BoolValue ( val )
+BEGIN
+  RESULT := FALSE;
+  IF val <> VOID THEN
+    RESULT := val =@ 'TRUE';
+  END;
+END;
+
+-- Provides the field which corresponds to the name provided
+PROCEDURE Field( element, name )
+BEGIN
+  RESULT := VOID;
+  FOR IN element.RecursiveGetElementChildNodes("FIELD") WHILE RESULT = VOID DO
+    IF X.NAME = name THEN 
+      RESULT := X;
+    END;
+  END;
+
+  IF RESULT = VOID AND element!BASEELEMENT <> VOID THEN
+    RESULT := Field ( GetElement ( element!BASEELEMENT ), name );
+  END;
+END Field;
+
+-- Provides the name of the field which corresponds to the name provided
+PROCEDURE TargetName( el )
+VAR
+  meta;
+BEGIN
+  IF el <> VOID THEN
+    RESULT := el.NAME;
+    meta := GetMeta ( el, TARGETNAME );
+    IF meta <> VOID THEN
+      RESULT := meta.GetTextContent;
+    END;
+  END;
+END TargetName;
+
+-- Indicates whether a field should be translated
+PROCEDURE TranslationRequired ( elem )
+BEGIN
+  RESULT := FALSE;
+  IF elem <> VOID THEN 
+    RESULT := GetMeta ( elem, DONOTTRANSLATE ) = VOID; 
+  END;
+END;
+
+-- Create helper functions used to translate enumerations
+PROCEDURE ImportEnum ( enum )
+VAR
+  name, prefix, package, defaultValue, valueName, targetValueName;
+BEGIN
+  IF TranslationRequired ( enum ) THEN
+    name         := TargetName ( enum );
+    package      := GetPackage ( enum );
+    prefix       := enum!PREFIX;
+    IF prefix = VOID THEN
+      prefix := "a"; 
+    END;
+    defaultValue := FIRST IN enum.GetElementChildNodes("ENUMVALUE") :- BoolValue ( X!USEASNULL ); 
+    IF defaultValue = VOID THEN
+      defaultValue := "null";
+    ELSE
+      defaultValue := package &"."& name &"."& ValidName ( STR.UpperCase ( TargetName ( defaultValue ) ) );  
+    END; 
+    FILE1.WriteList ({
+`	public static `package`.`name` import`name`( int val )
+`	{
+`		`package`.`name` retVal = `defaultValue`;
+`		
+`		switch (val)
+`		{
+    });
+    FOR value IN enum.GetElementChildNodes ( "ENUMVALUE" ) DO
+      valueName       := prefix & ValidName ( value.NAME );
+      IF value!OVERRIDE <> VOID THEN
+        valueName     := ValidName ( value.OVERRIDE ); 
+      END;
+      targetValueName := ValidName ( STR.UpperCase ( TargetName ( value ) ) ); 
+      FILE1.WriteList ({
+`		case acceptor.`valueName`:
+`			retVal = `package`.`name`.`targetValueName`;
+`			break;
+      });
+    END;
+    FILE1.WriteList ({
+`		}
+`		
+`		return retVal;
+`	}
+`
+    });
+  END;
+END ImportEnum;
+
+-- Sets all attributes of this element, and recursively for the base element
+PROCEDURE ImportAttributes ( element )
+VAR
+  name, field, fieldname, enum, enumname;
+BEGIN
+  IF element!BASEELEMENT <> VOID THEN
+    ImportAttributes ( GetElement ( element!BASEELEMENT ) );
+  END;
+
+  FOR IN element.RecursiveGetElementChildNodes("ATTR") DO
+    name  := ValidName(X.TARGET);
+    field := Field ( element, name ); 
+    IF TranslationRequired ( field ) THEN 
+      fieldname := TargetName ( field ); 
+      IF field CAN ENUMTYPE THEN 
+        enum := GetEnum ( field.ENUMTYPE );
+        enumname := TargetName (enum);
+        FILE1.WriteList ({
+`		retVal.set`fieldname`(import`enumname`(source.get`name`()));
+        });
+      ELSE
+        FILE1.WriteList ({
+`		retVal.set`fieldname`(source.get`name`());
+        });
+      END;
+    END;
+  END;
+END ImportAttributes;
+
+PROCEDURE ImportReferences ( element )
+VAR 
+  name, field, type, fieldname, enumname, enum;
+BEGIN
+  IF element!BASEELEMENT <> VOID THEN
+    ImportReferences ( GetElement ( element!BASEELEMENT ) );
+  END;
+   
+  FOR IN element.RecursiveGetElementChildNodes( "ELEMENTREF" ) DO
+    IF X.GetParentNode.GetNodeName = "REPEAT" THEN
+      -- Reference to a list
+      name      := ValidName ( X.GetParentNode.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslationRequired ( field ) THEN 
+        type      := field!REFTYPE;
+        fieldname := TargetName ( field ); 
+        FILE1.WriteList ({
+`		if ( source.all`name`() != null )
+`		{
+`			for ( Object obj: source.all`name`())
+`			{
+`				retVal.get`fieldname`().add(import`type`( project, translation, (org.openetcs.es3f.generated.`type`) obj ));	
+`			}
+`		}
+        });
+      END;
+    ELSE
+      -- Single reference
+      name      := ValidName ( X.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslationRequired ( field ) THEN 
+        type      := field!REFTYPE;
+        fieldname := TargetName ( field ); 
+        FILE1.WriteList ({
+`		if ( source.get`name`() != null )
+`		{
+`			retVal.set`fieldname`(import`type`(project, translation,  (org.openetcs.es3f.generated.`type`) source.get`name`()));	
+`		}
+        });
+      END;
+    END;
+  END;
+
+  FOR IN element.RecursiveGetElementChildNodes( "PCDATA" ) DO
+    IF X CAN TARGET THEN
+      -- Text
+      name      := ValidName ( X.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslationRequired ( field ) THEN 
+        fieldname := TargetName ( field ); 
+        IF field CAN ENUMTYPE THEN 
+          enum := GetEnum ( field.ENUMTYPE );
+          enumname := TargetName (enum);
+          FILE1.WriteList ({
+`		retVal.set`fieldname`(import`enumname`(source.get`name`()));
+          });
+        ELSE
+          FILE1.WriteList ({
+`		retVal.set`fieldname`(source.get`name`());
+          });
+        END;
+      END;
+    END;
+  END;
+END ImportReferences;
+
+PROCEDURE ImportManualTranslation ( element )
+VAR
+  name, manual, first;
+BEGIN
+  first := TRUE;
+  name := ValidName (element.NAME);
+  manual := FALSE;
+  FOR IN element.RecursiveGetElementChildNodes ( "FIELD" ) DO
+    IF GetMeta ( X, DONOTTRANSLATE ) <> VOID THEN 
+      IF first THEN 
+      FILE1.WriteLn;
+      first := FALSE;
+      END;
+      FILE1.WriteLn ("		// Handles the translation of " & TargetName ( X ) );
+      manual := TRUE;
+    END;
+  END;
+
+  IF manual THEN
+    FILE1.WriteLn ("		translation.import" & name & " ( project, source, retVal );");
+  END;
+END ImportManualTranslation ;
+
+PROCEDURE GetPackage ( element )
+VAR
+  meta;
+BEGIN
+  meta := GetMeta ( element, PACKAGE );
+  IF meta <> VOID THEN
+    -- Custom package
+    RESULT := "org.openetcs.model.ertmsformalspecs." & meta.GetTextContent;
+  ELSE 
+    -- Default package
+    RESULT := "org.openetcs.model.ertmsformalspecs";
+  END;
+END GetPackage; 
+
+PROCEDURE GetPackageInstance ( element )
+VAR
+  meta;
+BEGIN
+  meta := GetMeta ( element, PACKAGE );
+  IF meta <> VOID THEN
+    -- Custom package
+    RESULT := UpperCaseFirstLetter ( STR.Words (meta.GetTextContent, ".")[LAST] ) & "Package";
+  ELSE 
+    -- Default package
+    RESULT := "ModelPackage";
+  END;
+END GetPackageInstance; 
+
+PROCEDURE GetFactory ( element )
+VAR
+  meta;
+BEGIN
+  meta := GetMeta ( element, PACKAGE );
+  IF meta <> VOID THEN
+    -- Custom factory
+    RESULT := UpperCaseFirstLetter ( STR.Words (meta.GetTextContent, ".")[LAST] ) & "Factory";
+  ELSE 
+    -- Default factory
+    RESULT := "ModelFactory";
+  END;
+END GetFactory; 
+
+PROCEDURE GetClass ( element )
+VAR
+  meta;
+BEGIN
+  meta := GetMeta ( element, CLASS );
+  IF meta <> VOID THEN
+    -- Custom class name
+    RESULT := meta.GetTextContent;
+  ELSE
+    -- Default class name
+    RESULT := ValidName (element.NAME);
+  END;
+END GetClass; 
+
+-- Generates the class for the corresponding element
+PROCEDURE GenerateImporterClass ( doc )
+VAR 
+  name, package, factory, class, sourcepackage, sep, meta;
+BEGIN
+  FILE1.Redirect ("importer/Importer.java");
+  FILE1.WriteList ({
+`package org.openetcs.es3f.importer;
+`
+`import org.eclipse.emf.ecp.core.ECPProject;
+`import org.openetcs.model.ertmsformalspecs.*;
+`import org.openetcs.model.ertmsformalspecs.behaviour.*;
+`import org.openetcs.model.ertmsformalspecs.customization.*;
+`import org.openetcs.model.ertmsformalspecs.requirements.*;
+`import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
+`import org.openetcs.model.ertmsformalspecs.shortcut.*;
+`import org.openetcs.model.ertmsformalspecs.test.*;
+`import org.openetcs.model.ertmsformalspecs.translation.*;
+`import org.openetcs.model.ertmsformalspecs.types.*;
+`import org.openetcs.model.ertmsformalspecs.util.*;
+`import org.openetcs.es3f.generated.acceptor;
+`import org.openetcs.es3f.utils.*;
+`
+`public class Importer
+`{
+  });
+  FOR enum IN doc.RecursiveGetElementChildNodes("ENUM") DO
+    ImportEnum ( enum );
+  END;
+  
+  FOR element IN doc.RecursiveGetElementChildNodes("ELEMENT") DO  
+    name    := ValidName (element.NAME);
+    lastID  := lastID + 1;
+    package := GetPackage ( element );
+    factory := GetFactory ( element );
+    class   := GetClass ( element );
+
+    meta := GetMeta ( element, SOURCEPACKAGE );
+    IF meta <> VOID THEN
+      -- Custom source package 
+      sourcepackage := meta.GetTextContent;
+      sep := ".";
+    ELSE
+      -- Default source package
+      sourcepackage := "";
+      sep := "";
+    END;
+
+    IF GetMeta ( element, DONOTTRANSLATE ) = VOID THEN
+      IF NOT BoolValue ( element!ABSTRACT ) THEN
+        FILE1.WriteList ({
+`	public static `package`.`class` import`name`( ECPProject project, ManualTranslation translation, org.openetcs.es3f.generated.`name` source )
+`	{
+`		if ( source == null )
+`		{
+`			return null;
+`		}
+`		
+`		`package`.`class` retVal = `factory`.eINSTANCE.create`class`();;
+`		
+        });
+        ImportAttributes ( element );
+        ImportReferences ( element );
+        ImportManualTranslation ( element );
+        FILE1.WriteList ({
+`
+`		return retVal;
+`	}
+        });
+      END;
+    END;
+  END;
+
+  FILE1.WriteList ({
+`}
+  });
+  FILE1.Flush;
+END GenerateImporterClass;
+
+-- Create helper functions used to translate enumerations
+PROCEDURE ExportEnum ( enum )
+VAR
+  name, prefix, package, defaultValue, valueName, targetValueName;
+BEGIN
+  IF TranslationRequired ( enum ) THEN
+    name         := TargetName ( enum );
+    package      := GetPackage ( enum );
+    prefix       := enum!PREFIX;
+    IF prefix = VOID THEN
+      prefix := "a"; 
+    END;
+    defaultValue := FIRST IN enum.GetElementChildNodes("ENUMVALUE") :- BoolValue ( X!USEASNULL ); 
+    IF defaultValue = VOID THEN
+      defaultValue := enum.GetElementChildNodes("ENUMVALUE")[1];
+    END; 
+    defaultValue := TargetName ( defaultValue );
+    FILE1.WriteList ({
+`	public static int export`name`( `package`.`name` val )
+`	{
+`		int retVal = 0;
+`		
+    });
+    FOR value IN enum.GetElementChildNodes ( "ENUMVALUE" ) DO
+      valueName       := prefix & ValidName ( value.NAME );
+      IF value!OVERRIDE <> VOID THEN
+        valueName     := ValidName ( value.OVERRIDE ); 
+      END;
+      targetValueName := ValidName ( STR.UpperCase ( TargetName ( value ) ) ); 
+      FILE1.WriteList ({
+`		if (val == `package`.`name`.`targetValueName` )
+`		{
+`			retVal = acceptor.`valueName`;			
+`		}
+      });
+    END;
+    FILE1.WriteList ({
+`		
+`		return retVal;
+`	}
+`
+    });
+  END;
+END ExportEnum;
+
+-- Sets all attributes of this element, and recursively for the base element
+PROCEDURE ExportAttributes ( element )
+VAR
+  name, field, fieldname, enum, enumname;
+BEGIN
+  IF element!BASEELEMENT <> VOID THEN
+    ExportAttributes ( GetElement ( element!BASEELEMENT ) );
+  END;
+
+  FOR IN element.RecursiveGetElementChildNodes("ATTR") DO
+    name  := ValidName(X.TARGET);
+    field := Field ( element, name ); 
+    IF TranslationRequired ( field ) THEN 
+      fieldname := TargetName ( field ); 
+      IF field CAN ENUMTYPE THEN 
+        enum := GetEnum ( field.ENUMTYPE );
+        enumname := TargetName (enum);
+        FILE1.WriteList ({
+`			retVal.set`name`(export`enumname` (source.get`fieldname`()));
+        });
+      ELSIF field.TYPE = "BOOLEAN" THEN
+        FILE1.WriteList ({
+`			retVal.set`name`(source.is`fieldname`());
+        });
+      ELSE
+        FILE1.WriteList ({
+`			retVal.set`name`(source.get`fieldname`());
+        });
+      END;
+    END;
+  END;
+END ExportAttributes;
+
+PROCEDURE ExportReferences ( element )
+VAR 
+  name, field, type, fieldname, enumname, enum, refelement, class, meta, package;
+BEGIN
+  IF element!BASEELEMENT <> VOID THEN
+    ExportReferences ( GetElement ( element!BASEELEMENT ) );
+  END;	
+   
+  FOR IN element.RecursiveGetElementChildNodes( "ELEMENTREF" ) DO
+    IF X.GetParentNode.GetNodeName = "REPEAT" THEN
+      -- Reference to a list
+      name      := ValidName ( X.GetParentNode.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslationRequired ( field ) THEN 
+        type       := field!REFTYPE;
+        class      := type;
+        refelement := GetElement ( type );
+        class      := GetClass ( refelement );
+        fieldname  := TargetName ( field ); 
+        package    := GetPackageInstance ( refelement );
+        FILE1.WriteList ({
+`			if ( source.get`fieldname`() != null )
+`			{
+`				for ( EObject eObject: source.get`fieldname`())
+`				{
+`					if (`package`.eINSTANCE.get`class`().equals(eObject.eClass()))
+`					{
+`						retVal.append`name`(export`type`(translation, (`class`)eObject));
+`					}	
+`				}
+`			}
+        });
+      END;
+    ELSE
+      -- Single reference
+      name      := ValidName ( X.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslationRequired ( field ) THEN 
+        type      := field!REFTYPE;
+        fieldname := TargetName ( field ); 
+        FILE1.WriteList ({
+`			if ( source.get`fieldname`() != null )
+`			{
+`				retVal.set`name`(export`type`(translation, source.get`fieldname`()));	
+`			}
+        });
+      END;
+    END;
+  END;
+
+  FOR IN element.RecursiveGetElementChildNodes( "PCDATA" ) DO
+    IF X CAN TARGET THEN
+      -- Text
+      name      := ValidName ( X.TARGET );
+      field     := Field ( element, name ); 
+      IF TranslationRequired ( field ) THEN 
+        fieldname := TargetName ( field ); 
+        IF field CAN ENUMTYPE THEN 
+          enum := GetEnum ( field.ENUMTYPE );
+          enumname := TargetName (enum);
+          FILE1.WriteList ({
+`			retVal.set`name`(export`enumname`(source.get`fieldname`()));
+          });
+        ELSE
+          FILE1.WriteList ({
+`			retVal.set`name`(source.get`fieldname`());
+          });
+        END;
+      END;
+    END;
+  END;
+END ExportReferences;
+
+PROCEDURE ExportManualTranslation ( element )
+VAR
+  name, manual, first;
+BEGIN
+  first := TRUE;
+  name := ValidName (element.NAME);
+  manual := FALSE;
+  FOR IN element.RecursiveGetElementChildNodes ( "FIELD" ) DO
+    IF GetMeta ( X, DONOTTRANSLATE ) <> VOID THEN 
+      IF first THEN 
+      FILE1.WriteLn;
+      first := FALSE;
+      END;
+      FILE1.WriteLn ("			// Handles the translation of " & TargetName ( X ) );
+      manual := TRUE;
+    END;
+  END;
+
+  IF manual THEN
+    FILE1.WriteLn ("			translation.export" & name & " ( source, retVal );");
+  END;
+END ExportManualTranslation ;
+
+-- Generates the export class
+PROCEDURE GenerateExportClass ( doc )
+VAR
+  name, package, class, meta;
+BEGIN
+  FILE1.Redirect ("exporter/Exporter.java");
+  FILE1.WriteList ({
+`package org.openetcs.es3f.exporter;
+`
+`import org.eclipse.emf.ecore.EObject;
+`import org.openetcs.es3f.generated.acceptor;
+`import org.openetcs.es3f.utils.ManualTranslation;
+`import org.openetcs.model.ertmsformalspecs.*;
+`import org.openetcs.model.ertmsformalspecs.behaviour.*;
+`import org.openetcs.model.ertmsformalspecs.customization.*;
+`import org.openetcs.model.ertmsformalspecs.requirements.*;
+`import org.openetcs.model.ertmsformalspecs.requirements.messages.*;
+`import org.openetcs.model.ertmsformalspecs.shortcut.*;
+`import org.openetcs.model.ertmsformalspecs.test.*;
+`import org.openetcs.model.ertmsformalspecs.translation.*;
+`import org.openetcs.model.ertmsformalspecs.types.*;
+`import org.openetcs.model.ertmsformalspecs.util.*;
+`
+`public class Exporter
+`{
+  });
+
+  FOR enum IN doc.RecursiveGetElementChildNodes("ENUM") DO
+    ExportEnum ( enum );
+  END;
+
+  FOR element IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
+    meta := GetMeta ( element, DONOTTRANSLATE );
+    IF NOT ( BoolValue ( element!ABSTRACT ) OR meta <> VOID ) THEN 
+      name := ValidName (element.NAME);
+      package := "org.openetcs.model.ertmsformalspecs";
+      meta := GetMeta ( element, PACKAGE );
+      IF meta <> VOID THEN
+        package := package & "." & meta.GetTextContent;
+      END;
+      
+      class := name;
+      meta := GetMeta ( element, CLASS );
+      IF meta <> VOID THEN
+        class := meta.GetTextContent;
+      END;
+      
+      FILE1.WriteList ({
+`	public static org.openetcs.es3f.generated.`name` export`name` ( ManualTranslation translation, `package`.`class` source )
+`	{
+`		org.openetcs.es3f.generated.`name` retVal = null; 
+`		
+`		if ( source != null )
+`		{
+`			retVal = acceptor.getFactory().create`name`();
+      });
+      ExportAttributes ( element );
+      ExportReferences ( element );
+      ExportManualTranslation ( element );
+      FILE1.WriteList ({
+`		}
+`		
+`		return retVal;
+`	}      
+`
+      });
+      
+    END;
+  END;
+
+  FILE1.WriteList ({
+`}
+  });
+  FILE1.Flush;
+END GenerateExportClass;
+
+-- Creates the symbol table for the elements of the system
+PROCEDURE PopulateSymbols( doc )
+BEGIN
+  elements := ASSOC.New;
+  FOR IN doc.RecursiveGetElementChildNodes("ELEMENT") DO
+    elements[X.NAME] := X;
+  END;
+
+  enums := ASSOC.New;
+  FOR IN doc.RecursiveGetElementChildNodes("ENUM") DO
+    enums[X.NAME] := X;
+  END;
+END PopulateSymbols;
+
+-- Provides an element based on its name
+PROCEDURE GetElement ( name )
+BEGIN
+  RESULT := elements[name];
+END GetElement;
+
+-- Provides an element based on its name
+PROCEDURE GetEnum ( name )
+BEGIN
+  RESULT := enums[name];
+END GetEnum;
+
+PROCEDURE TERMINATE;
+VAR 
+  doc;
+BEGIN
+  lastID := 2829494552401902682;
+  OUT.WriteLn ("Starting process");
+  doc := XML.LoadFile ( SYS.Args[1] );
+  OUT.WriteLn ("XML document read");
+  IF doc <> VOID THEN
+    doc := doc.GetDocumentElement;
+
+    OUT.WriteLn ("Populate symbols");
+    PopulateSymbols( doc );
+
+    OUT.WriteLn ("Generate importer class");
+    GenerateImporterClass ( doc );
+    
+    OUT.WriteLn ("Generate export class");
+    GenerateExportClass (doc);
+  ELSE
+    ERR.WriteLn ( "Cannot read file " & SYS.Args[1] );
+  END;
+
+  OUT.WriteLn ("Done");
+END TERMINATE;

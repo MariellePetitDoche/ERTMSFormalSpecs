@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OpenETCS es3f Import/Export
+Bundle-SymbolicName: org.openetcs.es3f
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.openetcs.internal.es3f.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecp.core;bundle-version="1.0.0",
+ org.openetcs.model;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.openetcs.es3f,
+ org.openetcs.internal.es3f;x-internal:=true
+Bundle-ClassPath: lib/xmlb.jar,
+ .

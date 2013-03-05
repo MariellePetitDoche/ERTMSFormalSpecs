@@ -478,7 +478,7 @@ namespace Report.Model
         /// <param name="aNameSpace">The namespace</param>
         /// <param name="addDetails">Add details or simply enumerate the variables</param>
         /// <returns></returns>
-        public void CreateVariablesSection(DataDictionary.Types.NameSpace aNameSpace, bool addDetails)
+        public void CreateVariablesSection(DataDictionary.Types.NameSpace aNameSpace, bool addDetails, bool inOutFilter)
         {
 
             if (countDisplayedReqRelated(aNameSpace.Variables) > 0)
@@ -488,20 +488,25 @@ namespace Report.Model
                 {
                     if (variable.ImplementationPartiallyCompleted == true)
                     {
-                        if (addDetails)
+                        if (!inOutFilter || (variable.Mode == DataDictionary.Generated.acceptor.VariableModeEnumType.aIncoming ||
+                                             variable.Mode == DataDictionary.Generated.acceptor.VariableModeEnumType.aOutgoing ||
+                                             variable.Mode == DataDictionary.Generated.acceptor.VariableModeEnumType.aInOut))
                         {
-                            AddSubParagraph(variable.Name);
-                            AddTable(new string[] { "Variable " + variable.Name }, new int[] { 40, 100 });
-                            AddRow(variable.Comment);
-                            AddRow("Type", variable.getTypeName());
-                            AddRow("Default value", variable.Default);
-                            AddRow("Mode", variable.getVariableMode_AsString());
-                            CreateStatusTable(variable);
-                            CloseSubParagraph();
-                        }
-                        else
-                        {
-                            AddParagraph(variable.Name + " (" + GetRequirementsAsString(variable.Requirements) + ")");
+                            if (addDetails)
+                            {
+                                AddSubParagraph(variable.Name);
+                                AddTable(new string[] { "Variable " + variable.Name }, new int[] { 40, 100 });
+                                AddRow(variable.Comment);
+                                AddRow("Type", variable.getTypeName());
+                                AddRow("Default value", variable.Default);
+                                AddRow("Mode", variable.getVariableMode_AsString());
+                                CreateStatusTable(variable);
+                                CloseSubParagraph();
+                            }
+                            else
+                            {
+                                AddParagraph(variable.Name + " (" + GetRequirementsAsString(variable.Requirements) + ")");
+                            }
                         }
                     }
                 }

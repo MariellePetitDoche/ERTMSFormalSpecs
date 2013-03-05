@@ -14,11 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
-using System.Globalization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace GUI
 {
@@ -139,10 +137,10 @@ namespace GUI
         {
             _enumType = type;
 
-            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNA, "N/A"));
-            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented, "Implemented"));
-            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNotImplementable, "Not implementable"));
-            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNewRevisionAvailable, "New revision available"));
+            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA, "N/A"));
+            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented, "Implemented"));
+            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable, "Not implementable"));
+            converters.Add(new Converter(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NewRevisionAvailable, "New revision available"));
         }
 
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destType)

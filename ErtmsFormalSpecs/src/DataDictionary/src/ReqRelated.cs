@@ -19,6 +19,16 @@ namespace DataDictionary
     public class ReqRelated : Generated.ReqRelated, ICommentable
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        public ReqRelated()
+            : base()
+        {
+            // By default, a requirement is required
+            NeedsRequirement = true;
+        }
+
+        /// <summary>
         /// Indicates if this ReqRelated has to be associated with a requirement
         /// </summary>
         public virtual bool NeedsRequirement

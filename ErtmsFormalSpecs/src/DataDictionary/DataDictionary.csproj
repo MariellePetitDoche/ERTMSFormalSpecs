@@ -51,6 +51,7 @@
     <Compile Include="src\Functions\PredefinedFunctions\Before.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\AddIncrement.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\FunctionOnSurface.cs" />
+    <Compile Include="src\Functions\PredefinedFunctions\IntersectAt.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\MinSurface.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\Override.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\DistanceForSpeed.cs" />

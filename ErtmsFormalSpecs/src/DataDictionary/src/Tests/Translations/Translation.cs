@@ -310,58 +310,58 @@ namespace DataDictionary.Tests.Translations
 
             switch (mode)
             {
-                case Generated.acceptor.ST_MODE.aFS:
+                case Generated.acceptor.ST_MODE.Mode_FS:
                     retVal = "Mode.FS";
                     break;
-                case Generated.acceptor.ST_MODE.aIS:
+                case Generated.acceptor.ST_MODE.Mode_IS:
                     retVal = "Mode.IS";
                     break;
-                case Generated.acceptor.ST_MODE.aLS:
+                case Generated.acceptor.ST_MODE.Mode_LS:
                     retVal = "Mode.LS";
                     break;
-                case Generated.acceptor.ST_MODE.aNA:
+                case Generated.acceptor.ST_MODE.Mode_NA:
                     retVal = "Mode.NA";
                     break;
-                case Generated.acceptor.ST_MODE.aNL:
+                case Generated.acceptor.ST_MODE.Mode_NL:
                     retVal = "Mode.NL";
                     break;
-                case Generated.acceptor.ST_MODE.aNP:
+                case Generated.acceptor.ST_MODE.Mode_NP:
                     retVal = "Mode.NP";
                     break;
-                case Generated.acceptor.ST_MODE.aOS:
+                case Generated.acceptor.ST_MODE.Mode_OS:
                     retVal = "Mode.OS";
                     break;
-                case Generated.acceptor.ST_MODE.aPSH:
+                case Generated.acceptor.ST_MODE.Mode_PSH:
                     retVal = "Mode.PSH";
                     break;
-                case Generated.acceptor.ST_MODE.aPT:
+                case Generated.acceptor.ST_MODE.Mode_PT:
                     retVal = "Mode.PT";
                     break;
-                case Generated.acceptor.ST_MODE.aRE:
+                case Generated.acceptor.ST_MODE.Mode_RE:
                     retVal = "Mode.RE";
                     break;
-                case Generated.acceptor.ST_MODE.aSB:
+                case Generated.acceptor.ST_MODE.Mode_SB:
                     retVal = "Mode.SB";
                     break;
-                case Generated.acceptor.ST_MODE.aSF:
+                case Generated.acceptor.ST_MODE.Mode_SF:
                     retVal = "Mode.SF";
                     break;
-                case Generated.acceptor.ST_MODE.aSH:
+                case Generated.acceptor.ST_MODE.Mode_SH:
                     retVal = "Mode.SH";
                     break;
-                case Generated.acceptor.ST_MODE.aSL:
+                case Generated.acceptor.ST_MODE.Mode_SL:
                     retVal = "Mode.SL";
                     break;
-                case Generated.acceptor.ST_MODE.aSN:
+                case Generated.acceptor.ST_MODE.Mode_SN:
                     retVal = "Mode.SN";
                     break;
-                case Generated.acceptor.ST_MODE.aSR:
+                case Generated.acceptor.ST_MODE.Mode_SR:
                     retVal = "Mode.SR";
                     break;
-                case Generated.acceptor.ST_MODE.aTR:
+                case Generated.acceptor.ST_MODE.Mode_TR:
                     retVal = "Mode.TR";
                     break;
-                case Generated.acceptor.ST_MODE.aUF:
+                case Generated.acceptor.ST_MODE.Mode_UF:
                     retVal = "Mode.UF";
                     break;
                 default:
@@ -647,19 +647,19 @@ namespace DataDictionary.Tests.Translations
 
             switch (level)
             {
-                case Generated.acceptor.ST_LEVEL.aL0:
+                case Generated.acceptor.ST_LEVEL.StLevel_L0:
                     retVal = "Level.L0";
                     break;
-                case Generated.acceptor.ST_LEVEL.aL1:
+                case Generated.acceptor.ST_LEVEL.StLevel_L1:
                     retVal = "Level.L1";
                     break;
-                case Generated.acceptor.ST_LEVEL.aLSTM:
+                case Generated.acceptor.ST_LEVEL.StLevel_LSTM:
                     retVal = "Level.LSTR";
                     break;
-                case Generated.acceptor.ST_LEVEL.aL2:
+                case Generated.acceptor.ST_LEVEL.StLevel_L2:
                     retVal = "Level.L2";
                     break;
-                case Generated.acceptor.ST_LEVEL.aL3:
+                case Generated.acceptor.ST_LEVEL.StLevel_L3:
                     retVal = "Level.L3";
                     break;
                 default:

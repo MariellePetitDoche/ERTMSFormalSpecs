@@ -203,7 +203,7 @@ namespace GUI.SpecificationView
         {
             if (Item.isApplicable())
             {
-                Item.setImplementationStatus(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented);
+                Item.setImplementationStatus(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented);
             }
 
             RefreshNode();
@@ -211,7 +211,7 @@ namespace GUI.SpecificationView
 
         public void NotImplementableHandler(object sender, EventArgs args)
         {
-            Item.setImplementationStatus(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNotImplementable);
+            Item.setImplementationStatus(DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable);
             RefreshNode();
         }
 
@@ -250,6 +250,27 @@ namespace GUI.SpecificationView
                     DataDictionary.Specification.Paragraph paragraph = paragraphTreeNode.Item;
                     paragraphTreeNode.Delete();
                     AddParagraph(paragraph);
+                }
+            }
+
+            base.AcceptDrop(SourceNode);
+        }
+
+        public override void AcceptCopy(BaseTreeNode SourceNode)
+        {
+            if (SourceNode is SpecificationView.ParagraphTreeNode)
+            {
+                if (HandleRequirements && ReqReferences == null)
+                {
+                    ReqReferences = new ReqRefsTreeNode(Item);
+                    Nodes.Add(ReqReferences);
+                    RefreshNode();
+                }
+
+                if (ReqReferences != null)
+                {
+                    SpecificationView.ParagraphTreeNode paragraphTreeNode = (SpecificationView.ParagraphTreeNode)SourceNode;
+                    ReqReferences.CreateReqRef(paragraphTreeNode.Item.FullId);
                 }
             }
         }
@@ -313,7 +334,7 @@ namespace GUI.SpecificationView
             {
                 switch (p.getImplementationStatus())
                 {
-                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented:
+                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
                         if (!p.isApplicable())
                         {
                             p.AddWarning("Paragraph state does not correspond to implementation status");
@@ -322,7 +343,7 @@ namespace GUI.SpecificationView
                         implementedCount += 1;
                         break;
 
-                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNA:
+                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
                     case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
                         if (!p.isApplicable())
                         {
@@ -332,7 +353,7 @@ namespace GUI.SpecificationView
                         unImplementedCount += 1;
                         break;
 
-                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNotImplementable:
+                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
                         if (p.isApplicable())
                         {
                             p.AddWarning("Paragraph state does not correspond to implementation status");

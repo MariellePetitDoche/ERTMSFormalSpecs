@@ -267,7 +267,7 @@ namespace DataDictionary.Specification
             {
                 DataDictionary.Specification.Paragraph paragraph = (DataDictionary.Specification.Paragraph)obj;
 
-                if (paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aNA)
+                if (paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA)
                 {
                     paragraph.AddInfo("Not implemented");
                 }
@@ -548,7 +548,7 @@ namespace DataDictionary.Specification
             {
                 DataDictionary.Specification.Paragraph paragraph = (DataDictionary.Specification.Paragraph)obj;
 
-                if (paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented)
+                if (paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented)
                 {
                     if (!FunctionalTests.TestedParagraphs.Contains(paragraph))
                     {
@@ -656,7 +656,7 @@ namespace DataDictionary.Specification
             {
                 DataDictionary.Specification.Paragraph paragraph = (DataDictionary.Specification.Paragraph)obj;
 
-                if (paragraph.getImplementationStatus() != Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented)
+                if (paragraph.getImplementationStatus() != Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented)
                 {
                     if (Implementations.ImplementedParagraphs.Contains(paragraph))
                     {

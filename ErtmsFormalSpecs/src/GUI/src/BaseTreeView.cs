@@ -64,7 +64,7 @@ namespace GUI
             BeforeCollapse += new TreeViewCancelEventHandler(BeforeCollapseHandler);
 
             AfterLabelEdit += new NodeLabelEditEventHandler(LabelEditHandler);
-            LabelEdit = false;
+            LabelEdit = true;
 
             ImageList = new ImageList();
             ImageList.Images.Add(GUI.Properties.Resources.file);

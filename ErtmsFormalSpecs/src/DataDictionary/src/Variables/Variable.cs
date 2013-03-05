@@ -129,15 +129,6 @@ namespace DataDictionary.Variables
         }
 
         /// <summary>
-        /// The variable name
-        /// </summary>
-        public override string Name
-        {
-            get { return getName(); }
-            set { setName(value); }
-        }
-
-        /// <summary>
         /// The enclosing name space
         /// </summary>
         public Types.NameSpace NameSpace

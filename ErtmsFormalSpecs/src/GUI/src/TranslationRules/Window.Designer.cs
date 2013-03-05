@@ -55,12 +55,12 @@ namespace GUI.TranslationRules
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.messageRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.messageRichTextBox = new GUI.MyRichTextBox(true);
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.commentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.translationTreeView = new GUI.TranslationRules.TranslationTreeView();
             this.propertyGrid = new GUI.MyPropertyGrid();
-            this.editTextBox = new GUI.MyRichTextBox();
+            this.editTextBox = new GUI.MyRichTextBox(false);
             this.toolStrip2.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();

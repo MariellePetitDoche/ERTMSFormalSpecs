@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.openetcs.dsl.expression/src-gen" editDirectory="/org.openetcs.dsl.expression.edit/src"
+    editorDirectory="/org.openetcs.dsl.expression.editor/src" modelPluginID="org.openetcs.dsl.expression"
+    forceOverwrite="true" modelName="Expression" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="org.openetcs.dsl.expression.edit"
+    editorPluginID="org.openetcs.dsl.expression.editor" runtimeVersion="2.8">
+  <genPackages prefix="Expression" basePackage="org.openetcs.dsl" disposableProviderFactory="true"
+      ecorePackage="Expression.ecore#/">
+    <genClasses ecoreClass="Expression.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//Model/phrase"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//Phrase"/>
+    <genClasses ecoreClass="Expression.ecore#//Expression"/>
+    <genClasses ecoreClass="Expression.ecore#//Statement"/>
+    <genClasses ecoreClass="Expression.ecore#//SingleStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//SingleStatement/desgnator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//SingleStatement/expression"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//SelfStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//SelfStatement/expression"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//MultiStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//MultiStatement/desgnator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//MultiStatement/expressions"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//UnaryExpression"/>
+    <genClasses ecoreClass="Expression.ecore#//Term"/>
+    <genClasses ecoreClass="Expression.ecore#//Designator">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Expression.ecore#//Designator/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//OrExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//OrExpression/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//OrExpression/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//OrExpression/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//AndExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//AndExpression/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//AndExpression/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//AndExpression/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//EqualityExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//EqualityExpression/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//EqualityExpression/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//EqualityExpression/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//DashOperation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//DashOperation/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//DashOperation/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//DashOperation/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//PointOperation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//PointOperation/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//PointOperation/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//PointOperation/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//PowOperation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//PowOperation/left"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//PowOperation/op"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Expression.ecore#//PowOperation/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//StringValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//StringValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//IntegerValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//IntegerValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Expression.ecore#//DoubleValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Expression.ecore#//DoubleValue/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

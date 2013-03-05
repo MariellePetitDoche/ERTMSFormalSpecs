@@ -33,7 +33,18 @@ namespace DataDictionary
         public override string Name
         {
             get { return getName(); }
-            set { setName(value); }
+            set
+            {
+                if (value.EndsWith(" "))
+                {
+                    while (value.EndsWith(" "))
+                    {
+                        value = value.Remove(value.Length - 1);
+                    }
+                    Log.ErrorFormat("A name cannot end with a white space. Trimmed to " + value);
+                }
+                setName(value);
+            }
         }
 
         /// <summary>

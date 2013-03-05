@@ -229,7 +229,7 @@ namespace DataDictionary
         {
             ReqRef req = (ReqRef)obj;
             Specification.Paragraph paragraph = req.Paragraph;
-            if (paragraph != null && paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.aImplemented)
+            if (paragraph != null && paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented)
             {
                 currentSet.Add(paragraph);
 

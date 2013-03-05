@@ -207,6 +207,10 @@ namespace Importers
             /* This is a gamma train => we have to initialize brake models in the train data */
             addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.EBModels <- Kernel.TrainData.BrakingParameters.EBModelSet\n{{\n    ModelSet => Kernel.TrainData.BrakingParameters.BrakingModelSet{{}},\n    Kdry_rstValuesSet => Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{{}},\n    Kwet_rstValuesSet => Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{{}}\n}}"));
             addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.SBModels <- Kernel.TrainData.BrakingParameters.SBModelSet{{}}"));
+
+            /* Initializing the maximum train speed */
+            /* I didn't find this value in ERA sheets, but I observed than their P function can exceed 160 km/h => the maximum speed should be greater than 160 km/h */
+            addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.MaximumSpeed <- {0:0.0}", 180.0));
             
             Worksheet aWorksheet = workbook.Sheets[1] as Worksheet;
             bool isPassengerTrain;
@@ -254,7 +258,6 @@ namespace Importers
             aStep.AddModelElement(aSubStep);
 
             aWorksheet = workbook.Sheets[6] as Worksheet;
-            dumpWorksheet(aWorksheet);
 
             importGammaBrakeParameters(aSubStep, aWorksheet, 2, 8, true);   // first combination
             importGammaBrakeParameters(aSubStep, aWorksheet, 3, 20, false);  // second combination
@@ -512,7 +515,8 @@ namespace Importers
 
 
             /* Initializing the position inaccuracy */
-            /// TODO: what is that?
+            /// TODO
+            /* addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.NationalValues.ApplicableNationalValues.Value.DefaultLocationAccuracyOfABaliseGroup <- {0:0}", (double)(aRange.Cells[21, 4] as Range).Value2));*/
 
 
             /* Initializing the train length */
@@ -527,7 +531,7 @@ namespace Importers
             }
             else
             {
-                addAction(aSubStep, String.Format("Kernel.TrainData.TrainData.Value.M_rotating_nom <- {0:0.0}", (double)(aRange.Cells[23, 4] as Range).Value2));
+                addAction(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.TrainData.Value.M_rotating_nom <- {0:0.0}", (double)(aRange.Cells[23, 4] as Range).Value2));
             }
 
 
@@ -825,6 +829,7 @@ namespace Importers
             aSubStep.Name = "SubStep1 - Train data";
             aStep.AddModelElement(aSubStep);
 
+            addAction(aSubStep, "Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedSupervision.UpdateReleaseSpeed()");
             addExpectation(aSubStep, "Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() == False");
         }
 
@@ -844,6 +849,7 @@ namespace Importers
             aStep.AddModelElement(aSubStep);
 
             addAction(aSubStep, "Kernel.TrainData.BrakingParameters.ConversionModel.Initialize()");
+            addAction(aSubStep, "Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedSupervision.UpdateReleaseSpeed()");
             addExpectation(aSubStep, "Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed() == True");
 
 
@@ -856,6 +862,9 @@ namespace Importers
             Worksheet aWorksheet = workbook.Sheets[5] as Worksheet;
 
             Range aRange = aWorksheet.UsedRange;
+
+            addAction(aSubStep, "Kernel.SpeedAndDistanceMonitoring.TargetSupervision.InitializeTimeIntervals()");
+
             /* Verifying kto */
             addExpectation(aSubStep, String.Format(CultureInfo.InvariantCulture, "Kernel.TrainData.BrakingParameters.ConversionModel.kto() == {0:0.0#}", (double)(aRange.Cells[7, 6] as Range).Value2));
 
@@ -1199,6 +1208,7 @@ namespace Importers
         {
             Expectation anExpectation = new Expectation();
             anExpectation.Expression  = expression;
+            anExpectation.Blocking    = true;
             aSubStep.AddModelElement(anExpectation);
         }
 

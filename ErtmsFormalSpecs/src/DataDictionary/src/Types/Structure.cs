@@ -101,7 +101,13 @@ namespace DataDictionary.Types
 
             if (DeclaredElements.TryGetValue(name, out list))
             {
-                retVal.AddRange(list);
+                foreach (Namable namable in list)
+                {
+                    if (!retVal.Contains(namable))
+                    {
+                        retVal.Add(namable);
+                    }
+                }
             }
         }
 

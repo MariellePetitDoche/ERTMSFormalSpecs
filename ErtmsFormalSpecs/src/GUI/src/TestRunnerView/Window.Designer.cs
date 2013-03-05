@@ -66,7 +66,7 @@ namespace GUI.TestRunnerView
             this.subSequenceSelectorComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripCurrentStepTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.messageRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.messageRichTextBox = new GUI.MyRichTextBox(true);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.testBrowserTreeView = new GUI.TestRunnerView.TestTreeView();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
@@ -76,12 +76,12 @@ namespace GUI.TestRunnerView
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.descriptionTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.editTextBox = new GUI.MyRichTextBox();
+            this.editTextBox = new GUI.MyRichTextBox(false);
             this.explainTextBox = new System.Windows.Forms.RichTextBox();
             this.timeLineTabPage = new System.Windows.Forms.TabPage();
             this.evcTimeLineControl = new GUI.TestRunnerView.TimeLineControl.TimeLineControl();
             this.commentsTabPage = new System.Windows.Forms.TabPage();
-            this.commentsRichTextBox = new GUI.MyRichTextBox();
+            this.commentsRichTextBox = new GUI.MyRichTextBox(false);
             this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -262,8 +262,8 @@ namespace GUI.TestRunnerView
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(58, 22);
-            this.toolStripLabel2.Text = "Sequence";
+            this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
+            this.toolStripLabel2.Text = "Sub sequence";
             this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
             // 
             // subSequenceSelectorComboBox
@@ -321,6 +321,7 @@ namespace GUI.TestRunnerView
             this.testBrowserTreeView.AllowDrop = true;
             this.testBrowserTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.testBrowserTreeView.ImageIndex = 0;
+            this.testBrowserTreeView.LabelEdit = true;
             this.testBrowserTreeView.Location = new System.Drawing.Point(0, 0);
             this.testBrowserTreeView.Name = "testBrowserTreeView";
             this.testBrowserTreeView.Root = null;

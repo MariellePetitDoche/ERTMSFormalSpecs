@@ -90,10 +90,6 @@ namespace GUI
             {
                 DefaultName = name;
             }
-            else
-            {
-                DefaultName = value.Name;
-            }
 
             setImageIndex(isFolder);
             RefreshNode();

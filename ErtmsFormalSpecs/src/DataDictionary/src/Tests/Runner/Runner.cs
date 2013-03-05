@@ -305,25 +305,25 @@ namespace DataDictionary.Tests.Runner
                 SubStep subStep = CurrentSubStep();
                 if (subStep != null)
                 {
-                    subStep.AddError("Errors where raised while evaluating this sub step. See model view for more informations");
+                    subStep.AddError("Errors were raised while evaluating this sub step. See model view for more informations");
                 }
                 else
                 {
                     Step step = CurrentStep();
                     if (step != null)
                     {
-                        step.AddError("Errors where raised while evaluating this step. See model view for more informations");
+                        step.AddError("Errors were raised while evaluating this step. See model view for more informations");
                     }
                     else
                     {
                         TestCase testCase = CurrentTestCase();
                         if (testCase != null)
                         {
-                            testCase.AddError("Errors where raised while evaluating this test case. See model view for more informations");
+                            testCase.AddError("Errors were raised while evaluating this test case. See model view for more informations");
                         }
                         else
                         {
-                            SubSequence.AddError("Errors where raised while evaluating this sub sequence. See model view for more informations");
+                            SubSequence.AddError("Errors were raised while evaluating this sub sequence. See model view for more informations");
                         }
                     }
                 }
@@ -697,29 +697,32 @@ namespace DataDictionary.Tests.Runner
 
                 do
                 {
-                    currentStepIndex += 1;
-                    TestCase testCase = CurrentTestCase();
-                    if (testCase == null)
+                    if (currentStepIndex != REBUILD_CURRENT_SUB_STEP)
                     {
-                        NextTestCase();
-                        testCase = CurrentTestCase();
-                    }
+                        currentStepIndex += 1;
+                        TestCase testCase = CurrentTestCase();
+                        if (testCase == null)
+                        {
+                            NextTestCase();
+                            testCase = CurrentTestCase();
+                        }
 
-                    if (testCase != null && currentStepIndex >= testCase.Steps.Count)
-                    {
-                        NextTestCase();
-                        testCase = CurrentTestCase();
-                        if (testCase != null)
+                        if (testCase != null && currentStepIndex >= testCase.Steps.Count)
                         {
-                            currentStepIndex = 0;
+                            NextTestCase();
+                            testCase = CurrentTestCase();
+                            if (testCase != null)
+                            {
+                                currentStepIndex = 0;
+                            }
+                            else
+                            {
+                                currentTestCaseIndex = NO_MORE_STEP;
+                                currentStepIndex = NO_MORE_STEP;
+                            }
                         }
-                        else
-                        {
-                            currentTestCaseIndex = NO_MORE_STEP;
-                            currentStepIndex = NO_MORE_STEP;
-                        }
+                        step = CurrentStep();
                     }
-                    step = CurrentStep();
                 }
                 while (step != null && step.IsEmpty());
             }

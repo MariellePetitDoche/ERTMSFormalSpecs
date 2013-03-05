@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.openetcs.model/src" modelPluginID="org.openetcs.model"
+    modelName="Model" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="org.openetcs.model" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//VariableMode">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//VariableMode/Incoming"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//VariableMode/Outgoing"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//VariableMode/Internal"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//VariableMode/InOut"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//VariableMode/Constant"/>
+    </genEnums>
+    <genClasses ecoreClass="model.ecore#//Dictionary">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Dictionary/specification"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Dictionary/namespaces"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Dictionary/tests"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Dictionary/ruleDisablings"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Dictionary/translations"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Dictionary/shortcuts"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="model.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//NamedElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//CommentedElement">
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute model.ecore#//CommentedElement/comment"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Baselines">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Baselines/availableBaselines"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//BaseLine"/>
+    <genClasses ecoreClass="model.ecore#//Namespace">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Namespace/parentDictionary"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/subNamespaces"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Namespace/parentNamespace"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/procedures"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/types"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/variables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Namespace/Rules"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Procedure">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/parameters"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/stateMachine"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Procedure/rules"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Procedure/parentStructure"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Procedure/parentNamespace"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Parameter">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Parameter/parentProcedure"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/typeName"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Parameter/parentFunction"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="model.ecore#//ReferencesParagraph">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ReferencesParagraph/requirements"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//ReqRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ReqRef/paragraph"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="model.ecore#//ReqRelated">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ReqRelated/implemented"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ReqRelated/verified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ReqRelated/needsRequirement"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//StateMachine">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//StateMachine/initialState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//StateMachine/states"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//StateMachine/rules"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//StateMachine/parentState"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//StateMachine/parentProcedure"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//State">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//State/parentStateMachine"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//State/stateMachine"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/width"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/height"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/x"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//State/y"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DefaultValueElement">
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DefaultValueElement/defaultValue"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//VariableModeElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//VariableModeElement/variableMode"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//Variable">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//Variable/parentNamespace"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Variable/subVariables"/>
+      <genFeatures property="None" notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference model.ecore#//Variable/parentVariable"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//FunctionalBlocks">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//FunctionalBlocks/availableFunctionalBlocks"/>
+    </genClasses>
+    <nestedGenPackages prefix="Requirements" disposableProviderFactory="true" ecorePackage="model.ecore#//requirements">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//requirements/EImplementationStatus">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EImplementationStatus/NA"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EImplementationStatus/NotImplementable"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EImplementationStatus/Implemented"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EImplementationStatus/NewRevisionAvailable"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//requirements/EParagraphType">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EParagraphType/Title"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EParagraphType/Definition"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EParagraphType/Note"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EParagraphType/Deleted"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EParagraphType/Requirement"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EParagraphType/TableHeader"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/EParagraphType/Problem"/>
+      </genEnums>
+      <genClasses ecoreClass="model.ecore#//requirements/Specification">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Specification/paragraphs"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Specification/parentDictionary"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="model.ecore#//requirements/BaseLinedElement">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference model.ecore#//requirements/BaseLinedElement/baseline"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//requirements/FunctionalBlock"/>
+      <genClasses ecoreClass="model.ecore#//requirements/ProcessInformation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/ProcessInformation/reviewed"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/ProcessInformation/implementationStatus"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/ProcessInformation/moreInfoRequired"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/ProcessInformation/specIssue"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//requirements/Scope">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Scope/onBoardUnit"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Scope/trackSide"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Scope/optional"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//requirements/Paragraph">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/type"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/scope"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/processInfo"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/id"/>
+        <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute model.ecore#//requirements/Paragraph/text"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/functionalBlock"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/parentSpecification"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/subParagraphs"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/parentParagraph"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/typeSpecs"/>
+        <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/message"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference model.ecore#//requirements/Paragraph/version"/>
+      </genClasses>
+      <nestedGenPackages prefix="Messages" disposableProviderFactory="true" ecorePackage="model.ecore#//requirements/messages">
+        <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//requirements/messages/EErtmsType">
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/distance"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/Gradient"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/Length"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/Miscelaneous"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/ClassNumber"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/IdentityNumber"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/Qualifier"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/TimeOrDate"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/Speed"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EErtmsType/Text"/>
+        </genEnums>
+        <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//requirements/messages/ResolutionFormulaUnit">
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/Q_scale"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/Percent"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/Byte"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/Bit"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/TextStringElement"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/A"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/S"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/M"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/M_s"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/M_s2"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaUnit/Km_h"/>
+        </genEnums>
+        <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//requirements/messages/ResolutionFormulaValue">
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/X0_02"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/X0_05"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/X1"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/X5"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/X10"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/Integers"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/Number"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/Numbers"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/BinaryCodedDecimal"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/ResolutionFormulaValue/BitSet"/>
+        </genEnums>
+        <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//requirements/messages/EMeaningType">
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EMeaningType/Invalid"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EMeaningType/Enum"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EMeaningType/Unknown"/>
+          <genEnumLiterals ecoreEnumLiteral="model.ecore#//requirements/messages/EMeaningType/Infinite"/>
+        </genEnums>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/TypeSpec">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/id"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/shortDescription"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/description"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/length"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/minimumValue"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/maximumValue"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/resolutionFormula"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/TypeSpec/ertmsType"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeSpec/value"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeSpec/referenceParagraph"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeSpec/version"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="model.ecore#//requirements/messages/Value"/>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/CharValue">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/CharValue/encoding"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/TypeValue">
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeValue/resolutionFormula"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/TypeValue/specialOrReservedValues"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/ResolutionFormula">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/ResolutionFormula/unit"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/ResolutionFormula/value"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/SpecialOrReservedValue">
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/mask"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/match"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/meaning"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/SpecialOrReservedValue/value"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/SingleValue">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/SingleValue/units"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/SingleValue/value"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/Mask">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Mask/value"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="model.ecore#//requirements/messages/IMatch"/>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/Match">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Match/value"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/MatchRange">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/MatchRange/minimum"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/MatchRange/maximum"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/Meaning">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Meaning/type"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Meaning/value"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/Message">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Message/description"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/Message/variables"/>
+          <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/Message/media"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/Media">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Media/balise"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Media/loop"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Media/rbc"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/Media/riu"/>
+        </genClasses>
+        <genClasses ecoreClass="model.ecore#//requirements/messages/MessageVariable">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/MessageVariable/name"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/MessageVariable/length"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//requirements/messages/MessageVariable/comment"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/MessageVariable/subVariables"/>
+          <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//requirements/messages/MessageVariable/parentVariable"/>
+        </genClasses>
+      </nestedGenPackages>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Types" disposableProviderFactory="true" ecorePackage="model.ecore#//types">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//types/Precision"/>
+      <genClasses ecoreClass="model.ecore#//types/Type">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//types/Type/parentNamespace"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="model.ecore#//types/TypedElement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//types/TypedElement/typeName"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//types/Enumeration">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Enumeration/values"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Enumeration/subEnumerations"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//types/Enumeration/parentEnumeration"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//types/EnumValue">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//types/EnumValue/value"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//types/EnumValue/parentEnumeration"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//types/EnumValue/parentRange"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//types/Range">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//types/Range/minimumValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//types/Range/maximumValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//types/Range/precision"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Range/specialValues"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//types/Structure">
+        <genFeatures createChild="false" ecoreFeature="ecore:EReference model.ecore#//types/Structure/elements"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Structure/procedures"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Structure/rules"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//types/StructureElement"/>
+      <genClasses ecoreClass="model.ecore#//types/Collection">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//types/Collection/maximumSize"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//types/Function">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Function/parameters"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Function/cases"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//types/Case">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//types/Case/preConditions"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//types/Case/expression"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//types/Case/parentFunction"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Customization" disposableProviderFactory="true" ecorePackage="model.ecore#//customization">
+      <genClasses ecoreClass="model.ecore#//customization/RuleDisabling">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference model.ecore#//customization/RuleDisabling/rule"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//customization/RuleDisabling/parentDictionary"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Behaviour" disposableProviderFactory="true" ecorePackage="model.ecore#//behaviour">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//behaviour/Priority">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//behaviour/Priority/Verification"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//behaviour/Priority/UpdateInternal"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//behaviour/Priority/Processing"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//behaviour/Priority/UpdateOut"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//behaviour/Priority/CleanUp"/>
+      </genEnums>
+      <genClasses ecoreClass="model.ecore#//behaviour/Rule">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//behaviour/Rule/priority"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//behaviour/Rule/conditions"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//behaviour/Rule/parentStateMachine"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference model.ecore#//behaviour/Rule/parentNamespace"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//behaviour/RuleCondition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//behaviour/RuleCondition/actions"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//behaviour/RuleCondition/subRules"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//behaviour/RuleCondition/preconditions"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//behaviour/PreCondition">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//behaviour/PreCondition/parentCase"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//behaviour/PreCondition/condition"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//behaviour/PreCondition/parentRuleCondition"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//behaviour/Action">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//behaviour/Action/expression"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//behaviour/Action/parentRuleCondition"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//behaviour/Action/parentSubStep"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Test" disposableProviderFactory="true" ecorePackage="model.ecore#//test">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//test/StepIO">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepIO/NA"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepIO/In"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepIO/Out"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//test/StepInterface">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepInterface/NA"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepInterface/DMI"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepInterface/RTM"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepInterface/JRU"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepInterface/TIU"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//test/StepLevel">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepLevel/NA"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepLevel/L0"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepLevel/L1"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepLevel/LSTM"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepLevel/L2"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepLevel/L3"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//test/StepMode">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/NA"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/IS"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/NP"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/SF"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/SL"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/SB"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/SH"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/FS"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/UF"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/SR"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/OS"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/TR"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/PT"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/NL"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/SN"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/RE"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/LS"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/StepMode/PSH"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//test/TestMessageType">
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/TestMessageType/eurobalise"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/TestMessageType/euroradio"/>
+        <genEnumLiterals ecoreEnumLiteral="model.ecore#//test/TestMessageType/euroloop"/>
+      </genEnums>
+      <genClasses ecoreClass="model.ecore#//test/Frame">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/Frame/subSequences"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/Frame/parentDictionary"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/SubSequence">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/SubSequence/parentFrame"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/dLRBG"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/level"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/mode"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/nidLRBG"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/qDirLRBG"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/qDirTrain"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/qDLRBG"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/rbcId"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubSequence/rbcPhone"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/SubSequence/testCases"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/SingleTestCase">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/SingleTestCase/parentSubSequence"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SingleTestCase/feature"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SingleTestCase/case"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/SingleTestCase/steps"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/Step">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/Step/parentTestCase"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/tcsOrder"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/distance"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/description"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/userComment"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/io"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/interface"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/levelIn"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/levelOut"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/modeIn"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/modeOut"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/translationRequired"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Step/translated"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/Step/subSteps"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/Step/messages"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/SubStep">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/SubStep/parentStep"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/SubStep/actions"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/SubStep/expectations"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/SubStep/skipEngine"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/SubStep/parentTranslation"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/Expectation">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/Expectation/parentSubStep"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Expectation/variable"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Expectation/value"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Expectation/blocking"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/Expectation/deadline"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/TestMessage">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/TestMessage/parentStep"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/TestMessage/order"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/TestMessage/fields"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/TestMessage/packets"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/TestPacket">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/TestPacket/parentMessage"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//test/TestPacket/fields"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//test/TestField">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/TestField/parentMessage"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//test/TestField/parentPacket"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/TestField/variable"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//test/TestField/value"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Translation" disposableProviderFactory="true" ecorePackage="model.ecore#//translation">
+      <genClasses ecoreClass="model.ecore#//translation/TranslationFolder">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//translation/TranslationFolder/subFolders"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//translation/TranslationFolder/parentFolder"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//translation/TranslationFolder/translations"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//translation/TranslationFolder/parentDictionary"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//translation/Translation">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//translation/Translation/parentFolder"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//translation/Translation/sources"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//translation/Translation/subSteps"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//translation/Translation/implemented"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//translation/SourceText">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//translation/SourceText/parentTranslation"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Shortcut" disposableProviderFactory="true" ecorePackage="model.ecore#//shortcut">
+      <genClasses ecoreClass="model.ecore#//shortcut/ShortcutFolder">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//shortcut/ShortcutFolder/subFolders"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//shortcut/ShortcutFolder/parentFolder"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//shortcut/ShortcutFolder/shortcuts"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//shortcut/ShortcutFolder/parentDictionary"/>
+      </genClasses>
+      <genClasses ecoreClass="model.ecore#//shortcut/Shortcut">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//shortcut/Shortcut/parentFolder"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference model.ecore#//shortcut/Shortcut/ref"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

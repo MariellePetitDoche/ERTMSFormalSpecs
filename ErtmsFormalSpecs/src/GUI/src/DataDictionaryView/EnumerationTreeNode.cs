@@ -73,7 +73,7 @@ namespace GUI.DataDictionaryView
                     foreach (string s in value)
                     {
                         DataDictionary.Constants.EnumValue val = new DataDictionary.Constants.EnumValue();
-                        val.setName(s);
+                        val.Name = s;
                         Item.Values.Add(val);
                     }
                 }

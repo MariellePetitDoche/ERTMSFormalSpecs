@@ -69,6 +69,7 @@ namespace GUI
             Item.appendRequirements(req);
             Nodes.Add(new ReqRefTreeNode(req));
             SortSubNodes();
+            RefreshNode();
         }
 
         public void AddHandler(object sender, EventArgs args)
@@ -85,8 +86,12 @@ namespace GUI
             if (SourceNode is SpecificationView.ParagraphTreeNode)
             {
                 SpecificationView.ParagraphTreeNode paragraphTreeNode = (SpecificationView.ParagraphTreeNode)SourceNode;
-
                 CreateReqRef(paragraphTreeNode.Item.FullId);
+            }
+            else if (SourceNode is ReqRefTreeNode)
+            {
+                ReqRefTreeNode reqRefTreeNode = (ReqRefTreeNode)SourceNode;
+                CreateReqRef(reqRefTreeNode.Item.Paragraph.FullId);
             }
         }
 
