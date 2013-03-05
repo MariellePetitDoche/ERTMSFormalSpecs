@@ -252,20 +252,13 @@ namespace DataDictionary.Interpreter
         {
             Variables.IVariable retVal = null;
 
-            if (Ref != null)
+            if (Term != null)
             {
-                retVal = Ref as Variables.IVariable;
+                retVal = Term.GetVariable(context);
             }
             else
             {
-                if (Term != null)
-                {
-                    retVal = Term.GetVariable(context);
-                }
-                else
-                {
-                    AddError("Cannot get variable from expression" + ToString());
-                }
+                AddError("Cannot get variable from expression" + ToString());
             }
 
             return retVal;
@@ -280,71 +273,56 @@ namespace DataDictionary.Interpreter
         {
             Values.IValue retVal = null;
 
-            if (Ref != null)
+            if (Term != null)
             {
-                Variables.IVariable variable = Ref as Variables.IVariable;
-                if (variable != null)
-                {
-                    retVal = variable.Value;
-                }
-                else
-                {
-                    retVal = Ref as Values.IValue;
-                }
+                retVal = Term.GetValue(context);
             }
             else
             {
-                if (Term != null)
+                if (NOT.CompareTo(UnaryOp) == 0)
                 {
-                    retVal = Term.GetValue(context);
-                }
-                else
-                {
-                    if (NOT.CompareTo(UnaryOp) == 0)
+                    Values.BoolValue b = Expression.GetValue(context) as Values.BoolValue;
+                    if (b != null)
                     {
-                        Values.BoolValue b = Expression.GetValue(context) as Values.BoolValue;
-                        if (b != null)
+                        if (b.Val)
                         {
-                            if (b.Val)
-                            {
-                                retVal = EFSSystem.BoolType.False;
-                            }
-                            else
-                            {
-                                retVal = EFSSystem.BoolType.True;
-                            }
+                            retVal = EFSSystem.BoolType.False;
                         }
                         else
                         {
-                            AddError("Expression " + Expression.ToString() + " does not evaluate to boolean");
-                        }
-                    }
-                    else if (MINUS.CompareTo(UnaryOp) == 0)
-                    {
-                        Values.IValue val = Expression.GetValue(context);
-                        Values.IntValue intValue = val as Values.IntValue;
-                        if (intValue != null)
-                        {
-                            retVal = new Values.IntValue(intValue.Type, -intValue.Val);
-                        }
-                        else
-                        {
-                            Values.DoubleValue doubleValue = val as Values.DoubleValue;
-                            if (doubleValue != null)
-                            {
-                                retVal = new Values.DoubleValue(doubleValue.Type, -doubleValue.Val);
-                            }
-                        }
-
-                        if (retVal == null)
-                        {
-                            AddError("Cannot negate value for " + Expression.ToString());
+                            retVal = EFSSystem.BoolType.True;
                         }
                     }
                     else
                     {
-                        retVal = Expression.GetValue(context);
+                        AddError("Expression " + Expression.ToString() + " does not evaluate to boolean");
                     }
+                }
+                else if (MINUS.CompareTo(UnaryOp) == 0)
+                {
+                    Values.IValue val = Expression.GetValue(context);
+                    Values.IntValue intValue = val as Values.IntValue;
+                    if (intValue != null)
+                    {
+                        retVal = new Values.IntValue(intValue.Type, -intValue.Val);
+                    }
+                    else
+                    {
+                        Values.DoubleValue doubleValue = val as Values.DoubleValue;
+                        if (doubleValue != null)
+                        {
+                            retVal = new Values.DoubleValue(doubleValue.Type, -doubleValue.Val);
+                        }
+                    }
+
+                    if (retVal == null)
+                    {
+                        AddError("Cannot negate value for " + Expression.ToString());
+                    }
+                }
+                else
+                {
+                    retVal = Expression.GetValue(context);
                 }
             }
 

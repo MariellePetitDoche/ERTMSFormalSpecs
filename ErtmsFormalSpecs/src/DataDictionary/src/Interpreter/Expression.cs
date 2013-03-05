@@ -205,7 +205,7 @@ namespace DataDictionary.Interpreter
                 tmp = new List<ReturnValueElement>();
                 foreach (ReturnValueElement element in Values)
                 {
-                    if (!(element.Value is Types.StructureElement))
+                    if (!(element.Value is Types.StructureElement) && !(element.Value is Types.Type))
                     {
                         tmp.Add(element);
                     }

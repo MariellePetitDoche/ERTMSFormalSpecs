@@ -580,7 +580,6 @@ unParse(pw, this.getRequirements(), false, null, null);
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -4631,7 +4630,6 @@ int i;
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -10752,7 +10750,6 @@ pw.Write('\n');
 // Unparsing Enclosed
 pw.Write("<Expression>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getExpression());
 pw.Write("</Expression>");
 // Father is not a mixed
@@ -15133,7 +15130,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getCondition());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -15279,7 +15275,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getExpression());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -18456,7 +18451,6 @@ base.unParseBody(pw);
 if (this.getDescription() != null){
 pw.Write("<Description>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getDescription());
 pw.Write("</Description>");
 // Father is not a mixed
@@ -18468,7 +18462,6 @@ pw.Write('\n');
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -18480,7 +18473,6 @@ pw.Write('\n');
 if (this.getUserComment() != null){
 pw.Write("<UserComment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getUserComment());
 pw.Write("</UserComment>");
 // Father is not a mixed
@@ -19521,7 +19513,6 @@ int i;
 
 base.unParseBody(pw);
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -20947,7 +20938,6 @@ base.unParseBody(pw);
 if (this.getVariable() != null){
 pw.Write("<Variable>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getVariable());
 pw.Write("</Variable>");
 // No formula father defined
@@ -22897,7 +22887,6 @@ pw.Write('\n');
 if (this.getComment() != null){
 pw.Write("<Comment>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getComment());
 pw.Write("</Comment>");
 // Father is not a mixed
@@ -24544,7 +24533,6 @@ base.unParseBody(pw);
 if (this.getShortcutName() != null){
 pw.Write("<ShortcutName>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getShortcutName());
 pw.Write("</ShortcutName>");
 // Father is not a mixed
@@ -26833,7 +26821,6 @@ int i;
 
 base.unParseBody(pw);
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getText());
 // Unparsing ElementRef
 if (this.getMessage() != null){
@@ -28568,7 +28555,6 @@ int i;
 if (this.getShort_description() != null){
 pw.Write("<short-description>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getShort_description());
 pw.Write("</short-description>");
 // Father is not a mixed
@@ -28581,7 +28567,6 @@ if (this.getDescription() != null){
 pw.Write("<Description>");
 // Unparsing PcData
 if (this.getDescription() != null){
-// Case 2
 acceptor.unParsePcData(pw, this.getDescription());
 } // If
 pw.Write("</Description>");
@@ -28594,7 +28579,6 @@ pw.Write('\n');
 if (this.getReference() != null){
 pw.Write("<reference>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getReference());
 pw.Write("</reference>");
 // Father is not a mixed
@@ -28602,17 +28586,13 @@ pw.Write('\n');
 } // If
 // After Testing for empty content: Reference
 // Unparsing Disjunct
-// Target is VOID
 if (this.getValues() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getValues() != null){
 unParse(pw, this.getValues(), false, null, null);
 } // If
-// Else with context: -1
 } else {
 if (this.getChar_value() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getChar_value() != null){
 unParse(pw, this.getChar_value(), false, null, null);
@@ -28883,17 +28863,13 @@ if (this.getResolution_formula_1() != null){
 unParse(pw, this.getResolution_formula_1(), false, null, null);
 } // If
 // Unparsing Disjunct
-// Target is VOID
 if (this.getSpecial_or_reserved_values() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getSpecial_or_reserved_values() != null){
 unParse(pw, this.getSpecial_or_reserved_values(), false, null, null);
 } // If
-// Else with context: -1
 } else {
 if (this.getSpecial_or_reserved_value() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getSpecial_or_reserved_value() != null){
 unParse(pw, this.getSpecial_or_reserved_value(), false, null, null);
@@ -29529,17 +29505,13 @@ if (this.getMask() != null){
 unParse(pw, this.getMask(), false, null, null);
 } // If
 // Unparsing Disjunct
-// Target is VOID
 if (this.getMatch() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getMatch() != null){
 unParse(pw, this.getMatch(), false, null, null);
 } // If
-// Else with context: -1
 } else {
 if (this.getMatch_range() != null){
-// Test field not empty returned: -1
 // Unparsing ElementRef
 if (this.getMatch_range() != null){
 unParse(pw, this.getMatch_range(), false, null, null);
@@ -29703,7 +29675,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -29849,7 +29820,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -30121,7 +30091,6 @@ int i;
 
 // Unparsing PcData
 if (this.getValue() != null){
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 } // If
 }
@@ -30359,7 +30328,6 @@ int i;
 // Unparsing Enclosed
 pw.Write("<minimum>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getMinimum());
 pw.Write("</minimum>");
 // Father is not a mixed
@@ -30367,7 +30335,6 @@ pw.Write('\n');
 // Unparsing Enclosed
 pw.Write("<maximum>");
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw,
   acceptor.Enum_maximum_Value_ToString(this.getMaximum()));
 pw.Write("</maximum>");
@@ -30605,7 +30572,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw,
   acceptor.Enum_resolution_formula_Value_ToString(this.getValue()));
 }
@@ -30801,7 +30767,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getValue());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -31179,7 +31144,6 @@ int i;
 #pragma warning restore 0168, 0219
 
 // Unparsing PcData
-// Case 2
 acceptor.unParsePcData(pw, this.getText());
 }
 public  override  void dispatch(XmlBBaseVisitor v)
@@ -37167,8 +37131,6 @@ return res;
   public static void unParsePcData (TextWriter pw, bool flag)
     {
       if (flag)
-// TrueString is: TRUE
-// FalseString is: FALSE
         pw.Write ("TRUE");
        else
         pw.Write("FALSE");

@@ -183,7 +183,7 @@ namespace DataDictionary.Interpreter
                     // does not references a variable (for instance, when it references a namespace)
                     ctxt.Instance = current;
                 }
-                current = Arguments[i].GetVariable(context);
+                current = Arguments[i].GetVariable(ctxt);
             }
 
             return current as Variables.IVariable;
