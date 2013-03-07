@@ -543,7 +543,7 @@ namespace DataDictionary.Interpreter
 
             if (explain)
             {
-                CompleteExplanation(previous, ToString() + " = " + retVal.ToString());
+                CompleteExplanation(previous, Name + " = " + explainNamable(retVal));
             }
 
             return retVal;
@@ -756,27 +756,17 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            return Functions.Graph.createGraph(GetValue(context));
-        }
-
-        /// <summary>
         /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
-            Functions.Graph leftGraph = Left.createGraphForParameter(context, parameter);
-            Functions.Graph rightGraph = Right.createGraphForParameter(context, parameter);
+            Functions.Graph leftGraph = Left.createGraph(context, parameter);
+            Functions.Graph rightGraph = Right.createGraph(context, parameter);
 
             switch (Operation)
             {
@@ -806,7 +796,7 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
             Functions.Surface leftSurface = Left.createSurface(context, xParam, yParam);
             Functions.Surface rightSurface = Right.createSurface(context, xParam, yParam);
@@ -826,9 +816,6 @@ namespace DataDictionary.Interpreter
                     retVal = leftSurface.DivideSurface(rightSurface);
                     break;
             }
-
-            retVal.XParameter = xParam;
-            retVal.YParameter = yParam;
 
             return retVal;
         }

@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using DataDictionary.Functions;
 using Utils;
 
 namespace DataDictionary.Interpreter
@@ -137,7 +136,10 @@ namespace DataDictionary.Interpreter
             {
                 if (Parameters.Count == 1)
                 {
-                    Functions.Graph graph = createGraphForParameter(context, Parameters[0]);
+                    context.LocalScope.PushContext();
+                    context.LocalScope.setGraphParameter(Parameters[0]);
+                    Functions.Graph graph = createGraph(context, Parameters[0]);
+                    context.LocalScope.PopContext();
                     if (graph != null)
                     {
                         retVal = graph.Function;
@@ -145,7 +147,10 @@ namespace DataDictionary.Interpreter
                 }
                 else if (Parameters.Count == 2)
                 {
+                    context.LocalScope.PushContext();
+                    context.LocalScope.setSurfaceParameters(Parameters[0], Parameters[1]);
                     Functions.Surface surface = createSurface(context, Parameters[0], Parameters[1]);
+                    context.LocalScope.PopContext();
                     if (surface != null)
                     {
                         retVal = surface.Function;
@@ -218,39 +223,18 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            Functions.Graph retVal = null;
-
-            if (Parameters.Count == 1)
-            {
-                retVal = Expression.createGraphForParameter(context, Parameters[0]);
-            }
-            else
-            {
-                AddError("Cannot create graph for function with more than 1 parameter");
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
             if (parameter == Parameters[0] || parameter == Parameters[1])
             {
-                retVal = Expression.createGraphForParameter(context, parameter);
+                retVal = Expression.createGraph(context, parameter);
             }
             else
             {
@@ -269,19 +253,21 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
-            if (xParam == Parameters[0] && yParam == Parameters[1])
+            if (xParam == null || yParam == null)
             {
-                retVal = Expression.createSurface(context, xParam, yParam);
+                AddError("Cannot have null parameters for Function expression " + ToString());
             }
             else
             {
-                throw new Exception("Cannot create surface for parameters " + xParam.Name + " and " + yParam);
+                context.LocalScope.PushContext();
+                Parameter xAxis = Parameters[0];
+                Parameter yAxis = Parameters[1];
+                context.LocalScope.setSurfaceParameters(xAxis, yAxis);
+                retVal = Expression.createSurface(context, xAxis, yAxis);
+                context.LocalScope.PopContext();
             }
-
-            retVal.XParameter = xParam;
-            retVal.YParameter = yParam;
 
             return retVal;
         }

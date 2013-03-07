@@ -14,6 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
+using DataDictionary.Functions;
+using Utils;
 namespace DataDictionary.Interpreter
 {
     public class InterpreterTreeNode : Utils.INamable
@@ -78,6 +81,40 @@ namespace DataDictionary.Interpreter
             {
                 Root.AddWarning(message);
             }
+        }
+
+        /// <summary>
+        /// Provides the textual representation of the namable provided
+        /// </summary>
+        /// <param name="namable"></param>
+        /// <returns></returns>
+        public String explainNamable(INamable namable)
+        {
+            String retVal = namable.Name;
+
+            Function fonction = namable as Function;
+            if (fonction != null)
+            {
+                if (fonction.Graph != null)
+                {
+                    retVal = fonction.Graph.ToString();
+                }
+                else if (fonction.Surface != null)
+                {
+                    retVal = fonction.Surface.ToString();
+                }
+            }
+            else
+            {
+                Values.IValue value = namable as Values.IValue;
+                if (value != null)
+                {
+                    retVal = value.LiteralName;
+                }
+            }
+
+            return retVal;
+
         }
 
     }

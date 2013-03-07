@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using DataDictionary.Functions;
 
 namespace DataDictionary.Interpreter
 {
@@ -93,6 +94,11 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Provides the association between parameters and their corresponding expression
+        /// </summary>
+        public Dictionary<Parameter, Expression> ParameterAssociation { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
@@ -155,25 +161,25 @@ namespace DataDictionary.Interpreter
         {
             ICallable retVal = null;
 
-            retVal = Called.getCalled(context);
-            if (retVal == null)
+            Call calledFunction = Called as Call;
+            if (calledFunction != null)
             {
-                Types.Range range = Called.GetExpressionType() as Types.Range;
-                if (range != null)
+                retVal = Called.GetValue(context) as ICallable;
+            }
+            else
+            {
+                retVal = Called.getCalled(context);
+                if (retVal == null)
                 {
-                    retVal = range.CastFunction;
-                }
-                else
-                {
-                    // TODO : Investigate where this is used
-                    Variables.IVariable variable = GetValue(context) as Variables.IVariable;
-                    if (variable != null)
+                    Types.Range range = Called.GetExpressionType() as Types.Range;
+                    if (range != null)
                     {
-                        Functions.Function function = variable.Value as Functions.Function;
-                        if (function != null)
-                        {
-                            retVal = function;
-                        }
+                        retVal = range.CastFunction;
+                    }
+
+                    if (retVal == null)
+                    {
+                        retVal = Called.GetValue(context) as ICallable;
                     }
                 }
             }
@@ -218,11 +224,46 @@ namespace DataDictionary.Interpreter
                 {
                     actual.SemanticAnalysis(instance, Filter.IsActualParameter);
                 }
+
+                ParameterAssociation = createParameterAssociation(Called.Ref as ICallable);
             }
 
             return retVal;
         }
 
+        /// <summary>
+        /// Creates the association between parameter (from the called ICallable) and its associated expression
+        /// </summary>
+        /// <param name="callable"></param>
+        /// <returns></returns>
+        private Dictionary<Parameter, Expression> createParameterAssociation(ICallable callable)
+        {
+            Dictionary<Parameter, Expression> retVal = null;
+
+            if (callable != null)
+            {
+                if (callable.FormalParameters.Count == NamedActualParameters.Count + ActualParameters.Count)
+                {
+                    retVal = new Dictionary<Parameter, Expression>();
+
+                    int i = 0;
+                    foreach (Expression expression in ActualParameters)
+                    {
+                        Parameter parameter = callable.FormalParameters[i] as Parameter;
+                        retVal.Add(parameter, expression);
+                        i = i + 1;
+                    }
+
+                    foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
+                    {
+                        Parameter parameter = callable.getFormalParameter(pair.Key);
+                        retVal.Add(parameter, pair.Value);
+                    }
+                }
+            }
+
+            return retVal;
+        }
 
         /// <summary>
         /// Provides the ICallable that is statically defined
@@ -288,7 +329,10 @@ namespace DataDictionary.Interpreter
                 }
                 else if (parameters.Count == 1) // graph
                 {
+                    context.LocalScope.PushContext();
+                    context.LocalScope.setGraphParameter(parameters[0]);
                     Functions.Graph graph = function.createGraphForParameter(context, parameters[0]);
+                    context.LocalScope.PopContext();
                     if (graph != null)
                     {
                         retVal = graph.Function;
@@ -318,7 +362,7 @@ namespace DataDictionary.Interpreter
 
                 if (explain)
                 {
-                    CompleteExplanation(previous, function.Name + " ( " + ParameterValues(parameterValues) + " ) returned " + retVal.ToString() + "\n");
+                    CompleteExplanation(previous, function.Name + " ( " + ParameterValues(parameterValues) + " ) returned " + explainNamable(retVal) + "\n");
                 }
             }
             else
@@ -404,11 +448,8 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        if (log)
-                        {
-                            AddError("Cannot evaluate value for parameter " + i + " (" + expression.ToString() + ") of function " + callable.Name);
-                            return new Dictionary<string, Values.IValue>();
-                        }
+                        AddError("Cannot evaluate value for parameter " + i + " (" + expression.ToString() + ") of function " + callable.Name);
+                        return new Dictionary<string, Values.IValue>();
                     }
                     i = i + 1;
                 }
@@ -424,11 +465,8 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        if (log)
-                        {
-                            AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
-                            return new Dictionary<string, Values.IValue>();
-                        }
+                        AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
+                        return new Dictionary<string, Values.IValue>();
                     }
                 }
             }
@@ -576,33 +614,16 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            Functions.Graph retVal = null;
-
-            Functions.Function function = getFunction(context);
-            function.createGraph(context);
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
-            Functions.Function function = getFunction(context);
-
-            Functions.PredefinedFunctions.Cast cast = function as Functions.PredefinedFunctions.Cast;
+            Functions.PredefinedFunctions.Cast cast = Called.Ref as Functions.PredefinedFunctions.Cast;
             if (cast != null)
             {
                 // In case of cast, just take the graph of the enclosed expression
@@ -610,22 +631,27 @@ namespace DataDictionary.Interpreter
                 retVal = cast.createGraphForParameter(context, param);
             }
 
-            context.LocalScope.PushContext();
-            Values.Value XValue = new Values.PlaceHolder(EFSSystem.AnyType, 1);
-            parameter.Value = XValue;
-            context.LocalScope.setVariable(parameter);
-            Dictionary<string, Values.IValue> actualValues = AssignParameterValues(context, function, false);
-            function.AssignParameters(context, actualValues);
-            context.LocalScope.PopContext();
+            Function calledFunction = Called.Ref as Function;
+            Dictionary<Parameter, Expression> parameterAssociation = null;
+            if (calledFunction == null)
+            {
+                calledFunction = Called.GetValue(context) as Function;
+                parameterAssociation = createParameterAssociation(calledFunction);
+            }
+            else
+            {
+                parameterAssociation = ParameterAssociation;
+            }
 
             Parameter Xaxis = null;
-            foreach (Parameter param in function.FormalParameters)
+            foreach (KeyValuePair<Parameter, Expression> pair in parameterAssociation)
             {
-                if (param.Value == XValue)
+                if (pair.Value.Ref == parameter)
                 {
                     if (Xaxis == null)
                     {
-                        Xaxis = param;
+                        Xaxis = pair.Key;
+                        Xaxis.Value = parameter.Value;
                     }
                     else
                     {
@@ -637,16 +663,14 @@ namespace DataDictionary.Interpreter
             }
 
             context.LocalScope.PushContext();
+            calledFunction.AssignParameters(context, AssignParameterValues(context, calledFunction, false));
             if (Xaxis != null)
             {
-                Xaxis.Value = null;
-                context.LocalScope.setVariable(Xaxis);
-                retVal = function.createGraphForParameter(context, Xaxis);
+                retVal = calledFunction.createGraphForParameter(context, Xaxis);
             }
             else
             {
-                function.AssignParameters(context, actualValues);
-                retVal = function.createGraphForParameter(context, parameter);
+                retVal = calledFunction.createGraph(context, null);
             }
             context.LocalScope.PopContext();
 
@@ -662,10 +686,10 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
             Functions.Function function = getFunction(context);
-            Functions.PredefinedFunctions.Cast cast = function as Functions.PredefinedFunctions.Cast;
+            Functions.PredefinedFunctions.Cast cast = Called.Ref as Functions.PredefinedFunctions.Cast;
             if (cast != null)
             {
                 // In case of cast, just take the surface of the enclosed expression
@@ -677,11 +701,11 @@ namespace DataDictionary.Interpreter
                 Parameter Xaxis = null;
                 Parameter Yaxis = null;
 
-                if (SelectXandYAxis(context, xParam, yParam, function, out Xaxis, out Yaxis))
+                SelectXandYAxis(context, xParam, yParam, function, out Xaxis, out Yaxis);
+                if (Xaxis != null || Yaxis != null)
                 {
                     context.LocalScope.PushContext();
-                    context.LocalScope.setVariable(Xaxis);
-                    context.LocalScope.setVariable(Yaxis);
+                    function.AssignParameters(context, AssignParameterValues(context, function, true));
                     retVal = function.createSurfaceForParameters(context, Xaxis, Yaxis);
                     context.LocalScope.PopContext();
                 }
@@ -699,9 +723,6 @@ namespace DataDictionary.Interpreter
                 }
             }
 
-            retVal.XParameter = xParam;
-            retVal.YParameter = yParam;
-
             return retVal;
         }
 
@@ -715,17 +736,13 @@ namespace DataDictionary.Interpreter
         /// <param name="Xaxis">The resulting X axis</param>
         /// <param name="Yaxis">The resulting Y axis</param>
         /// <returns>true if the axis could be selected</returns>
-        private bool SelectXandYAxis(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam, Functions.Function function, out Parameter Xaxis, out Parameter Yaxis)
+        private void SelectXandYAxis(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam, Functions.Function function, out Parameter Xaxis, out Parameter Yaxis)
         {
-            bool retVal = false;
-
             context.LocalScope.PushContext();
             Values.Value XValue = new Values.PlaceHolder(EFSSystem.AnyType, 1);
             Values.Value YValue = new Values.PlaceHolder(EFSSystem.AnyType, 2);
-            xParam.Value = XValue;
-            yParam.Value = YValue;
-            context.LocalScope.setVariable(xParam);
-            context.LocalScope.setVariable(yParam);
+            context.LocalScope.setVariable(xParam, XValue);
+            context.LocalScope.setVariable(yParam, YValue);
             Dictionary<string, Values.IValue> actualValues = AssignParameterValues(context, function, false);
             function.AssignParameters(context, actualValues);
             context.LocalScope.PopContext();
@@ -762,21 +779,6 @@ namespace DataDictionary.Interpreter
                     }
                 }
             }
-
-            if (Xaxis != null || Yaxis != null)
-            {
-                retVal = true;
-                if (Xaxis == null)
-                {
-                    Xaxis = xParam;
-                }
-                if (Yaxis == null)
-                {
-                    Yaxis = yParam;
-                }
-            }
-
-            return retVal;
         }
     }
 }

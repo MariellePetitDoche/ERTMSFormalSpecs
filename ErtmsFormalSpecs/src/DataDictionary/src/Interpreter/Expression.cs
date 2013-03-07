@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 namespace DataDictionary.Interpreter
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -285,6 +284,16 @@ namespace DataDictionary.Interpreter
         {
             return LocalScope.PlaceHolders();
         }
+
+        /// <summary>
+        /// Inidicates whether the variable can be found on the stack
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public bool findOnStack(Variables.IVariable variable)
+        {
+            return LocalScope.find(variable);
+        }
     }
 
     /// <summary>
@@ -499,7 +508,7 @@ namespace DataDictionary.Interpreter
                 Values.IValue value = GetValue(context);
                 if (value != null)
                 {
-                    retVal.Message = ToString() + " = " + value.LiteralName;
+                    retVal.Message = ToString() + " = " + explainNamable(value);
                 }
                 else
                 {
@@ -521,7 +530,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public virtual Variables.IVariable GetVariable(InterpretationContext context)
         {
-            throw new Exception("GetVariable() not defined for " + GetType().ToString());
+            return null;
         }
 
         /// <summary>
@@ -531,7 +540,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public virtual Values.IValue GetValue(InterpretationContext context)
         {
-            throw new Exception("GetValue() not defined for " + GetType().ToString());
+            return null;
         }
 
         /// <summary>
@@ -541,7 +550,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public virtual ICallable getCalled(InterpretationContext context)
         {
-            throw new Exception("getCalled() not defined for " + GetType().ToString());
+            return null;
         }
 
         /// <summary>
@@ -610,26 +619,17 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public virtual Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
         /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public virtual Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public virtual Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
+            Functions.Graph retVal = null;
 
+            return retVal;
+        }
 
         /// <summary>
         /// Provides the surface of this function if it has been statically defined
@@ -640,7 +640,9 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public virtual Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            throw new Exception("Cannot create surface for " + ToString());
+            Functions.Surface retVal = null;
+
+            return retVal;
         }
     }
 }

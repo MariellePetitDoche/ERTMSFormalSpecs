@@ -72,11 +72,23 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Graph MRSPGraph = createGraphForValue(context, SpeedRestrictions.Value);
+            Graph MRSPGraph = null;
+
+            Function speedRestriction = SpeedRestrictions.Value as Function;
+            if (speedRestriction != null)
+            {
+                Parameter p = (Parameter)speedRestriction.FormalParameters[0];
+
+                context.LocalScope.PushContext();
+                context.LocalScope.setGraphParameter(p);
+                MRSPGraph = createGraphForValue(context, SpeedRestrictions.Value, p);
+                context.LocalScope.PopContext();
+            }
+
             if (MRSPGraph != null)
             {
                 Surface DecelerationSurface = createSurfaceForValue(context, DecelerationFactor.Value);
@@ -160,14 +172,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = (Function)Generated.acceptor.getFactory().createFunction();
             function.Name = "DecelerationProfile ( SpeedRestrictions => " + getName(SpeedRestrictions) + ", DecelerationFactor => " + getName(DecelerationFactor) + ")";
             function.Enclosing = EFSSystem;
-            function.Graph = createGraph(context);
-
             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
             parameter.Name = "X";
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
-
             function.ReturnType = EFSSystem.DoubleType;
+            function.Graph = createGraph(context, parameter);
 
             retVal = function;
             context.LocalScope.PopContext();

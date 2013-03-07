@@ -45,15 +45,16 @@ namespace DataDictionary.Interpreter
 
                 if (Ref != null)
                 {
-                    if (Ref is Variables.IVariable)
+                    if (Ref is Parameter)
+                    {
+                        retVal = LocationEnum.Stack;
+                    }
+                    else if (Ref is Variables.IVariable)
                     {
                         INamable current = INamableUtils.getEnclosing(Ref);
                         while (current != null && retVal == LocationEnum.NotDefined)
                         {
-                            if ((current is Functions.Function) ||
-                                (current is FunctionExpression) ||
-                                (current is Variables.IProcedure) ||
-                                (current is ListOperators.ListOperatorExpression) ||
+                            if ((current is ListOperators.ListOperatorExpression) ||
                                 (current is Statement.Statement) ||
                                 (current is StabilizeExpression))
                             {
@@ -63,14 +64,12 @@ namespace DataDictionary.Interpreter
                                     retVal = LocationEnum.Stack;
                                 }
                             }
-
-                            if ((current is Types.Structure) ||
+                            else if ((current is Types.Structure) ||
                                 (current is Types.StructureProcedure))
                             {
                                 retVal = LocationEnum.Instance;
                             }
-
-                            if (current is Types.NameSpace)
+                            else if (current is Types.NameSpace)
                             {
                                 retVal = LocationEnum.Model;
                             }

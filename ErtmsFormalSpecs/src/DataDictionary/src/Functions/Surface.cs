@@ -609,7 +609,7 @@ namespace DataDictionary.Functions
             if (retVal == null)
             {
                 retVal = new Surface(xParam, yParam);
-                Segment segment = new Segment(0, double.MaxValue, Graph.createGraph(iValue));
+                Segment segment = new Segment(0, double.MaxValue, Graph.createGraph(iValue, yParam));
                 retVal.AddSegment(segment);
             }
 

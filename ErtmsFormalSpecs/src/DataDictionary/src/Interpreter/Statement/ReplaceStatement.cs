@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter.Statement
 {
-    public class ReplaceStatement : Statement
+    public class ReplaceStatement : Statement, Utils.ISubDeclarator
     {
         /// <summary>
         /// The value to replace 
@@ -49,6 +49,8 @@ namespace DataDictionary.Interpreter.Statement
         public ReplaceStatement(ModelElement root, Expression value, Expression listExpression, Expression condition)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
+
             Value = value;
             Value.Enclosing = this;
 
@@ -61,6 +63,22 @@ namespace DataDictionary.Interpreter.Statement
             IteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
             IteratorVariable.Name = "X";
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, IteratorVariable);
+        }
+
+        /// <summary>
+        /// The elements declared by this declarator
+        /// </summary>
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
+        {
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
         /// <summary>
@@ -79,6 +97,20 @@ namespace DataDictionary.Interpreter.Statement
                 if (collectionType != null)
                 {
                     IteratorVariable.Type = collectionType.Type;
+                }
+
+                Value.SemanticAnalysis(instance);
+                Types.Type valueType = Value.GetExpressionType();
+                if (valueType != null)
+                {
+                    if (!valueType.Match(collectionType.Type))
+                    {
+                        AddError("Type of " + Value + " does not match collection type " + collectionType);
+                    }
+                }
+                else
+                {
+                    AddError("Cannot determine type of " + Value);
                 }
 
                 if (Condition != null)
@@ -229,34 +261,6 @@ namespace DataDictionary.Interpreter.Statement
             else
             {
                 Root.AddError("Cannot find variable for " + ListExpression.ToString());
-            }
-        }
-
-        /// <summary>
-        /// The elements declared by this declarator
-        /// </summary>
-        public Dictionary<string, List<Utils.INamable>> DeclaredElements
-        {
-            get
-            {
-                Dictionary<string, List<Utils.INamable>> retVal = new Dictionary<string, List<Utils.INamable>>();
-
-                Utils.ISubDeclaratorUtils.AppendNamable(retVal, IteratorVariable);
-
-                return retVal;
-            }
-        }
-
-        /// <summary>
-        /// Appends the INamable which match the name provided in retVal
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="retVal"></param>
-        public void find(string name, List<Utils.INamable> retVal)
-        {
-            if (IteratorVariable.Name.CompareTo(name) == 0)
-            {
-                retVal.Add(IteratorVariable);
             }
         }
 

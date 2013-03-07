@@ -78,11 +78,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Graph graph = createGraphForValue(context, Function.Value);
+            Graph graph = createGraphForValue(context, Function.Value, parameter);
             if (graph != null)
             {
                 double speed = Functions.Function.getDoubleValue(Speed.Value);
@@ -107,16 +107,24 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Values.IValue retVal = null;
 
+            context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            Graph graph = createGraphForValue(context, Function.Value);
-            if (graph != null)
+            Functions.Function function = Function.Value as Functions.Function;
+            context.LocalScope.PopContext();
+            if (function != null)
             {
                 double speed = Functions.Function.getDoubleValue(Speed.Value);
+
+                Parameter parameter = (Parameter)function.FormalParameters[0];
+                context.LocalScope.PushContext();
+                context.LocalScope.setGraphParameter(parameter);
+                Graph graph = function.createGraph(context, (Parameter)function.FormalParameters[0]);
+                context.LocalScope.PopContext();
                 retVal = new Values.DoubleValue(EFSSystem.DoubleType, graph.SolutionX(speed));
             }
             else
             {
-                Log.Error("Cannot create graph for " + Function.ToString());
+                Log.Error("Cannot get function for " + Function.ToString());
             }
 
             return retVal;

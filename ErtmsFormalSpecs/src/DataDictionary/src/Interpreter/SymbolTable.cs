@@ -62,11 +62,46 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Stores the variable in this symbol table
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="variable"></param>
         public void setVariable(Variables.IVariable variable)
         {
+            if (variable == null)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
+
             Values.Add(variable);
+        }
+
+        /// <summary>
+        /// Stores the variable in this symbol table with a specific value
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="value"></param>
+        public void setVariable(Variables.IVariable variable, Values.IValue value)
+        {
+            variable.Value = value;
+            Values.Add(variable);
+        }
+
+        /// <summary>
+        /// Stores a graph parameter in this symbol table
+        /// </summary>
+        /// <param name="xAxis"></param>
+        public void setGraphParameter(Parameter xAxis)
+        {
+            setVariable(xAxis, new Values.PlaceHolder(xAxis.Type, 0));
+        }
+
+        /// <summary>
+        /// Stores a surface set of parameters in this symbol table
+        /// </summary>
+        /// <param name="xAxis"></param>
+        /// <param name="yAxis"></param>
+        public void setSurfaceParameters(Parameter xAxis, Parameter yAxis)
+        {
+            setVariable(xAxis, new Values.PlaceHolder(xAxis.Type, 0));
+            setVariable(yAxis, new Values.PlaceHolder(yAxis.Type, 1));
         }
 
         /// <summary>
@@ -127,5 +162,27 @@ namespace DataDictionary.Interpreter
 
             return retVal;
         }
+
+        /// <summary>
+        /// Inidicates whether the variable can be found on the stack
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public bool find(Variables.IVariable variable)
+        {
+            bool retVal = false;
+
+            foreach (Variables.IVariable var in Values)
+            {
+                if (variable == var)
+                {
+                    retVal = true;
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
     }
 }

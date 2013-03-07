@@ -71,11 +71,22 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Graph graph = createGraphForValue(context, Function.Value);
+            Graph graph = null;
+
+            Function function = Function.Value as Function;
+            if (function != null)
+            {
+                context.LocalScope.PushContext();
+                Parameter p = (Parameter)function.FormalParameters[0];
+                context.LocalScope.setGraphParameter(p);
+                graph = createGraphForValue(context, Function.Value, p);
+                context.LocalScope.PopContext();
+            }
+
             if (graph != null)
             {
                 Function increment = Increment.Value as Function;
@@ -106,14 +117,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = (Function)Generated.acceptor.getFactory().createFunction();
             function.Name = "AddIncrement ( Function => " + getName(Function) + ", Value => " + getName(Increment) + ")";
             function.Enclosing = EFSSystem;
-            function.Graph = createGraph(context);
-
             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
             parameter.Name = "X";
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
-
             function.ReturnType = EFSSystem.DoubleType;
+            function.Graph = createGraph(context, parameter);
 
             retVal = function;
             context.LocalScope.PopContext();

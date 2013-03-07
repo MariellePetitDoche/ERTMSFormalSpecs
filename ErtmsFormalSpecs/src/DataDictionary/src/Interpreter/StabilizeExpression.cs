@@ -231,9 +231,13 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
+        public override Functions.Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
-            return Functions.Graph.createGraph(GetValue(context));
+            Functions.Graph retVal = base.createGraph(context, parameter);
+
+            retVal = Functions.Graph.createGraph(GetValue(context), parameter);
+
+            return retVal;
         }
     }
 }

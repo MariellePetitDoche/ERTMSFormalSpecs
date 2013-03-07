@@ -1,3 +1,4 @@
+using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -14,7 +15,6 @@
 // --
 // ------------------------------------------------------------------------------
 using Utils;
-using System;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -138,10 +138,45 @@ namespace DataDictionary.Interpreter.ListOperators
         {
             ICallable retVal = null;
 
-            Functions.Graph graph = createGraph(context);
-            if (graph != null)
+            Functions.Function function = InitialValue.Ref as Functions.Function;
+            if (function == null)
             {
-                retVal = graph.Function;
+                function = InitialValue.GetValue(context) as Functions.Function;
+            }
+
+            if (function != null)
+            {
+                if (function.FormalParameters.Count == 1)
+                {
+                    context.LocalScope.PushContext();
+                    context.LocalScope.setVariable((Parameter)function.FormalParameters[0]);
+                    Functions.Graph graph = createGraph(context, (Parameter)function.FormalParameters[0]);
+                    context.LocalScope.PopContext();
+                    if (graph != null)
+                    {
+                        retVal = graph.Function;
+                    }
+                }
+                else if (function.FormalParameters.Count == 2)
+                {
+                    context.LocalScope.PushContext();
+                    context.LocalScope.setVariable((Parameter)function.FormalParameters[0]);
+                    context.LocalScope.setVariable((Parameter)function.FormalParameters[1]);
+                    Functions.Surface surface = createSurface(context, (Parameter)function.FormalParameters[0], (Parameter)function.FormalParameters[1]);
+                    context.LocalScope.PopContext();
+                    if (surface != null)
+                    {
+                        retVal = surface.Function;
+                    }
+                }
+                else
+                {
+                    AddError("Cannot evaluate REDUCE expression to a function");
+                }
+            }
+            else
+            {
+                AddError("Cannot evaluate REDUCE expression to a function");
             }
 
             return retVal;
@@ -203,36 +238,11 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
-            Values.IValue value = GetValue(context);
-
-            Functions.Function function = value as Functions.Function;
-            if (function != null)
-            {
-                retVal = function.Graph;
-            }
-            else
-            {
-                retVal = Functions.Graph.createGraph(Functions.Function.getDoubleValue(value));
-            }
-
-            return retVal;
-        }
-
-
-        /// <summary>
-        /// Creates the graph associated to this expression
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(InterpretationContext context)
-        {
-            Functions.Graph retVal = null;
-
-            Functions.Graph graph = InitialValue.createGraph(context);
+            Functions.Graph graph = InitialValue.createGraph(context, parameter);
             if (graph != null)
             {
                 Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
@@ -260,7 +270,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                     else
                     {
-                        throw new Exception("Expression does not reduces to a function");
+                        retVal = Functions.Function.createGraphForValue(AccumulatorVariable.Value);
                     }
                     EndIteration(context);
                 }
@@ -282,7 +292,47 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            throw new Exception("Cannot create surface for " + ToString());
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
+
+            Functions.Surface surface = InitialValue.createSurface(context, xParam, yParam);
+            if (surface != null)
+            {
+                Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
+                if (value != null)
+                {
+                    PrepareIteration(context);
+                    AccumulatorVariable.Value = surface.Function;
+
+                    foreach (Values.IValue v in value.Val)
+                    {
+                        if (v != EFSSystem.EmptyValue)
+                        {
+                            IteratorVariable.Value = v;
+                            if (conditionSatisfied(context))
+                            {
+                                AccumulatorVariable.Value = IteratorExpression.GetValue(context);
+                            }
+                        }
+                        NextIteration();
+                    }
+                    Functions.Function function = AccumulatorVariable.Value as Functions.Function;
+                    if (function != null)
+                    {
+                        retVal = function.Surface;
+                    }
+                    else
+                    {
+                        throw new Exception("Expression does not reduces to a function");
+                    }
+                    EndIteration(context);
+                }
+            }
+            else
+            {
+                throw new Exception("Cannot create surface for initial value " + InitialValue.ToString());
+            }
+
+            return retVal;
         }
     }
 }

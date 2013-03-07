@@ -184,6 +184,10 @@ namespace DataDictionary.Interpreter
                     ctxt.Instance = current;
                 }
                 current = Arguments[i].GetVariable(ctxt);
+                if (current == null)
+                {
+                    current = Arguments[i].GetValue(ctxt);
+                }
             }
 
             return current as Variables.IVariable;
@@ -208,6 +212,11 @@ namespace DataDictionary.Interpreter
                         ctxt.Instance = retVal;
                     }
                     retVal = Arguments[i].GetValue(ctxt);
+
+                    if (retVal == EFSSystem.EmptyValue)
+                    {
+                        break;
+                    }
                 }
             }
 
@@ -217,6 +226,43 @@ namespace DataDictionary.Interpreter
             }
 
             return retVal as Values.IValue;
+        }
+
+        /// <summary>
+        /// Provides the value of the prefix of the expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <param name="elementCount">The number of elements to consider</param>
+        /// <returns></returns>
+        public INamable GetPrefixValue(InterpretationContext context, int elementCount)
+        {
+            INamable retVal = null;
+
+            InterpretationContext ctxt = new InterpretationContext(context);
+            for (int i = 0; i < elementCount; i++)
+            {
+                if (retVal != null)
+                {
+                    ctxt.Instance = retVal;
+                }
+                retVal = Arguments[i].GetValue(ctxt);
+                if (retVal == null)
+                {
+                    retVal = Arguments[i].Ref;
+                }
+
+                if (retVal == EFSSystem.EmptyValue)
+                {
+                    break;
+                }
+            }
+
+            if (retVal == null)
+            {
+                AddError(ToString() + " prefix does not refer to a value");
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -282,35 +328,16 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            Functions.Graph retVal = null;
-
-            retVal = Functions.Graph.createGraph(GetValue(context));
-
-            if (retVal == null)
-            {
-                throw new Exception("Cannot create graph for " + ToString());
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
-            retVal = Functions.Graph.createGraph(GetValue(context));
+            retVal = Functions.Graph.createGraph(GetValue(context), parameter);
 
             if (retVal == null)
             {
@@ -330,7 +357,7 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
             retVal = Functions.Surface.createSurface(GetValue(context), xParam, yParam);
 

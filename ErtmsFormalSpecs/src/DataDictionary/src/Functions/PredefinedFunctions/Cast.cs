@@ -76,9 +76,9 @@ namespace DataDictionary.Functions.PredefinedFunctions
             return retVal;
         }
 
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
-            return Functions.Graph.createGraph(Functions.Function.getDoubleValue(Value.Value));
+            return Functions.Graph.createGraph(Functions.Function.getDoubleValue(Value.Value), parameter);
         }
     }
 }

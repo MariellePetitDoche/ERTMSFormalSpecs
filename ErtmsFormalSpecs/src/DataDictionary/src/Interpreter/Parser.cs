@@ -674,6 +674,7 @@ namespace DataDictionary.Interpreter
         private Expression Continuation(Expression expressionLeft)
         {
             Expression current = expressionLeft;
+            int first = Index;
 
             List<Expression> derefArguments = new List<Expression>();
             while (!Utils.Utils.isEmpty(LookAhead(CONTINUATION_OPERATORS)))
@@ -687,14 +688,23 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        Root.AddWarning("Invalid deref expression, skipping empty .");
+                        string invalidDeref = expressionLeft + (new String(Buffer).Substring(first, Index - first));
+                        Root.AddWarning("Invalid deref expression for [" + invalidDeref + "] skipping empty dereference");
                     }
                     Match(".");
                     current = Expression(7);
                 }
                 if (tmp.Count > 0)
                 {
-                    tmp.Add(current);
+                    if (current != null)
+                    {
+                        tmp.Add(current);
+                    }
+                    else
+                    {
+                        string invalidDeref = expressionLeft + (new String(Buffer).Substring(first, Index - first));
+                        Root.AddWarning("Invalid deref expression for [" + invalidDeref + "] skipping empty dereference");
+                    }
                     current = new DerefExpression(Root, tmp);
                 }
 

@@ -406,6 +406,21 @@ namespace DataDictionary.Types
                 {
                     retVal = (double)vi.Val;
                 }
+                else
+                {
+                    Functions.Function function = val as Functions.Function;
+                    if (function != null)
+                    {
+                        Functions.Graph graph = function.Graph;
+                        if (graph != null)
+                        {
+                            if (graph.Segments.Count == 1)
+                            {
+                                retVal = graph.Val(0);
+                            }
+                        }
+                    }
+                }
             }
 
             return retVal;

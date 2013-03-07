@@ -171,7 +171,7 @@ namespace Utils
             bool retVal = false;
 
             List<INamable> tmp;
-            if (dictionary.TryGetValue(value.FullName, out tmp))
+            if (dictionary.TryGetValue(value.Name, out tmp))
             {
                 foreach (INamable namable in tmp)
                 {

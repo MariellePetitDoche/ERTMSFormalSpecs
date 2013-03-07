@@ -84,17 +84,6 @@ namespace DataDictionary.Functions.PredefinedFunctions
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <param name="parameter">the parameter for which the graph should be created</param>
-        /// <returns></returns>
-        public override Graph createGraphForParameter(Interpreter.InterpretationContext context, Parameter parameter)
-        {
-            return createGraph(context);
-        }
-
-        /// <summary>
         /// Ensures that the parameter provided corresponds to a function double->double
         /// </summary>
         /// <param name="root">Element on which the errors shall be attached</param>
@@ -142,17 +131,24 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="value">The value for which the graph must be created</param>
         /// <returns></returns>
-        protected Graph createGraphForValue(Interpreter.InterpretationContext context, Values.IValue value)
+        protected Graph createGraphForValue(Interpreter.InterpretationContext context, Values.IValue value, Parameter parameter = null)
         {
             Graph retVal = new Graph();
 
             Function function = value as Function;
             if (function != null)
             {
-                retVal = function.Graph;
-                if (retVal == null)
+                if (parameter == null)
                 {
-                    retVal = function.createGraph(context);
+                    parameter = (Parameter)function.FormalParameters[0];
+                    context.LocalScope.PushContext();
+                    context.LocalScope.setGraphParameter(parameter);
+                    retVal = function.createGraph(context, parameter);
+                    context.LocalScope.PopContext();
+                }
+                else
+                {
+                    retVal = function.createGraph(context, parameter);
                 }
             }
             else

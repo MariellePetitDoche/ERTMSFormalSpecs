@@ -92,16 +92,14 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Values.IValue firstValue = First.Value;
-            Values.IValue secondValue = Second.Value;
-            Graph firstGraph = createGraphForValue(context, firstValue);
+            Graph firstGraph = createGraphForValue(context, First.Value);
             if (firstGraph != null)
             {
-                Graph secondGraph = createGraphForValue(context, secondValue);
+                Graph secondGraph = createGraphForValue(context, Second.Value);
                 if (secondGraph != null)
                 {
                     retVal = firstGraph.Min(secondGraph);
@@ -136,14 +134,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = (Function)Generated.acceptor.getFactory().createFunction();
             function.Name = "MIN (" + getName(First) + ", " + getName(Second) + ")";
             function.Enclosing = EFSSystem;
-            function.Graph = createGraph(context);
-
             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
             parameter.Name = "X";
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
-
             function.ReturnType = EFSSystem.DoubleType;
+            function.Graph = createGraph(context, parameter);
 
             retVal = function;
             context.LocalScope.PopContext();

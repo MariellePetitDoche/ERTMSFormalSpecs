@@ -414,40 +414,28 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            Functions.Graph retVal = Functions.Graph.createGraph(GetValue(context));
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
             if (Term != null)
             {
-                retVal = Functions.Graph.createGraph(GetValue(context));
+                retVal = Functions.Graph.createGraph(GetValue(context), parameter);
             }
             else if (Expression != null)
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.createGraphForParameter(context, parameter);
+                    retVal = Expression.createGraph(context, parameter);
                 }
                 else if (UnaryOp == MINUS)
                 {
-                    retVal = Expression.createGraphForParameter(context, parameter);
+                    retVal = Expression.createGraph(context, parameter);
                     retVal.Negate();
                 }
                 else
@@ -468,7 +456,7 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
             if (Term != null)
             {

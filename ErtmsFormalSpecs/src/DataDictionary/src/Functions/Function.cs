@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Functions
 {
@@ -137,9 +138,7 @@ namespace DataDictionary.Functions
         {
             foreach (KeyValuePair<string, Values.IValue> pair in parameterValues)
             {
-                Parameter p = getFormalParameter(pair.Key);
-                p.Value = pair.Value;
-                context.LocalScope.setVariable(p);
+                context.LocalScope.setVariable(getFormalParameter(pair.Key), pair.Value);
             }
         }
 
@@ -195,7 +194,7 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public virtual Graph createGraph(Interpreter.InterpretationContext context)
+        public virtual Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = Graph;
 
@@ -210,14 +209,17 @@ namespace DataDictionary.Functions
                         if (FormalParameters.Count == 0)
                         {
                             Values.IValue value = Evaluate(ctxt, new Dictionary<string, Values.IValue>());
-                            retVal = Graph.createGraph(value);
+                            retVal = Graph.createGraph(value, parameter);
                         }
                         else if (FormalParameters.Count == 1)
                         {
-                            Parameter parameter = (Parameter)FormalParameters[0];
+                            Parameter param = (Parameter)FormalParameters[0];
                             ctxt.LocalScope.PushContext();
-                            ctxt.LocalScope.setVariable(parameter);
-                            retVal = createGraphForParameter(ctxt, parameter);
+                            if (parameter != null)
+                            {
+                                ctxt.LocalScope.setVariable(param, parameter.Value);
+                            }
+                            retVal = createGraphForParameter(ctxt, param);
                             ctxt.LocalScope.PopContext();
                         }
                         else
@@ -257,7 +259,7 @@ namespace DataDictionary.Functions
                 {
                     if (PreconditionSatisfied(context, cas, parameter))
                     {
-                        Graph subGraph = cas.Expression.createGraphForParameter(context, parameter);
+                        Graph subGraph = cas.Expression.createGraph(context, parameter);
                         ReduceGraph(context, subGraph, cas, parameter);
                         retVal.Merge(subGraph);
                     }
@@ -462,7 +464,7 @@ namespace DataDictionary.Functions
                         {
                             if (FunctionCallOnParameter(context, expression.Right, parameter))
                             {
-                                Graph graph = expression.Right.createGraphForParameter(context, parameter);
+                                Graph graph = expression.Right.createGraph(context, parameter);
                                 if (graph != null)
                                 {
                                     // Expression like xxx <= f(Parameter)
@@ -476,7 +478,7 @@ namespace DataDictionary.Functions
                             }
                             else
                             {
-                                Graph graph = expression.Left.createGraphForParameter(context, parameter);
+                                Graph graph = expression.Left.createGraph(context, parameter);
                                 if (graph != null)
                                 {
                                     // Expression like f(Parameter) <= xxx
@@ -592,7 +594,10 @@ namespace DataDictionary.Functions
                         Parameter Yparameter = SelectYAxisParameter(Xparameter);
                         if (Xparameter != null && Yparameter != null)
                         {
+                            context.LocalScope.PushContext();
+                            context.LocalScope.setSurfaceParameters(Xparameter, Yparameter);
                             retVal = createSurfaceForParameters(context, Xparameter, Yparameter);
+                            context.LocalScope.PopContext();
                         }
                     }
                     else
@@ -644,7 +649,6 @@ namespace DataDictionary.Functions
         public virtual Surface createSurfaceForParameters(Interpreter.InterpretationContext context, Parameter Xparameter, Parameter Yparameter)
         {
             Surface retVal;
-
             if (Surface != null)
             {
                 retVal = Surface;
@@ -654,8 +658,20 @@ namespace DataDictionary.Functions
                 retVal = new Surface(Xparameter, Yparameter);
                 if (Xparameter != null)
                 {
+                    // TODO : Remove check code
+                    if ((Xparameter.Enclosing != this))
+                    {
+                        System.Diagnostics.Debugger.Break();
+                    }
+
                     if (Yparameter != null)
                     {
+                        // TODO : Remove check code
+                        if ((Yparameter.Enclosing != this))
+                        {
+                            System.Diagnostics.Debugger.Break();
+                        }
+
                         if (Cases.Count > 0)
                         {
                             foreach (Case cas in Cases)
@@ -691,15 +707,9 @@ namespace DataDictionary.Functions
                         else if (Graph != null)
                         {
                             // The function is defined by a graph
-                            // Extend it to a graph
+                            // Extend it to a surface
                             // TODO: Check the right parameter
                             retVal = Graph.ToSurfaceX();
-                            retVal.XParameter = Xparameter;
-                            retVal.YParameter = Yparameter;
-                        }
-                        else if (Surface != null)
-                        {
-                            retVal = Surface;
                             retVal.XParameter = Xparameter;
                             retVal.YParameter = Yparameter;
                         }
@@ -723,6 +733,12 @@ namespace DataDictionary.Functions
                 }
                 else if (Yparameter != null)
                 {
+                    // TODO : Remove check code
+                    if ((Yparameter.Enclosing != this))
+                    {
+                        System.Diagnostics.Debugger.Break();
+                    }
+
                     // Function with 1 parameter that ranges over the Yaxis
                     retVal = new Surface(Xparameter, Yparameter);
                     Graph graph = createGraphForParameter(context, Yparameter);
@@ -970,7 +986,15 @@ namespace DataDictionary.Functions
                     }
                 }
             }
-            else if (Graph != null)
+            else if (Surface != null && FormalParameters.Count == 2)
+            {
+                Parameter formal1 = (Parameter)FormalParameters[0];
+                Values.DoubleValue x = actuals[formal1.Name] as Values.DoubleValue;
+                Parameter formal2 = (Parameter)FormalParameters[1];
+                Values.DoubleValue y = actuals[formal2.Name] as Values.DoubleValue;
+                retVal = new Values.DoubleValue(EFSSystem.DoubleType, Surface.Val(x.Val, y.Val));
+            }
+            else if (Graph != null && FormalParameters.Count < 2)
             {
                 if (FormalParameters.Count == 0)
                 {
@@ -990,21 +1014,30 @@ namespace DataDictionary.Functions
                     }
                 }
             }
-            else if (Surface != null)
-            {
-                if (FormalParameters.Count == 2)
-                {
-                    Parameter formal1 = (Parameter)FormalParameters[0];
-                    Values.DoubleValue x = actuals[formal1.Name] as Values.DoubleValue;
-                    Parameter formal2 = (Parameter)FormalParameters[1];
-                    Values.DoubleValue y = actuals[formal2.Name] as Values.DoubleValue;
-                    retVal = new Values.DoubleValue(EFSSystem.DoubleType, Surface.Val(x.Val, y.Val));
-                }
-            }
             context.LocalScope.PopContext();
 
             return retVal;
         }
+
+        /// <summary>
+        /// Creates the graph for a value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Graph createGraphForValue(Values.IValue value)
+        {
+            Graph retVal = new Graph();
+
+            double val = Functions.Function.getDoubleValue(value);
+            retVal.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0.0, val, 0.0)));
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Caches the declared elements
+        /// </summary>
+        private Dictionary<string, List<Utils.INamable>> __declaredElements = null;
 
         /// <summary>
         /// Provides all the parameters declared for this function
@@ -1013,14 +1046,16 @@ namespace DataDictionary.Functions
         {
             get
             {
-                Dictionary<string, List<Utils.INamable>> retVal = new Dictionary<string, List<Utils.INamable>>();
-
-                foreach (Parameter parameter in FormalParameters)
+                if (__declaredElements == null)
                 {
-                    Utils.ISubDeclaratorUtils.AppendNamable(retVal, parameter);
+                    __declaredElements = new Dictionary<string, List<Utils.INamable>>();
+                    foreach (Parameter parameter in FormalParameters)
+                    {
+                        Utils.ISubDeclaratorUtils.AppendNamable(__declaredElements, parameter);
+                    }
                 }
 
-                return retVal;
+                return __declaredElements;
             }
         }
 
@@ -1031,14 +1066,7 @@ namespace DataDictionary.Functions
         /// <param name="retVal"></param>
         public void find(string name, List<Utils.INamable> retVal)
         {
-            foreach (Parameter item in FormalParameters)
-            {
-                if (item.Name.CompareTo(name) == 0)
-                {
-                    retVal.Add(item);
-                    break;
-                }
-            }
+            ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
         /// <summary>

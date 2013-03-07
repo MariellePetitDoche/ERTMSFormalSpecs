@@ -188,10 +188,13 @@ namespace DataDictionary.Interpreter.Statement
             InterpretationContext retVal = context;
 
             DerefExpression deref = Call.Called as DerefExpression;
-            if (false && deref != null)
+            if (deref != null)
             {
-                INamable namable = Call.Called.GetValue(context) as INamable;
-                retVal = new InterpretationContext(context, namable);
+                Values.IValue value = deref.GetPrefixValue(context, deref.Arguments.Count - 1) as Values.IValue;
+                if (value != null)
+                {
+                    retVal = new InterpretationContext(context, value);
+                }
             }
 
             return retVal;
@@ -251,9 +254,7 @@ namespace DataDictionary.Interpreter.Statement
                     ctxt.LocalScope.PushContext();
                     foreach (KeyValuePair<string, Values.IValue> pair in Call.AssignParameterValues(context, procedure, true))
                     {
-                        Parameter param = procedure.getFormalParameter(pair.Key);
-                        param.Value = pair.Value;
-                        ctxt.LocalScope.setVariable(param);
+                        ctxt.LocalScope.setVariable(procedure.getFormalParameter(pair.Key), pair.Value);
                     }
 
                     foreach (Rules.Rule rule in Rules)
