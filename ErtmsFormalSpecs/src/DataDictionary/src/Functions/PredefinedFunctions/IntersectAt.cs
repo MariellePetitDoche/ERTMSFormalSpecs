@@ -72,12 +72,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
             AssignParameters(context, actuals);
-            Graph graph = createGraphForValue(context, FunctionA.Value);
+            Graph graph = createGraphForValue(context, context.findOnStack(FunctionA).Value);
             if (graph != null)
             {
                 foreach (Graph.Segment segment in graph.Segments)
@@ -86,13 +86,14 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     {
                         double speed = segment.Expression.v0;
 
-                        Function function = FunctionB.Value as Function;
+                        Function function = context.findOnStack(FunctionB).Value as Function;
                         if (function.FormalParameters.Count > 0)
                         {
                             Parameter functionParameter = function.FormalParameters[0] as Parameter;
-                            functionParameter.Value = new Values.DoubleValue(EFSSystem.DoubleType, speed);
-                            Dictionary<string, Values.IValue> values = new Dictionary<string, Values.IValue>();
-                            values["V"] = new Values.DoubleValue(EFSSystem.DoubleType, speed);
+                            Variables.IVariable actual = functionParameter.createActual();
+                            actual.Value = new Values.DoubleValue(EFSSystem.DoubleType, speed);
+                            Dictionary<Variables.IVariable, Values.IValue> values = new Dictionary<Variables.IVariable, Values.IValue>();
+                            values[actual] = new Values.DoubleValue(EFSSystem.DoubleType, speed);
                             Values.IValue solution = function.Evaluate(context, values);
                             double doubleValue = getDoubleValue(solution);
 

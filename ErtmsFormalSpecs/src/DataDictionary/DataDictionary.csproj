@@ -182,6 +182,7 @@
     <Compile Include="src\Constants\EnumValue.cs" />
     <Compile Include="src\Types\Enum.cs" />
     <Compile Include="src\ICommentable.cs" />
+    <Compile Include="src\Variables\Actual.cs" />
     <Compile Include="src\Variables\IProcedure.cs" />
     <Compile Include="src\Variables\IVariable.cs" />
     <Compile Include="src\Variables\Procedure.cs" />

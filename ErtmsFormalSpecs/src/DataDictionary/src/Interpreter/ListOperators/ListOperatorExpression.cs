@@ -101,7 +101,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
             if (retVal)
             {
-                ListExpression.SemanticAnalysis(instance, Filter.IsLeftSide);
+                ListExpression.SemanticAnalysis(instance, Filter.IsRightSide);
 
                 Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
                 if (collectionType != null)

@@ -107,8 +107,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
+        /// <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue getReferences(INamable instance, Filter.AcceptableChoice expectation)
+        public ReturnValue getReferences(INamable instance, Filter.AcceptableChoice expectation, bool lastElement)
         {
             ReturnValue retVal = new ReturnValue(this);
 
@@ -122,6 +123,11 @@ namespace DataDictionary.Interpreter
                     ISubDeclarator subDeclarator = current as ISubDeclarator;
                     if (FillBySubdeclarator(subDeclarator, expectation, retVal) > 0)
                     {
+                        // If this is the last element in the dereference chain, stop at first match
+                        if (lastElement)
+                        {
+                            return retVal;
+                        }
                         current = null;
                     }
                     else
@@ -132,6 +138,10 @@ namespace DataDictionary.Interpreter
 
                 // . In the predefined elements
                 addReference(EFSSystem.getPredefinedItem(Image), expectation, retVal);
+                if (lastElement && !retVal.IsEmpty)
+                {
+                    return retVal;
+                }
 
                 // . In the enclosing items, except the enclosing dictionary since dictionaries are handled in a later step
                 INamable currentNamable = Root;
@@ -140,7 +150,10 @@ namespace DataDictionary.Interpreter
                     Utils.ISubDeclarator subDeclarator = currentNamable as Utils.ISubDeclarator;
                     if (subDeclarator != null && !(subDeclarator is Dictionary))
                     {
-                        FillBySubdeclarator(subDeclarator, expectation, retVal);
+                        if (FillBySubdeclarator(subDeclarator, expectation, retVal) > 0 && lastElement)
+                        {
+                            return retVal;
+                        }
                     }
 
                     currentNamable = enclosingSubDeclarator(currentNamable);
@@ -149,12 +162,18 @@ namespace DataDictionary.Interpreter
                 // . In the dictionaries declared in the system
                 foreach (Dictionary dictionary in EFSSystem.Dictionaries)
                 {
-                    FillBySubdeclarator(dictionary, expectation, retVal);
+                    if (FillBySubdeclarator(dictionary, expectation, retVal) > 0 && lastElement)
+                    {
+                        return retVal;
+                    }
 
                     Types.NameSpace defaultNameSpace = dictionary.findNameSpace("Default");
                     if (defaultNameSpace != null)
                     {
-                        FillBySubdeclarator(defaultNameSpace, expectation, retVal);
+                        if (FillBySubdeclarator(defaultNameSpace, expectation, retVal) > 0 && lastElement)
+                        {
+                            return retVal;
+                        }
                     }
                 }
             }
@@ -239,11 +258,12 @@ namespace DataDictionary.Interpreter
         /// Performs the semantic analysis of the term
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <para name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation, bool lastElement)
         {
-            ReturnValue tmp = getReferences(instance, expectation);
+            ReturnValue tmp = getReferences(instance, expectation, lastElement);
             tmp.filter(expectation);
             if (tmp.IsUnique)
             {
@@ -405,6 +425,19 @@ namespace DataDictionary.Interpreter
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Fills the list provided with the element matching the filter provided
+        /// </summary>
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
+        {
+            if (filter(Ref))
+            {
+                retVal.Add(Ref);
+            }
         }
 
         public Variables.IVariable GetVariable(InterpretationContext context)

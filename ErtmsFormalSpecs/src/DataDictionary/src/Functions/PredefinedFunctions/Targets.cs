@@ -104,7 +104,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="instance">the instance on which the function is evaluated</param>
         /// <param name="actuals">the actual parameters values</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
@@ -115,26 +115,26 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Values.ListValue collection = new Values.ListValue(collectionType, new List<Values.IValue>());
 
             // compute targets from the MRSP
-            Function function1 = Targets1.Value as Functions.Function;
-            if (!Targets1.Value.Name.Equals("EMPTY"))
+            Function function1 = context.findOnStack(Targets1).Value as Functions.Function;
+            if (!function1.Name.Equals("EMPTY"))
             {
-                Graph graph1 = createGraphForValue(context, Targets1.Value);
+                Graph graph1 = createGraphForValue(context, function1);
                 ComputeTargets(graph1.Function, collection);
             }
 
             // compute targets from the MA
-            Function function2 = Targets2.Value as Functions.Function;
-            if (!Targets2.Value.Name.Equals("EMPTY"))
+            Function function2 = context.findOnStack(Targets2).Value as Functions.Function;
+            if (!function2.Name.Equals("EMPTY"))
             {
-                Graph graph2 = createGraphForValue(context, Targets2.Value);
+                Graph graph2 = createGraphForValue(context, function2);
                 ComputeTargets(graph2.Function, collection);
             }
 
             // compute targets from the SR
-            Function function3 = Targets3.Value as Functions.Function;
-            if (!Targets3.Value.Name.Equals("EMPTY"))
+            Function function3 = context.findOnStack(Targets3).Value as Functions.Function;
+            if (!function3.Name.Equals("EMPTY"))
             {
-                Graph graph3 = createGraphForValue(context, Targets3.Value);
+                Graph graph3 = createGraphForValue(context, function3);
                 ComputeTargets(graph3.Function, collection);
             }
 

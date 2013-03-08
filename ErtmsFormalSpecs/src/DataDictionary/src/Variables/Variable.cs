@@ -56,43 +56,28 @@ namespace DataDictionary.Variables
             }
         }
 
-
-
         /// <summary>
-
         /// Indicates if this Procedure contains implemented sub-elements
-
         /// </summary>
-
         public override bool ImplementationPartiallyCompleted
         {
-
             get
             {
-
                 if (getImplemented())
                 {
-
                     return true;
-
                 }
 
                 foreach (DataDictionary.Variables.Variable subVariable in allSubVariables())
                 {
-
                     if (subVariable.ImplementationPartiallyCompleted)
                     {
-
                         return true;
-
                     }
-
                 }
 
                 return false;
-
             }
-
         }
 
         /// <summary>

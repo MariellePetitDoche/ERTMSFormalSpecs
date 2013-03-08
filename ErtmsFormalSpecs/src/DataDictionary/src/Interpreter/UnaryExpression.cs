@@ -75,20 +75,21 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public override ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public override ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             ReturnValue retVal = ReturnValue.Empty;
 
             if (Term != null)
             {
-                retVal = Term.getReferences(instance, expectation);
+                retVal = Term.getReferences(instance, expectation, last);
             }
             else
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.getReferences(instance, expectation);
+                    retVal = Expression.getReferences(instance, expectation, last);
                 }
             }
 
@@ -100,20 +101,21 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public override ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public override ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             ReturnValue retVal = ReturnValue.Empty;
 
             if (Term != null)
             {
-                retVal = Term.getReferenceTypes(instance, expectation);
+                retVal = Term.getReferenceTypes(instance, expectation, last);
             }
             else
             {
                 if (UnaryOp == null)
                 {
-                    retVal = Expression.getReferenceTypes(instance, expectation);
+                    retVal = Expression.getReferenceTypes(instance, expectation, true);
                 }
             }
 
@@ -124,7 +126,7 @@ namespace DataDictionary.Interpreter
         /// Performs the semantic analysis of the expression
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</paraparam>
         /// <returns>True if semantic analysis should be continued</returns>
         public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
@@ -134,7 +136,7 @@ namespace DataDictionary.Interpreter
             {
                 if (Term != null)
                 {
-                    Term.SemanticAnalysis(instance, expectation);
+                    Term.SemanticAnalysis(instance, expectation, true);
                 }
                 else if (Expression != null)
                 {

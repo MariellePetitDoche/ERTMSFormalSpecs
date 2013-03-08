@@ -134,11 +134,11 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameterValues">The values of the parameters</param>
-        public void AssignParameters(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> parameterValues)
+        public void AssignParameters(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> parameterValues)
         {
-            foreach (KeyValuePair<string, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in parameterValues)
             {
-                context.LocalScope.setVariable(getFormalParameter(pair.Key), pair.Value);
+                context.LocalScope.setVariable(pair.Key, pair.Value);
             }
         }
 
@@ -208,7 +208,7 @@ namespace DataDictionary.Functions
                         // For now, just create graphs for functions using 0 or 1 parameter.
                         if (FormalParameters.Count == 0)
                         {
-                            Values.IValue value = Evaluate(ctxt, new Dictionary<string, Values.IValue>());
+                            Values.IValue value = Evaluate(ctxt, new Dictionary<Variables.IVariable, Values.IValue>());
                             retVal = Graph.createGraph(value, parameter);
                         }
                         else if (FormalParameters.Count == 1)
@@ -217,7 +217,8 @@ namespace DataDictionary.Functions
                             ctxt.LocalScope.PushContext();
                             if (parameter != null)
                             {
-                                ctxt.LocalScope.setVariable(param, parameter.Value);
+                                Variables.IVariable actual = context.findOnStack(parameter);
+                                ctxt.LocalScope.setParameter(param, actual.Value);
                             }
                             retVal = createGraphForParameter(ctxt, param);
                             ctxt.LocalScope.PopContext();
@@ -323,7 +324,7 @@ namespace DataDictionary.Functions
 
             foreach (Rules.PreCondition preCondition in cas.PreConditions)
             {
-                if (!ExpressionBasedOnParameter(context, parameter, preCondition.ExpressionTree))
+                if (!ExpressionBasedOnParameter(parameter, preCondition.ExpressionTree))
                 {
                     Values.BoolValue boolValue = preCondition.ExpressionTree.GetValue(context) as Values.BoolValue;
                     if (boolValue == null)
@@ -344,21 +345,20 @@ namespace DataDictionary.Functions
         /// <summary>
         /// Indicates if the expression if of the form parameter <= xxx or xxx <= parameter
         /// </summary>
-        /// <param name="context">The context used to evaluate the expression</param>
         /// <param name="parameter">The parameter of the template</param>
         /// <param name="expression">The expression to analyze</param>
         /// <returns></returns>
-        private bool ExpressionBasedOnParameter(Interpreter.InterpretationContext context, Parameter parameter, Interpreter.Expression expression)
+        private bool ExpressionBasedOnParameter(Parameter parameter, Interpreter.Expression expression)
         {
             bool retVal = false;
 
             Interpreter.BinaryExpression binaryExpression = expression as Interpreter.BinaryExpression;
             if (binaryExpression != null)
             {
-                retVal = binaryExpression.Right.GetVariable(context) == parameter
-                      || binaryExpression.Left.GetVariable(context) == parameter
-                      || FunctionCallOnParameter(context, binaryExpression.Right, parameter)
-                      || FunctionCallOnParameter(context, binaryExpression.Left, parameter);
+                retVal = binaryExpression.Right.Ref == parameter
+                      || binaryExpression.Left.Ref == parameter
+                      || FunctionCallOnParameter(binaryExpression.Right, parameter)
+                      || FunctionCallOnParameter(binaryExpression.Left, parameter);
             }
 
             return retVal;
@@ -367,34 +367,26 @@ namespace DataDictionary.Functions
         /// <summary>
         /// Indicates that the expression is a function call using the parameter as argument value
         /// </summary>
-        /// <param name="context">The context used to evaluate the actual parameters</param>
         /// <param name="expression">The expression to evaluate</param>
         /// <param name="parameter">The parameter</param>
         /// <returns></returns>
-        private bool FunctionCallOnParameter(Interpreter.InterpretationContext context, Interpreter.Expression expression, Parameter parameter)
+        private bool FunctionCallOnParameter(Interpreter.Expression expression, Parameter parameter)
         {
             bool retVal = false;
 
             Interpreter.Call call = expression as Interpreter.Call;
             if (call != null)
             {
-                if (call.ActualParameters.Count + call.NamedActualParameters.Count > 0)
+                foreach (Interpreter.Expression expr in call.AllParameters)
                 {
-                    Interpreter.Expression expr = null;
-                    if (call.ActualParameters.Count == 1)
+                    foreach (Types.ITypedElement element in expression.GetRightSides())
                     {
-                        expr = call.ActualParameters[0];
-                    }
-                    else
-                    {
-                        foreach (String name in call.NamedActualParameters.Keys)
+                        if (element == parameter)
                         {
-                            expr = call.NamedActualParameters[name];
+                            retVal = true;
+                            break;
                         }
                     }
-
-                    Variables.IVariable param = expr.GetVariable(context);
-                    retVal = param == parameter;
                 }
             }
 
@@ -415,10 +407,10 @@ namespace DataDictionary.Functions
             if (parameter != null)
             {
                 Interpreter.BinaryExpression expression = preCondition.ExpressionTree as Interpreter.BinaryExpression;
-                if (ExpressionBasedOnParameter(context, parameter, expression))
+                if (ExpressionBasedOnParameter(parameter, expression))
                 {
                     Values.IValue val;
-                    if (expression.Right.GetVariable(context) == parameter)
+                    if (expression.Right.Ref == parameter)
                     {
                         // Expression like xxx <= Parameter
                         val = expression.Left.GetValue(context);
@@ -440,7 +432,7 @@ namespace DataDictionary.Functions
                     }
                     else
                     {
-                        if (expression.Left.GetVariable(context) == parameter)
+                        if (expression.Left.Ref == parameter)
                         {
                             // Expression like Parameter <= xxx
                             val = expression.Right.GetValue(context);
@@ -462,7 +454,7 @@ namespace DataDictionary.Functions
                         }
                         else
                         {
-                            if (FunctionCallOnParameter(context, expression.Right, parameter))
+                            if (FunctionCallOnParameter(expression.Right, parameter))
                             {
                                 Graph graph = expression.Right.createGraph(context, parameter);
                                 if (graph != null)
@@ -526,7 +518,7 @@ namespace DataDictionary.Functions
 
             foreach (Parameter other in context.PlaceHolders())
             {
-                if (other != parameter && ExpressionBasedOnParameter(context, other, expression))
+                if (other != parameter && ExpressionBasedOnParameter(other, expression))
                 {
                     retVal = true;
                     break;
@@ -768,7 +760,7 @@ namespace DataDictionary.Functions
 
             foreach (Rules.PreCondition preCondition in cas.PreConditions)
             {
-                if (!ExpressionBasedOnParameter(context, x, preCondition.ExpressionTree) && !ExpressionBasedOnParameter(context, y, preCondition.ExpressionTree))
+                if (!ExpressionBasedOnParameter(x, preCondition.ExpressionTree) && !ExpressionBasedOnParameter(y, preCondition.ExpressionTree))
                 {
                     Values.BoolValue boolValue = preCondition.ExpressionTree.GetValue(context) as Values.BoolValue;
                     if (boolValue == null)
@@ -898,7 +890,7 @@ namespace DataDictionary.Functions
                 {
                     foreach (Rules.PreCondition preCondition in cas.PreConditions)
                     {
-                        if (ExpressionBasedOnParameter(context, parameter, preCondition.ExpressionTree))
+                        if (ExpressionBasedOnParameter(parameter, preCondition.ExpressionTree))
                         {
                             if (retVal == null)
                             {
@@ -968,7 +960,7 @@ namespace DataDictionary.Functions
         /// <param name="instance">the instance on which the function is evaluated</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public virtual Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public virtual Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
@@ -988,11 +980,22 @@ namespace DataDictionary.Functions
             }
             else if (Surface != null && FormalParameters.Count == 2)
             {
+                double x = 0.0;
+                double y = 0.0;
                 Parameter formal1 = (Parameter)FormalParameters[0];
-                Values.DoubleValue x = actuals[formal1.Name] as Values.DoubleValue;
                 Parameter formal2 = (Parameter)FormalParameters[1];
-                Values.DoubleValue y = actuals[formal2.Name] as Values.DoubleValue;
-                retVal = new Values.DoubleValue(EFSSystem.DoubleType, Surface.Val(x.Val, y.Val));
+                foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in actuals)
+                {
+                    if (pair.Key.Name.Equals(formal1.Name))
+                    {
+                        x = Functions.Function.getDoubleValue(pair.Value);
+                    }
+                    if (pair.Key.Name.Equals(formal2.Name))
+                    {
+                        y = Functions.Function.getDoubleValue(pair.Value);
+                    }
+                }
+                retVal = new Values.DoubleValue(EFSSystem.DoubleType, Surface.Val(x, y));
             }
             else if (Graph != null && FormalParameters.Count < 2)
             {
@@ -1002,16 +1005,16 @@ namespace DataDictionary.Functions
                 }
                 else if (FormalParameters.Count == 1)
                 {
+                    double x = 0.0;
                     Parameter formal = (Parameter)FormalParameters[0];
-                    Values.DoubleValue x = actuals[formal.Name] as Values.DoubleValue;
-                    if (x != null)
+                    foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in actuals)
                     {
-                        retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(x.Val));
+                        if (pair.Key.Name.Equals(formal.Name))
+                        {
+                            x = Functions.Function.getDoubleValue(pair.Value);
+                        }
                     }
-                    else
-                    {
-                        AddError("Cannot evaluate value of formal parameter " + formal.Name);
-                    }
+                    retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(x));
                 }
             }
             context.LocalScope.PopContext();

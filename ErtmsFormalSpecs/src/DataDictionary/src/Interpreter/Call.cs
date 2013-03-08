@@ -266,6 +266,24 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Provides the parameter association according to the icallable provided.
+        /// If the call is statically determined, take the cached association
+        /// </summary>
+        /// <param name="callable"></param>
+        /// <returns></returns>
+        private Dictionary<Parameter, Expression> getParameterAssociation(ICallable callable)
+        {
+            Dictionary<Parameter, Expression> retVal = ParameterAssociation;
+
+            if (retVal == null)
+            {
+                retVal = createParameterAssociation(callable);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the ICallable that is statically defined
         /// </summary>
         public override ICallable getStaticCallable()
@@ -317,7 +335,7 @@ namespace DataDictionary.Interpreter
             {
                 long start = System.Environment.TickCount;
 
-                Dictionary<string, Values.IValue> parameterValues = AssignParameterValues(context, function, true);
+                Dictionary<Variables.IVariable, Values.IValue> parameterValues = AssignParameterValues(context, function, true);
                 List<Parameter> parameters = GetPlaceHolders(function, parameterValues);
                 if (parameters == null)
                 {
@@ -379,19 +397,20 @@ namespace DataDictionary.Interpreter
         /// <param name="function">The function on which the call is performed</param>
         /// <param name="parameterValues">The actual parameter values</param>
         /// <returns></returns>
-        private List<Parameter> GetPlaceHolders(Functions.Function function, Dictionary<string, Values.IValue> parameterValues)
+        private List<Parameter> GetPlaceHolders(Functions.Function function, Dictionary<Variables.IVariable, Values.IValue> parameterValues)
         {
             List<Parameter> retVal = new List<Parameter>();
 
-            foreach (KeyValuePair<string, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in parameterValues)
             {
-                if (pair.Value is Values.PlaceHolder)
+                Variables.Actual actual = pair.Value as Variables.Actual;
+
+                if (actual != null)
                 {
-                    retVal.Add(function.findParameter(pair.Key));
-                }
-                else
-                {
-                    break;
+                    if (actual.Parameter.Enclosing == function)
+                    {
+                        retVal.Add(actual.Parameter);
+                    }
                 }
             }
 
@@ -408,16 +427,16 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="parameterValues"></param>
         /// <returns></returns>
-        private static string ParameterValues(Dictionary<string, Values.IValue> parameterValues)
+        private static string ParameterValues(Dictionary<Variables.IVariable, Values.IValue> parameterValues)
         {
             string parameters = "";
-            foreach (KeyValuePair<string, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in parameterValues)
             {
                 if (!Utils.Utils.isEmpty(parameters))
                 {
                     parameters += ", ";
                 }
-                parameters += pair.Key + " => " + pair.Value.FullName;
+                parameters += pair.Key.Name + " => " + pair.Value.FullName;
             }
             return parameters;
         }
@@ -429,10 +448,10 @@ namespace DataDictionary.Interpreter
         /// <param name="callable">The callable</param>
         /// <param name="log">Indicates whether errors should be logged</param>
         /// <returns></returns>
-        public Dictionary<string, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
+        public Dictionary<Variables.IVariable, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
         {
             // Compute the unnamed actual parameter values
-            Dictionary<string, Values.IValue> retVal = new Dictionary<string, Values.IValue>();
+            Dictionary<Variables.IVariable, Values.IValue> retVal = new Dictionary<Variables.IVariable, Values.IValue>();
 
             if (callable.FormalParameters.Count == NamedActualParameters.Count + ActualParameters.Count)
             {
@@ -443,13 +462,14 @@ namespace DataDictionary.Interpreter
                     Values.IValue val = expression.GetValue(context);
                     if (val != null)
                     {
-                        val = val.RightSide(parameter, false);
-                        retVal.Add(parameter.Name, val);
+                        Variables.IVariable actual = parameter.createActual();
+                        val = val.RightSide(actual, false);
+                        retVal.Add(actual, val);
                     }
                     else
                     {
                         AddError("Cannot evaluate value for parameter " + i + " (" + expression.ToString() + ") of function " + callable.Name);
-                        return new Dictionary<string, Values.IValue>();
+                        return new Dictionary<Variables.IVariable, Values.IValue>();
                     }
                     i = i + 1;
                 }
@@ -460,13 +480,14 @@ namespace DataDictionary.Interpreter
                     Values.IValue val = pair.Value.GetValue(context);
                     if (val != null)
                     {
-                        val = val.RightSide(parameter, false);
-                        retVal.Add(pair.Key, val);
+                        Variables.IVariable actual = parameter.createActual();
+                        val = val.RightSide(actual, false);
+                        retVal.Add(actual, val);
                     }
                     else
                     {
                         AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
-                        return new Dictionary<string, Values.IValue>();
+                        return new Dictionary<Variables.IVariable, Values.IValue>();
                     }
                 }
             }
@@ -651,7 +672,6 @@ namespace DataDictionary.Interpreter
                     if (Xaxis == null)
                     {
                         Xaxis = pair.Key;
-                        Xaxis.Value = parameter.Value;
                     }
                     else
                     {
@@ -738,24 +758,16 @@ namespace DataDictionary.Interpreter
         /// <returns>true if the axis could be selected</returns>
         private void SelectXandYAxis(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam, Functions.Function function, out Parameter Xaxis, out Parameter Yaxis)
         {
-            context.LocalScope.PushContext();
-            Values.Value XValue = new Values.PlaceHolder(EFSSystem.AnyType, 1);
-            Values.Value YValue = new Values.PlaceHolder(EFSSystem.AnyType, 2);
-            context.LocalScope.setVariable(xParam, XValue);
-            context.LocalScope.setVariable(yParam, YValue);
-            Dictionary<string, Values.IValue> actualValues = AssignParameterValues(context, function, false);
-            function.AssignParameters(context, actualValues);
-            context.LocalScope.PopContext();
-
             Xaxis = null;
             Yaxis = null;
-            foreach (Parameter param in function.FormalParameters)
+
+            foreach (KeyValuePair<Parameter, Expression> pair in getParameterAssociation(function))
             {
-                if (param.Value == XValue)
+                if (pair.Value.Ref == xParam)
                 {
                     if (Xaxis == null)
                     {
-                        Xaxis = param;
+                        Xaxis = pair.Key;
                     }
                     else
                     {
@@ -765,11 +777,11 @@ namespace DataDictionary.Interpreter
                     }
                 }
 
-                if (param.Value == YValue)
+                if (pair.Value.Ref == yParam)
                 {
                     if (Yaxis == null)
                     {
-                        Yaxis = param;
+                        Yaxis = pair.Key;
                     }
                     else
                     {

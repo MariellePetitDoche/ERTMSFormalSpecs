@@ -13,7 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
 
 namespace DataDictionary.Variables
@@ -247,22 +246,6 @@ namespace DataDictionary.Variables
                     AddError("Cannot create default value");
                 }
                 return retVal;
-            }
-        }
-
-        /// <summary>
-        /// Assigns the values of the procedure parameters with values provided in the list Parameters
-        /// </summary>
-        public void AssignParameters(List<Values.IValue> parameterValues)
-        {
-            if (FormalParameters.Count != parameterValues.Count)
-            {
-                throw new Exception("Incorrect number of parameters");
-            }
-            for (int i = 0; i < allParameters().Count; i++)
-            {
-                Parameter p = FormalParameters[i] as Parameter;
-                p.Value = parameterValues[i];
             }
         }
 

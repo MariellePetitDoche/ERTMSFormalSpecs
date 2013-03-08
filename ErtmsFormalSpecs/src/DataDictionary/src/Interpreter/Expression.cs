@@ -286,13 +286,13 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Inidicates whether the variable can be found on the stack
+        /// Provides the actual variable which corresponds to this parameter on the stack
         /// </summary>
-        /// <param name="variable"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public bool findOnStack(Variables.IVariable variable)
+        public Variables.IVariable findOnStack(Parameter parameter)
         {
-            return LocalScope.find(variable);
+            return LocalScope.find(parameter);
         }
     }
 
@@ -357,8 +357,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public virtual ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public virtual ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             return ReturnValue.Empty;
         }
@@ -368,8 +369,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public virtual ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public virtual ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             ReturnValue retVal = new ReturnValue(this);
 
@@ -561,6 +563,28 @@ namespace DataDictionary.Interpreter
         public abstract void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter);
 
         /// <summary>
+        /// Provides the right sides used by this expression
+        /// </summary>
+        public List<Types.ITypedElement> GetRightSides()
+        {
+            List<Types.ITypedElement> retVal = new List<Types.ITypedElement>();
+
+            List<Utils.INamable> tmp = new List<Utils.INamable>();
+            fill(tmp, Filter.IsRightSide);
+
+            foreach (Utils.INamable namable in tmp)
+            {
+                Types.ITypedElement element = namable as Types.ITypedElement;
+                if (element != null)
+                {
+                    retVal.Add(element);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the variables used by this expression
         /// </summary>
         public List<Variables.IVariable> GetVariables()
@@ -581,7 +605,6 @@ namespace DataDictionary.Interpreter
 
             return retVal;
         }
-
         /// <summary>
         /// Provides the list of literals found in the expression
         /// </summary>

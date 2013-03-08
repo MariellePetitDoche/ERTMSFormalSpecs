@@ -1284,8 +1284,9 @@ namespace DataDictionary.Functions
                 Parameter parameter = (Parameter)increment.FormalParameters[0];
                 foreach (Segment segment in Segments)
                 {
-                    Dictionary<string, Values.IValue> actuals = new Dictionary<string, Values.IValue>();
-                    actuals[parameter.Name] = new Values.DoubleValue(increment.EFSSystem.DoubleType, segment.Expression.v0);
+                    Dictionary<Variables.IVariable, Values.IValue> actuals = new Dictionary<Variables.IVariable, Values.IValue>();
+                    Variables.IVariable actual = parameter.createActual();
+                    actuals[actual] = new Values.DoubleValue(increment.EFSSystem.DoubleType, segment.Expression.v0);
                     Values.IValue result = increment.Evaluate(context, actuals);
                     Segment newSegment = new Segment(segment);
                     newSegment.Expression.v0 = segment.Expression.v0 + Function.getDoubleValue(result);

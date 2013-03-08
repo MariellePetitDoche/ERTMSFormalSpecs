@@ -50,7 +50,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override abstract Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals);
+        public override abstract Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals);
 
 
         /// <summary>
@@ -60,25 +60,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <returns></returns>
         protected string getName(Parameter param)
         {
-            string retVal = "";
-
-            Function function = param.Value as Function;
-            if (function != null)
-            {
-                retVal = function.FullName;
-            }
-            else
-            {
-                Values.DoubleValue val = param.Value as Values.DoubleValue;
-                if (val != null)
-                {
-                    retVal = val.ToString();
-                }
-                else
-                {
-                    retVal = "<unknown>";
-                }
-            }
+            string retVal = param.Name;
 
             return retVal;
         }

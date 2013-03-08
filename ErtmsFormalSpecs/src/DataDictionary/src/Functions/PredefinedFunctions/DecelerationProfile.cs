@@ -78,20 +78,20 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Graph MRSPGraph = null;
 
-            Function speedRestriction = SpeedRestrictions.Value as Function;
+            Function speedRestriction = context.findOnStack(SpeedRestrictions).Value as Function;
             if (speedRestriction != null)
             {
                 Parameter p = (Parameter)speedRestriction.FormalParameters[0];
 
                 context.LocalScope.PushContext();
                 context.LocalScope.setGraphParameter(p);
-                MRSPGraph = createGraphForValue(context, SpeedRestrictions.Value, p);
+                MRSPGraph = createGraphForValue(context, context.findOnStack(SpeedRestrictions).Value, p);
                 context.LocalScope.PopContext();
             }
 
             if (MRSPGraph != null)
             {
-                Surface DecelerationSurface = createSurfaceForValue(context, DecelerationFactor.Value);
+                Surface DecelerationSurface = createSurfaceForValue(context, context.findOnStack(DecelerationFactor).Value);
                 if (DecelerationSurface != null)
                 {
                     FlatSpeedDistanceCurve MRSPCurve = MRSPGraph.FlatSpeedDistanceCurve(MRSPGraph.ExpectedEndX());
@@ -162,7 +162,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 

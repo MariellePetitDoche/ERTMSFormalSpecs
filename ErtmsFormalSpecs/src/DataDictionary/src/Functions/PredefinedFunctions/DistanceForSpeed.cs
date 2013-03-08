@@ -82,10 +82,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = null;
 
-            Graph graph = createGraphForValue(context, Function.Value, parameter);
+            Graph graph = createGraphForValue(context, context.findOnStack(Function).Value, parameter);
             if (graph != null)
             {
-                double speed = Functions.Function.getDoubleValue(Speed.Value);
+                double speed = Functions.Function.getDoubleValue(context.findOnStack(Speed).Value);
                 retVal = Graph.createGraph(graph.SolutionX(speed));
             }
             else
@@ -103,17 +103,16 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
             context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            Functions.Function function = Function.Value as Functions.Function;
-            context.LocalScope.PopContext();
+            Functions.Function function = context.findOnStack(Function).Value as Functions.Function;
             if (function != null)
             {
-                double speed = Functions.Function.getDoubleValue(Speed.Value);
+                double speed = Functions.Function.getDoubleValue(context.findOnStack(Speed).Value);
 
                 Parameter parameter = (Parameter)function.FormalParameters[0];
                 context.LocalScope.PushContext();
@@ -126,6 +125,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             {
                 Log.Error("Cannot get function for " + Function.ToString());
             }
+            context.LocalScope.PopContext();
 
             return retVal;
         }

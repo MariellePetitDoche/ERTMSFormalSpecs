@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System;
 
 namespace DataDictionary.Rules
 {
@@ -206,13 +207,20 @@ namespace DataDictionary.Rules
         {
             long start = System.Environment.TickCount;
 
-            if (Statement != null)
+            try
             {
-                Statement.GetChanges(context, retVal, explanation);
+                if (Statement != null)
+                {
+                    Statement.GetChanges(context, retVal, explanation);
+                }
+                else
+                {
+                    AddError("Invalid actions statement");
+                }
             }
-            else
+            catch (Exception e)
             {
-                AddError("Invalid actions statement");
+                AddException(e);
             }
 
             long stop = System.Environment.TickCount;

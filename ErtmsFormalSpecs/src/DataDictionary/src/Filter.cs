@@ -53,7 +53,7 @@ namespace DataDictionary
         /// <returns></returns>
         public static bool IsValue(INamable value)
         {
-            return value is Values.IValue;
+            return value is Values.IValue || value is Parameter;
         }
 
         /// <summary>

@@ -57,18 +57,19 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the instance on which this element should be found.</param>
         /// <param name="expectation">the expectation on the element found</param>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             ReturnValue retVal = null;
 
             if (Designator != null)
             {
-                retVal = Designator.getReferences(instance, expectation);
+                retVal = Designator.getReferences(instance, expectation, last);
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.getReferences(instance, expectation);
+                retVal = LiteralValue.getReferences(instance, expectation, last);
             }
 
             return retVal;
@@ -79,8 +80,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
         /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             ReturnValue retVal = null;
 
@@ -88,7 +90,7 @@ namespace DataDictionary.Interpreter
             {
                 retVal = new ReturnValue();
 
-                foreach (ReturnValueElement element in Designator.getReferences(instance, expectation).Values)
+                foreach (ReturnValueElement element in Designator.getReferences(instance, expectation, last).Values)
                 {
                     if (element.Value is Types.Type)
                     {
@@ -98,7 +100,7 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.getReferenceTypes(instance, expectation);
+                retVal = LiteralValue.getReferenceTypes(instance, expectation, true);
             }
 
             return retVal;
@@ -108,13 +110,14 @@ namespace DataDictionary.Interpreter
         /// Performs the semantic analysis of the term
         /// </summary>
         /// <param name="instance">the reference instance on which this element should analysed</param>
-        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
         /// <returns>True if semantic analysis should be continued</returns>
-        public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation, bool lastElement)
         {
             if (Designator != null)
             {
-                Designator.SemanticAnalysis(instance, expectation);
+                Designator.SemanticAnalysis(instance, expectation, lastElement);
             }
             else if (LiteralValue != null)
             {
@@ -233,7 +236,7 @@ namespace DataDictionary.Interpreter
         {
             if (Designator != null)
             {
-                // Nothing to do.
+                Designator.fill(retVal, filter);
             }
             else if (LiteralValue != null)
             {

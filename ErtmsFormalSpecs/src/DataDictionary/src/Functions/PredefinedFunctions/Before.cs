@@ -77,24 +77,26 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = EFSSystem.BoolType.False;
 
             context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            Values.ListValue collection = Collection.Value as Values.ListValue;
+            Values.ListValue collection = context.findOnStack(Collection).Value as Values.ListValue;
             if (collection != null)
             {
-                if (ExpectedFirst.Value != null)
+                Values.IValue expectedFirst = context.findOnStack(ExpectedFirst).Value;
+                if (expectedFirst != null)
                 {
-                    int firstIndex = collection.Val.IndexOf(ExpectedFirst.Value);
+                    int firstIndex = collection.Val.IndexOf(expectedFirst);
                     if (firstIndex >= 0)
                     {
-                        if (ExpectedSecond.Value != null)
+                        Values.IValue expectedSecond = context.findOnStack(ExpectedSecond).Value;
+                        if (expectedSecond != null)
                         {
-                            int secondIndex = collection.Val.IndexOf(ExpectedSecond.Value);
+                            int secondIndex = collection.Val.IndexOf(expectedSecond);
 
                             if (secondIndex >= 0)
                             {
@@ -105,7 +107,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                             }
                             else
                             {
-                                Collection.AddError("Cannot find " + ExpectedSecond.Value.FullName + " in " + collection.ToString() + " to evaluate " + Name);
+                                Collection.AddError("Cannot find " + expectedSecond.FullName + " in " + collection.ToString() + " to evaluate " + Name);
                             }
                         }
                         else
@@ -115,7 +117,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     }
                     else
                     {
-                        Collection.AddError("Cannot find " + ExpectedFirst.Value.FullName + " in " + collection.ToString() + " to evaluate " + Name);
+                        Collection.AddError("Cannot find " + expectedFirst.FullName + " in " + collection.ToString() + " to evaluate " + Name);
                     }
                 }
                 else

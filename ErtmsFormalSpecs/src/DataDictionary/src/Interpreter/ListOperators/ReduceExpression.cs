@@ -149,7 +149,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 if (function.FormalParameters.Count == 1)
                 {
                     context.LocalScope.PushContext();
-                    context.LocalScope.setVariable((Parameter)function.FormalParameters[0]);
+                    context.LocalScope.setGraphParameter((Parameter)function.FormalParameters[0]);
                     Functions.Graph graph = createGraph(context, (Parameter)function.FormalParameters[0]);
                     context.LocalScope.PopContext();
                     if (graph != null)
@@ -160,8 +160,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 else if (function.FormalParameters.Count == 2)
                 {
                     context.LocalScope.PushContext();
-                    context.LocalScope.setVariable((Parameter)function.FormalParameters[0]);
-                    context.LocalScope.setVariable((Parameter)function.FormalParameters[1]);
+                    context.LocalScope.setSurfaceParameters((Parameter)function.FormalParameters[0], (Parameter)function.FormalParameters[1]);
                     Functions.Surface surface = createSurface(context, (Parameter)function.FormalParameters[0], (Parameter)function.FormalParameters[1]);
                     context.LocalScope.PopContext();
                     if (surface != null)

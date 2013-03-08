@@ -96,10 +96,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = null;
 
-            Graph firstGraph = createGraphForValue(context, First.Value);
+            Graph firstGraph = createGraphForValue(context, context.findOnStack(First).Value);
             if (firstGraph != null)
             {
-                Graph secondGraph = createGraphForValue(context, Second.Value);
+                Graph secondGraph = createGraphForValue(context, context.findOnStack(Second).Value);
                 if (secondGraph != null)
                 {
                     retVal = firstGraph.Min(secondGraph);
@@ -117,6 +117,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
             return retVal;
         }
 
+        int recursionCount = 0;
+
         /// <summary>
         /// Provides the value of the function
         /// </summary>
@@ -124,25 +126,38 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
-            AssignParameters(context, actuals);
+            try
+            {
+                recursionCount += 1;
+                if (recursionCount > 10)
+                {
+                    System.Diagnostics.Debugger.Break();
+                }
 
-            Function function = (Function)Generated.acceptor.getFactory().createFunction();
-            function.Name = "MIN (" + getName(First) + ", " + getName(Second) + ")";
-            function.Enclosing = EFSSystem;
-            Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
-            parameter.Name = "X";
-            parameter.Type = EFSSystem.DoubleType;
-            function.appendParameters(parameter);
-            function.ReturnType = EFSSystem.DoubleType;
-            function.Graph = createGraph(context, parameter);
+                context.LocalScope.PushContext();
+                AssignParameters(context, actuals);
 
-            retVal = function;
-            context.LocalScope.PopContext();
+                Function function = (Function)Generated.acceptor.getFactory().createFunction();
+                function.Name = "MIN (" + getName(First) + ", " + getName(Second) + ")";
+                function.Enclosing = EFSSystem;
+                Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
+                parameter.Name = "X";
+                parameter.Type = EFSSystem.DoubleType;
+                function.appendParameters(parameter);
+                function.ReturnType = EFSSystem.DoubleType;
+                function.Graph = createGraph(context, parameter);
+
+                retVal = function;
+                context.LocalScope.PopContext();
+            }
+            finally
+            {
+                recursionCount -= 1;
+            }
 
             return retVal;
         }

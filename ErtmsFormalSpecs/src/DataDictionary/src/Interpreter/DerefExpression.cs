@@ -84,10 +84,10 @@ namespace DataDictionary.Interpreter
             {
                 Ref = null;
 
-                ReturnValue tmp = Arguments[0].getReferences(null, Filter.AllMatches);
+                ReturnValue tmp = Arguments[0].getReferences(null, Filter.AllMatches, false);
                 if (tmp.IsEmpty)
                 {
-                    tmp = Arguments[0].getReferenceTypes(instance, Filter.AllMatches);
+                    tmp = Arguments[0].getReferenceTypes(instance, Filter.AllMatches, false);
                 }
 
                 if (!tmp.IsEmpty)
@@ -99,7 +99,7 @@ namespace DataDictionary.Interpreter
 
                         foreach (ReturnValueElement elem in tmp2.Values)
                         {
-                            tmp.Merge(elem, Arguments[i].getReferences(elem.Value, Filter.AllMatches));
+                            tmp.Merge(elem, Arguments[i].getReferences(elem.Value, Filter.AllMatches, i == (Arguments.Count - 1)));
                         }
 
                         if (tmp.IsEmpty)

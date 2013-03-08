@@ -64,13 +64,13 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
             context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            retVal = Range.convert(Value.Value);
+            retVal = Range.convert(context.findOnStack(Value).Value);
             context.LocalScope.PopContext();
 
             return retVal;
@@ -78,7 +78,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
         public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
-            return Functions.Graph.createGraph(Functions.Function.getDoubleValue(Value.Value), parameter);
+            return Functions.Graph.createGraph(Functions.Function.getDoubleValue(context.findOnStack(Value).Value), parameter);
         }
     }
 }

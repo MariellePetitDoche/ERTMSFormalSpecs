@@ -96,8 +96,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Graph retVal = null;
 
-            Values.IValue firstValue = First.Value;
-            Values.IValue secondValue = Second.Value;
+            Values.IValue firstValue = context.findOnStack(First).Value;
+            Values.IValue secondValue = context.findOnStack(Second).Value;
 
             Graph firstGraph = createGraphForValue(context, firstValue, parameter);
             if (firstGraph != null)
@@ -127,7 +127,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 

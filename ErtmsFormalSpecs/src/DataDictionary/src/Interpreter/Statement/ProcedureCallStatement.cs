@@ -14,7 +14,6 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
-using Utils;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -252,9 +251,9 @@ namespace DataDictionary.Interpreter.Statement
                     explanation.SubExplanations.Add(part);
 
                     ctxt.LocalScope.PushContext();
-                    foreach (KeyValuePair<string, Values.IValue> pair in Call.AssignParameterValues(context, procedure, true))
+                    foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in Call.AssignParameterValues(context, procedure, true))
                     {
-                        ctxt.LocalScope.setVariable(procedure.getFormalParameter(pair.Key), pair.Value);
+                        ctxt.LocalScope.setVariable(pair.Key, pair.Value);
                     }
 
                     foreach (Rules.Rule rule in Rules)

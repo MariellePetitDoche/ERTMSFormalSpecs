@@ -13,7 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -85,12 +84,24 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Stores the variable in this symbol table with a specific value
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="value"></param>
+        public void setParameter(Parameter parameter, Values.IValue value)
+        {
+            Variables.IVariable actual = parameter.createActual();
+            actual.Value = value;
+            Values.Add(actual);
+        }
+
+        /// <summary>
         /// Stores a graph parameter in this symbol table
         /// </summary>
         /// <param name="xAxis"></param>
         public void setGraphParameter(Parameter xAxis)
         {
-            setVariable(xAxis, new Values.PlaceHolder(xAxis.Type, 0));
+            setParameter(xAxis, new Values.PlaceHolder(xAxis.Type, 0));
         }
 
         /// <summary>
@@ -100,8 +111,8 @@ namespace DataDictionary.Interpreter
         /// <param name="yAxis"></param>
         public void setSurfaceParameters(Parameter xAxis, Parameter yAxis)
         {
-            setVariable(xAxis, new Values.PlaceHolder(xAxis.Type, 0));
-            setVariable(yAxis, new Values.PlaceHolder(yAxis.Type, 1));
+            setParameter(xAxis, new Values.PlaceHolder(xAxis.Type, 0));
+            setParameter(yAxis, new Values.PlaceHolder(yAxis.Type, 1));
         }
 
         /// <summary>
@@ -136,25 +147,25 @@ namespace DataDictionary.Interpreter
 
             for (int i = Values.Count - 1; i >= 0; i--)
             {
-                Parameter param = Values[i] as Parameter;
-                if (param != null)
+                Variables.Actual actual = Values[i] as Variables.Actual;
+                if (actual != null)
                 {
-                    if (param.Value is Values.PlaceHolder)
+                    if (actual.Value is Values.PlaceHolder)
                     {
                         // Insert if no other parameter with the same name is present in the result
                         bool found = false;
                         foreach (Parameter param2 in retVal)
                         {
-                            found = String.Equals(param.Name, param2.Name);
-                            if (found)
+                            if (param2 == actual.Parameter)
                             {
+                                found = true;
                                 break;
                             }
                         }
 
                         if (!found)
                         {
-                            retVal.Add(param);
+                            retVal.Add(actual.Parameter);
                         }
                     }
                 }
@@ -164,25 +175,25 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Inidicates whether the variable can be found on the stack
+        /// Provides the actual variable which corresponds to this parameter on the stack
         /// </summary>
-        /// <param name="variable"></param>
+        /// <param name="parameter"></param>
         /// <returns></returns>
-        public bool find(Variables.IVariable variable)
+        public Variables.IVariable find(Parameter parameter)
         {
-            bool retVal = false;
+            Variables.IVariable retVal = null;
 
-            foreach (Variables.IVariable var in Values)
+            for (int i = Values.Count - 1; i >= 0; i--)
             {
-                if (variable == var)
+                Variables.IVariable var = Values[i];
+                if (parameter.Name.Equals(var.Name))
                 {
-                    retVal = true;
+                    retVal = var;
                     break;
                 }
             }
 
             return retVal;
         }
-
     }
 }

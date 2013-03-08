@@ -77,19 +77,19 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             Graph graph = null;
 
-            Function function = Function.Value as Function;
+            Function function = context.findOnStack(Function).Value as Function;
             if (function != null)
             {
                 context.LocalScope.PushContext();
                 Parameter p = (Parameter)function.FormalParameters[0];
                 context.LocalScope.setGraphParameter(p);
-                graph = createGraphForValue(context, Function.Value, p);
+                graph = createGraphForValue(context, function, p);
                 context.LocalScope.PopContext();
             }
 
             if (graph != null)
             {
-                Function increment = Increment.Value as Function;
+                Function increment = context.findOnStack(Increment).Value as Function;
                 retVal = graph.AddIncrement(context, increment);
             }
             else
@@ -107,7 +107,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
