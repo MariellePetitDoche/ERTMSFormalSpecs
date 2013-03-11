@@ -123,6 +123,11 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
+        public override ICallable getCalled(InterpretationContext context)
+        {
+            return GetValue(context) as ICallable;
+        }
+
         /// <summary>
         /// Provides the value associated to this Expression
         /// </summary>
@@ -136,10 +141,10 @@ namespace DataDictionary.Interpreter
             {
                 if (Parameters.Count == 1)
                 {
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     context.LocalScope.setGraphParameter(Parameters[0]);
                     Functions.Graph graph = createGraph(context, Parameters[0]);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
                         retVal = graph.Function;
@@ -147,10 +152,10 @@ namespace DataDictionary.Interpreter
                 }
                 else if (Parameters.Count == 2)
                 {
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     context.LocalScope.setSurfaceParameters(Parameters[0], Parameters[1]);
                     Functions.Surface surface = createSurface(context, Parameters[0], Parameters[1]);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                     if (surface != null)
                     {
                         retVal = surface.Function;
@@ -261,13 +266,15 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                context.LocalScope.PushContext();
+                int token = context.LocalScope.PushContext();
                 Parameter xAxis = Parameters[0];
                 Parameter yAxis = Parameters[1];
                 context.LocalScope.setSurfaceParameters(xAxis, yAxis);
                 retVal = Expression.createSurface(context, xAxis, yAxis);
-                context.LocalScope.PopContext();
+                context.LocalScope.PopContext(token);
             }
+            retVal.XParameter = xParam;
+            retVal.YParameter = yParam;
 
             return retVal;
         }

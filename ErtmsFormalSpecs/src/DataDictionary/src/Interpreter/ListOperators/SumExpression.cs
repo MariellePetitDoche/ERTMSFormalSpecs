@@ -94,7 +94,7 @@ namespace DataDictionary.Interpreter.ListOperators
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(context);
+                int token = PrepareIteration(context);
                 context.LocalScope.setVariable(AccumulatorVariable);
 
                 Types.Type resultType = GetExpressionType();
@@ -116,7 +116,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                 }
 
-                EndIteration(context);
+                EndIteration(context, token);
 
                 retVal = AccumulatorVariable.Value;
             }

@@ -294,6 +294,11 @@ namespace DataDictionary.Interpreter
         {
             return LocalScope.find(parameter);
         }
+
+        /// <summary>
+        /// Provides the current stack index
+        /// </summary>
+        public int StackIndex { get { return LocalScope.Index; } }
     }
 
     /// <summary>

@@ -68,11 +68,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="instance">the instance on which the function is evaluated</param>
         /// <param name="actuals">the actual parameters values</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
             Values.DoubleValue value = context.findOnStack(Value).Value as Values.DoubleValue;
@@ -87,7 +87,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 retVal = new Values.DoubleValue(ReturnType, res);
             }
 
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

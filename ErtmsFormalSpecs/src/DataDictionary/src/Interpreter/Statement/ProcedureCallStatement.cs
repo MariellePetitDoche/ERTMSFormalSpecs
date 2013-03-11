@@ -250,8 +250,8 @@ namespace DataDictionary.Interpreter.Statement
                     part.Message = procedure.FullName;
                     explanation.SubExplanations.Add(part);
 
-                    ctxt.LocalScope.PushContext();
-                    foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in Call.AssignParameterValues(context, procedure, true))
+                    int token = ctxt.LocalScope.PushContext();
+                    foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in Call.AssignParameterValues(context, procedure, true))
                     {
                         ctxt.LocalScope.setVariable(pair.Key, pair.Value);
                     }
@@ -269,7 +269,7 @@ namespace DataDictionary.Interpreter.Statement
                         retVal.AddRange(tmp);
                     }
 
-                    ctxt.LocalScope.PopContext();
+                    ctxt.LocalScope.PopContext(token);
                 }
                 else
                 {

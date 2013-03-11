@@ -68,7 +68,7 @@ namespace DataDictionary.Interpreter.ListOperators
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(context);
+                int token = PrepareIteration(context);
                 for (int i = value.Val.Count - 1; i >= 0; i--)
                 {
                     Values.IValue v = value.Val[i];
@@ -84,7 +84,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                     NextIteration();
                 }
-                EndIteration(context);
+                EndIteration(context, token);
             }
 
             return retVal;

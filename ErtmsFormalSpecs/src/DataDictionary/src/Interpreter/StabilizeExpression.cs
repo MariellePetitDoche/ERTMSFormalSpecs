@@ -136,7 +136,7 @@ namespace DataDictionary.Interpreter
             bool stop = false;
             while (!stop)
             {
-                context.LocalScope.PushContext();
+                int token = context.LocalScope.PushContext();
                 context.LocalScope.setVariable(LastIteration);
                 CurrentIteration.Value = Expression.GetValue(context);
 
@@ -151,7 +151,7 @@ namespace DataDictionary.Interpreter
                     AddError("Cannot evaluate condition " + Condition.ToString());
                     stop = true;
                 }
-                context.LocalScope.PopContext();
+                context.LocalScope.PopContext(token);
                 LastIteration.Value = CurrentIteration.Value;
             }
 

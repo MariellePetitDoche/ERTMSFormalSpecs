@@ -42,20 +42,27 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Creates a new context in the symbol table
         /// </summary>
-        public void PushContext()
+        /// <returns>The token required for pop context</rereturns>
+        public int PushContext()
         {
-            StackIndex.Add(Values.Count);
+            int retVal = Values.Count;
+
+            StackIndex.Add(retVal);
+
+            return retVal;
         }
 
         /// <summary>
         /// Removes the last context from the symbol table
         /// </summary>
-        public void PopContext()
+        public void PopContext(int token)
         {
-            int index = StackIndex.Last();
-            StackIndex.RemoveAt(StackIndex.Count - 1);
-
-            Values.RemoveRange(index, Values.Count - index);
+            while (Values.Count != token && Values.Count > 0)
+            {
+                int index = StackIndex.Last();
+                StackIndex.RemoveAt(StackIndex.Count - 1);
+                Values.RemoveRange(index, Values.Count - index);
+            }
         }
 
         /// <summary>
@@ -195,5 +202,10 @@ namespace DataDictionary.Interpreter
 
             return retVal;
         }
+
+        /// <summary>
+        /// Provides the current stack index
+        /// </summary>
+        public int Index { get { return Values.Count; } }
     }
 }

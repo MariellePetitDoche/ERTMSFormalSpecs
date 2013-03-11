@@ -483,7 +483,6 @@ namespace DataDictionary.Interpreter
                     }
                 }
             }
-
             retVal.XParameter = xParam;
             retVal.YParameter = yParam;
 

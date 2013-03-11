@@ -213,7 +213,7 @@ namespace DataDictionary.Interpreter.Statement
                 {
                     Values.ListValue newListValue = new Values.ListValue(listValue.CollectionType, new List<Values.IValue>());
 
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     context.LocalScope.setVariable(IteratorVariable);
 
                     int index = 0;
@@ -268,7 +268,7 @@ namespace DataDictionary.Interpreter.Statement
                     retVal.Add(change);
                     explanation.SubExplanations.Add(new ExplanationPart(change));
 
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                 }
             }
         }

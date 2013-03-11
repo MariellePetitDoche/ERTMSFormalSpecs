@@ -104,11 +104,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="instance">the instance on which the function is evaluated</param>
         /// <param name="actuals">the actual parameters values</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
             Types.Collection collectionType = (Types.Collection)EFSSystem.findType(OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Kernel.SpeedAndDistanceMonitoring.TargetSupervision"), "Kernel.SpeedAndDistanceMonitoring.TargetSupervision.Targets");
@@ -138,7 +138,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 ComputeTargets(graph3.Function, collection);
             }
 
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             retVal = collection;
             return retVal;

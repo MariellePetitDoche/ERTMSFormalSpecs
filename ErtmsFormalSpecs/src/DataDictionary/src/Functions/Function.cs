@@ -134,9 +134,9 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameterValues">The values of the parameters</param>
-        public void AssignParameters(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> parameterValues)
+        public void AssignParameters(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> parameterValues)
         {
-            foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in parameterValues)
             {
                 context.LocalScope.setVariable(pair.Key, pair.Value);
             }
@@ -208,24 +208,25 @@ namespace DataDictionary.Functions
                         // For now, just create graphs for functions using 0 or 1 parameter.
                         if (FormalParameters.Count == 0)
                         {
-                            Values.IValue value = Evaluate(ctxt, new Dictionary<Variables.IVariable, Values.IValue>());
+                            Values.IValue value = Evaluate(ctxt, new Dictionary<Variables.Actual, Values.IValue>());
                             retVal = Graph.createGraph(value, parameter);
                         }
                         else if (FormalParameters.Count == 1)
                         {
                             Parameter param = (Parameter)FormalParameters[0];
-                            ctxt.LocalScope.PushContext();
+                            int token = ctxt.LocalScope.PushContext();
                             if (parameter != null)
                             {
                                 Variables.IVariable actual = context.findOnStack(parameter);
                                 ctxt.LocalScope.setParameter(param, actual.Value);
                             }
                             retVal = createGraphForParameter(ctxt, param);
-                            ctxt.LocalScope.PopContext();
+                            ctxt.LocalScope.PopContext(token);
                         }
                         else
                         {
-                            throw new Exception("Cannot create graph for functions with more than 1 parameter");
+                            Values.IValue value = Evaluate(ctxt, new Dictionary<Variables.Actual, Values.IValue>());
+                            retVal = Graph.createGraph(value, parameter);
                         }
                     }
                 }
@@ -246,13 +247,9 @@ namespace DataDictionary.Functions
         /// <returns></returns>
         public virtual Graph createGraphForParameter(Interpreter.InterpretationContext context, Parameter parameter)
         {
-            Graph retVal = null;
+            Graph retVal = Graph;
 
-            if (parameter.Enclosing == this && graph != null)
-            {
-                retVal = graph;
-            }
-            else
+            if (retVal == null)
             {
                 retVal = new Graph();
 
@@ -379,7 +376,7 @@ namespace DataDictionary.Functions
             {
                 foreach (Interpreter.Expression expr in call.AllParameters)
                 {
-                    foreach (Types.ITypedElement element in expression.GetRightSides())
+                    foreach (Types.ITypedElement element in expr.GetRightSides())
                     {
                         if (element == parameter)
                         {
@@ -487,7 +484,7 @@ namespace DataDictionary.Functions
                 }
                 else
                 {
-                    if (!ExpressionBasedOnPlaceHolder(context, parameter, expression))
+                    if (!ExpressionBasedOnPlaceHolder(context, expression))
                     {
                         Values.BoolValue value = preCondition.ExpressionTree.GetValue(context) as Values.BoolValue;
                         if (value != null && value.Val)
@@ -509,19 +506,31 @@ namespace DataDictionary.Functions
         /// Indicates whether the expression is based on a placeholder value, ommiting the parameter provided
         /// </summary>
         /// <param name="context">The current interpretation context</param>
-        /// <param name="parameter">The parameter to ommit</param>
         /// <param name="expression">The expression to evaluate</param>
         /// <returns></returns>
-        private bool ExpressionBasedOnPlaceHolder(Interpreter.InterpretationContext context, Parameter parameter, Interpreter.BinaryExpression expression)
+        private bool ExpressionBasedOnPlaceHolder(Interpreter.InterpretationContext context, Interpreter.BinaryExpression expression)
         {
             bool retVal = false;
 
-            foreach (Parameter other in context.PlaceHolders())
+            if (expression != null)
             {
-                if (other != parameter && ExpressionBasedOnParameter(other, expression))
+                foreach (Types.ITypedElement element in expression.GetRightSides())
                 {
-                    retVal = true;
-                    break;
+                    Parameter parameter = element as Parameter;
+                    if (parameter != null)
+                    {
+                        Variables.IVariable variable = context.findOnStack(parameter);
+                        if (variable != null)
+                        {
+                            Values.PlaceHolder placeHolder = variable.Value as Values.PlaceHolder;
+
+                            if (placeHolder != null)
+                            {
+                                retVal = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -586,15 +595,15 @@ namespace DataDictionary.Functions
                         Parameter Yparameter = SelectYAxisParameter(Xparameter);
                         if (Xparameter != null && Yparameter != null)
                         {
-                            context.LocalScope.PushContext();
+                            int token = context.LocalScope.PushContext();
                             context.LocalScope.setSurfaceParameters(Xparameter, Yparameter);
                             retVal = createSurfaceForParameters(context, Xparameter, Yparameter);
-                            context.LocalScope.PopContext();
+                            context.LocalScope.PopContext(token);
                         }
                     }
                     else
                     {
-                        throw new Exception("Wrong number of parameters for function " + FullName + " to create a surface");
+                        AddError("Wrong number of parameters for function " + FullName + " to create a surface");
                     }
                 }
                 catch (Exception e)
@@ -640,39 +649,23 @@ namespace DataDictionary.Functions
         /// <returns></returns>
         public virtual Surface createSurfaceForParameters(Interpreter.InterpretationContext context, Parameter Xparameter, Parameter Yparameter)
         {
-            Surface retVal;
-            if (Surface != null)
+            Surface retVal = Surface;
+
+            if (retVal == null)
             {
-                retVal = Surface;
-            }
-            else
-            {
-                retVal = new Surface(Xparameter, Yparameter);
                 if (Xparameter != null)
                 {
-                    // TODO : Remove check code
-                    if ((Xparameter.Enclosing != this))
-                    {
-                        System.Diagnostics.Debugger.Break();
-                    }
-
                     if (Yparameter != null)
                     {
-                        // TODO : Remove check code
-                        if ((Yparameter.Enclosing != this))
-                        {
-                            System.Diagnostics.Debugger.Break();
-                        }
-
                         if (Cases.Count > 0)
                         {
+                            retVal = new Surface(Xparameter, Yparameter);
+
                             foreach (Case cas in Cases)
                             {
                                 if (PreconditionSatisfied(context, cas, Xparameter, Yparameter))
                                 {
                                     Surface surface = cas.Expression.createSurface(context, Xparameter, Yparameter);
-                                    surface.XParameter = Xparameter;
-                                    surface.YParameter = Yparameter;
                                     if (surface != null)
                                     {
                                         Parameter parameter = null;
@@ -707,7 +700,7 @@ namespace DataDictionary.Functions
                         }
                         else
                         {
-                            throw new Exception("cannot create surface for parameters");
+                            AddError("cannot create surface for function " + Name + " with given parameters");
                         }
                     }
                     else
@@ -742,6 +735,9 @@ namespace DataDictionary.Functions
                     AddError("Invalid parameters for surface creation");
                 }
             }
+
+            retVal.XParameter = Xparameter;
+            retVal.YParameter = Yparameter;
 
             return retVal;
         }
@@ -960,11 +956,11 @@ namespace DataDictionary.Functions
         /// <param name="instance">the instance on which the function is evaluated</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public virtual Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
+        public virtual Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
             if (Cases.Count > 0)
             {
@@ -984,13 +980,13 @@ namespace DataDictionary.Functions
                 double y = 0.0;
                 Parameter formal1 = (Parameter)FormalParameters[0];
                 Parameter formal2 = (Parameter)FormalParameters[1];
-                foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in actuals)
+                foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in actuals)
                 {
-                    if (pair.Key.Name.Equals(formal1.Name))
+                    if (pair.Key.Parameter == formal1)
                     {
                         x = Functions.Function.getDoubleValue(pair.Value);
                     }
-                    if (pair.Key.Name.Equals(formal2.Name))
+                    if (pair.Key.Parameter == formal2)
                     {
                         y = Functions.Function.getDoubleValue(pair.Value);
                     }
@@ -1007,9 +1003,9 @@ namespace DataDictionary.Functions
                 {
                     double x = 0.0;
                     Parameter formal = (Parameter)FormalParameters[0];
-                    foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in actuals)
+                    foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in actuals)
                     {
-                        if (pair.Key.Name.Equals(formal.Name))
+                        if (pair.Key.Parameter == formal)
                         {
                             x = Functions.Function.getDoubleValue(pair.Value);
                         }
@@ -1017,7 +1013,7 @@ namespace DataDictionary.Functions
                     retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(x));
                 }
             }
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

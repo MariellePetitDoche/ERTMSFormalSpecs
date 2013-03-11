@@ -72,7 +72,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
@@ -90,9 +90,9 @@ namespace DataDictionary.Functions.PredefinedFunctions
                         if (function.FormalParameters.Count > 0)
                         {
                             Parameter functionParameter = function.FormalParameters[0] as Parameter;
-                            Variables.IVariable actual = functionParameter.createActual();
+                            Variables.Actual actual = functionParameter.createActual();
                             actual.Value = new Values.DoubleValue(EFSSystem.DoubleType, speed);
-                            Dictionary<Variables.IVariable, Values.IValue> values = new Dictionary<Variables.IVariable, Values.IValue>();
+                            Dictionary<Variables.Actual, Values.IValue> values = new Dictionary<Variables.Actual, Values.IValue>();
                             values[actual] = new Values.DoubleValue(EFSSystem.DoubleType, speed);
                             Values.IValue solution = function.Evaluate(context, values);
                             double doubleValue = getDoubleValue(solution);

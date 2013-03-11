@@ -549,98 +549,373 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-        public override ICallable getCalled(InterpretationContext context)
+        /// <summary>
+        /// Gets the unbound parameters from the function definition and place holders
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="function"></param>
+        /// <returns></returns>
+        private List<Parameter> getUnboundParameter(InterpretationContext context, Functions.Function function)
         {
-            ICallable retVal = null;
+            List<Parameter> retVal = new List<Parameter>();
 
-            Functions.Function leftFunction = Left.getCalled(context) as Functions.Function;
-            Functions.Function rigthFunction = Right.getCalled(context) as Functions.Function;
-
-            // Ensure that both left function and right function are functions (and have a corresponding Graph or Surface)
-            if (rigthFunction == null && leftFunction != null)
+            if (function != null)
             {
-                if (leftFunction.Graph != null)
+                foreach (Parameter formal in function.FormalParameters)
                 {
-                    Functions.Graph graph = Functions.Graph.createGraph(Functions.Function.getDoubleValue(Right.GetValue(context)));
-                    rigthFunction = graph.Function;
+                    Variables.IVariable actual = context.findOnStack(formal);
+                    if (actual != null)
+                    {
+                        Values.PlaceHolder placeHolder = actual.Value as Values.PlaceHolder;
+                        if (placeHolder != null)
+                        {
+                            retVal.Add(formal);
+                        }
+                    }
                 }
-                else
-                {
-                    Functions.Surface surface = Functions.Surface.createSurface(Functions.Function.getDoubleValue(Right.GetValue(context)), leftFunction.Surface.XParameter, leftFunction.Surface.YParameter);
-                    rigthFunction = surface.Function;
-                }
-            }
-            else if (rigthFunction != null)
-            {
-                // leftFunction is null
-                if (rigthFunction.Graph != null)
-                {
-                    Functions.Graph graph = Functions.Graph.createGraph(Functions.Function.getDoubleValue(Left.GetValue(context)));
-                    leftFunction = graph.Function;
-                }
-                else
-                {
-                    Functions.Surface surface = Functions.Surface.createSurface(Functions.Function.getDoubleValue(Left.GetValue(context)), rigthFunction.Surface.XParameter, rigthFunction.Surface.YParameter);
-                    leftFunction = surface.Function;
-                }
-            }
-            else
-            {
-                throw new Exception("Cannot determine function paramters for " + Left.ToString() + " and " + Right.ToString());
-            }
-
-            // Perform the composition
-            if (leftFunction.Graph != null)
-            {
-                Functions.Graph tmp = null;
-                switch (Operation)
-                {
-                    case BinaryExpression.OPERATOR.ADD:
-                        tmp = leftFunction.Graph.AddGraph(rigthFunction.Graph);
-                        break;
-
-                    case BinaryExpression.OPERATOR.SUB:
-                        tmp = leftFunction.Graph.SubstractGraph(rigthFunction.Graph);
-                        break;
-
-                    case BinaryExpression.OPERATOR.MULT:
-                        tmp = leftFunction.Graph.MultGraph(rigthFunction.Graph);
-                        break;
-
-                    case BinaryExpression.OPERATOR.DIV:
-                        tmp = leftFunction.Graph.DivGraph(rigthFunction.Graph);
-                        break;
-                }
-                retVal = tmp.Function;
-            }
-            else
-            {
-                Functions.Surface rightSurface = rigthFunction.getSurface(leftFunction.Surface.XParameter, leftFunction.Surface.YParameter);
-                Functions.Surface tmp = null;
-                switch (Operation)
-                {
-                    case BinaryExpression.OPERATOR.ADD:
-                        tmp = leftFunction.Surface.AddSurface(rightSurface);
-                        break;
-
-                    case BinaryExpression.OPERATOR.SUB:
-                        tmp = leftFunction.Surface.SubstractSurface(rightSurface);
-                        break;
-
-                    case BinaryExpression.OPERATOR.MULT:
-                        tmp = leftFunction.Surface.MultiplySurface(rightSurface);
-                        break;
-
-                    case BinaryExpression.OPERATOR.DIV:
-                        tmp = leftFunction.Surface.DivideSurface(rightSurface);
-                        break;
-                }
-                retVal = tmp.Function;
             }
 
             return retVal;
         }
 
+        /// <summary>
+        /// Gets the unbound parameters from either the surface or the graph of the function
+        /// </summary>
+        /// <param name="leftFunction"></param>
+        /// <returns></returns>
+        private List<Parameter> getUnboundParametersFromValue(Function leftFunction)
+        {
+            List<Parameter> retVal = new List<Parameter>();
+
+            if (leftFunction.Surface != null)
+            {
+                retVal.Add(leftFunction.Surface.XParameter);
+                retVal.Add(leftFunction.Surface.YParameter);
+            }
+            else if (leftFunction.Graph != null)
+            {
+                // TODO : Use the parameters from the graph when available
+                retVal.Add((Parameter)leftFunction.FormalParameters[0]);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the called function
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override ICallable getCalled(InterpretationContext context)
+        {
+            ICallable retVal = null;
+
+            Function leftFunction = Left.getCalled(context) as Functions.Function;
+            List<Parameter> unboundLeft = getUnboundParameter(context, leftFunction);
+            if (leftFunction != null && unboundLeft.Count == 0)
+            {
+                leftFunction = Left.GetValue(context) as Function;
+                unboundLeft = getUnboundParametersFromValue(leftFunction);
+            }
+
+            Functions.Function rightFunction = Right.getCalled(context) as Functions.Function;
+            List<Parameter> unboundRight = getUnboundParameter(context, rightFunction);
+            if (rightFunction != null && unboundRight.Count == 0)
+            {
+                rightFunction = Right.GetValue(context) as Function;
+                unboundRight = getUnboundParametersFromValue(rightFunction);
+            }
+
+            int max = Math.Max(unboundLeft.Count, unboundRight.Count);
+            if (max == 0)
+            {
+                if (leftFunction == null)
+                {
+                    if (rightFunction == null)
+                    {
+                        retVal = GetValue(context) as ICallable;
+                    }
+                    else
+                    {
+                        if (rightFunction.FormalParameters.Count == 1)
+                        {
+                            retVal = createGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight);
+                        }
+                        else if (rightFunction.FormalParameters.Count == 2)
+                        {
+                            retVal = createSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight);
+                        }
+                        else
+                        {
+                            retVal = GetValue(context) as ICallable;
+                        }
+                    }
+                }
+                else if (rightFunction == null)
+                {
+                    if (leftFunction.FormalParameters.Count == 1)
+                    {
+                        retVal = createGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight);
+                    }
+                    else if (leftFunction.FormalParameters.Count == 2)
+                    {
+                        retVal = createSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight);
+                    }
+                    else
+                    {
+                        retVal = GetValue(context) as ICallable;
+                    }
+                }
+                else
+                {
+                    retVal = GetValue(context) as ICallable;
+                }
+
+                if (retVal == null)
+                {
+                    AddError("Cannot create ICallable when there are no unbound parameters");
+                }
+            }
+            else if (max == 1)
+            {
+                retVal = createGraphResult(context, leftFunction, unboundLeft, rightFunction, unboundRight);
+            }
+            else if (max == 2)
+            {
+                retVal = createSurfaceResult(context, leftFunction, unboundLeft, rightFunction, unboundRight);
+            }
+            else
+            {
+                AddError("Cannot create graph or structure when more that 2 parameters are unbound");
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates the result as a surface
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="leftFunction"></param>
+        /// <param name="unboundLeft"></param>
+        /// <param name="rightFunction"></param>
+        /// <param name="unboundRight"></param>
+        /// <returns></returns>
+        private ICallable createGraphResult(InterpretationContext context, Functions.Function leftFunction, List<Parameter> unboundLeft, Functions.Function rightFunction, List<Parameter> unboundRight)
+        {
+            ICallable retVal = null;
+
+            Functions.Graph leftGraph = createGraphForUnbound(context, Left, leftFunction, unboundLeft);
+            if (leftGraph != null)
+            {
+                Functions.Graph rightGraph = createGraphForUnbound(context, Right, rightFunction, unboundRight);
+
+                if (rightGraph != null)
+                {
+                    retVal = combineGraph(leftGraph, rightGraph).Function;
+                }
+                else
+                {
+                    AddError("Cannot create graph for " + Right);
+                }
+            }
+            else
+            {
+                AddError("Cannot create graph for " + Left);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates the result as a surface
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="leftFunction"></param>
+        /// <param name="unboundLeft"></param>
+        /// <param name="rightFunction"></param>
+        /// <param name="unboundRight"></param>
+        /// <returns></returns>
+        private ICallable createSurfaceResult(InterpretationContext context, Functions.Function leftFunction, List<Parameter> unboundLeft, Functions.Function rightFunction, List<Parameter> unboundRight)
+        {
+            ICallable retVal = null;
+
+            Functions.Surface leftSurface = createSurfaceForUnbound(context, Left, leftFunction, unboundLeft);
+            if (leftSurface != null)
+            {
+                Functions.Surface rightSurface = createSurfaceForUnbound(context, Right, rightFunction, unboundRight);
+                if (rightSurface != null)
+                {
+                    retVal = combineSurface(leftSurface, rightSurface).Function;
+                }
+                else
+                {
+                    AddError("Cannot create surface for " + Right);
+                }
+            }
+            else
+            {
+                AddError("Cannot create surface for " + Left);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates the graph for the unbound parameters provided
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="expression"></param>
+        /// <param name="function"></param>
+        /// <param name="unbound"></param>
+        /// <returns></returns>
+        private Graph createGraphForUnbound(InterpretationContext context, Expression expression, Function function, List<Parameter> unbound)
+        {
+            Graph retVal = null;
+
+            if (unbound.Count == 0)
+            {
+                if (function != null && function.FormalParameters.Count > 0)
+                {
+                    retVal = function.createGraph(context, (Parameter)function.FormalParameters[0]);
+                }
+                else
+                {
+                    retVal = Graph.createGraph(expression.GetValue(context), null);
+                }
+            }
+            else
+            {
+                if (function == null)
+                {
+                    retVal = expression.createGraph(context, unbound[0]);
+                }
+                else
+                {
+                    retVal = function.createGraph(context, unbound[0]);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates the graph for the unbount parameters provided
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="expression"></param>
+        /// <param name="function"></param>
+        /// <param name="unbound"></param>
+        /// <returns></returns>
+        private Surface createSurfaceForUnbound(InterpretationContext context, Expression expression, Function function, List<Parameter> unbound)
+        {
+            Surface retVal = null;
+
+            if (unbound.Count == 0)
+            {
+                if (function != null)
+                {
+                    Parameter xAxis = null;
+
+                    if (function.FormalParameters.Count > 0)
+                    {
+                        xAxis = (Parameter)function.FormalParameters[0];
+                    }
+                    Parameter yAxis = null;
+                    if (function.FormalParameters.Count > 1)
+                    {
+                        yAxis = (Parameter)function.FormalParameters[1];
+                    }
+                    retVal = function.createSurfaceForParameters(context, xAxis, yAxis);
+                }
+                else
+                {
+                    retVal = Surface.createSurface(expression.GetValue(context), null, null);
+                }
+            }
+            else if (unbound.Count == 1)
+            {
+                Graph graph = createGraphForUnbound(context, expression, function, unbound);
+                retVal = Surface.createSurface(graph.Function, unbound[0], null);
+            }
+            else
+            {
+                if (function == null)
+                {
+                    retVal = expression.createSurface(context, unbound[0], unbound[1]);
+                }
+                else
+                {
+                    retVal = function.createSurfaceForParameters(context, unbound[0], unbound[1]);
+                }
+            }
+            return retVal;
+        }
+
+
+        /// <summary>
+        /// Combines two graphs using the operator of this binary expression
+        /// </summary>
+        /// <param name="leftGraph"></param>
+        /// <param name="rightGraph"></param>
+        /// <returns></returns>
+        private Functions.Graph combineGraph(Functions.Graph leftGraph, Functions.Graph rightGraph)
+        {
+            Functions.Graph retVal = null;
+
+            switch (Operation)
+            {
+                case BinaryExpression.OPERATOR.ADD:
+                    retVal = leftGraph.AddGraph(rightGraph);
+                    break;
+
+                case BinaryExpression.OPERATOR.SUB:
+                    retVal = leftGraph.SubstractGraph(rightGraph);
+                    break;
+
+                case BinaryExpression.OPERATOR.MULT:
+                    retVal = leftGraph.MultGraph(rightGraph);
+                    break;
+
+                case BinaryExpression.OPERATOR.DIV:
+                    retVal = leftGraph.DivGraph(rightGraph);
+                    break;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Combines two surfaces using the operator of this binary expression
+        /// </summary>
+        /// <param name="leftSurface"></param>
+        /// <param name="rightSurface"></param>
+        /// <returns></returns>
+        private Functions.Surface combineSurface(Functions.Surface leftSurface, Functions.Surface rightSurface)
+        {
+            Functions.Surface retVal = null;
+
+            switch (Operation)
+            {
+                case BinaryExpression.OPERATOR.ADD:
+                    retVal = leftSurface.AddSurface(rightSurface);
+                    break;
+
+                case BinaryExpression.OPERATOR.SUB:
+                    retVal = leftSurface.SubstractSurface(rightSurface);
+                    break;
+
+                case BinaryExpression.OPERATOR.MULT:
+                    retVal = leftSurface.MultiplySurface(rightSurface);
+                    break;
+
+                case BinaryExpression.OPERATOR.DIV:
+                    retVal = leftSurface.DivideSurface(rightSurface);
+                    break;
+            }
+
+            return retVal;
+        }
 
         /// <summary>
         /// Fills the list provided with the element matching the filter provided
@@ -765,23 +1040,20 @@ namespace DataDictionary.Interpreter
         {
             Functions.Graph retVal = base.createGraph(context, parameter);
 
-            Functions.Graph leftGraph = Left.createGraph(context, parameter);
-            Functions.Graph rightGraph = Right.createGraph(context, parameter);
+            Functions.Function leftFunction = Left.Ref as Functions.Function;
+            List<Parameter> unboundLeft = getUnboundParameter(context, leftFunction);
+            Graph leftGraph = createGraphForUnbound(context, Left, leftFunction, unboundLeft);
 
-            switch (Operation)
+            if (leftGraph != null)
             {
-                case Interpreter.BinaryExpression.OPERATOR.ADD:
-                    retVal = leftGraph.AddGraph(rightGraph);
-                    break;
-                case Interpreter.BinaryExpression.OPERATOR.SUB:
-                    retVal = leftGraph.SubstractGraph(rightGraph);
-                    break;
-                case Interpreter.BinaryExpression.OPERATOR.MULT:
-                    retVal = leftGraph.MultGraph(rightGraph);
-                    break;
-                case Interpreter.BinaryExpression.OPERATOR.DIV:
-                    retVal = leftGraph.DivGraph(rightGraph);
-                    break;
+                Functions.Function rightFunction = Right.Ref as Functions.Function;
+                List<Parameter> unboundRight = getUnboundParameter(context, leftFunction);
+                Graph rightGraph = createGraphForUnbound(context, Right, rightFunction, unboundRight);
+
+                if (rightGraph != null)
+                {
+                    retVal = combineGraph(leftGraph, rightGraph);
+                }
             }
 
             return retVal;
@@ -796,26 +1068,25 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
+            Surface retVal = base.createSurface(context, xParam, yParam);
 
-            Functions.Surface leftSurface = Left.createSurface(context, xParam, yParam);
-            Functions.Surface rightSurface = Right.createSurface(context, xParam, yParam);
+            Function leftFunction = Left.Ref as Function;
+            List<Parameter> unboundLeft = getUnboundParameter(context, leftFunction);
+            Surface leftSurface = createSurfaceForUnbound(context, Left, leftFunction, unboundLeft);
 
-            switch (Operation)
+            if (leftSurface != null)
             {
-                case Interpreter.BinaryExpression.OPERATOR.ADD:
-                    retVal = leftSurface.AddSurface(rightSurface);
-                    break;
-                case Interpreter.BinaryExpression.OPERATOR.SUB:
-                    retVal = leftSurface.SubstractSurface(rightSurface);
-                    break;
-                case Interpreter.BinaryExpression.OPERATOR.MULT:
-                    retVal = leftSurface.MultiplySurface(rightSurface);
-                    break;
-                case Interpreter.BinaryExpression.OPERATOR.DIV:
-                    retVal = leftSurface.DivideSurface(rightSurface);
-                    break;
+                Functions.Function rightFunction = Right.Ref as Functions.Function;
+                List<Parameter> unboundRight = getUnboundParameter(context, rightFunction);
+                Surface rightSurface = createSurfaceForUnbound(context, Right, rightFunction, unboundRight);
+
+                if (rightSurface != null)
+                {
+                    retVal = combineSurface(leftSurface, rightSurface);
+                }
             }
+            retVal.XParameter = xParam;
+            retVal.YParameter = yParam;
 
             return retVal;
         }

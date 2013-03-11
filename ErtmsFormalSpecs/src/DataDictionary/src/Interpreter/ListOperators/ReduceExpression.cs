@@ -102,7 +102,7 @@ namespace DataDictionary.Interpreter.ListOperators
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(context);
+                int token = PrepareIteration(context);
                 context.LocalScope.setVariable(AccumulatorVariable);
                 AccumulatorVariable.Value = InitialValue.GetValue(context);
 
@@ -118,7 +118,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                     NextIteration();
                 }
-                EndIteration(context);
+                EndIteration(context, token);
                 retVal = AccumulatorVariable.Value;
             }
             else
@@ -141,17 +141,17 @@ namespace DataDictionary.Interpreter.ListOperators
             Functions.Function function = InitialValue.Ref as Functions.Function;
             if (function == null)
             {
-                function = InitialValue.GetValue(context) as Functions.Function;
+                function = InitialValue.getCalled(context) as Functions.Function;
             }
 
             if (function != null)
             {
                 if (function.FormalParameters.Count == 1)
                 {
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     context.LocalScope.setGraphParameter((Parameter)function.FormalParameters[0]);
                     Functions.Graph graph = createGraph(context, (Parameter)function.FormalParameters[0]);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
                         retVal = graph.Function;
@@ -159,10 +159,10 @@ namespace DataDictionary.Interpreter.ListOperators
                 }
                 else if (function.FormalParameters.Count == 2)
                 {
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     context.LocalScope.setSurfaceParameters((Parameter)function.FormalParameters[0], (Parameter)function.FormalParameters[1]);
                     Functions.Surface surface = createSurface(context, (Parameter)function.FormalParameters[0], (Parameter)function.FormalParameters[1]);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                     if (surface != null)
                     {
                         retVal = surface.Function;
@@ -203,10 +203,13 @@ namespace DataDictionary.Interpreter.ListOperators
         /// Prepares the iteration on the context provided
         /// </summary>
         /// <param name="context"></param>
-        protected override void PrepareIteration(InterpretationContext context)
+        protected override int PrepareIteration(InterpretationContext context)
         {
-            base.PrepareIteration(context);
+            int retVal = base.PrepareIteration(context);
+
             context.LocalScope.setVariable(AccumulatorVariable);
+
+            return retVal;
         }
 
         /// <summary>
@@ -247,7 +250,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
                 if (value != null)
                 {
-                    PrepareIteration(context);
+                    int token = PrepareIteration(context);
                     AccumulatorVariable.Value = graph.Function;
 
                     foreach (Values.IValue v in value.Val)
@@ -271,7 +274,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     {
                         retVal = Functions.Function.createGraphForValue(AccumulatorVariable.Value);
                     }
-                    EndIteration(context);
+                    EndIteration(context, token);
                 }
             }
             else
@@ -299,7 +302,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
                 if (value != null)
                 {
-                    PrepareIteration(context);
+                    int token = PrepareIteration(context);
                     AccumulatorVariable.Value = surface.Function;
 
                     foreach (Values.IValue v in value.Val)
@@ -323,13 +326,15 @@ namespace DataDictionary.Interpreter.ListOperators
                     {
                         throw new Exception("Expression does not reduces to a function");
                     }
-                    EndIteration(context);
+                    EndIteration(context, token);
                 }
             }
             else
             {
                 throw new Exception("Cannot create surface for initial value " + InitialValue.ToString());
             }
+            retVal.XParameter = xParam;
+            retVal.YParameter = yParam;
 
             return retVal;
         }

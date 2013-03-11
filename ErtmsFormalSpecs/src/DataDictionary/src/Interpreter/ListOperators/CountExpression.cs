@@ -55,7 +55,7 @@ namespace DataDictionary.Interpreter.ListOperators
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(context);
+                int token = PrepareIteration(context);
                 foreach (Values.IValue v in value.Val)
                 {
                     if (v != EFSSystem.EmptyValue)
@@ -68,7 +68,7 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                     NextIteration();
                 }
-                EndIteration(context);
+                EndIteration(context, token);
             }
 
             return new Values.IntValue(EFSSystem.IntegerType, count); ;

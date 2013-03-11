@@ -152,7 +152,7 @@ namespace DataDictionary.Interpreter.Statement
             Values.ListValue listValues = ListExpression.GetValue(context) as Values.ListValue;
             if (listValues != null)
             {
-                context.LocalScope.PushContext();
+                int token = context.LocalScope.PushContext();
                 context.LocalScope.setVariable(IteratorVariable);
                 foreach (Values.IValue value in listValues.Val)
                 {
@@ -162,7 +162,7 @@ namespace DataDictionary.Interpreter.Statement
                         Call.GetChanges(context, retVal, explanation);
                     }
                 }
-                context.LocalScope.PopContext();
+                context.LocalScope.PopContext(token);
             }
             else
             {

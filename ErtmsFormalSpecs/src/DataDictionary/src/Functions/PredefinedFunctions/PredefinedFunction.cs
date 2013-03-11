@@ -50,7 +50,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override abstract Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals);
+        public override abstract Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals);
 
 
         /// <summary>
@@ -123,10 +123,10 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 if (parameter == null)
                 {
                     parameter = (Parameter)function.FormalParameters[0];
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     context.LocalScope.setGraphParameter(parameter);
                     retVal = function.createGraph(context, parameter);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                 }
                 else
                 {
@@ -154,11 +154,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = value as Function;
             if (function != null)
             {
-                retVal = function.Surface;
-                if (retVal == null)
-                {
-                    retVal = function.createSurface(context);
-                }
+                retVal = function.createSurface(context);
             }
             else
             {

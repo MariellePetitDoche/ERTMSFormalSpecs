@@ -365,7 +365,6 @@ namespace DataDictionary.Interpreter
             {
                 throw new Exception("Cannot create surface for " + ToString());
             }
-
             retVal.XParameter = xParam;
             retVal.YParameter = yParam;
 

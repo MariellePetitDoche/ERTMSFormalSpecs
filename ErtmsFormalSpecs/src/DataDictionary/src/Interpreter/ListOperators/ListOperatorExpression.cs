@@ -122,14 +122,17 @@ namespace DataDictionary.Interpreter.ListOperators
         /// Prepares the iteration on the context provided
         /// </summary>
         /// <param name="context"></param>
-        protected virtual void PrepareIteration(InterpretationContext context)
+        /// <returns>the token required to EndIteration</returns>
+        protected virtual int PrepareIteration(InterpretationContext context)
         {
-            context.LocalScope.PushContext();
+            int retVal = context.LocalScope.PushContext();
             context.LocalScope.setVariable(IteratorVariable);
             context.LocalScope.setVariable(PreviousIteratorVariable);
 
             PreviousIteratorVariable.Value = EFSSystem.EmptyValue;
             IteratorVariable.Value = EFSSystem.EmptyValue;
+
+            return retVal;
         }
 
         /// <summary>
@@ -144,9 +147,9 @@ namespace DataDictionary.Interpreter.ListOperators
         /// Ends the iteration
         /// </summary>
         /// <param name="context"></param>
-        protected virtual void EndIteration(InterpretationContext context)
+        protected virtual void EndIteration(InterpretationContext context, int token)
         {
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
         }
 
         /// <summary>

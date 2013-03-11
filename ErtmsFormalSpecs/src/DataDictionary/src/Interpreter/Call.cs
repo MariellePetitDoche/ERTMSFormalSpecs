@@ -335,7 +335,7 @@ namespace DataDictionary.Interpreter
             {
                 long start = System.Environment.TickCount;
 
-                Dictionary<Variables.IVariable, Values.IValue> parameterValues = AssignParameterValues(context, function, true);
+                Dictionary<Variables.Actual, Values.IValue> parameterValues = AssignParameterValues(context, function, true);
                 List<Parameter> parameters = GetPlaceHolders(function, parameterValues);
                 if (parameters == null)
                 {
@@ -347,10 +347,10 @@ namespace DataDictionary.Interpreter
                 }
                 else if (parameters.Count == 1) // graph
                 {
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     context.LocalScope.setGraphParameter(parameters[0]);
                     Functions.Graph graph = function.createGraphForParameter(context, parameters[0]);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
                         retVal = graph.Function;
@@ -397,20 +397,18 @@ namespace DataDictionary.Interpreter
         /// <param name="function">The function on which the call is performed</param>
         /// <param name="parameterValues">The actual parameter values</param>
         /// <returns></returns>
-        private List<Parameter> GetPlaceHolders(Functions.Function function, Dictionary<Variables.IVariable, Values.IValue> parameterValues)
+        private List<Parameter> GetPlaceHolders(Functions.Function function, Dictionary<Variables.Actual, Values.IValue> parameterValues)
         {
             List<Parameter> retVal = new List<Parameter>();
 
-            foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in parameterValues)
             {
-                Variables.Actual actual = pair.Value as Variables.Actual;
+                Variables.Actual actual = pair.Key;
 
-                if (actual != null)
+                Values.PlaceHolder placeHolder = pair.Value as Values.PlaceHolder;
+                if (placeHolder != null && actual.Parameter.Enclosing == function)
                 {
-                    if (actual.Parameter.Enclosing == function)
-                    {
-                        retVal.Add(actual.Parameter);
-                    }
+                    retVal.Add(actual.Parameter);
                 }
             }
 
@@ -427,10 +425,10 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="parameterValues"></param>
         /// <returns></returns>
-        private static string ParameterValues(Dictionary<Variables.IVariable, Values.IValue> parameterValues)
+        private static string ParameterValues(Dictionary<Variables.Actual, Values.IValue> parameterValues)
         {
             string parameters = "";
-            foreach (KeyValuePair<Variables.IVariable, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in parameterValues)
             {
                 if (!Utils.Utils.isEmpty(parameters))
                 {
@@ -448,10 +446,10 @@ namespace DataDictionary.Interpreter
         /// <param name="callable">The callable</param>
         /// <param name="log">Indicates whether errors should be logged</param>
         /// <returns></returns>
-        public Dictionary<Variables.IVariable, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
+        public Dictionary<Variables.Actual, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
         {
             // Compute the unnamed actual parameter values
-            Dictionary<Variables.IVariable, Values.IValue> retVal = new Dictionary<Variables.IVariable, Values.IValue>();
+            Dictionary<Variables.Actual, Values.IValue> retVal = new Dictionary<Variables.Actual, Values.IValue>();
 
             if (callable.FormalParameters.Count == NamedActualParameters.Count + ActualParameters.Count)
             {
@@ -462,14 +460,14 @@ namespace DataDictionary.Interpreter
                     Values.IValue val = expression.GetValue(context);
                     if (val != null)
                     {
-                        Variables.IVariable actual = parameter.createActual();
+                        Variables.Actual actual = parameter.createActual();
                         val = val.RightSide(actual, false);
                         retVal.Add(actual, val);
                     }
                     else
                     {
                         AddError("Cannot evaluate value for parameter " + i + " (" + expression.ToString() + ") of function " + callable.Name);
-                        return new Dictionary<Variables.IVariable, Values.IValue>();
+                        return new Dictionary<Variables.Actual, Values.IValue>();
                     }
                     i = i + 1;
                 }
@@ -480,14 +478,14 @@ namespace DataDictionary.Interpreter
                     Values.IValue val = pair.Value.GetValue(context);
                     if (val != null)
                     {
-                        Variables.IVariable actual = parameter.createActual();
+                        Variables.Actual actual = parameter.createActual();
                         val = val.RightSide(actual, false);
                         retVal.Add(actual, val);
                     }
                     else
                     {
                         AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
-                        return new Dictionary<Variables.IVariable, Values.IValue>();
+                        return new Dictionary<Variables.Actual, Values.IValue>();
                     }
                 }
             }
@@ -682,7 +680,7 @@ namespace DataDictionary.Interpreter
                 }
             }
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             calledFunction.AssignParameters(context, AssignParameterValues(context, calledFunction, false));
             if (Xaxis != null)
             {
@@ -692,7 +690,7 @@ namespace DataDictionary.Interpreter
             {
                 retVal = calledFunction.createGraph(context, null);
             }
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }
@@ -721,13 +719,18 @@ namespace DataDictionary.Interpreter
                 Parameter Xaxis = null;
                 Parameter Yaxis = null;
 
+                if (function == null)
+                {
+                    function = Called.getCalled(context) as Function;
+                }
+
                 SelectXandYAxis(context, xParam, yParam, function, out Xaxis, out Yaxis);
                 if (Xaxis != null || Yaxis != null)
                 {
-                    context.LocalScope.PushContext();
+                    int token = context.LocalScope.PushContext();
                     function.AssignParameters(context, AssignParameterValues(context, function, true));
                     retVal = function.createSurfaceForParameters(context, Xaxis, Yaxis);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                 }
                 else
                 {
@@ -742,6 +745,8 @@ namespace DataDictionary.Interpreter
                     }
                 }
             }
+            retVal.XParameter = xParam;
+            retVal.YParameter = yParam;
 
             return retVal;
         }
@@ -761,33 +766,37 @@ namespace DataDictionary.Interpreter
             Xaxis = null;
             Yaxis = null;
 
-            foreach (KeyValuePair<Parameter, Expression> pair in getParameterAssociation(function))
+            Dictionary<Parameter, Expression> association = getParameterAssociation(function);
+            if (association != null)
             {
-                if (pair.Value.Ref == xParam)
+                foreach (KeyValuePair<Parameter, Expression> pair in association)
                 {
-                    if (Xaxis == null)
+                    if (pair.Value.Ref == xParam)
                     {
-                        Xaxis = pair.Key;
+                        if (Xaxis == null)
+                        {
+                            Xaxis = pair.Key;
+                        }
+                        else
+                        {
+                            Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 X axis parameter");
+                            Xaxis = null;
+                            break;
+                        }
                     }
-                    else
-                    {
-                        Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 X axis parameter");
-                        Xaxis = null;
-                        break;
-                    }
-                }
 
-                if (pair.Value.Ref == yParam)
-                {
-                    if (Yaxis == null)
+                    if (pair.Value.Ref == yParam)
                     {
-                        Yaxis = pair.Key;
-                    }
-                    else
-                    {
-                        Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 Y axis parameter");
-                        Yaxis = null;
-                        break;
+                        if (Yaxis == null)
+                        {
+                            Yaxis = pair.Key;
+                        }
+                        else
+                        {
+                            Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 Y axis parameter");
+                            Yaxis = null;
+                            break;
+                        }
                     }
                 }
             }

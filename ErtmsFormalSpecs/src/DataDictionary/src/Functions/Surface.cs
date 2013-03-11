@@ -935,22 +935,48 @@ namespace DataDictionary.Functions
         {
             Surface retVal = null;
 
-            if (retVal == null)
+            Functions.Function function = namable as Functions.Function;
+            Values.IValue value = namable as Values.IValue;
+            if (function != null)
             {
-                Functions.Function function = namable as Functions.Function;
-                if (function != null)
+                if (function.Surface != null)
                 {
                     retVal = function.Surface;
                 }
-            }
+                else if (function.Graph != null)
+                {
+                    retVal = new Surface(xParam, yParam);
 
-            if (retVal == null)
+                    // Extend the graph to a Surface
+                    if (xParam != null)
+                    {
+                        foreach (Graph.Segment segment in function.Graph.Segments)
+                        {
+                            Graph graph = new Graph();
+                            graph.addSegment(new Graph.Segment(0, double.MaxValue, segment.Expression));
+                            retVal.AddSegment(new Segment(segment.Start, segment.End, graph));
+                        }
+                    }
+                    else if (yParam != null)
+                    {
+                        retVal.AddSegment(new Segment(0, double.MaxValue, function.Graph));
+                    }
+                }
+                else
+                {
+                    throw new Exception("Cannot create graph for function");
+                }
+            }
+            else if (value != null)
             {
-                Values.IValue value = namable as Values.IValue;
                 if (value != null)
                 {
                     retVal = createSurface(Function.getDoubleValue(value), xParam, yParam);
                 }
+            }
+            else
+            {
+                throw new Exception("Cannot create surface for value " + namable);
             }
 
             return retVal;

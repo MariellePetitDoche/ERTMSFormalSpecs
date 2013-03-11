@@ -103,11 +103,11 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.IVariable, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
             Functions.Function function = context.findOnStack(Function).Value as Functions.Function;
             if (function != null)
@@ -115,17 +115,17 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 double speed = Functions.Function.getDoubleValue(context.findOnStack(Speed).Value);
 
                 Parameter parameter = (Parameter)function.FormalParameters[0];
-                context.LocalScope.PushContext();
+                int token2 = context.LocalScope.PushContext();
                 context.LocalScope.setGraphParameter(parameter);
                 Graph graph = function.createGraph(context, (Parameter)function.FormalParameters[0]);
-                context.LocalScope.PopContext();
+                context.LocalScope.PopContext(token2);
                 retVal = new Values.DoubleValue(EFSSystem.DoubleType, graph.SolutionX(speed));
             }
             else
             {
                 Log.Error("Cannot get function for " + Function.ToString());
             }
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }
