@@ -59,7 +59,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public RuleConditionTreeNode(DataDictionary.Rules.RuleCondition item, string name, bool isFolder = false)
-            : base(item, name, false)
+            : base(item, name, false, true)
         {
         }
 

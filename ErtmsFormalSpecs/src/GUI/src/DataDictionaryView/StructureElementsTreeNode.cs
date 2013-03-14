@@ -26,7 +26,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public StructureElementsTreeNode(DataDictionary.Types.Structure item)
-            : base(item, "Sub elements", true)
+            : base(item, "Sub elements", true, false)
         {
             foreach (DataDictionary.Types.StructureElement structureElement in item.Elements)
             {

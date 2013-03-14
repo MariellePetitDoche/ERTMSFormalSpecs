@@ -78,8 +78,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public ProcedureTreeNode(DataDictionary.Variables.Procedure item, string name, bool isFolder)
-            : base(item, name, isFolder)
+        public ProcedureTreeNode(DataDictionary.Variables.Procedure item, string name, bool isFolder, bool addRequirements)
+            : base(item, name, isFolder, addRequirements)
         {
         }
 

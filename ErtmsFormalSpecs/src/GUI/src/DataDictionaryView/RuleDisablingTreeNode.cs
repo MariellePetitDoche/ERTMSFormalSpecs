@@ -42,7 +42,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public RuleDisablingTreeNode(DataDictionary.Rules.RuleDisabling item)
-            : base(item)
+            : base(item, "Rule disabling", false)
         {
         }
 

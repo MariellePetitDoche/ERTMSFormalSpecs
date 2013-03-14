@@ -102,8 +102,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public FunctionTreeNode(Function item, string name, bool isFolder = false)
-            : base(item, name, isFolder)
+        public FunctionTreeNode(Function item, string name, bool isFolder = false, bool addRequirements = true)
+            : base(item, name, isFolder, addRequirements)
         {
         }
 

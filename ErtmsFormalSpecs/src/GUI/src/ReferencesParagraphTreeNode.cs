@@ -50,11 +50,11 @@ namespace GUI
         /// Constructor
         /// </summary>
         /// <param name="item"></param>
-        protected ReferencesParagraphTreeNode(T item, string name = null, bool addRequirements = true)
-            : base(item, name)
+        protected ReferencesParagraphTreeNode(T item, string name = null, bool isFolder = false, bool addRequirements = true)
+            : base(item, name, isFolder)
         {
             HandleRequirements = true;
-            if (addRequirements && item.Requirements.Count > 0)
+            if (!isFolder && item.Requirements.Count > 0)
             {
                 ReqReferences = new ReqRefsTreeNode(item);
                 Nodes.Add(ReqReferences);

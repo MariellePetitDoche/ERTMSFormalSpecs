@@ -73,8 +73,8 @@ namespace GUI
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        protected ReqRelatedTreeNode(T item = null, string name = null, bool addRequirements = true)
-            : base(item, name, addRequirements)
+        protected ReqRelatedTreeNode(T item = null, string name = null, bool isFolder = false, bool addRequirements = true)
+            : base(item, name, isFolder, addRequirements)
         {
         }
 

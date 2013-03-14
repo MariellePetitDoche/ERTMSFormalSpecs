@@ -38,7 +38,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public ProcedureParametersTreeNode(DataDictionary.Variables.Procedure item)
-            : base(item, "Parameters", true)
+            : base(item, "Parameters", true, false)
         {
             foreach (DataDictionary.Parameter parameter in item.FormalParameters)
             {

@@ -58,7 +58,7 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="children"></param>
         public StateMachineTreeNode(DataDictionary.Types.StateMachine item)
-            : base(item, "State machine", true)
+            : base(item, "State machine", false)
         {
             states = new StateMachineStatesTreeNode(item);
             Nodes.Add(states);

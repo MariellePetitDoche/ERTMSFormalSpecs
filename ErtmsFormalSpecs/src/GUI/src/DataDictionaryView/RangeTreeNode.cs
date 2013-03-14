@@ -83,8 +83,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public RangeTreeNode(DataDictionary.Types.Range item, string name)
-            : base(item, name)
+        public RangeTreeNode(DataDictionary.Types.Range item, string name, bool isFolder, bool addRequirements)
+            : base(item, name, isFolder, addRequirements)
         {
         }
 
