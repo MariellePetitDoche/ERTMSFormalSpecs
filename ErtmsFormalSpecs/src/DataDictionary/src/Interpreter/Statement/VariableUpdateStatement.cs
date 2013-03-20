@@ -171,6 +171,7 @@ namespace DataDictionary.Interpreter.Statement
             Variables.IVariable var = VariableIdentification.GetVariable(context);
             if (var != null)
             {
+                string tmp = var.FullName;
                 Values.IValue value = Expression.GetValue(context);
                 if (value != null)
                 {

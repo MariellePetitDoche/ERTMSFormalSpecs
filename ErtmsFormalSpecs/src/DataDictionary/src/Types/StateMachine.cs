@@ -611,5 +611,29 @@ namespace DataDictionary.Types
 
             base.AddModelElement(element);
         }
+
+        /// <summary>
+        /// Instanciates this state machine for the instanciation of a StructureProcedure into a Procedure
+        /// </summary>
+        /// <returns></returns>
+        public StateMachine instanciate()
+        {
+            StateMachine retVal = (StateMachine)Generated.acceptor.getFactory().createStateMachine();
+            retVal.Name = Name;
+            retVal.setFather(getFather());
+            retVal.InitialState = InitialState;
+            foreach (Constants.State state in States)
+            {
+                Constants.State newState = state.duplicate();
+                retVal.appendStates(newState);
+            }
+            foreach (Rules.Rule rule in Rules)
+            {
+                Rules.Rule newRule = rule.duplicate();
+                retVal.appendRules(newRule);
+            }
+
+            return retVal;
+        }
     }
 }

@@ -177,35 +177,6 @@ namespace GUI.DataDictionaryView
             variables.AddHandler(sender, args);
         }
 
-        // The file name used in the ImportMessagesHandler
-        private string fileName;
-
-        private void ImportMessageDefinitionHandler(object sender, EventArgs args)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Open Message definition file";
-            openFileDialog.Filter = "Message definition file (*.xml)|*.xml|All Files (*.*)|*.*";
-            if (openFileDialog.ShowDialog(MainWindow) == DialogResult.OK)
-            {
-                fileName = openFileDialog.FileName;
-                ProgressDialog dialog = new ProgressDialog("Import message definition", ImportMessagesHandler);
-                dialog.ShowDialog();
-                BaseForm.RefreshModel();
-            }
-            Utils.FinderRepository.INSTANCE.ClearCache();
-        }
-
-        /// <summary>
-        /// Actually imports the messages
-        /// </summary>
-        /// <param name="arg"></param>
-        private void ImportMessagesHandler(object arg)
-        {
-            // Importers.CodecNTImporter importer = new Importers.CodecNTImporter(fileName);
-            // importer.Import(Item);
-            Utils.FinderRepository.INSTANCE.ClearCache();
-        }
-
         /// <summary>
         /// The menu items for this tree node
         /// </summary>
@@ -220,8 +191,6 @@ namespace GUI.DataDictionaryView
             retVal.Add(new MenuItem("Add structure", new EventHandler(AddStructureHandler)));
             retVal.Add(new MenuItem("Add function", new EventHandler(AddFunctionHandler)));
             retVal.Add(new MenuItem("Add variable", new EventHandler(AddVariableHandler)));
-            retVal.Add(new MenuItem("-"));
-            retVal.Add(new MenuItem("Import message definition", new EventHandler(ImportMessageDefinitionHandler)));
             retVal.Add(new MenuItem("-"));
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
 

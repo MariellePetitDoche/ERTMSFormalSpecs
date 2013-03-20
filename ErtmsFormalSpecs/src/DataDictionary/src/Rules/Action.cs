@@ -1,3 +1,4 @@
+using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -14,7 +15,6 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
-using System;
 
 namespace DataDictionary.Rules
 {
@@ -268,6 +268,19 @@ namespace DataDictionary.Rules
         /// <param name="copy"></param>
         public override void AddModelElement(Utils.IModelElement element)
         {
+        }
+
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public Action duplicate()
+        {
+            Action retVal = (Action)Generated.acceptor.getFactory().createAction();
+            retVal.Name = Name;
+            retVal.ExpressionText = ExpressionText;
+
+            return retVal;
         }
     }
 }

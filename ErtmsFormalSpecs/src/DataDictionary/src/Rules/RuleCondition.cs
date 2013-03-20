@@ -411,5 +411,27 @@ namespace DataDictionary.Rules
 
             return retVal;
         }
+
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public RuleCondition duplicate()
+        {
+            RuleCondition retVal = (RuleCondition)Generated.acceptor.getFactory().createRuleCondition();
+            retVal.Name = Name;
+            foreach (PreCondition preCondition in PreConditions)
+            {
+                PreCondition newPreCondition = preCondition.duplicate();
+                retVal.appendPreConditions(newPreCondition);
+            }
+            foreach (Action action in Actions)
+            {
+                Action newAction = action.duplicate();
+                retVal.appendActions(newAction);
+            }
+
+            return retVal;
+        }
     }
 }

@@ -77,7 +77,7 @@ namespace DataDictionary.Interpreter
                             current = INamableUtils.getEnclosing(current);
                         }
                     }
-                    else if (Ref is Types.StructureElement)
+                    else if (Ref is Types.StructureElement || Ref is Types.StructureProcedure)
                     {
                         retVal = LocationEnum.Instance;
                     }
@@ -184,7 +184,10 @@ namespace DataDictionary.Interpreter
                 {
                     // If the instance is a typed element, dereference it to its corresponding type
                     Types.ITypedElement element = instance as Types.ITypedElement;
-                    instance = element.Type;
+                    if (element.Type != EFSSystem.NoType)
+                    {
+                        instance = element.Type;
+                    }
                 }
 
                 // Find the element in all enclosing sub declarators of the instance
@@ -389,6 +392,24 @@ namespace DataDictionary.Interpreter
                     if (!found)
                     {
                         tmp2.Add(namable);
+
+                        // Consistency check
+                        Variables.IVariable subDeclVar = subDeclarator as Variables.Variable;
+                        if (subDeclVar != null)
+                        {
+                            if (((IEnclosed)namable).Enclosing != subDeclVar.Value)
+                            {
+                                AddError("Consistency check failed : enclosed element's father relationship is inconsistent");
+                            }
+                        }
+                        else
+                        {
+                            if (((IEnclosed)namable).Enclosing != subDeclarator)
+                            {
+                                AddError("Consistency check failed : enclosed element's father relationship is inconsistent");
+                            }
+
+                        }
                     }
                 }
 

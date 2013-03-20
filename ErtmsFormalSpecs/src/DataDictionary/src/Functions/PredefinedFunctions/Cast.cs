@@ -70,7 +70,15 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            retVal = Range.convert(context.findOnStack(Value).Value);
+            Values.IValue value = context.findOnStack(Value).Value;
+            if (value is Function)
+            {
+                retVal = value;
+            }
+            else
+            {
+                retVal = Range.convert(value);
+            }
             context.LocalScope.PopContext(token);
 
             return retVal;

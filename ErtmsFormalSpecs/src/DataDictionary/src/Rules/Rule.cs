@@ -501,5 +501,22 @@ namespace DataDictionary.Rules
 
             return procedure != null;
         }
+
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public Rule duplicate()
+        {
+            Rule retVal = (Rule)Generated.acceptor.getFactory().createRule();
+            retVal.Name = Name;
+            foreach (RuleCondition ruleCondition in RuleConditions)
+            {
+                RuleCondition newRuleCondition = ruleCondition.duplicate();
+                retVal.appendConditions(newRuleCondition);
+            }
+
+            return retVal;
+        }
     }
 }

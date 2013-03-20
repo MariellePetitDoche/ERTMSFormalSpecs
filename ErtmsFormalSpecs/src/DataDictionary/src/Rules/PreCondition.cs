@@ -264,5 +264,17 @@ namespace DataDictionary.Rules
         {
         }
 
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public PreCondition duplicate()
+        {
+            PreCondition retVal = (PreCondition)Generated.acceptor.getFactory().createPreCondition();
+            retVal.Name = Name;
+            retVal.ExpressionText = ExpressionText;
+
+            return retVal;
+        }
     }
 }

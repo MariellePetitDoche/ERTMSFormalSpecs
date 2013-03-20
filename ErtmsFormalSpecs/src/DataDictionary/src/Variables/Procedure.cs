@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 namespace DataDictionary.Variables
 {
-    public class Procedure : Generated.Procedure, Utils.ISubDeclarator, IProcedure, TextualExplain
+    public class Procedure : Generated.Procedure, Utils.ISubDeclarator, IProcedure, IVariable, Values.IValue, TextualExplain
     {
         /// <summary>
         /// The current state of the state machine
@@ -32,8 +32,8 @@ namespace DataDictionary.Variables
                 {
                     currentState = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
                     currentState.Name = "CurrentState";
-                    currentState.Value = DefaultValue;
                     currentState.Type = StateMachine;
+                    currentState.Value = StateMachine.DefaultValue;
                     currentState.Mode = Generated.acceptor.VariableModeEnumType.aInternal;
                     currentState.setFather(this);
                 }
@@ -225,29 +225,40 @@ namespace DataDictionary.Variables
         /// </summary>
         public string Default
         {
-            get { return StateMachine.Default; }
-            set { StateMachine.Default = value; }
+            get { return StateMachine.getDefault(); }
+            set { StateMachine.setDefault(value); }
         }
 
         /// <summary>
-        /// Provides the variable's default value
+        /// The complete name to access the value
         /// </summary>
-        public Values.IValue DefaultValue
+        public string LiteralName { get { return ToString(); } }
+
+        /// <summary>
+        /// Creates a valid right side IValue, according to the target variable (left side)
+        /// </summary>
+        /// <param name="variable">The target variable</param>
+        /// <param name="duplicate">Indicates that a duplication of the variable should be performed</param>
+        /// <returns></returns>
+        public Values.IValue RightSide(Variables.IVariable variable, bool duplicate)
         {
-            get
-            {
-                Values.IValue retVal = StateMachine.DefaultValue;
-                if (retVal != null)
-                {
-                    retVal = retVal.RightSide(CurrentState, false);
-                }
-                else
-                {
-                    AddError("Cannot create default value");
-                }
-                return retVal;
-            }
+            return this;
         }
+
+        /// <summary>
+        /// Provides the type name of the element
+        /// </summary>
+        public string TypeName { get { return ToString(); } }
+
+        /// <summary>
+        /// The type of the element
+        /// </summary>
+        public Types.Type Type { get { return EFSSystem.NoType; } set { } }
+
+        /// <summary>
+        /// Provides the mode of the typed element
+        /// </summary>
+        public DataDictionary.Generated.acceptor.VariableModeEnumType Mode { get { return Generated.acceptor.VariableModeEnumType.aConstant; } }
 
         /// <summary>
         /// The rules declared in this procedure
@@ -333,6 +344,16 @@ namespace DataDictionary.Variables
 
             return retVal;
         }
+
+        /// <summary>
+        /// Provides the value of the variable
+        /// </summary>
+        public Values.IValue Value { get { return this; } set { } }
+
+        /// <summary>
+        /// Provides the default value to give to the variable
+        /// </summary>
+        public Values.IValue DefaultValue { get { return StateMachine.DefaultValue; } }
 
         /// <summary>
         /// Provides an explanation of the rule's behaviour

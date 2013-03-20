@@ -19,7 +19,6 @@ namespace DataDictionary.Types
 {
     public class StructureProcedure : Generated.StructureProcedure, ITypedElement, Utils.ISubDeclarator, Variables.IProcedure, TextualExplain
     {
-
         /// <summary>
         /// Indicates if this StructureProcedure contains implemented sub-elements
         /// </summary>
@@ -56,8 +55,8 @@ namespace DataDictionary.Types
                 {
                     currentState = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
                     currentState.Name = "CurrentState";
-                    currentState.Value = null;
                     currentState.Type = StateMachine;
+                    currentState.Value = null;
                     currentState.Mode = Generated.acceptor.VariableModeEnumType.aInternal;
                     currentState.setFather(this);
                 }
@@ -84,7 +83,7 @@ namespace DataDictionary.Types
         /// </summary>
         public Type Type
         {
-            get { return StateMachine; }
+            get { return EFSSystem.NoType; }
             set { }
         }
 
@@ -106,6 +105,15 @@ namespace DataDictionary.Types
                 value.setFather(this);
                 setStateMachine(value);
             }
+        }
+
+        /// <summary>
+        /// Instanciates the state machine for a given procedure instance
+        /// </summary>
+        /// <returns></returns>
+        public Types.StateMachine instanciateStateMachine()
+        {
+            return StateMachine.instanciate();
         }
 
         /// <summary>
@@ -135,7 +143,9 @@ namespace DataDictionary.Types
             get
             {
                 if (allParameters() == null)
+                {
                     setAllParameters(new System.Collections.ArrayList());
+                }
                 return allParameters();
             }
             set { setAllParameters(value); }
@@ -193,6 +203,11 @@ namespace DataDictionary.Types
                 base.Enclosing = value;
             }
         }
+
+        /// <summary>
+        /// The complete name to access the value
+        /// </summary>
+        public string LiteralName { get { return ToString(); } }
 
         /// <summary>
         /// Provides the mode of the variable
