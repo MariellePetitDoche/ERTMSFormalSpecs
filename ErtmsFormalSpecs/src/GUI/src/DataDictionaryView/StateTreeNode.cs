@@ -149,11 +149,14 @@ namespace GUI.DataDictionaryView
         /// </summary>
         public override void BeforeSelectionChange()
         {
-            Window window = BaseTreeView.ParentForm as Window;
-            if (window != null)
+            if (BaseTreeView != null)
             {
-                window.ruleExplainTextBox.Visible = true;
-                window.stateDiagramPanel.Visible = false;
+                Window window = BaseTreeView.ParentForm as Window;
+                if (window != null)
+                {
+                    window.ruleExplainTextBox.Visible = true;
+                    window.stateDiagramPanel.Visible = false;
+                }
             }
 
             base.BeforeSelectionChange();
