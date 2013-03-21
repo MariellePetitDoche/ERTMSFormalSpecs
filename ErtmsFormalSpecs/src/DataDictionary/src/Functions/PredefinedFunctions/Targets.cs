@@ -116,7 +116,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             // compute targets from the MRSP
             Function function1 = context.findOnStack(Targets1).Value as Functions.Function;
-            if (!function1.Name.Equals("EMPTY"))
+            if (function1 != null && !function1.Name.Equals("EMPTY"))
             {
                 Graph graph1 = createGraphForValue(context, function1);
                 ComputeTargets(graph1.Function, collection);
@@ -124,7 +124,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             // compute targets from the MA
             Function function2 = context.findOnStack(Targets2).Value as Functions.Function;
-            if (!function2.Name.Equals("EMPTY"))
+            if (function2 != null && !function2.Name.Equals("EMPTY"))
             {
                 Graph graph2 = createGraphForValue(context, function2);
                 ComputeTargets(graph2.Function, collection);
@@ -132,7 +132,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
 
             // compute targets from the SR
             Function function3 = context.findOnStack(Targets3).Value as Functions.Function;
-            if (!function3.Name.Equals("EMPTY"))
+            if (function3 != null && !function3.Name.Equals("EMPTY"))
             {
                 Graph graph3 = createGraphForValue(context, function3);
                 ComputeTargets(graph3.Function, collection);
