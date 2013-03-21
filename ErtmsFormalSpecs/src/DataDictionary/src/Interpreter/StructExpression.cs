@@ -90,7 +90,7 @@ namespace DataDictionary.Interpreter
             Types.Structure structureType = Structure.GetExpressionType() as Types.Structure;
             if (structureType != null)
             {
-                retVal = new Values.StructureValue(structureType);
+                retVal = new Values.StructureValue(structureType, Root);
 
                 foreach (KeyValuePair<string, Expression> pair in Associations)
                 {

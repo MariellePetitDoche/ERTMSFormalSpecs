@@ -480,6 +480,7 @@ namespace DataDictionary.Interpreter
                     {
                         Variables.Actual actual = parameter.createActual();
                         val = val.RightSide(actual, false);
+                        actual.Value = val;
                         retVal.Add(actual, val);
                     }
                     else

@@ -587,15 +587,18 @@ namespace DataDictionary.Interpreter
         {
             List<Parameter> retVal = new List<Parameter>();
 
-            if (leftFunction.Surface != null)
+            if (leftFunction != null)
             {
-                retVal.Add(leftFunction.Surface.XParameter);
-                retVal.Add(leftFunction.Surface.YParameter);
-            }
-            else if (leftFunction.Graph != null)
-            {
-                // TODO : Use the parameters from the graph when available
-                retVal.Add((Parameter)leftFunction.FormalParameters[0]);
+                if (leftFunction.Surface != null)
+                {
+                    retVal.Add(leftFunction.Surface.XParameter);
+                    retVal.Add(leftFunction.Surface.YParameter);
+                }
+                else if (leftFunction.Graph != null)
+                {
+                    // TODO : Use the parameters from the graph when available
+                    retVal.Add((Parameter)leftFunction.FormalParameters[0]);
+                }
             }
 
             return retVal;
@@ -612,7 +615,7 @@ namespace DataDictionary.Interpreter
 
             Function leftFunction = Left.getCalled(context) as Functions.Function;
             List<Parameter> unboundLeft = getUnboundParameter(context, leftFunction);
-            if (leftFunction != null && unboundLeft.Count == 0)
+            if (leftFunction == null || unboundLeft.Count == 0)
             {
                 leftFunction = Left.GetValue(context) as Function;
                 unboundLeft = getUnboundParametersFromValue(leftFunction);
@@ -620,7 +623,7 @@ namespace DataDictionary.Interpreter
 
             Functions.Function rightFunction = Right.getCalled(context) as Functions.Function;
             List<Parameter> unboundRight = getUnboundParameter(context, rightFunction);
-            if (rightFunction != null && unboundRight.Count == 0)
+            if (rightFunction == null || unboundRight.Count == 0)
             {
                 rightFunction = Right.GetValue(context) as Function;
                 unboundRight = getUnboundParametersFromValue(rightFunction);
@@ -1040,15 +1043,10 @@ namespace DataDictionary.Interpreter
         {
             Functions.Graph retVal = base.createGraph(context, parameter);
 
-            Functions.Function leftFunction = Left.Ref as Functions.Function;
-            List<Parameter> unboundLeft = getUnboundParameter(context, leftFunction);
-            Graph leftGraph = createGraphForUnbound(context, Left, leftFunction, unboundLeft);
-
+            Graph leftGraph = Left.createGraph(context, parameter);
             if (leftGraph != null)
             {
-                Functions.Function rightFunction = Right.Ref as Functions.Function;
-                List<Parameter> unboundRight = getUnboundParameter(context, leftFunction);
-                Graph rightGraph = createGraphForUnbound(context, Right, rightFunction, unboundRight);
+                Graph rightGraph = Right.createGraph(context, parameter);
 
                 if (rightGraph != null)
                 {
@@ -1070,15 +1068,10 @@ namespace DataDictionary.Interpreter
         {
             Surface retVal = base.createSurface(context, xParam, yParam);
 
-            Function leftFunction = Left.Ref as Function;
-            List<Parameter> unboundLeft = getUnboundParameter(context, leftFunction);
-            Surface leftSurface = createSurfaceForUnbound(context, Left, leftFunction, unboundLeft);
-
+            Surface leftSurface = Left.createSurface(context, xParam, yParam);
             if (leftSurface != null)
             {
-                Functions.Function rightFunction = Right.Ref as Functions.Function;
-                List<Parameter> unboundRight = getUnboundParameter(context, rightFunction);
-                Surface rightSurface = createSurfaceForUnbound(context, Right, rightFunction, unboundRight);
+                Surface rightSurface = Right.createSurface(context, xParam, yParam);
 
                 if (rightSurface != null)
                 {

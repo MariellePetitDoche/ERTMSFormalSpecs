@@ -90,26 +90,32 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public String explainNamable(INamable namable)
         {
-            String retVal = namable.Name;
+            String retVal = "";
 
-            Function fonction = namable as Function;
-            if (fonction != null)
+            if (namable != null)
             {
-                if (fonction.Graph != null)
+                retVal = namable.Name;
+
+                Function fonction = namable as Function;
+                if (fonction != null)
                 {
-                    retVal = fonction.Graph.ToString();
+                    if (fonction.Graph != null)
+                    {
+                        retVal = fonction.Graph.ToString();
+                    }
+                    else if (fonction.Surface != null)
+                    {
+                        retVal = fonction.Surface.ToString();
+                    }
                 }
-                else if (fonction.Surface != null)
+                else
                 {
-                    retVal = fonction.Surface.ToString();
-                }
-            }
-            else
-            {
-                Values.IValue value = namable as Values.IValue;
-                if (value != null)
-                {
-                    retVal = value.LiteralName;
+                    Values.IValue value = namable as Values.IValue;
+                    if (value != null)
+                    {
+                        retVal = value.LiteralName;
+                    }
+
                 }
             }
 

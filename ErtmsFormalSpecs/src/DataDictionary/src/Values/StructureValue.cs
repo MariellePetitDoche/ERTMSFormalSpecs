@@ -32,7 +32,7 @@ namespace DataDictionary.Values
         /// Constructor
         /// </summary>
         /// <param name="structure"></param>
-        public StructureValue(Types.Structure structure)
+        public StructureValue(Types.Structure structure, Utils.INamable enclosing)
             : base(structure, new Dictionary<string, Utils.INamable>())
         {
             Enclosing = structure;
@@ -47,7 +47,7 @@ namespace DataDictionary.Values
                 variable.Name = element.Name;
                 variable.Mode = element.Mode;
                 variable.Default = element.Default;
-                Values.IValue tmp = variable.DefaultValue;
+                variable.Enclosing = enclosing;
                 variable.Enclosing = this;
                 set(variable);
             }
