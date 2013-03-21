@@ -101,8 +101,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public EnumerationTreeNode(DataDictionary.Types.Enum item, string name, bool isFolder)
-            : base(item, name, isFolder)
+        public EnumerationTreeNode(DataDictionary.Types.Enum item, string name, bool isFolder, bool addRequirements)
+            : base(item, name, isFolder, addRequirements)
         {
         }
 

@@ -154,7 +154,7 @@ namespace GUI.DataDictionaryView
         /// <param name="children"></param>
         /// <param name="encounteredTypes">the types that have already been encountered in the path to create this variable </param>
         public VariableTreeNode(DataDictionary.Variables.Variable item, string name, HashSet<DataDictionary.Types.Type> encounteredTypes)
-            : base(item, name)
+            : base(item, name, false)
         {
             encounteredTypes.Add(item.Type);
             subVariables = new SubVariablesTreeNode(item, encounteredTypes);

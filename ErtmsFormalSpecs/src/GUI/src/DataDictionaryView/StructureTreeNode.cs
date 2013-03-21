@@ -62,8 +62,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public StructureTreeNode(DataDictionary.Types.Structure item, string name, bool isFolder)
-            : base(item, name, isFolder)
+        public StructureTreeNode(DataDictionary.Types.Structure item, string name, bool isFolder, bool addRequirements)
+            : base(item, name, isFolder, addRequirements)
         {
         }
 
