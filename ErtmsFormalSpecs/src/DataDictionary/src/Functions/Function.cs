@@ -217,8 +217,18 @@ namespace DataDictionary.Functions
                             int token = ctxt.LocalScope.PushContext();
                             if (parameter != null)
                             {
-                                Variables.IVariable actual = context.findOnStack(parameter);
-                                ctxt.LocalScope.setParameter(param, actual.Value);
+                                Variables.IVariable actual = ctxt.findOnStack(parameter);
+                                Values.IValue value = null;
+                                if (actual != null)
+                                {
+                                    value = actual.Value;
+                                }
+                                else
+                                {
+                                    value = new Values.PlaceHolder(parameter.Type, 1);
+                                }
+
+                                ctxt.LocalScope.setParameter(param, value);
                             }
                             retVal = createGraphForParameter(ctxt, param);
                             ctxt.LocalScope.PopContext(token);
@@ -234,6 +244,30 @@ namespace DataDictionary.Functions
                 {
                     AddError("Cannot create graph of function, reason : " + e.Message);
                 }
+            }
+
+            if (IsCachedForGraph())
+            {
+                Graph = retVal;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Indicates whether this function should cache its value when computing a graph; 
+        /// Caching is done when the function only depends on a double value (input) and provides a double value (output)
+        /// because in that case, it is only dependant on its parameters
+        /// </summary>
+        /// <returns></returns>
+        public bool IsCachedForGraph()
+        {
+            bool retVal = false;
+
+            if (FormalParameters.Count == 1)
+            {
+                Parameter parameter = ((Parameter)FormalParameters[0]);
+                retVal = parameter.Type.IsDouble() && ReturnType.IsDouble();
             }
 
             return retVal;

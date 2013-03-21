@@ -260,6 +260,7 @@ namespace GUI.TestRunnerView
 
         private void restart_Click(object sender, EventArgs e)
         {
+            EFSSystem.Runner.EndExecution();
             EFSSystem.Runner = null;
             Clear();
         }

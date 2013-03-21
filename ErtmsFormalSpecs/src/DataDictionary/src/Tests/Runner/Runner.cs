@@ -79,6 +79,66 @@ namespace DataDictionary.Tests.Runner
         }
 
         /// <summary>
+        /// Visitor used to clean caches of functions (graphs, surfaces)
+        /// </summary>
+        private class FunctionGraphCache : Generated.Visitor
+        {
+            /// <summary>
+            /// The list of functions to be cleared
+            /// </summary>
+            public List<Functions.Function> CachedFunctions = new List<Functions.Function>();
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="system"></param>
+            public FunctionGraphCache(EFSSystem system)
+            {
+                // Fill the list of functions to be cleared
+                foreach (DataDictionary.Dictionary dictionnary in EFSSystem.INSTANCE.Dictionaries)
+                {
+                    visit(dictionnary);
+                }
+            }
+
+            /// <summary>
+            /// Fills the list of functions to be cleared
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
+            public override void visit(Generated.Function obj, bool visitSubNodes)
+            {
+                Functions.Function function = obj as Functions.Function;
+
+                if (function != null)
+                {
+                    if (function.IsCachedForGraph())
+                    {
+                        CachedFunctions.Add(function);
+                    }
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+
+            /// <summary>
+            /// Clears the caches of all functions
+            /// </summary>
+            public void ClearCaches()
+            {
+                foreach (Functions.Function function in CachedFunctions)
+                {
+                    function.Graph = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The function cache cleaner
+        /// </summary>
+        private FunctionGraphCache FunctionCacheCleaner { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="subSequence"></param>
@@ -171,6 +231,7 @@ namespace DataDictionary.Tests.Runner
                 setuper.visit(dictionary);
             }
             Utils.FinderRepository.INSTANCE.ClearCache();
+            FunctionCacheCleaner = new FunctionGraphCache(EFSSystem);
         }
 
         public class Activation
@@ -288,6 +349,10 @@ namespace DataDictionary.Tests.Runner
 
             foreach (Generated.acceptor.RulePriority priority in PRIORITIES_ORDER)
             {
+                // Clears the cache of functions
+                FunctionCacheCleaner.ClearCaches();
+
+                // Activates the processing engine
                 HashSet<Activation> activations = new HashSet<Activation>();
                 foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
                 {
@@ -299,6 +364,8 @@ namespace DataDictionary.Tests.Runner
 
                 ApplyActivations(activations);
             }
+            // Clears the cache of functions
+            FunctionCacheCleaner.ClearCaches();
 
             if (Utils.ModelElement.ErrorCount > 0)
             {
@@ -892,6 +959,7 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void StepBack()
         {
+            FunctionCacheCleaner.ClearCaches();
             EventTimeLine.StepBack(step);
             currentSubStepIndex = REBUILD_CURRENT_SUB_STEP;
             currentStepIndex = REBUILD_CURRENT_SUB_STEP;
@@ -913,5 +981,13 @@ namespace DataDictionary.Tests.Runner
         /// Provides the log instance, an object on which logging should be performed
         /// </summary>
         public ModelElement LogInstance { get; set; }
+
+        /// <summary>
+        /// Terminates the execution of a run
+        /// </summary>
+        public void EndExecution()
+        {
+            FunctionCacheCleaner.ClearCaches();
+        }
     }
 }
