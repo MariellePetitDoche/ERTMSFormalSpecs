@@ -406,6 +406,21 @@ namespace DataDictionary.Types
                 {
                     retVal = (double)vi.Val;
                 }
+                else
+                {
+                    Functions.Function function = val as Functions.Function;
+                    if (function != null)
+                    {
+                        Functions.Graph graph = function.Graph;
+                        if (graph != null)
+                        {
+                            if (graph.Segments.Count == 1)
+                            {
+                                retVal = graph.Val(0);
+                            }
+                        }
+                    }
+                }
             }
 
             return retVal;
@@ -503,9 +518,9 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public override DataDictionary.Interpreter.ReturnValue CombineType(Type right, DataDictionary.Interpreter.BinaryExpression.OPERATOR Operator)
+        public override Types.Type CombineType(Type right, DataDictionary.Interpreter.BinaryExpression.OPERATOR Operator)
         {
-            DataDictionary.Interpreter.ReturnValue retVal = new DataDictionary.Interpreter.ReturnValue();
+            Types.Type retVal = null;
 
             if (Operator == DataDictionary.Interpreter.BinaryExpression.OPERATOR.MULT)
             {
@@ -514,7 +529,7 @@ namespace DataDictionary.Types
                 {
                     if (range.getPrecision() == Generated.acceptor.PrecisionEnum.aIntegerPrecision)
                     {
-                        retVal.Add(this);
+                        retVal = this;
                     }
                 }
             }
@@ -633,17 +648,13 @@ namespace DataDictionary.Types
         /// <returns></returns>
         public override Values.IValue getValue(string image)
         {
-            Interpreter.Expression expression = null;
-
-            Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-            expression = parser.Expression(this, image);
-
             Values.IValue retVal = null;
 
-            Types.Type type = expression.GetTypedElement(new Interpreter.InterpretationContext(this)) as Types.Type;
+            Interpreter.Expression expression = EFSSystem.Parser.Expression(this, image);
+            Types.Type type = expression.GetExpressionType() as Types.Type;
             if (type != null && Match(type))
             {
-                retVal = expression.GetValue(new Interpreter.InterpretationContext(this));
+                retVal = expression.GetValue(new Interpreter.InterpretationContext());
             }
 
             return retVal;

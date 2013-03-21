@@ -41,44 +41,39 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
-        /// Fills the list of typed element used by this expression
+        /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
-            base.Elements(context, elements);
-            if (Condition != null)
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
             {
-                Condition.Elements(context, elements);
+                if (Condition != null)
+                {
+                    Condition.SemanticAnalysis(instance, expectation);
+                }
             }
+
+            return retVal;
         }
 
         /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
-            base.fillLiterals(retVal);
+            base.fill(retVal, filter);
+
             if (Condition != null)
             {
-                Condition.fillLiterals(retVal);
+                Condition.fill(retVal, filter);
             }
-        }
-
-        /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            if (Condition != null)
-            {
-                Condition = Condition.Update(source, target);
-            }
-
-            return base.Update(source, target);
         }
 
         /// <summary>
@@ -92,8 +87,7 @@ namespace DataDictionary.Interpreter.ListOperators
 
             if (Condition != null)
             {
-                InterpretationContext ctxt = new InterpretationContext(context, true);
-                Values.BoolValue b = Condition.GetValue(ctxt) as Values.BoolValue;
+                Values.BoolValue b = Condition.GetValue(context) as Values.BoolValue;
                 if (b == null)
                 {
                     retVal = false;
@@ -110,29 +104,19 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            PrepareIteration(context);
+            base.checkExpression();
 
             Types.Type conditionType = null;
             if (Condition != null)
             {
-                foreach (Utils.INamable namable in Condition.getExpressionTypes(context).Values)
-                {
-                    conditionType = namable as Types.BoolType;
-                    if (conditionType != null)
-                    {
-                        break;
-                    }
-                }
+                conditionType = Condition.GetExpressionType() as Types.BoolType;
                 if (conditionType == null)
                 {
                     AddError("Conditions on list expressions should be a predicate (return a boolean value)");
                 }
             }
-            EndIteration(context);
-
-            base.getExpressionType(context);
         }
     }
 }

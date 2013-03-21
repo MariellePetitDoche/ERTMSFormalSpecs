@@ -331,5 +331,22 @@ namespace DataDictionary.Constants
 
             return TextualExplainUtilities.Encapsule(retVal);
         }
+
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public State duplicate()
+        {
+            State retVal = (State)Generated.acceptor.getFactory().createState();
+            retVal.Name = Name;
+            retVal.X = X;
+            retVal.Y = Y;
+            retVal.Width = Width;
+            retVal.Height = Height;
+            retVal.setFather(getFather());
+            retVal.StateMachine = StateMachine.instanciate();
+            return retVal;
+        }
     }
 }

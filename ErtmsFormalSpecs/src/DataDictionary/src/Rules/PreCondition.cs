@@ -13,7 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 
 namespace DataDictionary.Rules
 {
@@ -64,17 +63,9 @@ namespace DataDictionary.Rules
         {
             get
             {
-                try
+                if (expressionTree == null)
                 {
-                    if (expressionTree == null)
-                    {
-                        Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-                        expressionTree = parser.Expression(this, Expression);
-                    }
-                }
-                catch (Exception e)
-                {
-                    AddException(e);
+                    expressionTree = EFSSystem.Parser.Expression(this, Expression);
                 }
 
                 return expressionTree;
@@ -175,22 +166,31 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Indicates whether this preCondition reads the element
+        /// Indicates whether this preCondition reads the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Reads(Types.ITypedElement element)
+        public bool Reads(Types.ITypedElement variable)
         {
             bool retVal = false;
 
             if (ExpressionTree != null)
             {
-                foreach (Types.ITypedElement el in ExpressionTree.Elements())
+                foreach (Types.ITypedElement el in ExpressionTree.GetVariables())
                 {
-                    if (el == element)
+                    if (el == variable)
                     {
                         retVal = true;
                         break;
+                    }
+                }
+
+                if (!retVal)
+                {
+                    Interpreter.Call call = ExpressionTree as Interpreter.Call;
+                    if (call != null)
+                    {
+                        retVal = call.Reads(variable);
                     }
                 }
             }
@@ -273,5 +273,17 @@ namespace DataDictionary.Rules
         {
         }
 
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public PreCondition duplicate()
+        {
+            PreCondition retVal = (PreCondition)Generated.acceptor.getFactory().createPreCondition();
+            retVal.Name = Name;
+            retVal.ExpressionText = ExpressionText;
+
+            return retVal;
+        }
     }
 }

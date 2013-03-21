@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter.Statement
 {
-    public class ReplaceStatement : Statement
+    public class ReplaceStatement : Statement, Utils.ISubDeclarator
     {
         /// <summary>
         /// The value to replace 
@@ -49,6 +49,8 @@ namespace DataDictionary.Interpreter.Statement
         public ReplaceStatement(ModelElement root, Expression value, Expression listExpression, Expression condition)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
+
             Value = value;
             Value.Enclosing = this;
 
@@ -61,26 +63,64 @@ namespace DataDictionary.Interpreter.Statement
             IteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
             IteratorVariable.Name = "X";
-            Types.Collection collectionType = ListExpression.getExpressionType() as Types.Collection;
-            if (collectionType != null)
-            {
-                IteratorVariable.Type = collectionType.Type;
-            }
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, IteratorVariable);
         }
 
         /// <summary>
-        /// Indicates whether this statement reads the element
+        /// The elements declared by this declarator
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
-        {
-            List<Types.ITypedElement> elements = new List<Types.ITypedElement>();
-            ReadElements(elements);
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
 
-            return elements.Contains(element);
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
+        {
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
+        /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance)
+        {
+            bool retVal = base.SemanticAnalysis(instance);
+
+            if (retVal)
+            {
+                ListExpression.SemanticAnalysis(instance);
+                Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
+                if (collectionType != null)
+                {
+                    IteratorVariable.Type = collectionType.Type;
+                }
+
+                Value.SemanticAnalysis(instance);
+                Types.Type valueType = Value.GetExpressionType();
+                if (valueType != null)
+                {
+                    if (!valueType.Match(collectionType.Type))
+                    {
+                        AddError("Type of " + Value + " does not match collection type " + collectionType);
+                    }
+                }
+                else
+                {
+                    AddError("Cannot determine type of " + Value);
+                }
+
+                if (Condition != null)
+                {
+                    Condition.SemanticAnalysis(instance);
+                }
+            }
+
+            return retVal;
+        }
 
         /// <summary>
         /// Provides the list of elements read by this statement
@@ -88,20 +128,16 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="retVal">the list to fill</param>
         public override void ReadElements(List<Types.ITypedElement> retVal)
         {
-            InterpretationContext context = new InterpretationContext(Root);
-
-            Value.Elements(context, retVal);
-
-            Types.ITypedElement elem = ListExpression.GetTypedElement(context);
-            retVal.Add(elem);
+            retVal.AddRange(Value.GetVariables());
+            retVal.AddRange(ListExpression.GetVariables());
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
@@ -127,8 +163,7 @@ namespace DataDictionary.Interpreter.Statement
 
             if (Condition != null)
             {
-                InterpretationContext ctxt = new InterpretationContext(context, true);
-                Values.BoolValue b = Condition.GetValue(ctxt) as Values.BoolValue;
+                Values.BoolValue b = Condition.GetValue(context) as Values.BoolValue;
                 if (b == null)
                 {
                     retVal = false;
@@ -147,30 +182,19 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            InterpretationContext context = new InterpretationContext(Root);
+            Value.checkExpression();
 
-            Value.checkExpression(context);
-
-            Types.ITypedElement targetList = ListExpression.GetTypedElement(context);
-            if (targetList != null)
+            Types.Collection targetListType = ListExpression.GetExpressionType() as Types.Collection;
+            if (targetListType != null)
             {
-                Types.Collection targetListType = targetList.Type as Types.Collection;
-                if (targetListType != null)
+                Types.Type elementType = Value.GetExpressionType();
+                if (elementType != targetListType.Type)
                 {
-                    Types.Type elementType = Value.getExpressionType(context);
-                    if (elementType != targetListType.Type)
-                    {
-                        Root.AddError("Inserted element type does not corresponds to list type");
-                    }
-                }
-                else
-                {
-                    Root.AddError("Target is not a collection");
+                    Root.AddError("Inserted element type does not corresponds to list type");
                 }
 
-                context.LocalScope.setVariable(IteratorVariable);
-                Condition.checkExpression(context);
-                Types.BoolType conditionType = Condition.getExpressionType(context) as Types.BoolType;
+                Condition.checkExpression();
+                Types.BoolType conditionType = Condition.GetExpressionType() as Types.BoolType;
                 if (conditionType == null)
                 {
                     Root.AddError("Condition does not evaluates to boolean");
@@ -179,7 +203,7 @@ namespace DataDictionary.Interpreter.Statement
             }
             else
             {
-                Root.AddError("Cannot find target list");
+                Root.AddError("Cannot determine collection type of " + ListExpression);
             }
         }
 

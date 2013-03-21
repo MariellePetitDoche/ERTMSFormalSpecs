@@ -13,7 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter
@@ -23,7 +22,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// The structure instanciated by this structure expression
         /// </summary>
-        public Types.Structure Structure { get; private set; }
+        public Expression Structure { get; private set; }
 
         /// <summary>
         /// The associations name <-> Expression that is used to initialize this structure
@@ -34,23 +33,47 @@ namespace DataDictionary.Interpreter
         /// Constructor
         /// </summary>
         /// <param name="root"></param>
-        public StructExpression(ModelElement root, Types.Structure structure, Dictionary<string, Expression> associations)
+        public StructExpression(ModelElement root, Expression structure, Dictionary<string, Expression> associations)
             : base(root)
         {
             Structure = structure;
             Associations = associations;
+            foreach (Expression expr in Associations.Values)
+            {
+                expr.Enclosing = this;
+            }
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
-            return new ReturnValue();
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
+            {
+                Structure.SemanticAnalysis(instance, Filter.IsStructure);
+                foreach (Expression expr in Associations.Values)
+                {
+                    expr.SemanticAnalysis(instance, Filter.IsRightSide);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public override Types.Type GetExpressionType()
+        {
+            return Structure.GetExpressionType();
         }
 
         /// <summary>
@@ -60,34 +83,43 @@ namespace DataDictionary.Interpreter
         /// <param name="localScope">The local scope used to compute the value of this expression</param>
         /// <param name="globalFind">Indicates that the search should be performed globally</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            Values.StructureValue retVal = null;
 
-            Values.StructureValue value = new Values.StructureValue(Structure);
-            foreach (KeyValuePair<string, Expression> pair in Associations)
+            Types.Structure structureType = Structure.GetExpressionType() as Types.Structure;
+            if (structureType != null)
             {
-                Values.IValue val = pair.Value.GetValue(new InterpretationContext(context, Root, true));
-                Variables.Variable var = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
-                var.Name = pair.Key;
-                var.Value = val;
-                var.Enclosing = value;
-                value.set(var);
+                retVal = new Values.StructureValue(structureType, Root);
+
+                foreach (KeyValuePair<string, Expression> pair in Associations)
+                {
+                    Values.IValue val = pair.Value.GetValue(new InterpretationContext(context));
+                    Variables.Variable var = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
+                    var.Name = pair.Key;
+                    var.Value = val;
+                    var.Enclosing = retVal;
+                    retVal.set(var);
+                }
+            }
+            else
+            {
+                AddError("Cannot determine structure type for " + ToString());
             }
 
-            retVal.Values.Add(value);
             return retVal;
         }
 
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
             foreach (Expression expression in Associations.Values)
             {
-                expression.Elements(context, elements);
+                expression.fill(retVal, filter);
             }
         }
 
@@ -107,7 +139,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         private string ToString(int indentLevel)
         {
-            string retVal = Structure.FullName;
+            string retVal = Structure.ToString();
             string indentAccolade = "";
             for (int i = 0; i < indentLevel; i++)
             {
@@ -143,122 +175,53 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            foreach (Expression expression in Associations.Values)
-            {
-                fillLiterals(retVal);
-            }
-        }
-
-        /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            Dictionary<string, Expression> newAssociations = new Dictionary<string, Expression>();
-
-            foreach (KeyValuePair<string, Expression> pair in Associations)
-            {
-                newAssociations[pair.Key] = Update(source, target);
-            }
-            Associations = newAssociations;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            retVal.Values.Add(Structure);
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            foreach (KeyValuePair<string, Expression> pair in Associations)
+            Types.Structure structureType = Structure.GetExpressionType() as Types.Structure;
+            if (structureType != null)
             {
-                string name = pair.Key;
-                Expression expression = pair.Value;
-
-                List<Utils.INamable> targets = new List<Utils.INamable>();
-                Structure.find(name, targets);
-                if (targets.Count > 0)
+                foreach (KeyValuePair<string, Expression> pair in Associations)
                 {
-                    expression.checkExpression(context);
-                    Types.Type type = expression.getExpressionType(context);
-                    if (type != null)
+                    string name = pair.Key;
+                    Expression expression = pair.Value;
+
+                    List<Utils.INamable> targets = new List<Utils.INamable>();
+                    structureType.find(name, targets);
+                    if (targets.Count > 0)
                     {
-                        foreach (Utils.INamable namable in targets)
+                        expression.checkExpression();
+                        Types.Type type = expression.GetExpressionType();
+                        if (type != null)
                         {
-                            Types.ITypedElement element = namable as Types.ITypedElement;
-                            if (element != null && element.Type != null)
+                            foreach (Utils.INamable namable in targets)
                             {
-                                if (!element.Type.Match(type))
+                                Types.ITypedElement element = namable as Types.ITypedElement;
+                                if (element != null && element.Type != null)
                                 {
-                                    AddError("Expression " + expression.ToString() + " type (" + type.FullName + ") does not match the target element " + element.Name + " type (" + element.Type.FullName + ")");
+                                    if (!element.Type.Match(type))
+                                    {
+                                        AddError("Expression " + expression.ToString() + " type (" + type.FullName + ") does not match the target element " + element.Name + " type (" + element.Type.FullName + ")");
+                                    }
                                 }
                             }
+                        }
+                        else
+                        {
+                            AddError("Expression " + expression.ToString() + " type cannot be found");
                         }
                     }
                     else
                     {
-                        AddError("Expression " + expression.ToString() + " type cannot be found");
+                        Root.AddError("Cannot find " + name + " in structure " + Structure.ToString());
                     }
                 }
-                else
-                {
-                    Root.AddError("Cannot find " + name + " in structure " + Structure.FullName);
-                }
             }
-        }
-
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Provides the surface of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the surface</param>
-        /// <param name="xParam">The X axis of this surface</param>
-        /// <param name="yParam">The Y axis of this surface</param>
-        /// <returns>The surface which corresponds to this expression</returns>
-        public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
-        {
-            throw new Exception("Cannot create surface for " + ToString());
+            else
+            {
+                AddError("Cannot find structure type " + Structure.ToString());
+            }
         }
     }
 }

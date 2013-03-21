@@ -58,5 +58,21 @@ namespace GUI.TestRunnerView
             explainTreeView.Nodes.Add(node);
             explainTreeView.ExpandAll();
         }
+
+        public void ShowMe()
+        {
+            Control current = this;
+            MainWindow window = null;
+            while (current != null && window == null)
+            {
+                current = current.Parent;
+                window = current as MainWindow;
+            }
+
+            if (window != null)
+            {
+                window.AddChildWindow(this);
+            }
+        }
     }
 }

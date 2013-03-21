@@ -15,10 +15,11 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class FunctionExpression : Expression
+    public class FunctionExpression : Expression, ISubDeclarator
     {
         /// <summary>
         /// The parameters for this function expression
@@ -39,10 +40,13 @@ namespace DataDictionary.Interpreter
         public FunctionExpression(ModelElement root, List<Parameter> parameters, Expression expression)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<INamable>>();
+
             Parameters = parameters;
             foreach (Parameter parameter in parameters)
             {
                 parameter.Enclosing = this;
+                Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, parameter);
             }
 
             Expression = expression;
@@ -50,44 +54,111 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// The elements declared by this declarator
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
         {
-            return InnerGetValue(context);
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
-            ReturnValue retVal = new ReturnValue();
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
+            {
+                Expression.SemanticAnalysis(instance, Filter.AllMatches);
+            }
+
+            return retVal;
+        }
+
+        private ICallable __staticCallable = null;
+
+        /// <summary>
+        /// Provides the ICallable that is statically defined
+        /// </summary>
+        public override ICallable getStaticCallable()
+        {
+            if (__staticCallable == null)
+            {
+                __staticCallable = GetExpressionType() as ICallable;
+            }
+
+            return __staticCallable;
+        }
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public override Types.Type GetExpressionType()
+        {
+            Functions.Function retVal = (Functions.Function)Generated.acceptor.getFactory().createFunction();
+            retVal.Name = ToString();
+            retVal.ReturnType = Expression.GetExpressionType();
+
+            foreach (Parameter parameter in Parameters)
+            {
+                Parameter param = (Parameter)Generated.acceptor.getFactory().createParameter();
+                param.Name = parameter.Name;
+                param.Type = parameter.Type;
+                retVal.appendParameters(param);
+            }
+            retVal.Enclosing = Root;
+
+            return retVal;
+        }
+
+        public override ICallable getCalled(InterpretationContext context)
+        {
+            return GetValue(context) as ICallable;
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public override Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
 
             try
             {
-                InterpretationContext ctxt = new InterpretationContext(context);
                 if (Parameters.Count == 1)
                 {
-                    Functions.Graph graph = createGraphForParameter(ctxt, Parameters[0]);
+                    int token = context.LocalScope.PushContext();
+                    context.LocalScope.setGraphParameter(Parameters[0]);
+                    Functions.Graph graph = createGraph(context, Parameters[0]);
+                    context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
-                        retVal.Add(graph.Function);
+                        retVal = graph.Function;
                     }
                 }
                 else if (Parameters.Count == 2)
                 {
-                    Functions.Surface surface = createSurface(ctxt, Parameters[0], Parameters[1]);
+                    int token = context.LocalScope.PushContext();
+                    context.LocalScope.setSurfaceParameters(Parameters[0], Parameters[1]);
+                    Functions.Surface surface = createSurface(context, Parameters[0], Parameters[1]);
+                    context.LocalScope.PopContext(token);
                     if (surface != null)
                     {
-                        retVal.Add(surface.Function);
+                        retVal = surface.Function;
                     }
                 }
             }
@@ -95,21 +166,33 @@ namespace DataDictionary.Interpreter
             {
                 /// TODO Ugly hack, because functions & function types are merged.
                 /// This provides an empty function as the type of this
-                retVal = getExpressionTypes(context);
+                retVal = GetExpressionType() as Values.IValue;
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
+            if (Parameters != null)
+            {
+                foreach (Parameter parameter in Parameters)
+                {
+                    if (filter(parameter))
+                    {
+                        retVal.Add(parameter);
+                    }
+                }
+            }
+
             if (Expression != null)
             {
-                Expression.Elements(context, elements);
+                Expression.fill(retVal, filter);
             }
         }
 
@@ -124,7 +207,7 @@ namespace DataDictionary.Interpreter
                 {
                     retVal += ", ";
                 }
-                retVal += parameter.Name + " : " + parameter.Type.ToString();
+                retVal += parameter.Name + " : " + parameter.TypeName;
                 first = false;
             }
 
@@ -133,99 +216,15 @@ namespace DataDictionary.Interpreter
             return retVal;
         }
 
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            if (Expression != null)
-            {
-                Expression.fillLiterals(retVal);
-            }
-        }
-
-        /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            if (Expression != null)
-            {
-                Expression = Expression.Update(source, target);
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            Functions.Function function = (Functions.Function)Generated.acceptor.getFactory().createFunction();
-            function.Name = ToString();
-            context.LocalScope.PushContext();
-            foreach (Parameter parameter in Parameters)
-            {
-                context.LocalScope.setVariable(parameter);
-            }
-            function.ReturnType = Expression.getExpressionType(context);
-            context.LocalScope.PopContext();
-
-            foreach (Parameter parameter in Parameters)
-            {
-                Parameter param = (Parameter)Generated.acceptor.getFactory().createParameter();
-                param.Name = parameter.Name;
-                param.Type = parameter.Type;
-                function.appendParameters(param);
-            }
-            retVal.Add(function);
-
-            return retVal;
-        }
-
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            context.LocalScope.PushContext();
-            foreach (Parameter parameter in Parameters)
-            {
-                context.LocalScope.setVariable(parameter);
-            }
-            Expression.checkExpression(context);
-            context.LocalScope.PopContext();
-        }
+            base.checkExpression();
 
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            Functions.Graph retVal = null;
-
-            if (Parameters.Count == 1)
-            {
-                retVal = Expression.createGraphForParameter(context, Parameters[0]);
-            }
-            else
-            {
-                AddError("Cannot create graph for function with more than 1 parameter");
-            }
-
-            return retVal;
+            Expression.checkExpression();
         }
 
         /// <summary>
@@ -234,13 +233,13 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
             if (parameter == Parameters[0] || parameter == Parameters[1])
             {
-                retVal = Expression.createGraphForParameter(context, parameter);
+                retVal = Expression.createGraph(context, parameter);
             }
             else
             {
@@ -259,17 +258,21 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
-            if (xParam == Parameters[0] && yParam == Parameters[1])
+            if (xParam == null || yParam == null)
             {
-                retVal = Expression.createSurface(context, xParam, yParam);
+                AddError("Cannot have null parameters for Function expression " + ToString());
             }
             else
             {
-                throw new Exception("Cannot create surface for parameters " + xParam.Name + " and " + yParam);
+                int token = context.LocalScope.PushContext();
+                Parameter xAxis = Parameters[0];
+                Parameter yAxis = Parameters[1];
+                context.LocalScope.setSurfaceParameters(xAxis, yAxis);
+                retVal = Expression.createSurface(context, xAxis, yAxis);
+                context.LocalScope.PopContext(token);
             }
-
             retVal.XParameter = xParam;
             retVal.YParameter = yParam;
 

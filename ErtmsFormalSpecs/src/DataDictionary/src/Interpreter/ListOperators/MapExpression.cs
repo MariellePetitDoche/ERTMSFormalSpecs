@@ -13,7 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter.ListOperators
@@ -38,39 +37,45 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            ReturnValue retVal;
+            Types.Type retVal = null;
 
-            PrepareIteration(context);
-            retVal = getExpressionTypes(context);
-            EndIteration(context);
+            Types.Type iteratorType = IteratorExpression.GetExpressionType();
+            if (iteratorType != null)
+            {
+                Types.Collection collection = (Types.Collection)Generated.acceptor.getFactory().createCollection();
+                collection.Enclosing = EFSSystem;
+                collection.Type = iteratorType;
+
+                retVal = collection;
+            }
+            else
+            {
+                AddError("Cannot evaluate iterator type for " + ToString());
+            }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the value associated to this Expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            Values.ListValue retVal = null;
 
-            InterpretationContext ctxt = new InterpretationContext(context, true);
-            Values.ListValue value = ListExpression.GetValue(ctxt) as Values.ListValue;
+            Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(context);
-                Values.ListValue result = new Values.ListValue((Types.Collection)getExpressionType(context), new List<Values.IValue>());
+                int token = PrepareIteration(context);
+                retVal = new Values.ListValue((Types.Collection)GetExpressionType(), new List<Values.IValue>());
                 foreach (Values.IValue v in value.Val)
                 {
                     if (v != EFSSystem.EmptyValue)
@@ -79,41 +84,13 @@ namespace DataDictionary.Interpreter.ListOperators
 
                         if (conditionSatisfied(context))
                         {
-                            result.Val.Add(IteratorExpression.GetValue(context));
+                            retVal.Val.Add(IteratorExpression.GetValue(context));
                         }
                     }
                     NextIteration();
                 }
-                EndIteration(context);
-
-                retVal.Add(result);
+                EndIteration(context, token);
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            PrepareIteration(context);
-            Types.Type expressionType = IteratorExpression.getExpressionType(context);
-            EndIteration(context);
-
-            if (expressionType != null)
-            {
-                Types.Collection collection = (Types.Collection)Generated.acceptor.getFactory().createCollection();
-                collection.Enclosing = EFSSystem;
-                collection.Type = expressionType;
-
-                retVal.Add(collection);
-            }
-
 
             return retVal;
         }
@@ -140,46 +117,11 @@ namespace DataDictionary.Interpreter.ListOperators
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            base.checkExpression(context);
+            base.checkExpression();
 
-            PrepareIteration(context);
-            IteratorExpression.checkExpression(context);
-            EndIteration(context);
-        }
-
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Provides the surface of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the surface</param>
-        /// <param name="xParam">The X axis of this surface</param>
-        /// <param name="yParam">The Y axis of this surface</param>
-        /// <returns>The surface which corresponds to this expression</returns>
-        public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
-        {
-            throw new Exception("Cannot create surface for " + ToString());
+            IteratorExpression.checkExpression();
         }
     }
 }

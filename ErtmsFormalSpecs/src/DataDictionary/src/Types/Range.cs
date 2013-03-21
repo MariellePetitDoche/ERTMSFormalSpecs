@@ -625,16 +625,16 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public override ReturnValue CombineType(Type right, BinaryExpression.OPERATOR Operator)
+        public override Types.Type CombineType(Type right, BinaryExpression.OPERATOR Operator)
         {
-            ReturnValue retVal = new ReturnValue();
+            Types.Type retVal = null;
 
             if (Operator == BinaryExpression.OPERATOR.MULT)
             {
                 if (FullName.CompareTo("Default.BaseTypes.Speed") == 0 && right.FullName.CompareTo("Default.BaseTypes.Time") == 0)
                 {
                     NameSpace nameSpace = EnclosingNameSpaceFinder.find(this);
-                    retVal.Add(nameSpace.findTypeByName("Distance"));
+                    retVal = nameSpace.findTypeByName("Distance");
                 }
             }
             else
@@ -643,14 +643,14 @@ namespace DataDictionary.Types
                 {
                     if (right == EFSSystem.DoubleType)
                     {
-                        retVal.Add(this);
+                        retVal = this;
                     }
                 }
                 else
                 {
                     if (right == EFSSystem.IntegerType)
                     {
-                        retVal.Add(this);
+                        retVal = this;
                     }
                 }
             }

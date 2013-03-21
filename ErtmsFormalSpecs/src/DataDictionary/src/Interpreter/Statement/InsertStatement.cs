@@ -57,18 +57,26 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
-        /// Indicates whether this statement reads the element
+        /// Performs the semantic analysis of the statement
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance)
         {
-            List<Types.ITypedElement> elements = new List<Types.ITypedElement>();
-            ReadElements(elements);
+            bool retVal = base.SemanticAnalysis(instance);
 
-            return elements.Contains(element);
+            if (retVal)
+            {
+                Value.SemanticAnalysis(instance);
+                ListExpression.SemanticAnalysis(instance, Filter.IsLeftSide);
+                if (ReplaceElement != null)
+                {
+                    ReplaceElement.SemanticAnalysis(instance);
+                }
+            }
+
+            return retVal;
         }
-
 
         /// <summary>
         /// Provides the list of elements read by this statement
@@ -76,20 +84,16 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="retVal">the list to fill</param>
         public override void ReadElements(List<Types.ITypedElement> retVal)
         {
-            InterpretationContext context = new InterpretationContext(Root);
-
-            Value.Elements(context, retVal);
-
-            Types.ITypedElement elem = ListExpression.GetTypedElement(context);
-            retVal.Add(elem);
+            retVal.AddRange(Value.GetVariables());
+            retVal.AddRange(ListExpression.GetVariables());
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
@@ -109,53 +113,43 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            InterpretationContext context = new InterpretationContext(Root);
+            Value.checkExpression();
 
-            Value.checkExpression(context);
-
-            Types.ITypedElement targetList = ListExpression.GetTypedElement(context);
-            if (targetList != null)
+            Types.Collection targetListType = ListExpression.GetExpressionType() as Types.Collection;
+            if (targetListType != null)
             {
-                Types.Collection targetListType = targetList.Type as Types.Collection;
-                if (targetListType != null)
+                Types.Type elementType = Value.GetExpressionType();
+                if (elementType != targetListType.Type)
                 {
-                    Types.Type elementType = Value.getExpressionType(context);
-                    if (elementType != targetListType.Type)
-                    {
-                        Root.AddError("Inserted element type does not corresponds to list type");
-                    }
-                }
-                else
-                {
-                    Root.AddError("Target is not a collection");
-                }
-
-                if (ReplaceElement != null)
-                {
-                    Types.Type replaceElementType = ReplaceElement.getExpressionType(context);
-                    if (replaceElementType != null)
-                    {
-                        if (targetListType.Type != null)
-                        {
-                            if (replaceElementType != targetListType.Type)
-                            {
-                                Root.AddError("The replace element type (" + replaceElementType.FullName + ") does not correspond to the list type (" + targetListType.Type.FullName + ")");
-                            }
-                        }
-                        else
-                        {
-                            Root.AddError("Cannot determine list element's type for " + targetListType.FullName);
-                        }
-                    }
-                    else
-                    {
-                        Root.AddError("Cannot determine replacement element type");
-                    }
+                    Root.AddError("Inserted element type does not corresponds to list type");
                 }
             }
             else
             {
-                Root.AddError("Cannot find target list");
+                Root.AddError("Cannot determine collection type of " + ListExpression);
+            }
+
+            if (ReplaceElement != null)
+            {
+                Types.Type replaceElementType = ReplaceElement.GetExpressionType();
+                if (replaceElementType != null)
+                {
+                    if (targetListType.Type != null)
+                    {
+                        if (replaceElementType != targetListType.Type)
+                        {
+                            Root.AddError("The replace element type (" + replaceElementType.FullName + ") does not correspond to the list type (" + targetListType.Type.FullName + ")");
+                        }
+                    }
+                    else
+                    {
+                        Root.AddError("Cannot determine list element's type for " + targetListType.FullName);
+                    }
+                }
+                else
+                {
+                    Root.AddError("Cannot determine replacement element type");
+                }
             }
         }
 

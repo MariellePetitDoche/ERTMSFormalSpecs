@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter;
 using ErtmsSolutions.Etcs.Subset26.BrakingCurves;
@@ -95,7 +96,8 @@ namespace GUI.GraphView
                 InterpretationContext context = new InterpretationContext(function);
                 if (function.FormalParameters.Count == 1)
                 {
-                    Graph graph = function.createGraph(context);
+                    Parameter parameter = (Parameter)function.FormalParameters[0];
+                    Graph graph = function.createGraph(context, parameter);
                     if (graph != null)
                     {
                         Functions.Add(function);
@@ -263,7 +265,8 @@ namespace GUI.GraphView
                 InterpretationContext context = new InterpretationContext(function);
                 if (function.FormalParameters.Count == 1)
                 {
-                    Graph graph = function.createGraph(context);
+                    Parameter parameter = (Parameter)function.FormalParameters[0];
+                    Graph graph = function.createGraph(context, parameter);
                     if (graph != null)
                     {
                         expectedEndX = Math.Max(expectedEndX, graph.ExpectedEndX());

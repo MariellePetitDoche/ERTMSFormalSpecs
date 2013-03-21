@@ -13,12 +13,11 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter
 {
-    class StabilizeExpression : Expression
+    class StabilizeExpression : Expression, Utils.ISubDeclarator
     {
         /// <summary>
         /// The expression to stabilize
@@ -55,6 +54,8 @@ namespace DataDictionary.Interpreter
         public StabilizeExpression(ModelElement root, Expression expression, Expression initialValue, Expression condition)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
+
             Expression = expression;
             Expression.Enclosing = this;
 
@@ -67,43 +68,75 @@ namespace DataDictionary.Interpreter
             LastIteration = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             LastIteration.Enclosing = this;
             LastIteration.Name = "PREVIOUS";
-            LastIteration.Type = InitialValue.getExpressionType();
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, LastIteration);
 
             CurrentIteration = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             CurrentIteration.Enclosing = this;
             CurrentIteration.Name = "CURRENT";
-            CurrentIteration.Type = InitialValue.getExpressionType();
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, CurrentIteration);
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// The elements declared by this declarator
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
         {
-            return InitialValue.InnerGetTypedElement(context);
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
         }
 
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        {
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
+            {
+                InitialValue.SemanticAnalysis(instance, Filter.IsRightSide);
+                Expression.SemanticAnalysis(instance, Filter.AllMatches);
+                Condition.SemanticAnalysis(instance, Filter.AllMatches);
+
+                LastIteration.Type = InitialValue.GetExpressionType();
+                CurrentIteration.Type = InitialValue.GetExpressionType();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public override Types.Type GetExpressionType()
+        {
+            return InitialValue.GetExpressionType();
+        }
 
         /// <summary>
         /// Provides the value associated to this Expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
-
             LastIteration.Value = InitialValue.GetValue(context);
 
-            bool stop;
-            do
+            bool stop = false;
+            while (!stop)
             {
-                context.LocalScope.PushContext();
+                int token = context.LocalScope.PushContext();
                 context.LocalScope.setVariable(LastIteration);
                 CurrentIteration.Value = Expression.GetValue(context);
 
@@ -116,27 +149,25 @@ namespace DataDictionary.Interpreter
                 else
                 {
                     AddError("Cannot evaluate condition " + Condition.ToString());
-                    stop = false;
+                    stop = true;
                 }
-                context.LocalScope.PopContext();
+                context.LocalScope.PopContext(token);
                 LastIteration.Value = CurrentIteration.Value;
-            } while (!stop);
+            }
 
-            retVal.Add(CurrentIteration.Value);
-
-            return retVal;
+            return CurrentIteration.Value;
         }
 
-
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
-            Expression.Elements(context, elements);
-            InitialValue.Elements(context, elements);
-            Condition.Elements(context, elements);
+            Expression.fill(retVal, filter);
+            InitialValue.fill(retVal, filter);
+            Condition.fill(retVal, filter);
         }
 
         /// <summary>
@@ -151,58 +182,19 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            Expression.fillLiterals(retVal);
-            InitialValue.fillLiterals(retVal);
-            Condition.fillLiterals(retVal);
-        }
-
-
-        /// <summary>
-        /// Updates the expression text
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            Expression = Expression.Update(source, target);
-            InitialValue = InitialValue.Update(source, target);
-            Condition = Condition.Update(source, target);
-
-            return this;
-        }
-
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = InitialValue.getExpressionTypes(context);
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            InitialValue.checkExpression(context);
-            Types.Type initialValueType = InitialValue.getExpressionType(context);
+            base.checkExpression();
+
+            InitialValue.checkExpression();
+            Types.Type initialValueType = InitialValue.GetExpressionType();
             if (initialValueType != null)
             {
-                context.LocalScope.PushContext();
-                context.LocalScope.setVariable(LastIteration);
-                Expression.checkExpression(context);
-                Types.Type expressionType = Expression.getExpressionType(context);
+                Expression.checkExpression();
+                Types.Type expressionType = Expression.GetExpressionType();
                 if (expressionType != null)
                 {
                     if (expressionType != initialValueType)
@@ -215,8 +207,7 @@ namespace DataDictionary.Interpreter
                     AddError("Cannot determine type of expression " + Expression);
                 }
 
-                context.LocalScope.setVariable(CurrentIteration);
-                Types.Type conditionType = Condition.getExpressionType(context);
+                Types.Type conditionType = Condition.GetExpressionType();
                 if (conditionType != null)
                 {
                     if (!(conditionType is Types.BoolType))
@@ -228,14 +219,11 @@ namespace DataDictionary.Interpreter
                 {
                     AddError("Cannot determine type of condition " + Condition);
                 }
-                context.LocalScope.PopContext();
             }
             else
             {
                 AddError("Cannot determine type of the initial value " + InitialValue);
             }
-
-            base.checkExpression(context);
         }
 
         /// <summary>
@@ -243,34 +231,13 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
+        public override Functions.Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
-            return Functions.Graph.createGraph(GetValue(context));
-        }
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
+            retVal = Functions.Graph.createGraph(GetValue(context), parameter);
 
-        /// <summary>
-        /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
-        {
-            throw new Exception("Cannot create graph for Stabilize Expression");
-        }
-
-
-        /// <summary>
-        /// Provides the surface of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the surface</param>
-        /// <param name="xParam">The X axis of this surface</param>
-        /// <param name="yParam">The Y axis of this surface</param>
-        /// <returns>The surface which corresponds to this expression</returns>
-        public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
-        {
-            throw new Exception("Cannot create surface for Stabilize Expression");
+            return retVal;
         }
     }
 }

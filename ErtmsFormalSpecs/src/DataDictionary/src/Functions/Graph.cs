@@ -854,17 +854,14 @@ namespace DataDictionary.Functions
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public static Graph createGraph(Utils.INamable namable)
+        public static Graph createGraph(Utils.INamable namable, Parameter parameter)
         {
             Graph retVal = null;
 
-            if (retVal == null)
+            Functions.Function function = namable as Functions.Function;
+            if (function != null)
             {
-                Functions.Function function = namable as Functions.Function;
-                if (function != null)
-                {
-                    retVal = function.Graph;
-                }
+                retVal = function.createGraphForParameter(new Interpreter.InterpretationContext(), parameter);
             }
 
             if (retVal == null)
@@ -872,7 +869,7 @@ namespace DataDictionary.Functions
                 Values.IValue value = namable as Values.IValue;
                 if (value != null)
                 {
-                    retVal = createGraph(Function.getDoubleValue(value));
+                    retVal = createGraph(Function.getDoubleValue(value), parameter);
                 }
             }
 
@@ -885,7 +882,7 @@ namespace DataDictionary.Functions
         /// <param name="retVal"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Graph createGraph(double value)
+        public static Graph createGraph(double value, Parameter parameter = null)
         {
             Graph retVal = new Functions.Graph();
 
@@ -1287,8 +1284,9 @@ namespace DataDictionary.Functions
                 Parameter parameter = (Parameter)increment.FormalParameters[0];
                 foreach (Segment segment in Segments)
                 {
-                    Dictionary<string, Values.IValue> actuals = new Dictionary<string, Values.IValue>();
-                    actuals[parameter.Name] = new Values.DoubleValue(increment.EFSSystem.DoubleType, segment.Expression.v0);
+                    Dictionary<Variables.Actual, Values.IValue> actuals = new Dictionary<Variables.Actual, Values.IValue>();
+                    Variables.Actual actual = parameter.createActual();
+                    actuals[actual] = new Values.DoubleValue(increment.EFSSystem.DoubleType, segment.Expression.v0);
                     Values.IValue result = increment.Evaluate(context, actuals);
                     Segment newSegment = new Segment(segment);
                     newSegment.Expression.v0 = segment.Expression.v0 + Function.getDoubleValue(result);
@@ -1329,11 +1327,11 @@ namespace DataDictionary.Functions
         /// <returns></returns>
         public double SolutionX(double Y)
         {
-            double retVal  = double.MaxValue;
-            double upY     = double.MaxValue;
-            double downY   = double.MinValue;
-            double upX     = 0;
-            double downX   = 0;
+            double retVal = double.MaxValue;
+            double upY = double.MaxValue;
+            double downY = double.MinValue;
+            double upX = 0;
+            double downX = 0;
 
             foreach (Segment segment in Segments)
             {
@@ -1367,7 +1365,7 @@ namespace DataDictionary.Functions
                 }
             }
 
-            if(retVal == double.MaxValue)
+            if (retVal == double.MaxValue)
             {
                 if (upY != double.MaxValue && downY != double.MinValue)
                 {

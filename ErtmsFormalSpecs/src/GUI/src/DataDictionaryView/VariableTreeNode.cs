@@ -16,10 +16,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using DataDictionary;
 
 namespace GUI.DataDictionaryView
 {
@@ -189,7 +187,8 @@ namespace GUI.DataDictionaryView
                 DataDictionary.Interpreter.InterpretationContext context = new DataDictionary.Interpreter.InterpretationContext(Item);
                 if (function.FormalParameters.Count == 1)
                 {
-                    DataDictionary.Functions.Graph graph = function.createGraph(context);
+                    Parameter parameter = (Parameter)function.FormalParameters[0];
+                    DataDictionary.Functions.Graph graph = function.createGraph(context, parameter);
                     if (graph != null && graph.Segments.Count != 0)
                     {
                         retVal.Add(new MenuItem("-"));

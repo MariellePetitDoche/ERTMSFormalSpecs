@@ -64,21 +64,42 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            retVal = Range.convert(Value.Value);
-            context.LocalScope.PopContext();
+            Values.IValue value = context.findOnStack(Value).Value;
+            if (value is Function)
+            {
+                retVal = value;
+            }
+            else
+            {
+                retVal = Range.convert(value);
+            }
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }
 
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
-            return Functions.Graph.createGraph(Functions.Function.getDoubleValue(Value.Value));
+            Graph retVal = null;
+
+            Variables.IVariable variable = context.findOnStack(Value);
+
+            if (variable != null)
+            {
+                retVal = Graph.createGraph(Functions.Function.getDoubleValue(variable.Value), parameter);
+            }
+            else
+            {
+                AddError("Cannot find variable " + Value + " on the stack");
+            }
+
+            return retVal;
         }
     }
 }

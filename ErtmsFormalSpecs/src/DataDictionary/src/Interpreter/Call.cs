@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using DataDictionary.Functions;
 
 namespace DataDictionary.Interpreter
 {
@@ -44,9 +45,8 @@ namespace DataDictionary.Interpreter
         /// Perform additional checks based on the parameter types
         /// </summary>
         /// <param name="root">The element on which the errors should be reported</param>
-        /// <param name="context">The evaluation context</param>
         /// <param name="actualParameters">The parameters applied to this function call</param>
-        void additionalChecks(ModelElement root, Interpreter.InterpretationContext context, Dictionary<string, Expression> actualParameters);
+        void additionalChecks(ModelElement root, Dictionary<string, Expression> actualParameters);
     }
 
     public class Call : Expression
@@ -60,7 +60,6 @@ namespace DataDictionary.Interpreter
         /// The unnamed actual parameters
         /// </summary>
         private List<Expression> actualParameters;
-
         public List<Expression> ActualParameters
         {
             get
@@ -81,7 +80,6 @@ namespace DataDictionary.Interpreter
         /// The list of named actual parameters
         /// </summary>
         private Dictionary<string, Expression> namedActualParameters;
-
         public Dictionary<string, Expression> NamedActualParameters
         {
             get
@@ -96,6 +94,11 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
+        /// Provides the association between parameters and their corresponding expression
+        /// </summary>
+        public Dictionary<Parameter, Expression> ParameterAssociation { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="root">The root element for which this element is built</param>
@@ -105,6 +108,22 @@ namespace DataDictionary.Interpreter
         {
             Called = called;
             Called.Enclosing = this;
+        }
+
+        /// <summary>
+        /// Provides all the parameters for this call (both named and unnamed)
+        /// </summary>
+        public List<Expression> AllParameters
+        {
+            get
+            {
+                List<Expression> retVal = new List<Expression>();
+
+                retVal.AddRange(ActualParameters);
+                retVal.AddRange(NamedActualParameters.Values);
+
+                return retVal;
+            }
         }
 
         /// <summary>
@@ -138,44 +157,31 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public override ReturnValue getCalled(InterpretationContext context)
+        public override ICallable getCalled(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ICallable retVal = null;
 
-            foreach (Utils.INamable namable in Called.InnerGetValue(context).Values)
+            Call calledFunction = Called as Call;
+            if (calledFunction != null)
             {
-                ICallable callable = namable as ICallable;
-
-                if (callable != null)
+                retVal = Called.GetValue(context) as ICallable;
+            }
+            else
+            {
+                retVal = Called.getCalled(context);
+                if (retVal == null)
                 {
-                    retVal.Add(callable);
-                }
-                else
-                {
-                    Types.Range range = namable as Types.Range;
+                    Types.Range range = Called.GetExpressionType() as Types.Range;
                     if (range != null)
                     {
-                        retVal.Add(range.CastFunction);
+                        retVal = range.CastFunction;
                     }
-                    else
+
+                    if (retVal == null)
                     {
-                        Variables.IVariable variable = namable as Variables.IVariable;
-                        if (variable != null)
-                        {
-                            Functions.Function function = variable.Value as Functions.Function;
-                            if (function != null)
-                            {
-                                retVal.Add(function);
-                            }
-                        }
+                        retVal = Called.GetValue(context) as ICallable;
                     }
                 }
-            }
-
-            if (retVal.Values.Count > 1)
-            {
-                AddError("Two different callabled could be called: " + retVal.Values[0].FullName + " and " + retVal.Values[1].FullName);
-                retVal = new ReturnValue();
             }
 
             return retVal;
@@ -186,16 +192,7 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public Variables.IProcedure getProcedure(InterpretationContext context)
         {
-            Variables.IProcedure retVal = null;
-
-            foreach (Utils.INamable namable in getCalled(context).Values)
-            {
-                retVal = namable as Variables.IProcedure;
-                if (retVal != null)
-                {
-                    break;
-                }
-            }
+            Variables.IProcedure retVal = getCalled(context) as Variables.IProcedure;
 
             return retVal;
         }
@@ -205,14 +202,63 @@ namespace DataDictionary.Interpreter
         /// </summary>
         public Functions.Function getFunction(InterpretationContext context)
         {
-            Functions.Function retVal = null;
+            Functions.Function retVal = getCalled(context) as Functions.Function;
 
-            foreach (Utils.INamable namable in getCalled(context).Values)
+            return retVal;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        {
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
             {
-                retVal = namable as Functions.Function;
-                if (retVal != null)
+                Called.SemanticAnalysis(instance, Filter.IsCallable);
+                foreach (Expression actual in AllParameters)
                 {
-                    break;
+                    actual.SemanticAnalysis(instance, Filter.IsActualParameter);
+                }
+
+                ParameterAssociation = createParameterAssociation(Called.Ref as ICallable);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates the association between parameter (from the called ICallable) and its associated expression
+        /// </summary>
+        /// <param name="callable"></param>
+        /// <returns></returns>
+        private Dictionary<Parameter, Expression> createParameterAssociation(ICallable callable)
+        {
+            Dictionary<Parameter, Expression> retVal = null;
+
+            if (callable != null)
+            {
+                if (callable.FormalParameters.Count == NamedActualParameters.Count + ActualParameters.Count)
+                {
+                    retVal = new Dictionary<Parameter, Expression>();
+
+                    int i = 0;
+                    foreach (Expression expression in ActualParameters)
+                    {
+                        Parameter parameter = callable.FormalParameters[i] as Parameter;
+                        retVal.Add(parameter, expression);
+                        i = i + 1;
+                    }
+
+                    foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
+                    {
+                        Parameter parameter = callable.getFormalParameter(pair.Key);
+                        retVal.Add(parameter, pair.Value);
+                    }
                 }
             }
 
@@ -220,28 +266,68 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression
+        /// Provides the parameter association according to the icallable provided.
+        /// If the call is statically determined, take the cached association
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="callable"></param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        private Dictionary<Parameter, Expression> getParameterAssociation(ICallable callable)
         {
-            ReturnValue retVal = getExpressionTypes(context);
+            Dictionary<Parameter, Expression> retVal = ParameterAssociation;
+
+            if (retVal == null)
+            {
+                retVal = createParameterAssociation(callable);
+            }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value for this function call
+        /// Provides the ICallable that is statically defined
         /// </summary>
-        /// <param name="instance">The instance on which the function call value must be computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override ICallable getStaticCallable()
         {
-            ReturnValue retVal = new ReturnValue();
+            ICallable retVal = base.getStaticCallable();
+
+            if (retVal == null)
+            {
+                retVal = Called.getStaticCallable().ReturnType as ICallable;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public override Types.Type GetExpressionType()
+        {
+            Types.Type retVal = null;
+
+            Functions.Function function = Called.getStaticCallable() as Functions.Function;
+            if (function != null)
+            {
+                retVal = function.ReturnType;
+            }
+            else
+            {
+                AddError("Cannot get type of function call " + ToString());
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public override Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
             ExplanationPart previous = SetupExplanation();
 
             Functions.Function function = getFunction(context);
@@ -249,23 +335,25 @@ namespace DataDictionary.Interpreter
             {
                 long start = System.Environment.TickCount;
 
-                Dictionary<string, Values.IValue> parameterValues = AssignParameterValues(context, function, true);
-
+                Dictionary<Variables.Actual, Values.IValue> parameterValues = AssignParameterValues(context, function, true);
                 List<Parameter> parameters = GetPlaceHolders(function, parameterValues);
                 if (parameters == null)
                 {
-                    retVal.Add(function.Evaluate(context, parameterValues));
-                    if (retVal.Empty())
+                    retVal = function.Evaluate(context, parameterValues);
+                    if (retVal == null)
                     {
                         AddError("Call " + function.Name + " ( " + ParameterValues(parameterValues) + " ) returned nothing");
                     }
                 }
                 else if (parameters.Count == 1) // graph
                 {
+                    int token = context.LocalScope.PushContext();
+                    context.LocalScope.setGraphParameter(parameters[0]);
                     Functions.Graph graph = function.createGraphForParameter(context, parameters[0]);
+                    context.LocalScope.PopContext(token);
                     if (graph != null)
                     {
-                        retVal.Add(graph.Function);
+                        retVal = graph.Function;
                     }
                     else
                     {
@@ -277,7 +365,7 @@ namespace DataDictionary.Interpreter
                     Functions.Surface surface = function.createSurfaceForParameters(context, parameters[0], parameters[1]);
                     if (surface != null)
                     {
-                        retVal.Add(surface.Function);
+                        retVal = surface.Function;
                     }
                     else
                     {
@@ -292,7 +380,7 @@ namespace DataDictionary.Interpreter
 
                 if (explain)
                 {
-                    CompleteExplanation(previous, function.Name + " ( " + ParameterValues(parameterValues) + " ) returned " + retVal.ToString() + "\n");
+                    CompleteExplanation(previous, function.Name + " ( " + ParameterValues(parameterValues) + " ) returned " + explainNamable(retVal) + "\n");
                 }
             }
             else
@@ -309,19 +397,18 @@ namespace DataDictionary.Interpreter
         /// <param name="function">The function on which the call is performed</param>
         /// <param name="parameterValues">The actual parameter values</param>
         /// <returns></returns>
-        private List<Parameter> GetPlaceHolders(Functions.Function function, Dictionary<string, Values.IValue> parameterValues)
+        private List<Parameter> GetPlaceHolders(Functions.Function function, Dictionary<Variables.Actual, Values.IValue> parameterValues)
         {
             List<Parameter> retVal = new List<Parameter>();
 
-            foreach (KeyValuePair<string, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in parameterValues)
             {
-                if (pair.Value is Values.PlaceHolder)
+                Variables.Actual actual = pair.Key;
+
+                Values.PlaceHolder placeHolder = pair.Value as Values.PlaceHolder;
+                if (placeHolder != null && actual.Parameter.Enclosing == function)
                 {
-                    retVal.Add(function.findParameter(pair.Key));
-                }
-                else
-                {
-                    break;
+                    retVal.Add(actual.Parameter);
                 }
             }
 
@@ -338,16 +425,16 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="parameterValues"></param>
         /// <returns></returns>
-        private static string ParameterValues(Dictionary<string, Values.IValue> parameterValues)
+        private static string ParameterValues(Dictionary<Variables.Actual, Values.IValue> parameterValues)
         {
             string parameters = "";
-            foreach (KeyValuePair<string, Values.IValue> pair in parameterValues)
+            foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in parameterValues)
             {
                 if (!Utils.Utils.isEmpty(parameters))
                 {
                     parameters += ", ";
                 }
-                parameters += pair.Key + " => " + pair.Value.FullName;
+                parameters += pair.Key.Name + " => " + pair.Value.FullName;
             }
             return parameters;
         }
@@ -359,11 +446,10 @@ namespace DataDictionary.Interpreter
         /// <param name="callable">The callable</param>
         /// <param name="log">Indicates whether errors should be logged</param>
         /// <returns></returns>
-        public Dictionary<string, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
+        public Dictionary<Variables.Actual, Values.IValue> AssignParameterValues(InterpretationContext context, ICallable callable, bool log)
         {
-            InterpretationContext ctxt = new InterpretationContext(context, true);
             // Compute the unnamed actual parameter values
-            Dictionary<string, Values.IValue> retVal = new Dictionary<string, Values.IValue>();
+            Dictionary<Variables.Actual, Values.IValue> retVal = new Dictionary<Variables.Actual, Values.IValue>();
 
             if (callable.FormalParameters.Count == NamedActualParameters.Count + ActualParameters.Count)
             {
@@ -371,19 +457,17 @@ namespace DataDictionary.Interpreter
                 foreach (Expression expression in ActualParameters)
                 {
                     Parameter parameter = callable.FormalParameters[i] as Parameter;
-                    Values.IValue val = expression.GetValue(ctxt);
+                    Values.IValue val = expression.GetValue(context);
                     if (val != null)
                     {
-                        val = val.RightSide(parameter, false);
-                        retVal.Add(parameter.Name, val);
+                        Variables.Actual actual = parameter.createActual();
+                        val = val.RightSide(actual, false);
+                        retVal.Add(actual, val);
                     }
                     else
                     {
-                        if (log)
-                        {
-                            AddError("Cannot evaluate value for parameter " + i + " (" + expression.ToString() + ") of function " + callable.Name);
-                            return new Dictionary<string, Values.IValue>();
-                        }
+                        AddError("Cannot evaluate value for parameter " + i + " (" + expression.ToString() + ") of function " + callable.Name);
+                        return new Dictionary<Variables.Actual, Values.IValue>();
                     }
                     i = i + 1;
                 }
@@ -391,19 +475,18 @@ namespace DataDictionary.Interpreter
                 foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
                 {
                     Parameter parameter = callable.getFormalParameter(pair.Key);
-                    Values.IValue val = pair.Value.GetValue(ctxt);
+                    Values.IValue val = pair.Value.GetValue(context);
                     if (val != null)
                     {
-                        val = val.RightSide(parameter, false);
-                        retVal.Add(pair.Key, val);
+                        Variables.Actual actual = parameter.createActual();
+                        val = val.RightSide(actual, false);
+                        actual.Value = val;
+                        retVal.Add(actual, val);
                     }
                     else
                     {
-                        if (log)
-                        {
-                            AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
-                            return new Dictionary<string, Values.IValue>();
-                        }
+                        AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
+                        return new Dictionary<Variables.Actual, Values.IValue>();
                     }
                 }
             }
@@ -412,120 +495,21 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the type of the called element
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private ReturnValue getCalledTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            foreach (Utils.INamable namable in Called.InnerGetTypedElement(context).Values)
-            {
-                Interpreter.ICallable callable = namable as Interpreter.ICallable;
-                if (callable != null)
-                {
-                    retVal.Add(callable);
-                }
-                else
-                {
-                    Types.Range range = namable as Types.Range;
-                    if (range != null)
-                    {
-                        retVal.Add(range.CastFunction);
-                    }
-                    else
-                    {
-                        Variables.IVariable variable = namable as Variables.IVariable;
-                        if (variable != null)
-                        {
-                            DataDictionary.Functions.Function function = variable.Value as DataDictionary.Functions.Function;
-                            if (function != null)
-                            {
-                                retVal.Add(function);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the return type of the function
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            foreach (ICallable callable in getCalledTypes(context).Values)
-            {
-                if (callable != null)
-                {
-                    retVal.Add(callable.ReturnType);
-                }
-            }
-
-            if (retVal.Empty())
-            {
-                AddError("Cannot determine the called function for " + ToString());
-            }
-
-            return retVal;
-        }
-
-        public override void Elements(InterpretationContext context, List<Types.ITypedElement> elements)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
             foreach (Expression expression in NamedActualParameters.Values)
             {
-                expression.Elements(context, elements);
+                expression.fill(retVal, filter);
             }
 
             foreach (Expression expression in ActualParameters)
             {
-                expression.Elements(context, elements);
+                expression.fill(retVal, filter);
             }
-        }
-
-        /// <summary>
-        /// Gathers the literals in this expression
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            foreach (Expression expression in NamedActualParameters.Values)
-            {
-                expression.fillLiterals(retVal);
-            }
-            foreach (Expression expression in ActualParameters)
-            {
-                expression.fillLiterals(retVal);
-            }
-        }
-
-        /// <summary>
-        /// Updates the literal in this expression
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            foreach (string name in NamedActualParameters.Keys)
-            {
-                NamedActualParameters[name] = NamedActualParameters[name].Update(source, target);
-            }
-
-            List<Expression> newExpressions = new List<Expression>();
-            foreach (Expression expression in ActualParameters)
-            {
-                newExpressions.Add(expression.Update(source, target));
-            }
-            ActualParameters = newExpressions;
-
-            return this;
         }
 
         public override string ToString()
@@ -559,135 +543,94 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            base.checkExpression(context);
-            Called.checkExpression(context);
+            base.checkExpression();
 
-            InterpretationContext ctxt = new InterpretationContext(context, true);
-
-            ICallable called = null;
-            foreach (ICallable callable in getCalledTypes(context).Values)
+            Called.checkExpression();
+            ICallable called = Called.getStaticCallable();
+            if (called != null)
             {
-                if (callable != null)
+                if (called.FormalParameters.Count != NamedActualParameters.Count + ActualParameters.Count)
                 {
-                    if (called == null)
+                    AddError("Invalid number of arguments provided for function call " + ToString() + " expected " + called.FormalParameters.Count + " actual " + NamedActualParameters.Count);
+
+                }
+                else
+                {
+                    Dictionary<string, Expression> actuals = new Dictionary<string, Expression>();
+
+                    int i = 0;
+                    foreach (Expression expression in ActualParameters)
                     {
-                        called = callable;
-                        if (called.FormalParameters.Count == NamedActualParameters.Count + ActualParameters.Count)
+                        Parameter parameter = called.FormalParameters[i] as Parameter;
+                        CheckActualAgainstFormal(actuals, expression, parameter);
+                        i = i + 1;
+                    }
+
+                    foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
+                    {
+                        string name = pair.Key;
+                        Expression expression = pair.Value;
+                        Parameter parameter = called.getFormalParameter(name);
+                        if (parameter == null)
                         {
-                            Dictionary<string, Expression> actuals = new Dictionary<string, Expression>();
-
-                            int i = 0;
-                            foreach (Expression expression in ActualParameters)
-                            {
-                                expression.checkExpression(ctxt);
-
-                                Types.Type argumentType = expression.getExpressionType(ctxt);
-                                if (argumentType != null)
-                                {
-                                    Parameter parameter = called.FormalParameters[i] as Parameter;
-
-                                    actuals[parameter.Name] = expression;
-                                    if (parameter.Type != null)
-                                    {
-                                        if (!parameter.Type.Match(argumentType))
-                                        {
-                                            AddError("Invalid argument " + expression.ToString() + " type, expected " + parameter.Type.FullName + ", actual " + argumentType.FullName);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        AddError("Cannot evaluate formal parameter type for " + parameter.Name);
-                                    }
-                                }
-                                else
-                                {
-                                    AddError("Cannot evaluate argument type for argument " + expression.ToString());
-                                }
-
-                                i = i + 1;
-                            }
-
-                            foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
-                            {
-                                string name = pair.Key;
-                                Expression expression = pair.Value;
-
-                                expression.checkExpression(ctxt);
-                                Types.Type argumentType = expression.getExpressionType(ctxt);
-                                if (argumentType != null)
-                                {
-                                    Parameter parameter = called.getFormalParameter(name);
-                                    if (parameter != null)
-                                    {
-                                        if (!actuals.ContainsKey(name))
-                                        {
-                                            actuals[parameter.Name] = expression;
-                                            if (parameter.Type != null)
-                                            {
-                                                if (!parameter.Type.Match(argumentType))
-                                                {
-                                                    AddError("Invalid argument " + expression.ToString() + " type, expected " + parameter.Type.FullName + ", actual " + argumentType.FullName);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                AddError("Cannot evaluate formal parameter type for " + parameter.Name);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            AddError("Parameter " + name + " isassigned twice in " + ToString());
-                                        }
-                                    }
-                                    else
-                                    {
-                                        AddError("Parameter " + name + " is not defined as formal parameter of function " + called.FullName);
-                                    }
-                                }
-                                else
-                                {
-                                    AddError("Cannot evaluate argument type for argument " + name + " => " + expression.ToString());
-                                }
-                            }
-
-                            if (called.FormalParameters.Count > 2)
-                            {
-                                if (ActualParameters.Count > 0)
-                                {
-                                    AddWarning("Calls where more than two parameters are provided must be performed using named association");
-                                }
-                            }
-
-                            called.additionalChecks(Root, context, actuals);
+                            AddError("Parameter " + name + " is not defined as formal parameter of function " + called.FullName);
                         }
                         else
                         {
-                            AddError("Invalid number of arguments provided for function call " + ToString() + " expected " + called.FormalParameters.Count + " actual " + NamedActualParameters.Count);
+                            if (actuals.ContainsKey(name))
+                            {
+                                AddError("Parameter " + name + " isassigned twice in " + ToString());
+                            }
+                            else
+                            {
+                                CheckActualAgainstFormal(actuals, expression, parameter);
+                            }
                         }
                     }
-                    else
+
+                    if (called.FormalParameters.Count > 2)
                     {
-                        AddError("More than one callable can be invoked: " + callable.FullName + " and " + called.FullName);
+                        if (ActualParameters.Count > 0)
+                        {
+                            AddWarning("Calls where more than two parameters are provided must be performed using named association");
+                        }
                     }
+
+                    called.additionalChecks(Root, actuals);
                 }
+            }
+            else
+            {
+                AddError("Cannot determine callable referenced by " + ToString());
             }
         }
 
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
+        private void CheckActualAgainstFormal(Dictionary<string, Expression> actuals, Expression expression, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            actuals[parameter.Name] = expression;
 
-            Functions.Function function = getFunction(context);
-            function.createGraph(context);
-
-            return retVal;
+            expression.checkExpression();
+            Types.Type argumentType = expression.GetExpressionType();
+            if (argumentType == null)
+            {
+                AddError("Cannot evaluate argument type for argument " + expression.ToString());
+            }
+            else
+            {
+                if (parameter.Type == null)
+                {
+                    AddError("Cannot evaluate formal parameter type for " + parameter.Name);
+                }
+                else
+                {
+                    if (!parameter.Type.Match(argumentType))
+                    {
+                        AddError("Invalid argument " + expression.ToString() + " type, expected " + parameter.Type.FullName + ", actual " + argumentType.FullName);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -696,13 +639,11 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
-            Functions.Function function = getFunction(context);
-
-            Functions.PredefinedFunctions.Cast cast = function as Functions.PredefinedFunctions.Cast;
+            Functions.PredefinedFunctions.Cast cast = Called.Ref as Functions.PredefinedFunctions.Cast;
             if (cast != null)
             {
                 // In case of cast, just take the graph of the enclosed expression
@@ -710,22 +651,26 @@ namespace DataDictionary.Interpreter
                 retVal = cast.createGraphForParameter(context, param);
             }
 
-            context.LocalScope.PushContext();
-            Values.Value XValue = new Values.PlaceHolder(EFSSystem.AnyType, 1);
-            parameter.Value = XValue;
-            context.LocalScope.setVariable(parameter);
-            Dictionary<string, Values.IValue> actualValues = AssignParameterValues(context, function, false);
-            function.AssignParameters(context, actualValues);
-            context.LocalScope.PopContext();
+            Function calledFunction = Called.Ref as Function;
+            Dictionary<Parameter, Expression> parameterAssociation = null;
+            if (calledFunction == null)
+            {
+                calledFunction = Called.GetValue(context) as Function;
+                parameterAssociation = createParameterAssociation(calledFunction);
+            }
+            else
+            {
+                parameterAssociation = ParameterAssociation;
+            }
 
             Parameter Xaxis = null;
-            foreach (Parameter param in function.FormalParameters)
+            foreach (KeyValuePair<Parameter, Expression> pair in parameterAssociation)
             {
-                if (param.Value == XValue)
+                if (pair.Value.Ref == parameter)
                 {
                     if (Xaxis == null)
                     {
-                        Xaxis = param;
+                        Xaxis = pair.Key;
                     }
                     else
                     {
@@ -736,19 +681,17 @@ namespace DataDictionary.Interpreter
                 }
             }
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
+            calledFunction.AssignParameters(context, AssignParameterValues(context, calledFunction, false));
             if (Xaxis != null)
             {
-                Xaxis.Value = null;
-                context.LocalScope.setVariable(Xaxis);
-                retVal = function.createGraphForParameter(context, Xaxis);
+                retVal = calledFunction.createGraphForParameter(context, Xaxis);
             }
             else
             {
-                function.AssignParameters(context, actualValues);
-                retVal = function.createGraphForParameter(context, parameter);
+                retVal = calledFunction.createGraph(context, null);
             }
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }
@@ -762,10 +705,10 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
             Functions.Function function = getFunction(context);
-            Functions.PredefinedFunctions.Cast cast = function as Functions.PredefinedFunctions.Cast;
+            Functions.PredefinedFunctions.Cast cast = Called.Ref as Functions.PredefinedFunctions.Cast;
             if (cast != null)
             {
                 // In case of cast, just take the surface of the enclosed expression
@@ -777,13 +720,18 @@ namespace DataDictionary.Interpreter
                 Parameter Xaxis = null;
                 Parameter Yaxis = null;
 
-                if (SelectXandYAxis(context, xParam, yParam, function, out Xaxis, out Yaxis))
+                if (function == null)
                 {
-                    context.LocalScope.PushContext();
-                    context.LocalScope.setVariable(Xaxis);
-                    context.LocalScope.setVariable(Yaxis);
+                    function = Called.getCalled(context) as Function;
+                }
+
+                SelectXandYAxis(context, xParam, yParam, function, out Xaxis, out Yaxis);
+                if (Xaxis != null || Yaxis != null)
+                {
+                    int token = context.LocalScope.PushContext();
+                    function.AssignParameters(context, AssignParameterValues(context, function, true));
                     retVal = function.createSurfaceForParameters(context, Xaxis, Yaxis);
-                    context.LocalScope.PopContext();
+                    context.LocalScope.PopContext(token);
                 }
                 else
                 {
@@ -798,7 +746,6 @@ namespace DataDictionary.Interpreter
                     }
                 }
             }
-
             retVal.XParameter = xParam;
             retVal.YParameter = yParam;
 
@@ -815,65 +762,60 @@ namespace DataDictionary.Interpreter
         /// <param name="Xaxis">The resulting X axis</param>
         /// <param name="Yaxis">The resulting Y axis</param>
         /// <returns>true if the axis could be selected</returns>
-        private bool SelectXandYAxis(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam, Functions.Function function, out Parameter Xaxis, out Parameter Yaxis)
+        private void SelectXandYAxis(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam, Functions.Function function, out Parameter Xaxis, out Parameter Yaxis)
         {
-            bool retVal = false;
-
-            context.LocalScope.PushContext();
-            Values.Value XValue = new Values.PlaceHolder(EFSSystem.AnyType, 1);
-            Values.Value YValue = new Values.PlaceHolder(EFSSystem.AnyType, 2);
-            xParam.Value = XValue;
-            yParam.Value = YValue;
-            context.LocalScope.setVariable(xParam);
-            context.LocalScope.setVariable(yParam);
-            Dictionary<string, Values.IValue> actualValues = AssignParameterValues(context, function, false);
-            function.AssignParameters(context, actualValues);
-            context.LocalScope.PopContext();
-
             Xaxis = null;
             Yaxis = null;
-            foreach (Parameter param in function.FormalParameters)
-            {
-                if (param.Value == XValue)
-                {
-                    if (Xaxis == null)
-                    {
-                        Xaxis = param;
-                    }
-                    else
-                    {
-                        Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 X axis parameter");
-                        Xaxis = null;
-                        break;
-                    }
-                }
 
-                if (param.Value == YValue)
+            Dictionary<Parameter, Expression> association = getParameterAssociation(function);
+            if (association != null)
+            {
+                foreach (KeyValuePair<Parameter, Expression> pair in association)
                 {
-                    if (Yaxis == null)
+                    if (pair.Value.Ref == xParam)
                     {
-                        Yaxis = param;
+                        if (Xaxis == null)
+                        {
+                            Xaxis = pair.Key;
+                        }
+                        else
+                        {
+                            Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 X axis parameter");
+                            Xaxis = null;
+                            break;
+                        }
                     }
-                    else
+
+                    if (pair.Value.Ref == yParam)
                     {
-                        Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 Y axis parameter");
-                        Yaxis = null;
-                        break;
+                        if (Yaxis == null)
+                        {
+                            Yaxis = pair.Key;
+                        }
+                        else
+                        {
+                            Root.AddError("Cannot evaluate surface for function call " + ToString() + " which has more than 1 Y axis parameter");
+                            Yaxis = null;
+                            break;
+                        }
                     }
                 }
             }
+        }
 
-            if (Xaxis != null || Yaxis != null)
+        /// <summary>
+        /// Indicates whether this call may read a given variable
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public bool Reads(Types.ITypedElement variable)
+        {
+            bool retVal = false;
+
+            Function function = Called.getStaticCallable() as Function;
+            if (function != null)
             {
-                retVal = true;
-                if (Xaxis == null)
-                {
-                    Xaxis = xParam;
-                }
-                if (Yaxis == null)
-                {
-                    Yaxis = yParam;
-                }
+                retVal = function.Reads(variable);
             }
 
             return retVal;

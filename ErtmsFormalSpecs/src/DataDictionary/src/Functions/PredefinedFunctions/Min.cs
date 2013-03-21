@@ -64,8 +64,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
             CheckFunctionalParameter(root, context, actualParameters[First.Name], 1);
             CheckFunctionalParameter(root, context, actualParameters[Second.Name], 1);
 
-            Function function1 = actualParameters[First.Name].getExpressionType(context) as Function;
-            Function function2 = actualParameters[Second.Name].getExpressionType(context) as Function;
+            Function function1 = actualParameters[First.Name].GetExpressionType() as Function;
+            Function function2 = actualParameters[Second.Name].GetExpressionType() as Function;
 
             if (function1 != null && function2 != null)
             {
@@ -92,16 +92,14 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Values.IValue firstValue = First.Value;
-            Values.IValue secondValue = Second.Value;
-            Graph firstGraph = createGraphForValue(context, firstValue);
+            Graph firstGraph = createGraphForValue(context, context.findOnStack(First).Value);
             if (firstGraph != null)
             {
-                Graph secondGraph = createGraphForValue(context, secondValue);
+                Graph secondGraph = createGraphForValue(context, context.findOnStack(Second).Value);
                 if (secondGraph != null)
                 {
                     retVal = firstGraph.Min(secondGraph);
@@ -119,6 +117,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
             return retVal;
         }
 
+        int recursionCount = 0;
+
         /// <summary>
         /// Provides the value of the function
         /// </summary>
@@ -126,27 +126,38 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
-            AssignParameters(context, actuals);
+            try
+            {
+                recursionCount += 1;
+                if (recursionCount > 10)
+                {
+                    System.Diagnostics.Debugger.Break();
+                }
 
-            Function function = (Function)Generated.acceptor.getFactory().createFunction();
-            function.Name = "MIN (" + getName(First) + ", " + getName(Second) + ")";
-            function.Enclosing = EFSSystem;
-            function.Graph = createGraph(context);
+                int token = context.LocalScope.PushContext();
+                AssignParameters(context, actuals);
 
-            Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
-            parameter.Name = "X";
-            parameter.Type = EFSSystem.DoubleType;
-            function.appendParameters(parameter);
+                Function function = (Function)Generated.acceptor.getFactory().createFunction();
+                function.Name = "MIN (" + getName(First) + ", " + getName(Second) + ")";
+                function.Enclosing = EFSSystem;
+                Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
+                parameter.Name = "X";
+                parameter.Type = EFSSystem.DoubleType;
+                function.appendParameters(parameter);
+                function.ReturnType = EFSSystem.DoubleType;
+                function.Graph = createGraph(context, parameter);
 
-            function.ReturnType = EFSSystem.DoubleType;
-
-            retVal = function;
-            context.LocalScope.PopContext();
+                retVal = function;
+                context.LocalScope.PopContext(token);
+            }
+            finally
+            {
+                recursionCount -= 1;
+            }
 
             return retVal;
         }

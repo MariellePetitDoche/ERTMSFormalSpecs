@@ -1,3 +1,4 @@
+using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -13,11 +14,11 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
+using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
-    public class ReduceExpression : ExpressionBasedListExpression
+    public class ReduceExpression : ExpressionBasedListExpression, ISubDeclarator
     {
         /// <summary>
         /// The operator for this expression
@@ -51,74 +52,79 @@ namespace DataDictionary.Interpreter.ListOperators
             AccumulatorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             AccumulatorVariable.Enclosing = this;
             AccumulatorVariable.Name = "RESULT";
-            AccumulatorVariable.Type = InitialValue.getExpressionType();
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, AccumulatorVariable);
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
-            ReturnValue retVal = getExpressionTypes(context);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
+            {
+                InitialValue.SemanticAnalysis(instance, Filter.AllMatches);
+
+                AccumulatorVariable.Type = InitialValue.GetExpressionType();
+            }
 
             return retVal;
         }
 
-        /// <summary>
-        /// Provides the value associated to this Term
-        /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override ICallable getStaticCallable()
         {
-            ReturnValue retVal = new ReturnValue();
+            return InitialValue.getStaticCallable();
+        }
 
-            InterpretationContext ctxt = new InterpretationContext(context, Root);
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public override Types.Type GetExpressionType()
+        {
+            return IteratorExpression.GetExpressionType();
+        }
 
-            Values.ListValue value = ListExpression.GetValue(ctxt) as Values.ListValue;
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public override Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
+
+            Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(ctxt);
-                ctxt.LocalScope.setVariable(AccumulatorVariable);
-                AccumulatorVariable.Value = InitialValue.GetValue(ctxt);
+                int token = PrepareIteration(context);
+                context.LocalScope.setVariable(AccumulatorVariable);
+                AccumulatorVariable.Value = InitialValue.GetValue(context);
 
                 foreach (Values.IValue v in value.Val)
                 {
                     if (v != EFSSystem.EmptyValue)
                     {
                         IteratorVariable.Value = v;
-                        if (conditionSatisfied(ctxt))
+                        if (conditionSatisfied(context))
                         {
-                            AccumulatorVariable.Value = IteratorExpression.GetValue(ctxt);
+                            AccumulatorVariable.Value = IteratorExpression.GetValue(context);
                         }
                     }
                     NextIteration();
                 }
-                EndIteration(ctxt);
-                retVal.Add(AccumulatorVariable.Value);
+                EndIteration(context, token);
+                retVal = AccumulatorVariable.Value;
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            PrepareIteration(context);
-            context.LocalScope.setVariable(AccumulatorVariable);
-            retVal.Add(IteratorExpression.getExpressionType(context));
-            EndIteration(context);
+            else
+            {
+                AddError("Cannot evaluate list value " + ListExpression.ToString());
+            }
 
             return retVal;
         }
@@ -128,14 +134,48 @@ namespace DataDictionary.Interpreter.ListOperators
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public override ReturnValue getCalled(InterpretationContext context)
+        public override ICallable getCalled(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ICallable retVal = null;
 
-            Functions.Graph graph = createGraph(context);
-            if (graph != null)
+            Functions.Function function = InitialValue.Ref as Functions.Function;
+            if (function == null)
             {
-                retVal.Add(graph.Function);
+                function = InitialValue.getCalled(context) as Functions.Function;
+            }
+
+            if (function != null)
+            {
+                if (function.FormalParameters.Count == 1)
+                {
+                    int token = context.LocalScope.PushContext();
+                    context.LocalScope.setGraphParameter((Parameter)function.FormalParameters[0]);
+                    Functions.Graph graph = createGraph(context, (Parameter)function.FormalParameters[0]);
+                    context.LocalScope.PopContext(token);
+                    if (graph != null)
+                    {
+                        retVal = graph.Function;
+                    }
+                }
+                else if (function.FormalParameters.Count == 2)
+                {
+                    int token = context.LocalScope.PushContext();
+                    context.LocalScope.setSurfaceParameters((Parameter)function.FormalParameters[0], (Parameter)function.FormalParameters[1]);
+                    Functions.Surface surface = createSurface(context, (Parameter)function.FormalParameters[0], (Parameter)function.FormalParameters[1]);
+                    context.LocalScope.PopContext(token);
+                    if (surface != null)
+                    {
+                        retVal = surface.Function;
+                    }
+                }
+                else
+                {
+                    AddError("Cannot evaluate REDUCE expression to a function");
+                }
+            }
+            else
+            {
+                AddError("Cannot evaluate REDUCE expression to a function");
             }
 
             return retVal;
@@ -160,22 +200,32 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
+        /// Prepares the iteration on the context provided
+        /// </summary>
+        /// <param name="context"></param>
+        protected override int PrepareIteration(InterpretationContext context)
+        {
+            int retVal = base.PrepareIteration(context);
+
+            context.LocalScope.setVariable(AccumulatorVariable);
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            base.checkExpression(context);
+            base.checkExpression();
 
-            Types.Type initialValueType = InitialValue.getExpressionType(context);
+            Types.Type initialValueType = InitialValue.GetExpressionType();
             if (initialValueType != null)
             {
-                Types.Collection listExpressionType = ListExpression.getExpressionType(context) as Types.Collection;
+                Types.Collection listExpressionType = ListExpression.GetExpressionType() as Types.Collection;
                 if (listExpressionType != null)
                 {
-                    PrepareIteration(context);
-                    context.LocalScope.setVariable(AccumulatorVariable);
-                    IteratorExpression.checkExpression(context);
-                    EndIteration(context);
+                    IteratorExpression.checkExpression();
                 }
             }
             else
@@ -190,43 +240,17 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
-            Values.IValue value = GetValue(context);
-
-            Functions.Function function = value as Functions.Function;
-            if (function != null)
-            {
-                retVal = function.Graph;
-            }
-            else
-            {
-                retVal = Functions.Graph.createGraph(Functions.Function.getDoubleValue(value));
-            }
-
-            return retVal;
-        }
-
-
-        /// <summary>
-        /// Creates the graph associated to this expression
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(InterpretationContext context)
-        {
-            Functions.Graph retVal = null;
-
-            Functions.Graph graph = InitialValue.createGraph(context);
+            Functions.Graph graph = InitialValue.createGraph(context, parameter);
             if (graph != null)
             {
                 Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
                 if (value != null)
                 {
-                    PrepareIteration(context);
-                    context.LocalScope.setVariable(AccumulatorVariable);
+                    int token = PrepareIteration(context);
                     AccumulatorVariable.Value = graph.Function;
 
                     foreach (Values.IValue v in value.Val)
@@ -248,9 +272,9 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                     else
                     {
-                        throw new Exception("Expression does not reduces to a function");
+                        retVal = Functions.Function.createGraphForValue(AccumulatorVariable.Value);
                     }
-                    EndIteration(context);
+                    EndIteration(context, token);
                 }
             }
             else
@@ -270,7 +294,49 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            throw new Exception("Cannot create surface for " + ToString());
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
+
+            Functions.Surface surface = InitialValue.createSurface(context, xParam, yParam);
+            if (surface != null)
+            {
+                Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
+                if (value != null)
+                {
+                    int token = PrepareIteration(context);
+                    AccumulatorVariable.Value = surface.Function;
+
+                    foreach (Values.IValue v in value.Val)
+                    {
+                        if (v != EFSSystem.EmptyValue)
+                        {
+                            IteratorVariable.Value = v;
+                            if (conditionSatisfied(context))
+                            {
+                                AccumulatorVariable.Value = IteratorExpression.GetValue(context);
+                            }
+                        }
+                        NextIteration();
+                    }
+                    Functions.Function function = AccumulatorVariable.Value as Functions.Function;
+                    if (function != null)
+                    {
+                        retVal = function.Surface;
+                    }
+                    else
+                    {
+                        throw new Exception("Expression does not reduces to a function");
+                    }
+                    EndIteration(context, token);
+                }
+            }
+            else
+            {
+                throw new Exception("Cannot create surface for initial value " + InitialValue.ToString());
+            }
+            retVal.XParameter = xParam;
+            retVal.YParameter = yParam;
+
+            return retVal;
         }
     }
 }

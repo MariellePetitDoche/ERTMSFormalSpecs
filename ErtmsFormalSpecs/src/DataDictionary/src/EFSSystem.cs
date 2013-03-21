@@ -737,18 +737,16 @@ namespace DataDictionary
 
             if (name != null)
             {
-                if (nameSpace != null)
+                foreach (Dictionary dictionary in Dictionaries)
                 {
-                    foreach (Dictionary dictionary in Dictionaries)
+                    retVal = dictionary.findType(nameSpace, name);
+                    if (retVal != null)
                     {
-                        retVal = dictionary.findType(nameSpace, name);
-                        if (retVal != null)
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
-                else
+
+                if (retVal == null)
                 {
                     PredefinedTypes.TryGetValue(name, out retVal);
                 }

@@ -71,14 +71,25 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Graph graph = createGraphForValue(context, Function.Value);
+            Graph graph = null;
+
+            Function function = context.findOnStack(Function).Value as Function;
+            if (function != null)
+            {
+                int token = context.LocalScope.PushContext();
+                Parameter p = (Parameter)function.FormalParameters[0];
+                context.LocalScope.setGraphParameter(p);
+                graph = createGraphForValue(context, function, p);
+                context.LocalScope.PopContext(token);
+            }
+
             if (graph != null)
             {
-                Function increment = Increment.Value as Function;
+                Function increment = context.findOnStack(Increment).Value as Function;
                 retVal = graph.AddIncrement(context, increment);
             }
             else
@@ -96,27 +107,25 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
             Function function = (Function)Generated.acceptor.getFactory().createFunction();
             function.Name = "AddIncrement ( Function => " + getName(Function) + ", Value => " + getName(Increment) + ")";
             function.Enclosing = EFSSystem;
-            function.Graph = createGraph(context);
-
             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
             parameter.Name = "X";
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
-
             function.ReturnType = EFSSystem.DoubleType;
+            function.Graph = createGraph(context, parameter);
 
             retVal = function;
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

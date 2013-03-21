@@ -64,8 +64,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
             CheckFunctionalParameter(root, context, actualParameters[First.Name], 1);
             CheckFunctionalParameter(root, context, actualParameters[Second.Name], 1);
 
-            Function function1 = actualParameters[First.Name].getExpressionType() as Function;
-            Function function2 = actualParameters[Second.Name].getExpressionType() as Function;
+            Function function1 = actualParameters[First.Name].GetExpressionType() as Function;
+            Function function2 = actualParameters[Second.Name].GetExpressionType() as Function;
 
             if (function1 != null && function2 != null)
             {
@@ -92,17 +92,17 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Values.IValue firstValue = First.Value;
-            Values.IValue secondValue = Second.Value;
+            Values.IValue firstValue = context.findOnStack(First).Value;
+            Values.IValue secondValue = context.findOnStack(Second).Value;
 
-            Graph firstGraph = createGraphForValue(context, firstValue);
+            Graph firstGraph = createGraphForValue(context, firstValue, parameter);
             if (firstGraph != null)
             {
-                Graph secondGraph = createGraphForValue(context, secondValue);
+                Graph secondGraph = createGraphForValue(context, secondValue, parameter);
                 if (secondGraph != null)
                 {
                     retVal = firstGraph.Max(secondGraph);
@@ -127,27 +127,25 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
             Function function = (Function)Generated.acceptor.getFactory().createFunction();
             function.Name = "MAX (" + getName(First) + ", " + getName(Second) + ")";
             function.Enclosing = EFSSystem;
-            function.Graph = createGraph(context);
-
             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
             parameter.Name = "X";
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
-
             function.ReturnType = EFSSystem.DoubleType;
+            function.Graph = createGraph(context, parameter);
 
             retVal = function;
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

@@ -145,6 +145,46 @@ namespace Utils
                 dictionary[name].Add(namable);
             }
         }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal from the dictionary
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public static void Find(Dictionary<string, List<INamable>> dictionary, string name, List<INamable> retVal)
+        {
+            List<INamable> tmp;
+            if (dictionary.TryGetValue(name, out tmp))
+            {
+                retVal.AddRange(tmp);
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether the declarator contains the value provided as parameter
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool ContainsValue(Dictionary<string, List<INamable>> dictionary, INamable value)
+        {
+            bool retVal = false;
+
+            List<INamable> tmp;
+            if (dictionary.TryGetValue(value.Name, out tmp))
+            {
+                foreach (INamable namable in tmp)
+                {
+                    if (namable == value)
+                    {
+                        retVal = true;
+                        break;
+                    }
+                }
+            }
+
+            return retVal;
+        }
     }
 
     ///

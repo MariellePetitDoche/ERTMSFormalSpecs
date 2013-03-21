@@ -391,11 +391,11 @@ namespace DataDictionary.Tests.Runner
                     StructureValue value = variable.Value as StructureValue;
                     if (value != null)
                     {
-                        foreach (Variables.Variable subVariable in value.SubVariables.Values)
+                        foreach (Variables.IVariable subVariable in value.SubVariables.Values)
                         {
                             EvaluateVariable(priority, activations, subVariable);
                         }
-                        foreach (Variables.Procedure procedure in value.Procedures.Values)
+                        foreach (Variables.IProcedure procedure in value.Procedures.Values)
                         {
                             EvaluateVariable(priority, activations, procedure.CurrentState);
                         }
@@ -441,14 +441,14 @@ namespace DataDictionary.Tests.Runner
             if (currentStateVariable != null)
             {
                 Constants.State currentState = currentStateVariable.Value as Constants.State;
-
-                while (currentState != null)
+                Types.StateMachine currentStateMachine = currentState.StateMachine;
+                while (currentStateMachine != null)
                 {
-                    foreach (Rule rule in currentState.StateMachine.Rules)
+                    foreach (Rule rule in currentStateMachine.Rules)
                     {
                         rule.Evaluate(this, priority, currentStateVariable, ruleConditions);
                     }
-                    currentState = currentState.EnclosingState;
+                    currentStateMachine = currentStateMachine.EnclosingStateMachine;
                 }
             }
         }

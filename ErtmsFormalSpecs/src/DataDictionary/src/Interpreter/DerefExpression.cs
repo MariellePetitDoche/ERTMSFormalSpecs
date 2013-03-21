@@ -15,151 +15,251 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace DataDictionary.Interpreter
 {
-    public class DerefExpression : BinaryExpression
+    public class DerefExpression : Expression
     {
+        /// <summary>
+        /// Desig elements of this designator
+        /// </summary>
+        public List<Expression> Arguments { get; private set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="left"></param>
         /// <param name="op"></param>
         /// <param name="right"></param>
-        public DerefExpression(ModelElement root, Expression left, Expression right)
-            : base(root, left, BinaryExpression.OPERATOR.DOT, right)
+        public DerefExpression(ModelElement root, List<Expression> arguments)
+            : base(root)
         {
+            Arguments = arguments;
+
+            foreach (Expression expr in Arguments)
+            {
+                expr.Enclosing = this;
+            }
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// The model element referenced by this designator.
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public override INamable Ref { get; protected set; }
+
+        /// <summary>
+        /// Provides the ICallable referenced by this 
+        /// </summary>
+        public ICallable Called
         {
-            ReturnValue retVal = new ReturnValue();
-
-            ReturnValue leftParts = Left.InnerGetTypedElement(context);
-            if (!leftParts.Empty())
+            get
             {
-                foreach (Utils.INamable leftObject in leftParts.Values)
+                ICallable retVal = Ref as ICallable;
+
+                if (retVal == null)
                 {
-                    InterpretationContext ctxt = new InterpretationContext(context, leftObject, false);
-                    retVal.Merge(Right.InnerGetTypedElement(ctxt));
+                    Types.Range range = GetExpressionType() as Types.Range;
+                    if (range != null)
+                    {
+                        retVal = range.CastFunction;
+                    }
                 }
 
-                if (retVal.Empty())
-                {
-                    AddError("Cannot find " + Right.ToString() + " in " + Left.ToString());
-                }
+                return retVal;
             }
-            else
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        {
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
             {
-                AddError("Cannot evaluate " + Left.ToString());
+                Ref = null;
+
+                ReturnValue tmp = Arguments[0].getReferences(null, Filter.AllMatches, false);
+                if (tmp.IsEmpty)
+                {
+                    tmp = Arguments[0].getReferenceTypes(instance, Filter.AllMatches, false);
+                }
+
+                if (!tmp.IsEmpty)
+                {
+                    for (int i = 1; i < Arguments.Count; i++)
+                    {
+                        ReturnValue tmp2 = tmp;
+                        tmp = new ReturnValue(Arguments[i]);
+
+                        foreach (ReturnValueElement elem in tmp2.Values)
+                        {
+                            tmp.Merge(elem, Arguments[i].getReferences(elem.Value, Filter.AllMatches, i == (Arguments.Count - 1)));
+                        }
+
+                        if (tmp.IsEmpty)
+                        {
+                            AddError("Cannot find " + Arguments[i].ToString() + " in " + Arguments[i - 1].ToString());
+                        }
+                    }
+                }
+                else
+                {
+                    AddError("Cannot evaluate " + Arguments[0].ToString());
+                }
+
+                tmp.filter(expectation);
+                if (tmp.IsUnique)
+                {
+                    // Unique element has been found. Reference it and perform the semantic analysis 
+                    // on all dereferenced expression, now that the context is known for each expression
+                    Ref = tmp.Values[0].Value;
+
+                    ReturnValueElement current = tmp.Values[0];
+                    for (int i = Arguments.Count - 1; i > 0; i--)
+                    {
+                        current = current.PreviousElement;
+                        Arguments[i].SemanticAnalysis(current.Value);
+                    }
+                    Arguments[0].SemanticAnalysis();
+                }
+                else if (tmp.IsAmbiguous)
+                {
+                    // Several possible interpretations for this deref expression, not allowed
+                    AddError("Expression " + ToString() + " may have several interpretations " + tmp.ToString() + ", please disambiguate");
+                }
+                else
+                {
+                    // No possible interpretation for this deref expression, not allowed
+                    AddError("Expression " + ToString() + " has no interpretation");
+
+                }
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            ReturnValue retVal = new ReturnValue();
+            Types.Type retVal = Ref as Types.Type;
 
-            ReturnValue leftParts = Left.InnerGetValue(context);
-            if (!leftParts.Empty())
+            if (retVal == null)
             {
-                foreach (Utils.INamable leftObject in leftParts.Values)
+                Types.ITypedElement typedElement = Ref as Types.ITypedElement;
+                if (typedElement != null)
                 {
-                    InterpretationContext ctxt = new InterpretationContext(context, leftObject, false);
-                    retVal.Merge(Right.InnerGetValue(ctxt));
+                    retVal = typedElement.Type;
                 }
-
-                if (retVal.Empty())
-                {
-                    AddError("Cannot find " + Right.ToString() + " in " + Left.ToString());
-                }
-            }
-            else
-            {
-                AddError("Cannot evaluate " + Left.ToString());
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the typed element referenced by this . expression
+        /// Provides the variable referenced by this expression, if any
         /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        public Types.ITypedElement getTypedElement(InterpretationContext context)
+        /// <param name="context">The context on which the variable must be found</param>
+        /// <returns></returns>
+        public override Variables.IVariable GetVariable(InterpretationContext context)
         {
-            Types.ITypedElement retVal = null;
+            INamable current = null;
 
-            foreach (Utils.INamable namable in InnerGetValue(context).Values)
+            InterpretationContext ctxt = new InterpretationContext(context);
+            for (int i = 0; i < Arguments.Count; i++)
             {
-                retVal = namable as Types.ITypedElement;
+                if (current != null)
+                {
+                    // Current can be null on several loop iterations when the referenced element
+                    // does not references a variable (for instance, when it references a namespace)
+                    ctxt.Instance = current;
+                }
+                current = Arguments[i].GetVariable(ctxt);
+                if (current == null)
+                {
+                    current = Arguments[i].GetValue(ctxt);
+                }
+            }
+
+            return current as Variables.IVariable;
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public override Values.IValue GetValue(InterpretationContext context)
+        {
+            INamable retVal = Ref as Values.IValue;
+
+            if (retVal == null)
+            {
+                InterpretationContext ctxt = new InterpretationContext(context);
+                for (int i = 0; i < Arguments.Count; i++)
+                {
+                    if (retVal != null)
+                    {
+                        ctxt.Instance = retVal;
+                    }
+                    retVal = Arguments[i].GetValue(ctxt);
+
+                    if (retVal == EFSSystem.EmptyValue)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (retVal == null)
+            {
+                AddError(ToString() + " does not refer to a value");
+            }
+
+            return retVal as Values.IValue;
+        }
+
+        /// <summary>
+        /// Provides the value of the prefix of the expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <param name="elementCount">The number of elements to consider</param>
+        /// <returns></returns>
+        public INamable GetPrefixValue(InterpretationContext context, int elementCount)
+        {
+            INamable retVal = null;
+
+            InterpretationContext ctxt = new InterpretationContext(context);
+            for (int i = 0; i < elementCount; i++)
+            {
                 if (retVal != null)
+                {
+                    ctxt.Instance = retVal;
+                }
+                retVal = Arguments[i].GetValue(ctxt);
+                if (retVal == null)
+                {
+                    retVal = Arguments[i].Ref;
+                }
+
+                if (retVal == EFSSystem.EmptyValue)
                 {
                     break;
                 }
             }
 
-            return retVal;
-        }
-
-        /// <summary>
-        /// Dereferences a namable
-        /// </summary>
-        /// <param name="namable"></param>
-        /// <returns></returns>
-        private Utils.INamable deref(Utils.INamable namable)
-        {
-            Utils.INamable retVal = namable;
-
-            Functions.Function function = namable as Functions.Function;
-            if (function != null)
+            if (retVal == null)
             {
-                retVal = function.Type;
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            ReturnValue lType = Left.getExpressionTypes(context);
-            if (lType.Empty())
-            {
-                AddError("Cannot determine expression type (4) for " + Left.ToString());
-            }
-            else
-            {
-                foreach (Utils.INamable namable in lType.Values)
-                {
-                    InterpretationContext ctxt = new InterpretationContext(context, deref(namable), false);
-                    retVal.Merge(Right.getExpressionTypes(ctxt));
-                }
-
-                if (retVal.Empty())
-                {
-                    AddError("Cannot find " + Right.ToString() + " in " + Left.ToString());
-                }
+                AddError(ToString() + " prefix does not refer to a value");
             }
 
             return retVal;
@@ -170,73 +270,29 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public override ReturnValue getCalled(InterpretationContext context)
+        public override ICallable getCalled(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            ICallable retVal = Called;
 
-            ReturnValue leftParts = Left.InnerGetValue(context);
-            if (!leftParts.Empty())
+            if (retVal == null)
             {
-                foreach (Utils.INamable leftObject in leftParts.Values)
-                {
-                    InterpretationContext ctxt = new InterpretationContext(context, deref(leftObject), false);
-                    retVal.Merge(Right.getCalled(ctxt));
-                }
+                AddError("Cannot evaluate call to " + ToString());
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <param name="elements"></param>
-        public override void Elements(InterpretationContext ctxt, List<Types.ITypedElement> elements)
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public override void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
         {
-            Types.ITypedElement element = getTypedElement(ctxt);
-            if (element != null)
+            if (filter(Ref))
             {
-                elements.Add(element);
+                retVal.Add(Ref);
             }
-        }
-
-        /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public override void fillLiterals(List<Values.IValue> retVal)
-        {
-            foreach (Utils.INamable namable in InnerGetValue(new InterpretationContext(Root)).Values)
-            {
-                Values.IValue value = namable as Values.IValue;
-
-                if (value != null)
-                {
-                    retVal.Add(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Updates the expression text
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public override Expression Update(Values.IValue source, Values.IValue target)
-        {
-            Expression retVal = this;
-
-            if (ToString().CompareTo(source.LiteralName) == 0)
-            {
-                Parser parser = new Parser(EFSSystem);
-                retVal = parser.Expression(Root, target.LiteralName);
-                if (retVal == null)
-                {
-                    retVal = this;
-                }
-            }
-
-            return retVal;
         }
 
         /// <summary>
@@ -247,7 +303,17 @@ namespace DataDictionary.Interpreter
         {
             string retVal = "";
 
-            retVal = Left.ToString() + Image(Operation) + Right.ToString();
+            bool first = true;
+            foreach (Expression expr in Arguments)
+            {
+                if (!first)
+                {
+                    retVal += ".";
+                }
+                retVal += expr.ToString();
+
+                first = false;
+            }
 
             return retVal;
         }
@@ -256,40 +322,9 @@ namespace DataDictionary.Interpreter
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
         /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            Left.checkExpression(context);
-
-            ReturnValue lType = Left.getExpressionTypes(context);
-            if (lType.Empty())
-            {
-                AddError("Cannot determine reference of " + Left.ToString());
-            }
-
-            foreach (Utils.INamable namable in lType.Values)
-            {
-                InterpretationContext ctxt = new InterpretationContext(context, deref(namable), false);
-                Right.checkExpression(ctxt);
-            }
-        }
-
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            Functions.Graph retVal = null;
-
-            retVal = Functions.Graph.createGraph(GetValue(context));
-
-            if (retVal == null)
-            {
-                throw new Exception("Cannot create graph for " + ToString());
-            }
-
-            return retVal;
+            base.checkExpression();
         }
 
         /// <summary>
@@ -298,11 +333,11 @@ namespace DataDictionary.Interpreter
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
+        public override Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
         {
-            Functions.Graph retVal = null;
+            Functions.Graph retVal = base.createGraph(context, parameter);
 
-            retVal = Functions.Graph.createGraph(GetValue(context));
+            retVal = Functions.Graph.createGraph(GetValue(context), parameter);
 
             if (retVal == null)
             {
@@ -322,7 +357,7 @@ namespace DataDictionary.Interpreter
         /// <returns>The surface which corresponds to this expression</returns>
         public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
         {
-            Functions.Surface retVal = null;
+            Functions.Surface retVal = base.createSurface(context, xParam, yParam);
 
             retVal = Functions.Surface.createSurface(GetValue(context), xParam, yParam);
 
@@ -330,7 +365,6 @@ namespace DataDictionary.Interpreter
             {
                 throw new Exception("Cannot create surface for " + ToString());
             }
-
             retVal.XParameter = xParam;
             retVal.YParameter = yParam;
 

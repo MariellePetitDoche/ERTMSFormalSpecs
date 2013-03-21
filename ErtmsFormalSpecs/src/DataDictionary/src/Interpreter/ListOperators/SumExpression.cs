@@ -13,11 +13,10 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
-    public class SumExpression : ExpressionBasedListExpression
+    public class SumExpression : ExpressionBasedListExpression, Utils.ISubDeclarator
     {
         /// <summary>
         /// The operator for this expression
@@ -44,49 +43,61 @@ namespace DataDictionary.Interpreter.ListOperators
         public SumExpression(ModelElement root, Expression listExpression, Expression condition, Expression expression)
             : base(root, listExpression, condition, expression)
         {
-
             AccumulatorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             AccumulatorVariable.Enclosing = this;
             AccumulatorVariable.Name = "RESULT";
-
-            InterpretationContext context = new InterpretationContext(root);
-            context.LocalScope.setVariable(IteratorVariable);
-            AccumulatorVariable.Type = expression.getExpressionType(context);
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, AccumulatorVariable);
 
             Accumulator = new BinaryExpression(root, expression, BinaryExpression.OPERATOR.ADD, new UnaryExpression(root, new Term(root, new Designator(root, "RESULT"))));
+            Accumulator.Enclosing = this;
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Performs the semantic analysis of the expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
         {
-            ReturnValue retVal = getExpressionTypes(context);
+            bool retVal = base.SemanticAnalysis(instance, expectation);
+
+            if (retVal)
+            {
+                AccumulatorVariable.Type = IteratorExpression.GetExpressionType();
+
+                Accumulator.SemanticAnalysis(instance, Filter.AllMatches);
+            }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            ReturnValue retVal = new ReturnValue();
+            return IteratorExpression.GetExpressionType();
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public override Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
 
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(context);
+                int token = PrepareIteration(context);
                 context.LocalScope.setVariable(AccumulatorVariable);
 
-                Types.Type resultType = getExpressionType(context);
+                Types.Type resultType = GetExpressionType();
                 if (resultType != null)
                 {
                     AccumulatorVariable.Value = resultType.getValue("0");
@@ -105,27 +116,10 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                 }
 
-                EndIteration(context);
+                EndIteration(context, token);
 
-                retVal.Add(AccumulatorVariable.Value);
+                retVal = AccumulatorVariable.Value;
             }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            PrepareIteration(context);
-            context.LocalScope.setVariable(AccumulatorVariable);
-            retVal.Add(IteratorExpression.getExpressionType(context));
-            EndIteration(context);
 
             return retVal;
         }
@@ -151,51 +145,15 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public override void checkExpression(InterpretationContext context)
+        public override void checkExpression()
         {
-            base.checkExpression(context);
+            base.checkExpression();
 
-            Types.Collection listExpressionType = ListExpression.getExpressionType(context) as Types.Collection;
+            Types.Collection listExpressionType = ListExpression.GetExpressionType() as Types.Collection;
             if (listExpressionType != null)
             {
-                PrepareIteration(context);
-                context.LocalScope.setVariable(AccumulatorVariable);
-                IteratorExpression.checkExpression(context);
-                EndIteration(context);
+                IteratorExpression.checkExpression();
             }
-        }
-
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Provides the surface of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the surface</param>
-        /// <param name="xParam">The X axis of this surface</param>
-        /// <param name="yParam">The Y axis of this surface</param>
-        /// <returns>The surface which corresponds to this expression</returns>
-        public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
-        {
-            throw new Exception("Cannot create surface for " + ToString());
         }
     }
 }

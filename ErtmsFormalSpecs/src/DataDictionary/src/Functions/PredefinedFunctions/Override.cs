@@ -29,12 +29,12 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <summary>
         /// The first function to combine 
         /// </summary>
-        public Parameter Def { get; private set; }
+        public Parameter DefaultFunction { get; private set; }
 
         /// <summary>
         /// The second function to combine
         /// </summary>
-        public Parameter Over { get; private set; }
+        public Parameter OverrideFunction { get; private set; }
 
         /// <summary>
         /// The return type of this function
@@ -49,17 +49,17 @@ namespace DataDictionary.Functions.PredefinedFunctions
         public Override(EFSSystem efsSystem)
             : base(efsSystem, "Override")
         {
-            Def = (Parameter)Generated.acceptor.getFactory().createParameter();
-            Def.Name = "Default";
-            Def.Type = EFSSystem.AnyType;
-            Def.setFather(this);
-            FormalParameters.Add(Def);
+            DefaultFunction = (Parameter)Generated.acceptor.getFactory().createParameter();
+            DefaultFunction.Name = "Default";
+            DefaultFunction.Type = EFSSystem.AnyType;
+            DefaultFunction.setFather(this);
+            FormalParameters.Add(DefaultFunction);
 
-            Over = (Parameter)Generated.acceptor.getFactory().createParameter();
-            Over.Name = "Override";
-            Over.Type = EFSSystem.AnyType;
-            Over.setFather(this);
-            FormalParameters.Add(Over);
+            OverrideFunction = (Parameter)Generated.acceptor.getFactory().createParameter();
+            OverrideFunction.Name = "Override";
+            OverrideFunction.Type = EFSSystem.AnyType;
+            OverrideFunction.setFather(this);
+            FormalParameters.Add(OverrideFunction);
 
             Returns = (Function)Generated.acceptor.getFactory().createFunction();
             Returns.Name = "Override";
@@ -95,8 +95,8 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actualParameters">The parameters applied to this function call</param>
         public override void additionalChecks(ModelElement root, Interpreter.InterpretationContext context, Dictionary<string, Interpreter.Expression> actualParameters)
         {
-            CheckFunctionalParameter(root, context, actualParameters[Def.Name], 2);
-            CheckFunctionalParameter(root, context, actualParameters[Over.Name], 2);
+            CheckFunctionalParameter(root, context, actualParameters[DefaultFunction.Name], 2);
+            CheckFunctionalParameter(root, context, actualParameters[OverrideFunction.Name], 2);
         }
 
         /// <summary>
@@ -108,15 +108,22 @@ namespace DataDictionary.Functions.PredefinedFunctions
         {
             Surface retVal = null;
 
-            Surface def = createSurfaceForValue(context, Def.Value);
-            Surface over = createSurfaceForValue(context, Over.Value);
-            if (def != null && over != null)
+            Surface defaultSurface = createSurfaceForValue(context, context.findOnStack(DefaultFunction).Value);
+            if (defaultSurface != null)
             {
-                retVal = def.Override(over);
+                Surface overrideSurface = createSurfaceForValue(context, context.findOnStack(OverrideFunction).Value);
+                if (overrideSurface != null)
+                {
+                    retVal = defaultSurface.Override(overrideSurface);
+                }
+                else
+                {
+                    Log.Error("Cannot create graph for OVERRIDE argument");
+                }
             }
             else
             {
-                Log.Error("Cannot create graph for arguments of Override");
+                Log.Error("Cannot create graph for DEFAULT argument");
             }
 
             return retVal;
@@ -129,15 +136,15 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
             Function function = (Function)Generated.acceptor.getFactory().createFunction();
-            function.Name = "Override ( Default => " + getName(Def) + ", Override => " + getName(Over) + ")";
+            function.Name = "Override ( Default => " + getName(DefaultFunction) + ", Override => " + getName(OverrideFunction) + ")";
             function.Enclosing = EFSSystem;
             function.Surface = createSurface(context);
 
@@ -154,7 +161,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             function.ReturnType = EFSSystem.DoubleType;
 
             retVal = function;
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

@@ -56,43 +56,28 @@ namespace DataDictionary.Variables
             }
         }
 
-
-
         /// <summary>
-
         /// Indicates if this Procedure contains implemented sub-elements
-
         /// </summary>
-
         public override bool ImplementationPartiallyCompleted
         {
-
             get
             {
-
                 if (getImplemented())
                 {
-
                     return true;
-
                 }
 
                 foreach (DataDictionary.Variables.Variable subVariable in allSubVariables())
                 {
-
                     if (subVariable.ImplementationPartiallyCompleted)
                     {
-
                         return true;
-
                     }
-
                 }
 
                 return false;
-
             }
-
         }
 
         /// <summary>
@@ -274,8 +259,7 @@ namespace DataDictionary.Variables
 
                         if (retVal == null)
                         {
-                            Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-                            Interpreter.Expression expression = parser.Expression(this, getDefaultValue());
+                            Interpreter.Expression expression = EFSSystem.Parser.Expression(this, getDefaultValue());
                             if (expression != null)
                             {
                                 retVal = expression.GetValue(new Interpreter.InterpretationContext(this));
