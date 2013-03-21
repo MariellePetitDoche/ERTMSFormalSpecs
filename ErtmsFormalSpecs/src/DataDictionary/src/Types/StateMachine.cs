@@ -450,7 +450,8 @@ namespace DataDictionary.Types
                                     {
                                         filteredOut = filteredOut || AddTransition(update, stt1, null, enclosingState);
                                     }
-                                    else
+
+                                    if ( !filteredOut )
                                     {
                                         foreach (Rules.PreCondition preCondition in ruleCondition.AllPreConditions)
                                         {
@@ -516,7 +517,10 @@ namespace DataDictionary.Types
                     }
                     else
                     {
-                        retVal = true;
+                        if (initialState == initial)
+                        {
+                            retVal = true;
+                        }
                     }
                 }
 
