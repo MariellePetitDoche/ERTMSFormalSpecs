@@ -131,8 +131,7 @@ namespace DataDictionary.Types
 
                         if (retVal == null)
                         {
-                            Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-                            Interpreter.Expression expression = parser.Expression(this, Default);
+                            Interpreter.Expression expression = EFSSystem.Parser.Expression(this, Default);
                             retVal = expression.GetValue(new InterpretationContext(this));
                         }
                     }
@@ -294,7 +293,6 @@ namespace DataDictionary.Types
                         break;
                 }
                 retVal = tmp.Function;
-
             }
 
             return retVal;
@@ -374,9 +372,9 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public virtual ReturnValue CombineType(Type right, BinaryExpression.OPERATOR Operator)
+        public virtual Type CombineType(Type right, BinaryExpression.OPERATOR Operator)
         {
-            return new ReturnValue();
+            return null;
         }
     }
 

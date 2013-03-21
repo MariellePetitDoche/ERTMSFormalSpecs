@@ -121,7 +121,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public StructureElementTreeNode(DataDictionary.Types.StructureElement item)
-            : base(item)
+            : base(item, null, false)
         {
         }
 

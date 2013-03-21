@@ -72,67 +72,95 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Graph MRSPGraph = createGraphForValue(context, SpeedRestrictions.Value);
+            Graph MRSPGraph = null;
+            Function speedRestriction = context.findOnStack(SpeedRestrictions).Value as Function;
+            if (speedRestriction != null)
+            {
+                Parameter p = (Parameter)speedRestriction.FormalParameters[0];
+
+                int token = context.LocalScope.PushContext();
+                context.LocalScope.setGraphParameter(p);
+                MRSPGraph = createGraphForValue(context, context.findOnStack(SpeedRestrictions).Value, p);
+                context.LocalScope.PopContext(token);
+            }
+
             if (MRSPGraph != null)
             {
-                Surface DecelerationSurface = createSurfaceForValue(context, DecelerationFactor.Value);
-                if (DecelerationSurface != null)
+                Function deceleratorFactor = context.findOnStack(DecelerationFactor).Value as Function;
+                if (deceleratorFactor != null)
                 {
-                    FlatSpeedDistanceCurve MRSPCurve = MRSPGraph.FlatSpeedDistanceCurve(MRSPGraph.ExpectedEndX());
-                    AccelerationSpeedDistanceSurface accelerationSurface = DecelerationSurface.createAccelerationSpeedDistanceSurface(double.MaxValue, double.MaxValue);
-                    QuadraticSpeedDistanceCurve BrakingCurve = EtcsBrakingCurveBuilder.Build_A_Safe_Backward(accelerationSurface, MRSPCurve);
-
-                    if (BrakingCurve != null)
+                    Surface DecelerationSurface = deceleratorFactor.createSurface(context);
+                    if (DecelerationSurface != null)
                     {
-                        retVal = new Graph();
-
-                        // TODO : Remove the distinction between linear curves and quadratic curves
-                        bool isLinear = true;
-                        for (int i = 0; i < BrakingCurve.SegmentCount; i++)
+                        FlatSpeedDistanceCurve MRSPCurve = MRSPGraph.FlatSpeedDistanceCurve(MRSPGraph.ExpectedEndX());
+                        AccelerationSpeedDistanceSurface accelerationSurface = DecelerationSurface.createAccelerationSpeedDistanceSurface(double.MaxValue, double.MaxValue);
+                        QuadraticSpeedDistanceCurve BrakingCurve = null;
+                        try
                         {
-                            QuadraticCurveSegment segment = BrakingCurve[i];
-                            if (segment.A.ToUnits() != 0.0 || segment.V0.ToUnits() != 0.0)
-                            {
-                                isLinear = false;
-                                break;
-                            }
+                            BrakingCurve = EtcsBrakingCurveBuilder.Build_A_Safe_Backward(accelerationSurface, MRSPCurve);
+                        }
+                        catch (System.Exception e)
+                        {
+                            retVal = new Graph();
+                            retVal.addSegment(new Graph.Segment(0, double.MaxValue, new Graph.Segment.Curve(0, 0, 0)));
                         }
 
-                        for (int i = 0; i < BrakingCurve.SegmentCount; i++)
+                        if (BrakingCurve != null)
                         {
-                            QuadraticCurveSegment segment = BrakingCurve[i];
+                            retVal = new Graph();
 
-                            Graph.Segment newSegment;
-                            if (isLinear)
+                            // TODO : Remove the distinction between linear curves and quadratic curves
+                            bool isLinear = true;
+                            for (int i = 0; i < BrakingCurve.SegmentCount; i++)
                             {
-                                newSegment = new Graph.Segment(
-                                    segment.X.X0.ToUnits(),
-                                    segment.X.X1.ToUnits(),
-                                    new Graph.Segment.Curve(0.0, segment.V0.ToSubUnits(SiSpeed_SubUnits.KiloMeter_per_Hour), 0.0));
+                                QuadraticCurveSegment segment = BrakingCurve[i];
+                                if (segment.A.ToUnits() != 0.0 || segment.V0.ToUnits() != 0.0)
+                                {
+                                    isLinear = false;
+                                    break;
+                                }
                             }
-                            else
+
+                            for (int i = 0; i < BrakingCurve.SegmentCount; i++)
                             {
-                                newSegment = new Graph.Segment(
-                                    segment.X.X0.ToUnits(),
-                                    segment.X.X1.ToUnits(),
-                                    new Graph.Segment.Curve(
-                                        segment.A.ToSubUnits(SiAcceleration_SubUnits.Meter_per_SecondSquare),
-                                        segment.V0.ToSubUnits(SiSpeed_SubUnits.KiloMeter_per_Hour),
-                                        segment.D0.ToSubUnits(SiDistance_SubUnits.Meter)
-                                        )
-                                    );
+                                QuadraticCurveSegment segment = BrakingCurve[i];
+
+                                Graph.Segment newSegment;
+                                if (isLinear)
+                                {
+                                    newSegment = new Graph.Segment(
+                                        segment.X.X0.ToUnits(),
+                                        segment.X.X1.ToUnits(),
+                                        new Graph.Segment.Curve(0.0, segment.V0.ToSubUnits(SiSpeed_SubUnits.KiloMeter_per_Hour), 0.0));
+                                }
+                                else
+                                {
+                                    newSegment = new Graph.Segment(
+                                        segment.X.X0.ToUnits(),
+                                        segment.X.X1.ToUnits(),
+                                        new Graph.Segment.Curve(
+                                            segment.A.ToSubUnits(SiAcceleration_SubUnits.Meter_per_SecondSquare),
+                                            segment.V0.ToSubUnits(SiSpeed_SubUnits.KiloMeter_per_Hour),
+                                            segment.D0.ToSubUnits(SiDistance_SubUnits.Meter)
+                                            )
+                                        );
+                                }
+                                retVal.addSegment(newSegment);
                             }
-                            retVal.addSegment(newSegment);
                         }
+                    }
+                    else
+                    {
+                        Log.Error("Cannot create surface for " + DecelerationFactor.ToString());
                     }
                 }
                 else
                 {
-                    Log.Error("Cannot create surface for " + DecelerationFactor.ToString());
+                    Log.Error("Cannot evaluate " + DecelerationFactor.ToString() + " as a function");
                 }
             }
             else
@@ -150,27 +178,25 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
             Function function = (Function)Generated.acceptor.getFactory().createFunction();
             function.Name = "DecelerationProfile ( SpeedRestrictions => " + getName(SpeedRestrictions) + ", DecelerationFactor => " + getName(DecelerationFactor) + ")";
             function.Enclosing = EFSSystem;
-            function.Graph = createGraph(context);
-
             Parameter parameter = (Parameter)Generated.acceptor.getFactory().createParameter();
             parameter.Name = "X";
             parameter.Type = EFSSystem.DoubleType;
             function.appendParameters(parameter);
-
             function.ReturnType = EFSSystem.DoubleType;
+            function.Graph = createGraph(context, parameter);
 
             retVal = function;
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

@@ -44,24 +44,31 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance)
+        {
+            bool retVal = base.SemanticAnalysis(instance);
+
+            if (retVal)
+            {
+                VariableIdentification.SemanticAnalysis(instance, Filter.IsLeftSide);
+                Expression.SemanticAnalysis(instance, Filter.IsRightSide);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the target of this update statement
         /// </summary>
         public Types.ITypedElement Target
         {
             get
             {
-                Types.ITypedElement retVal = null;
-
-                bool prev = ModelElement.PerformLog;
-                ModelElement.PerformLog = false;
-                try
-                {
-                    retVal = VariableIdentification.GetTypedElement(new Interpreter.InterpretationContext(Root));
-                }
-                finally
-                {
-                    ModelElement.PerformLog = prev;
-                }
+                Types.ITypedElement retVal = VariableIdentification.Ref as Types.ITypedElement;
 
                 return retVal;
             }
@@ -70,13 +77,13 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Provides the statement which modifies the element
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
-            if (element == Target)
+            if (variable == Target)
             {
                 retVal = this;
             }
@@ -94,32 +101,12 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
-        /// Indicates whether this statement reads the element
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
-        {
-            bool retVal = false;
-
-            foreach (Types.ITypedElement el in Expression.Elements())
-            {
-                if (el == element)
-                {
-                    retVal = true;
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Provides the list of elements read by this statement
         /// </summary>
         /// <param name="retVal">the list to fill</param>
         public override void ReadElements(List<Types.ITypedElement> retVal)
         {
-            Expression.Elements(new Interpreter.InterpretationContext(Root), retVal);
+            retVal.AddRange(Expression.GetVariables());
         }
 
         /// <summary>
@@ -127,82 +114,49 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public override void CheckStatement()
         {
-            InterpretationContext context = new InterpretationContext(Root);
+            Types.Type targetType = VariableIdentification.GetExpressionType();
+            if (targetType == null)
+            {
+                Root.AddError("Cannot determine type of target " + VariableIdentification.ToString());
+            }
+            else if (Expression != null)
+            {
+                Expression.checkExpression();
 
-            Variables.IProcedure procedure = Utils.EnclosingFinder<Variables.IProcedure>.find(Root);
-            if (procedure != null)
-            {
-                foreach (Parameter parameter in procedure.FormalParameters)
-                {
-                    context.LocalScope.setVariable(parameter);
-                }
-            }
-
-            bool oldValue = ModelElement.PerformLog;
-            Types.ITypedElement target = null;
-            try
-            {
-                ModelElement.PerformLog = false;
-                target = VariableIdentification.GetTypedElement(context);
-            }
-            finally
-            {
-                ModelElement.PerformLog = oldValue;
-            }
-
-            if (target != null)
-            {
-                if (target is Parameter)
-                {
-                    Root.AddError("Cannot assign procedure parameter, use a function instead");
-                }
-            }
-            else
-            {
-                Types.Type type = VariableIdentification.getExpressionType(context);
-                if (type == null)
-                {
-                    Root.AddError("Cannot find target " + VariableIdentification.ToString());
-                }
-            }
-            
-            if (Expression != null)
-            {
-                Expression.checkExpression(context);
-
-                Types.Type type = Expression.getExpressionType();
+                Types.Type type = Expression.GetExpressionType();
                 if (type != null)
                 {
-                    if (target != null)
+                    if (targetType != null)
                     {
-                        if (target.Type != null)
+                        if (!targetType.Match(type))
                         {
-                            if (!target.Type.Match(type))
+                            UnaryExpression unaryExpression = Expression as UnaryExpression;
+                            if (unaryExpression != null && unaryExpression.Term.LiteralValue != null)
                             {
-                                UnaryExpression unaryExpression = Expression as UnaryExpression;
-                                if (unaryExpression != null && unaryExpression.Term.LiteralValue != null)
+                                if (targetType.getValue(unaryExpression.ToString()) == null)
                                 {
-                                    if (target.Type.getValue(unaryExpression.ToString()) == null)
-                                    {
-                                        Root.AddError("Expression " + Expression.ToString() + " does not fit in variable " + VariableIdentification.ToString());
-                                    }
-                                }
-                                else
-                                {
-                                    Root.AddError("Expression [" + Expression.ToString() + "] type (" + type.FullName + ") does not match variable [" + VariableIdentification.ToString() + "] type (" + target.Type.FullName + ")");
+                                    Root.AddError("Expression " + Expression.ToString() + " does not fit in variable " + VariableIdentification.ToString());
                                 }
                             }
+                            else
+                            {
+                                Root.AddError("Expression [" + Expression.ToString() + "] type (" + type.FullName + ") does not match variable [" + VariableIdentification.ToString() + "] type (" + targetType.FullName + ")");
+                            }
                         }
-                        else
-                        {
-                            Root.AddError("Cannot determine variable type");
-                        }
+                    }
+                    else
+                    {
+                        Root.AddError("Cannot determine variable type");
                     }
                 }
                 else
                 {
                     Root.AddError("Cannot determine expression type (3) for " + Expression.ToString());
                 }
+            }
+            else
+            {
+                Root.AddError("Invalid expression in assignment");
             }
         }
 
@@ -217,6 +171,7 @@ namespace DataDictionary.Interpreter.Statement
             Variables.IVariable var = VariableIdentification.GetVariable(context);
             if (var != null)
             {
+                string tmp = var.FullName;
                 Values.IValue value = Expression.GetValue(context);
                 if (value != null)
                 {

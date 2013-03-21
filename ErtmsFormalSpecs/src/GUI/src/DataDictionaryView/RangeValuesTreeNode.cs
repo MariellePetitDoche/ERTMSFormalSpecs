@@ -29,7 +29,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public RangeValuesTreeNode(DataDictionary.Types.Range item)
-            : base(item, "Special values")
+            : base(item, "Special values", true, false)
         {
             foreach (DataDictionary.Constants.EnumValue value in item.SpecialValues)
             {

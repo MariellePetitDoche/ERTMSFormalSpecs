@@ -13,7 +13,6 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
 
 namespace DataDictionary.Interpreter.ListOperators
 {
@@ -36,34 +35,40 @@ namespace DataDictionary.Interpreter.ListOperators
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Provides the type of this expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="localScope">The local scope used to compute the value of this expression</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The interpretation context</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetTypedElement(InterpretationContext context)
+        public override Types.Type GetExpressionType()
         {
-            ReturnValue retVal = getExpressionTypes(context);
+            Types.Type retVal = null;
+
+            Types.Collection listType = ListExpression.GetExpressionType() as Types.Collection;
+            if (listType != null)
+            {
+                retVal = listType.Type;
+            }
+            else
+            {
+                AddError("Cannot evaluate list type of " + ToString());
+            }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the value associated to this Expression
         /// </summary>
-        /// <param name="instance">The instance on which the value is computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public override ReturnValue InnerGetValue(InterpretationContext context)
+        public override Values.IValue GetValue(InterpretationContext context)
         {
-            ReturnValue retVal = new ReturnValue();
+            Values.IValue retVal = EFSSystem.EmptyValue;
 
-            Values.IValue result = EFSSystem.EmptyValue;
             Values.ListValue value = ListExpression.GetValue(context) as Values.ListValue;
             if (value != null)
             {
-                PrepareIteration(context);
+                int token = PrepareIteration(context);
                 for (int i = value.Val.Count - 1; i >= 0; i--)
                 {
                     Values.IValue v = value.Val[i];
@@ -73,35 +78,13 @@ namespace DataDictionary.Interpreter.ListOperators
                         IteratorVariable.Value = v;
                         if (conditionSatisfied(context))
                         {
-                            result = IteratorVariable.Value;
+                            retVal = IteratorVariable.Value;
                             break;
                         }
                     }
                     NextIteration();
                 }
-                EndIteration(context);
-            }
-
-            retVal.Add(result);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public override ReturnValue getExpressionTypes(InterpretationContext context)
-        {
-            ReturnValue retVal = new ReturnValue();
-
-            foreach (Utils.INamable namable in ListExpression.getExpressionTypes(context).Values)
-            {
-                Types.Collection listType = namable as Types.Collection;
-                if (listType != null)
-                {
-                    retVal.Add(listType.Type);
-                }
+                EndIteration(context, token);
             }
 
             return retVal;
@@ -121,48 +104,6 @@ namespace DataDictionary.Interpreter.ListOperators
             }
 
             return retVal;
-        }
-
-        /// <summary>
-        /// Checks the expression and appends errors to the root tree node when inconsistencies are found
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        public override void checkExpression(InterpretationContext context)
-        {
-            base.checkExpression(context);
-        }
-
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraph(Interpreter.InterpretationContext context)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
-        /// <returns></returns>
-        public override Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter)
-        {
-            throw new Exception("Cannot create graph for " + ToString());
-        }
-
-        /// <summary>
-        /// Provides the surface of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the surface</param>
-        /// <param name="xParam">The X axis of this surface</param>
-        /// <param name="yParam">The Y axis of this surface</param>
-        /// <returns>The surface which corresponds to this expression</returns>
-        public override Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
-        {
-            throw new Exception("Cannot create surface for " + ToString());
         }
     }
 }

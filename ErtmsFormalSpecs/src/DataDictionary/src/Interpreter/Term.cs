@@ -13,11 +13,11 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System.Collections.Generic;
-
 namespace DataDictionary.Interpreter
 {
-    public class Term : InterpreterTreeNode
+    using System.Collections.Generic;
+
+    public class Term : InterpreterTreeNode, IReference
     {
         /// <summary>
         /// The designator of this term
@@ -27,7 +27,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// The literal value of this designator
         /// </summary>
-        public Values.IValue LiteralValue { get; private set; }
+        public Expression LiteralValue { get; private set; }
 
         /// <summary>
         /// Constructor
@@ -46,73 +46,201 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="root">The root element for which this model is built</param>
         /// <param name="literal"></param>
-        public Term(ModelElement root, Values.IValue literal)
+        public Term(ModelElement root, Expression literal)
             : base(root)
         {
             LiteralValue = literal;
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Term
+        /// Provides the possible references for this term (only available during semantic analysis)
         /// </summary>
-        /// <param name="instance">The instance on which the value must be computed</param>
+        /// <param name="instance">the instance on which this element should be found.</param>
+        /// <param name="expectation">the expectation on the element found</param>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue GetTypedElement(InterpretationContext context)
+        public ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             ReturnValue retVal = null;
 
             if (Designator != null)
             {
-                retVal = Designator.getReferences(context, true);
+                retVal = Designator.getReferences(instance, expectation, last);
             }
             else if (LiteralValue != null)
             {
-                retVal = new ReturnValue();
-                retVal.Add(LiteralValue);
+                retVal = LiteralValue.getReferences(instance, expectation, last);
             }
 
             return retVal;
         }
 
         /// <summary>
-        /// Provides the value associated to this Term
+        /// Provides the possible references types for this expression (used in semantic analysis)
         /// </summary>
-        /// <param name="instance">The instance on which the value must be computed</param>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public ReturnValue GetValue(InterpretationContext context)
+        public ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
             ReturnValue retVal = null;
 
             if (Designator != null)
             {
-                retVal = Designator.getReferences(context, false);
-            }
-            else if (LiteralValue != null)
-            {
                 retVal = new ReturnValue();
-                retVal.Add(LiteralValue);
-            }
 
-            return retVal;
-        }
-
-        /// <summary>
-        /// Fills the elements with the elements used by this term
-        /// </summary>
-        /// <param name="elements"></param>
-        public void TypedElements(InterpretationContext context, List<Types.ITypedElement> elements)
-        {
-            if (Designator != null)
-            {
-                foreach (Utils.INamable namable in Designator.getReferences(context, true).Values)
+                foreach (ReturnValueElement element in Designator.getReferences(instance, expectation, last).Values)
                 {
-                    Types.ITypedElement element = namable as Types.ITypedElement;
-                    if (element != null)
+                    if (element.Value is Types.Type)
                     {
-                        elements.Add(element);
+                        retVal.Add(element.Value);
                     }
                 }
+            }
+            else if (LiteralValue != null)
+            {
+                retVal = LiteralValue.getReferenceTypes(instance, expectation, true);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the term
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <param name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="lastElement">Indicates that this element is the last one in a dereference chain</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public void SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation, bool lastElement)
+        {
+            if (Designator != null)
+            {
+                Designator.SemanticAnalysis(instance, expectation, lastElement);
+            }
+            else if (LiteralValue != null)
+            {
+                LiteralValue.SemanticAnalysis(instance, expectation);
+            }
+        }
+
+        /// <summary>
+        /// The model element referenced by this term.
+        /// </summary>
+        public Utils.INamable Ref
+        {
+            get
+            {
+                Utils.INamable retVal = null;
+
+                if (Designator != null)
+                {
+                    retVal = Designator.Ref;
+                }
+                else if (LiteralValue != null)
+                {
+                    retVal = LiteralValue.Ref;
+                }
+
+                return retVal;
+            }
+        }
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public Types.Type GetExpressionType()
+        {
+            Types.Type retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.GetDesignatorType();
+            }
+            else if (LiteralValue != null)
+            {
+                retVal = LiteralValue.GetExpressionType();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the variable referenced by this expression, if any
+        /// </summary>
+        /// <param name="context">The context on which the variable must be found</param>
+        /// <returns></returns>
+        public Variables.IVariable GetVariable(InterpretationContext context)
+        {
+            Variables.IVariable retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.GetVariable(context);
+            }
+            else if (LiteralValue != null)
+            {
+                retVal = null;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the value associated to this Expression
+        /// </summary>
+        /// <param name="context">The context on which the value must be found</param>
+        /// <returns></returns>
+        public Values.IValue GetValue(InterpretationContext context)
+        {
+            Values.IValue retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.GetValue(context);
+            }
+            else if (LiteralValue != null)
+            {
+                retVal = LiteralValue.GetValue(context);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the element called by this term, if any
+        /// </summary>
+        /// <param name="context">The context on which the variable must be found</param>
+        /// <returns></returns>
+        public ICallable getCalled(InterpretationContext context)
+        {
+            ICallable retVal = null;
+
+            if (Designator != null)
+            {
+                retVal = Designator.getCalled(context);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Fills the list provided with the element matching the filter provided
+        /// </summary>
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter)
+        {
+            if (Designator != null)
+            {
+                Designator.fill(retVal, filter);
+            }
+            else if (LiteralValue != null)
+            {
+                LiteralValue.fill(retVal, filter);
             }
         }
 
@@ -126,17 +254,24 @@ namespace DataDictionary.Interpreter
             }
             else if (LiteralValue != null)
             {
-                retVal = LiteralValue.LiteralName;
+                retVal = LiteralValue.ToString();
             }
 
             return retVal;
         }
 
-        public void Update(Values.IValue source, Values.IValue target)
+        /// <summary>
+        /// Checks the expression and appends errors to the root tree node when inconsistencies are found
+        /// </summary>
+        public void checkExpression()
         {
-            if (LiteralValue == source)
+            if (Designator != null)
             {
-                LiteralValue = target;
+                Designator.checkExpression();
+            }
+            else if (LiteralValue != null)
+            {
+                LiteralValue.checkExpression();
             }
         }
     }

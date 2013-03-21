@@ -13,11 +13,10 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System.Collections.Generic;
 
 namespace DataDictionary
 {
-    public class Parameter : Generated.Parameter, Variables.IVariable
+    public class Parameter : Generated.Parameter, Types.ITypedElement
     {
         /// <summary>
         /// Parameter namespace
@@ -87,30 +86,17 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// The parameter value
+        /// Creates an actual parameter based on this formal parameter and the value assigned to that parameter
         /// </summary>
-        public Values.IValue theValue;
-        public Values.IValue Value
+        /// <returns></returns>
+        public Variables.Actual createActual()
         {
-            get { return theValue; }
-            set { theValue = value; }
-        }
+            Variables.Actual retVal = new Variables.Actual();
+            retVal.Name = Name;
+            retVal.Enclosing = Enclosing;
+            retVal.Parameter = this;
 
-        /// <summary>
-        /// The default value name
-        /// </summary>
-        public string Default
-        {
-            get { return null; }
-            set { }
-        }
-
-        /// <summary>
-        /// Provides the parameters's default value
-        /// </summary>
-        public Values.IValue DefaultValue
-        {
-            get { return null; }
+            return retVal;
         }
 
         /// <summary>
@@ -123,99 +109,12 @@ namespace DataDictionary
         }
 
         /// <summary>
-        /// Indicates that the DeclaredElement dictionary is currently being built
+        /// The default value
         /// </summary>
-        private bool BuildingDeclaredElements = false;
-
-        /// <summary>
-        /// The elements declared by this variable
-        /// </summary>
-        public Dictionary<string, List<Utils.INamable>> DeclaredElements
+        public string Default
         {
-            get
-            {
-                Dictionary<string, List<Utils.INamable>> retVal = new Dictionary<string, List<Utils.INamable>>();
-
-                if (!BuildingDeclaredElements)
-                {
-                    try
-                    {
-                        BuildingDeclaredElements = true;
-
-                        if (Value != null)
-                        {
-                            if (Value is Values.StructureValue)
-                            {
-                                Values.StructureValue structureValue = Value as Values.StructureValue;
-
-                                foreach (Utils.INamable namable in structureValue.Val.Values)
-                                {
-                                    Utils.ISubDeclaratorUtils.AppendNamable(retVal, namable);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Types.Structure structure = Type as Types.Structure;
-                            if (structure != null)
-                            {
-                                retVal = structure.DeclaredElements;
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        BuildingDeclaredElements = false;
-                    }
-                }
-
-                return retVal;
-            }
-        }
-
-        /// <summary>
-        /// Appends the INamable which match the name provided in retVal
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="retVal"></param>
-        public void find(string name, List<Utils.INamable> retVal)
-        {
-            if (!BuildingDeclaredElements)
-            {
-                try
-                {
-                    BuildingDeclaredElements = true;
-
-                    if (Value != null)
-                    {
-                        if (Value is Values.StructureValue)
-                        {
-                            Values.StructureValue structureValue = Value as Values.StructureValue;
-
-                            foreach (Utils.INamable item in structureValue.Val.Values)
-                            {
-                                if (item.Name.CompareTo(name) == 0)
-                                {
-                                    retVal.Add(item);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Types.Structure structure = Type as Types.Structure;
-                        if (structure != null)
-                        {
-                            structure.find(name, retVal);
-                        }
-                    }
-                }
-                finally
-                {
-                    BuildingDeclaredElements = false;
-                }
-            }
+            get { return Type.Default; }
+            set { }
         }
 
         /// <summary>
@@ -229,14 +128,6 @@ namespace DataDictionary
         public override string ToString()
         {
             string retVal = "Parameter " + Name;
-            if (Value != null)
-            {
-                retVal += " = " + Value.ToString();
-            }
-            else
-            {
-                retVal += " is null";
-            }
 
             return retVal;
         }

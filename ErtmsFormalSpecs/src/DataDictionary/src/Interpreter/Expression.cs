@@ -13,48 +13,107 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System.Collections.Generic;
-
 namespace DataDictionary.Interpreter
 {
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// Stores the association between a interpreter tree node and a value
+    /// </summary>
+    public class ReturnValueElement
+    {
+        /// <summary>
+        /// The previous return value element in the 
+        /// </summary>
+        public ReturnValueElement PreviousElement { get; set; }
+
+        /// <summary>
+        /// The value
+        /// </summary>
+        public Utils.INamable Value { get; set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="previous"></param>
+        public ReturnValueElement(Utils.INamable value, ReturnValueElement previous = null)
+        {
+            PreviousElement = previous;
+            Value = value;
+        }
+    }
+
     /// <summary>
     /// The possible return values for InnerGetValue
     /// </summary>
     public class ReturnValue
     {
         /// <summary>
+        /// The interpreter tree node on which these values are linked
+        /// </summary>
+        public InterpreterTreeNode Node { get; private set; }
+
+        /// <summary>
         /// The values of this return value
         /// </summary>
-        public List<Utils.INamable> Values { get; private set; }
+        public List<ReturnValueElement> Values { get; private set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ReturnValue(InterpreterTreeNode node)
+        {
+            Node = node;
+            Values = new List<ReturnValueElement>();
+        }
 
         /// <summary>
         /// Constructor
         /// </summary>
         public ReturnValue()
         {
-            Values = new List<Utils.INamable>();
+            Node = null;
+            Values = new List<ReturnValueElement>();
         }
 
         /// <summary>
-        /// Indicates whether the return value is empty (no result)
+        /// Indicates if there is more than one value in the result set
         /// </summary>
-        /// <returns></returns>
-        public bool Empty()
-        {
-            return Values.Count == 0;
-        }
+        public bool IsAmbiguous { get { return Values.Count > 1; } }
+
+        /// <summary>
+        /// Indicates if there is only one value in the result set
+        /// </summary>
+        public bool IsUnique { get { return Values.Count == 1; } }
+
+        /// <summary>
+        /// Indicates if there is no more value in the result set
+        /// </summary>
+        public bool IsEmpty { get { return Values.Count == 0; } }
 
         /// <summary>
         /// Adds a new value in the set of return values
         /// </summary>
-        /// <param name="value"></param>
-        public void Add(Utils.INamable value)
+        /// <param name="value">The value to add</param>
+        /// <param name="previous">The previous element in the chain</param>
+        public void Add(Utils.INamable value, ReturnValueElement previous = null)
         {
             if (value != null)
             {
-                if (!Values.Contains(value))
+                bool found = false;
+                foreach (ReturnValueElement elem in Values)
                 {
-                    Values.Add(value);
+                    if (elem.Value == value)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    Values.Add(new ReturnValueElement(value, previous));
                 }
             }
         }
@@ -62,12 +121,13 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Merges the other return value with this one
         /// </summary>
-        /// <param name="other"></param>
-        public void Merge(ReturnValue other)
+        /// <param name="previous">The previous ReturnValueElement which lead to this ReturnValueElement</param>
+        /// <param name="other">The other return value to merge with</param>
+        public void Merge(ReturnValueElement previous, ReturnValue other)
         {
-            foreach (Utils.INamable value in other.Values)
+            foreach (ReturnValueElement elem in other.Values)
             {
-                Add(value);
+                Add(elem.Value, previous);
             }
         }
 
@@ -77,7 +137,7 @@ namespace DataDictionary.Interpreter
 
             if (Values.Count > 0)
             {
-                foreach (Values.IValue value in Values)
+                foreach (ReturnValueElement elem in Values)
                 {
                     if (retVal != null)
                     {
@@ -87,7 +147,8 @@ namespace DataDictionary.Interpreter
                     {
                         retVal = "";
                     }
-                    retVal = retVal + value.LiteralName;
+
+                    retVal = retVal + elem.Value.FullName + "(" + elem.Value.GetType() + ")";
                 }
             }
             else
@@ -97,6 +158,66 @@ namespace DataDictionary.Interpreter
 
             return retVal;
         }
+
+        /// <summary>
+        /// Filters out value according to predicate
+        /// </summary>
+        /// <param name="accept"></param>
+        public void filter(Filter.AcceptableChoice accept)
+        {
+            // Only keep the most specific elements.
+            string mostSpecific = null;
+            foreach (ReturnValueElement element in Values)
+            {
+                if (accept(element.Value))
+                {
+                    if (mostSpecific == null)
+                    {
+                        mostSpecific = element.Value.FullName;
+                    }
+                    else
+                    {
+                        if (mostSpecific.Length < element.Value.FullName.Length)
+                        {
+                            mostSpecific = element.Value.FullName;
+                        }
+                    }
+                }
+            }
+
+            // Build a new list with the filtered out elements
+            bool variable = false;
+            List<ReturnValueElement> tmp = new List<ReturnValueElement>();
+            foreach (ReturnValueElement element in Values)
+            {
+                if (accept(element.Value) && element.Value.FullName.Equals(mostSpecific))
+                {
+                    tmp.Add(element);
+                    variable = variable || element.Value is Variables.IVariable;
+                }
+            }
+            Values = tmp;
+
+            // HaCK : If both Variable and StructureElement are found, only keep the variable
+            if (variable)
+            {
+                tmp = new List<ReturnValueElement>();
+                foreach (ReturnValueElement element in Values)
+                {
+                    if (!(element.Value is Types.StructureElement) && !(element.Value is Types.Type))
+                    {
+                        tmp.Add(element);
+                    }
+                }
+
+                Values = tmp;
+            }
+        }
+
+        /// <summary>
+        /// The empty return value
+        /// </summary>
+        public static ReturnValue Empty = new ReturnValue();
     }
 
     /// <summary>
@@ -115,9 +236,14 @@ namespace DataDictionary.Interpreter
         public SymbolTable LocalScope { get; private set; }
 
         /// <summary>
-        /// Indicates wether the lookup for identifiers shoud be performed globally or locally
+        /// Constructor
         /// </summary>
-        public bool GlobalFind { get; set; }
+        /// <param name="instance">The instance on which interpretation should be performed</param>
+        public InterpretationContext()
+        {
+            LocalScope = new SymbolTable();
+            Instance = null;
+        }
 
         /// <summary>
         /// Constructor
@@ -125,7 +251,6 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The instance on which interpretation should be performed</param>
         public InterpretationContext(Utils.INamable instance)
         {
-            GlobalFind = true;
             LocalScope = new SymbolTable();
             Instance = instance;
         }
@@ -136,19 +261,6 @@ namespace DataDictionary.Interpreter
         /// <param name="other">Copies the other interpretation context contents</param>
         public InterpretationContext(InterpretationContext other)
         {
-            GlobalFind = other.GlobalFind;
-            LocalScope = other.LocalScope;
-            Instance = other.Instance;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="other">Copies the other interpretation context contents</param>
-        /// <param name="globalFind">Override the values of GlobalFind</param>
-        public InterpretationContext(InterpretationContext other, bool globalFind)
-        {
-            GlobalFind = globalFind;
             LocalScope = other.LocalScope;
             Instance = other.Instance;
         }
@@ -160,35 +272,7 @@ namespace DataDictionary.Interpreter
         /// <param name="instance">The evaluation instance</param>
         public InterpretationContext(InterpretationContext other, Utils.INamable instance)
         {
-            GlobalFind = other.GlobalFind;
             LocalScope = other.LocalScope;
-            Instance = instance;
-        }
-
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="other">Copies the other interpretation context contents</param>
-        /// <param name="instance">The evaluation instance</param>
-        /// <param name="globalFind">Override the values of GlobalFind</param>
-        public InterpretationContext(InterpretationContext other, Utils.INamable instance, bool globalFind)
-        {
-            GlobalFind = globalFind;
-            LocalScope = other.LocalScope;
-            Instance = instance;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="instance">The evaluation instance</param>
-        /// <param name="localScope">the local scope</param>
-        /// <param name="globalFind">Override the values of GlobalFind</param>
-        public InterpretationContext(Utils.INamable instance, SymbolTable localScope, bool globalFind)
-        {
-            GlobalFind = globalFind;
-            LocalScope = localScope;
             Instance = instance;
         }
 
@@ -200,8 +284,33 @@ namespace DataDictionary.Interpreter
         {
             return LocalScope.PlaceHolders();
         }
+
+        /// <summary>
+        /// Provides the actual variable which corresponds to this parameter on the stack
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public Variables.IVariable findOnStack(Parameter parameter)
+        {
+            return LocalScope.find(parameter);
+        }
+
+        /// <summary>
+        /// Provides the current stack index
+        /// </summary>
+        public int StackIndex { get { return LocalScope.Index; } }
     }
 
+    /// <summary>
+    /// Allows to reference a namable
+    /// </summary>
+    public interface IReference
+    {
+        /// <summary>
+        /// Provides the referenced element 
+        /// </summary>
+        Utils.INamable Ref { get; }
+    }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * The grammar is following:                                     *
@@ -232,7 +341,7 @@ namespace DataDictionary.Interpreter
      * Expression_iCont -> Epsilon                                   *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-    public abstract class Expression : InterpreterTreeNode
+    public abstract class Expression : InterpreterTreeNode, IReference
     {
         /// <summary>
         /// Constructor
@@ -244,32 +353,111 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the typed element associated to this Expression 
+        /// Indicates whether the semantic analysis has been performed for this expression
         /// </summary>
-        /// <param name="context">The context on which the typed element must be found</param>
-        /// <returns></returns>
-        public abstract ReturnValue InnerGetTypedElement(InterpretationContext context);
+        protected bool SemanticAnalysisDone { get; private set; }
 
         /// <summary>
-        /// Provides the typed element referenced by this expression, if any
+        /// Provides the possible references for this expression (only available during semantic analysis)
         /// </summary>
-        /// <param name="context">The context on which the typed element must be found</param>
+        /// <param name="instance">the instance on which this element should be found.</param>
+        /// <param name="expectation">the expectation on the element found</param>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
         /// <returns></returns>
-        public Types.ITypedElement GetTypedElement(InterpretationContext context)
+        public virtual ReturnValue getReferences(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
         {
-            Types.ITypedElement retVal = null;
+            return ReturnValue.Empty;
+        }
 
-            foreach (Utils.INamable namable in InnerGetTypedElement(context).Values)
+        /// <summary>
+        /// Provides the possible references types for this expression (used in semantic analysis)
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <param name="last">indicates that this is the last element in a dereference chain</param>
+        /// <returns></returns>
+        public virtual ReturnValue getReferenceTypes(Utils.INamable instance, Filter.AcceptableChoice expectation, bool last)
+        {
+            ReturnValue retVal = new ReturnValue(this);
+
+            SemanticAnalysis(instance, Filter.AllMatches);
+            retVal.Add(GetExpressionType());
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public virtual bool SemanticAnalysis(Utils.INamable instance, Filter.AcceptableChoice expectation)
+        {
+            bool retVal = !SemanticAnalysisDone;
+
+            if (retVal)
             {
-                retVal = namable as Types.ITypedElement;
-                if (retVal != null)
+                SemanticAnalysisDone = true;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public bool SemanticAnalysis(Utils.INamable instance = null)
+        {
+            return SemanticAnalysis(instance, Filter.AllMatches);
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the expression
+        /// </summary>
+        /// <paraparam name="expectation">Indicates the kind of element we are looking for</paraparam>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public bool SemanticAnalysis(Filter.AcceptableChoice expectation)
+        {
+            return SemanticAnalysis(null, expectation);
+        }
+
+        /// <summary>
+        /// Provides the INamable which is referenced by this expression, if any
+        /// </summary>
+        public virtual Utils.INamable Ref
+        {
+            get { return null; }
+            protected set { }
+        }
+
+        /// <summary>
+        /// Provides the ICallable that is statically defined
+        /// </summary>
+        public virtual ICallable getStaticCallable()
+        {
+            ICallable retVal = Ref as ICallable;
+
+            if (retVal == null)
+            {
+                Types.Range range = Ref as Types.Range;
+                if (range != null)
                 {
-                    break;
+                    retVal = range.CastFunction;
                 }
             }
 
             return retVal;
         }
+
+        /// <summary>
+        /// Provides the type of this expression
+        /// </summary>
+        /// <param name="context">The interpretation context</param>
+        /// <returns></returns>
+        public abstract Types.Type GetExpressionType();
 
         /// <summary>
         /// Indicates that all the steps related to the evaluation of the expression should be provided
@@ -323,11 +511,11 @@ namespace DataDictionary.Interpreter
             try
             {
                 explain = true;
-                InterpretationContext context = new InterpretationContext(Root);
+                InterpretationContext context = new InterpretationContext();
                 Values.IValue value = GetValue(context);
                 if (value != null)
                 {
-                    retVal.Message = ToString() + " = " + value.LiteralName;
+                    retVal.Message = ToString() + " = " + explainNamable(value);
                 }
                 else
                 {
@@ -343,31 +531,13 @@ namespace DataDictionary.Interpreter
         }
 
         /// <summary>
-        /// Provides the value associated to this Expression
-        /// </summary>
-        /// <param name="context">The context on which the value must be found</param>
-        /// <returns></returns>
-        public abstract ReturnValue InnerGetValue(InterpretationContext context);
-
-        /// <summary>
         /// Provides the variable referenced by this expression, if any
         /// </summary>
         /// <param name="context">The context on which the variable must be found</param>
         /// <returns></returns>
-        public Variables.IVariable GetVariable(InterpretationContext context)
+        public virtual Variables.IVariable GetVariable(InterpretationContext context)
         {
-            Variables.IVariable retVal = null;
-
-            foreach (Utils.INamable namable in InnerGetValue(context).Values)
-            {
-                retVal = namable as Variables.IVariable;
-                if (retVal != null)
-                {
-                    break;
-                }
-            }
-
-            return retVal;
+            return null;
         }
 
         /// <summary>
@@ -375,28 +545,9 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="context">The context on which the value must be found</param>
         /// <returns></returns>
-        public Values.IValue GetValue(InterpretationContext context)
+        public virtual Values.IValue GetValue(InterpretationContext context)
         {
-            Values.IValue retVal = null;
-
-            foreach (Utils.INamable namable in InnerGetValue(context).Values)
-            {
-                Values.IValue value = namable as Values.IValue;
-                if (value != null)
-                {
-                    retVal = value;
-                    break;
-                }
-
-                Variables.IVariable variable = namable as Variables.IVariable;
-                if (variable != null)
-                {
-                    retVal = variable.Value;
-                    break;
-                }
-            }
-
-            return retVal;
+            return null;
         }
 
         /// <summary>
@@ -404,36 +555,82 @@ namespace DataDictionary.Interpreter
         /// </summary>
         /// <param name="namable"></param>
         /// <returns></returns>
-        public virtual ReturnValue getCalled(InterpretationContext context)
+        public virtual ICallable getCalled(InterpretationContext context)
         {
-            return InnerGetTypedElement(context);
+            return null;
         }
 
         /// <summary>
-        /// Fills the list of element used by this expression
+        /// Fills the list provided with the element matching the filter provided
         /// </summary>
-        /// <param name="elements"></param>
-        public abstract void Elements(InterpretationContext context, List<Types.ITypedElement> elements);
+        /// <param name="retVal">The list to be filled with the element matching the condition expressed in the filter</param>
+        /// <param name="filter">The filter to apply</param>
+        public abstract void fill(List<Utils.INamable> retVal, Filter.AcceptableChoice filter);
+
+        /// <summary>
+        /// Provides the right sides used by this expression
+        /// </summary>
+        public List<Types.ITypedElement> GetRightSides()
+        {
+            List<Types.ITypedElement> retVal = new List<Types.ITypedElement>();
+
+            List<Utils.INamable> tmp = new List<Utils.INamable>();
+            fill(tmp, Filter.IsRightSide);
+
+            foreach (Utils.INamable namable in tmp)
+            {
+                Types.ITypedElement element = namable as Types.ITypedElement;
+                if (element != null)
+                {
+                    retVal.Add(element);
+                }
+            }
+
+            return retVal;
+        }
 
         /// <summary>
         /// Provides the variables used by this expression
         /// </summary>
-        public List<Types.ITypedElement> Elements()
+        public List<Variables.IVariable> GetVariables()
         {
-            List<Types.ITypedElement> retVal = new List<Types.ITypedElement>();
+            List<Variables.IVariable> retVal = new List<Variables.IVariable>();
 
-            bool prev = ModelElement.PerformLog;
-            ModelElement.PerformLog = false;
-            try
+            List<Utils.INamable> tmp = new List<Utils.INamable>();
+            fill(tmp, Filter.IsVariable);
+
+            foreach (Utils.INamable namable in tmp)
             {
-                Elements(new InterpretationContext(Root), retVal);
-            }
-            finally
-            {
-                ModelElement.PerformLog = prev;
+                Variables.IVariable variable = namable as Variables.IVariable;
+                if (variable != null)
+                {
+                    retVal.Add(variable);
+                }
             }
 
             return retVal;
+        }
+        /// <summary>
+        /// Provides the list of literals found in the expression
+        /// </summary>
+        public List<Values.IValue> GetLiterals()
+        {
+            List<Values.IValue> retVal = new List<Values.IValue>();
+
+            List<Utils.INamable> tmp = new List<Utils.INamable>();
+            fill(tmp, Filter.IsValue);
+
+            foreach (Utils.INamable namable in tmp)
+            {
+                Values.IValue value = namable as Values.IValue;
+                if (value != null)
+                {
+                    retVal.Add(value);
+                }
+            }
+
+            return retVal;
+
         }
 
         /// <summary>
@@ -443,141 +640,24 @@ namespace DataDictionary.Interpreter
         public override abstract string ToString();
 
         /// <summary>
-        /// Fills the list of literals with the literals found in this expression and sub expressions
-        /// </summary>
-        /// <param name="retVal"></param>
-        public abstract void fillLiterals(List<Values.IValue> retVal);
-
-        /// <summary>
-        /// Provides the list of literals found in the expression
-        /// </summary>
-        public List<Values.IValue> Literals
-        {
-            get
-            {
-                List<Values.IValue> retVal = new List<Values.IValue>();
-
-                bool prev = ModelElement.PerformLog;
-                ModelElement.PerformLog = false;
-                try
-                {
-
-                    fillLiterals(retVal);
-                }
-                finally
-                {
-                    ModelElement.PerformLog = prev;
-                }
-                return retVal;
-            }
-        }
-
-        /// <summary>
-        /// Updates the expression by replacing source by target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public abstract Expression Update(Values.IValue source, Values.IValue target);
-
-        /// <summary>
-        /// Provides the type of the expression
-        /// </summary>
-        /// <param name="globalFind">Indicates that the search should be performed globally</param>
-        /// <returns></returns>
-        public abstract ReturnValue getExpressionTypes(InterpretationContext context);
-
-
-        /// <summary>
-        /// Provides the expression type
-        /// </summary>
-        /// <returns></returns>
-        public Types.Type getExpressionType()
-        {
-            return getExpressionType(new InterpretationContext(Root));
-        }
-
-        /// <summary>
-        /// Provides the expression type
-        /// </summary>
-        /// <param name="raiseErrors">Indicates whether errors should be raised while trying to get the expression type<param>
-        /// <returns></returns>
-        public Types.Type getExpressionType(bool raiseErrors)
-        {
-            Types.Type retVal = null;
-
-            if (!raiseErrors)
-            {
-                bool backup = ModelElement.PerformLog;
-                try
-                {
-                    ModelElement.PerformLog = false;
-
-                    retVal = getExpressionType(new InterpretationContext(Root));
-                }
-                finally
-                {
-                    ModelElement.PerformLog = backup;
-                }
-            }
-            else
-            {
-                retVal = getExpressionType(new InterpretationContext(Root));
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the expression type
-        /// </summary>
-        /// <param name="context">The interpretation context</param>
-        /// <returns></returns>
-        public Types.Type getExpressionType(InterpretationContext context)
-        {
-            Types.Type retVal = null;
-
-            foreach (Utils.INamable namable in getExpressionTypes(context).Values)
-            {
-                Types.Type type = namable as Types.Type;
-                if (type != null)
-                {
-                    if (retVal == null)
-                    {
-                        retVal = type;
-                        break;
-                    }
-                    else
-                    {
-                        AddError("Expression " + ToString() + " holds several types : " + retVal.FullName + " and  " + type.FullName);
-                    }
-                }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
         /// Checks the expression and appends errors to the root tree node when inconsistencies are found
         /// </summary>
-        public virtual void checkExpression(InterpretationContext context)
+        public virtual void checkExpression()
         {
-            getExpressionType(context);
         }
 
         /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <returns></returns>
-        public abstract Functions.Graph createGraph(Interpreter.InterpretationContext context);
-
-        /// <summary>
-        /// Creates the graph associated to the called function, when the given parameter is the X axis
+        /// Creates the graph associated to this expression, when the given parameter ranges over the X axis
         /// </summary>
         /// <param name="context">The interpretation context</param>
         /// <param name="parameter">The parameters of *the enclosing function* for which the graph should be created</param>
         /// <returns></returns>
-        public abstract Functions.Graph createGraphForParameter(InterpretationContext context, Parameter parameter);
+        public virtual Functions.Graph createGraph(InterpretationContext context, Parameter parameter)
+        {
+            Functions.Graph retVal = null;
+
+            return retVal;
+        }
 
         /// <summary>
         /// Provides the surface of this function if it has been statically defined
@@ -586,6 +666,11 @@ namespace DataDictionary.Interpreter
         /// <param name="xParam">The X axis of this surface</param>
         /// <param name="yParam">The Y axis of this surface</param>
         /// <returns>The surface which corresponds to this expression</returns>
-        public abstract Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam);
+        public virtual Functions.Surface createSurface(Interpreter.InterpretationContext context, Parameter xParam, Parameter yParam)
+        {
+            Functions.Surface retVal = null;
+
+            return retVal;
+        }
     }
 }

@@ -43,6 +43,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Filter.cs" />
     <Compile Include="src\Functions\Graph.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\Allocate.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\Available.cs" />
@@ -63,6 +64,9 @@
     <Compile Include="src\Functions\PredefinedFunctions\RoundToMultiple.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\Targets.cs" />
     <Compile Include="src\Functions\Surface.cs" />
+    <Compile Include="src\Interpreter\NumberExpression.cs" />
+    <Compile Include="src\Interpreter\StringExpression.cs" />
+    <Compile Include="src\Interpreter\ListExpression.cs" />
     <Compile Include="src\Interpreter\ExplanationPart.cs" />
     <Compile Include="src\Interpreter\StabilizeExpression.cs" />
     <Compile Include="src\Interpreter\FunctionExpression.cs" />
@@ -178,6 +182,7 @@
     <Compile Include="src\Constants\EnumValue.cs" />
     <Compile Include="src\Types\Enum.cs" />
     <Compile Include="src\ICommentable.cs" />
+    <Compile Include="src\Variables\Actual.cs" />
     <Compile Include="src\Variables\IProcedure.cs" />
     <Compile Include="src\Variables\IVariable.cs" />
     <Compile Include="src\Variables\Procedure.cs" />

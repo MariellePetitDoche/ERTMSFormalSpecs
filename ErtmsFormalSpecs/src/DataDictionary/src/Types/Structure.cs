@@ -148,7 +148,7 @@ namespace DataDictionary.Types
         {
             get
             {
-                Values.StructureValue retVal = new Values.StructureValue(this);
+                Values.StructureValue retVal = new Values.StructureValue(this, NameSpace);
 
                 return retVal;
             }

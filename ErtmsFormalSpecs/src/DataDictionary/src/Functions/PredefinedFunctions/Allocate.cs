@@ -55,14 +55,14 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
-            Values.ListValue value = Collection.Value as Values.ListValue;
+            Values.ListValue value = context.findOnStack(Collection) as Values.ListValue;
             if (value != null)
             {
                 Types.Collection collectionType = value.Type as Types.Collection;
@@ -87,7 +87,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     }
                 }
             }
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

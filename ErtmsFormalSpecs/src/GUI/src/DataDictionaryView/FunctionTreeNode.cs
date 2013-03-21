@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DataDictionary;
 using DataDictionary.Functions;
 
 namespace GUI.DataDictionaryView
@@ -102,8 +103,8 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public FunctionTreeNode(Function item, string name, bool isFolder = false)
-            : base(item, name, isFolder)
+        public FunctionTreeNode(Function item, string name, bool isFolder = false, bool addRequirements = true)
+            : base(item, name, isFolder, addRequirements)
         {
         }
 
@@ -167,7 +168,8 @@ namespace GUI.DataDictionaryView
                 DataDictionary.Interpreter.InterpretationContext context = new DataDictionary.Interpreter.InterpretationContext(Item);
                 if (Item.FormalParameters.Count == 1)
                 {
-                    DataDictionary.Functions.Graph graph = Item.createGraph(context);
+                    Parameter parameter = (Parameter)Item.FormalParameters[0];
+                    DataDictionary.Functions.Graph graph = Item.createGraph(context, parameter);
                     if (graph != null && graph.Segments.Count != 0)
                     {
                         retVal.Add(new MenuItem("Display", new EventHandler(DisplayHandler)));

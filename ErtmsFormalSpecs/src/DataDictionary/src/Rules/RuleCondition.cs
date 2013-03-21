@@ -145,15 +145,15 @@ namespace DataDictionary.Rules
         /// <summary>
         /// Indicates whether this rule uses the typed element
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Uses(Types.ITypedElement element)
+        public bool Uses(Variables.IVariable variable)
         {
             bool prev = ModelElement.PerformLog;
             ModelElement.PerformLog = false;
             try
             {
-                return Modifies(element) != null || Reads(element);
+                return Modifies(variable) != null || Reads(variable);
             }
             finally
             {
@@ -162,11 +162,11 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public Interpreter.Statement.VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public Interpreter.Statement.VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             Interpreter.Statement.VariableUpdateStatement retVal = null;
 
@@ -176,7 +176,7 @@ namespace DataDictionary.Rules
             {
                 foreach (Action action in Actions)
                 {
-                    retVal = action.Modifies(element);
+                    retVal = action.Modifies(variable);
                     if (retVal != null)
                     {
                         return retVal;
@@ -193,15 +193,15 @@ namespace DataDictionary.Rules
 
 
         /// <summary>
-        /// Indicates whether this rule reads the content of this element
+        /// Indicates whether this rule reads the content of this variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Reads(Types.ITypedElement element)
+        public bool Reads(Types.ITypedElement variable)
         {
             foreach (PreCondition precondition in PreConditions)
             {
-                if (precondition.Reads(element))
+                if (precondition.Reads(variable))
                 {
                     return true;
                 }
@@ -209,7 +209,7 @@ namespace DataDictionary.Rules
 
             foreach (Action action in Actions)
             {
-                if (action.Reads(element))
+                if (action.Reads(variable))
                 {
                     return true;
                 }
@@ -407,6 +407,28 @@ namespace DataDictionary.Rules
             {
                 retVal = retVal || rule.Disabled;
                 rule = rule.EnclosingRule;
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public RuleCondition duplicate()
+        {
+            RuleCondition retVal = (RuleCondition)Generated.acceptor.getFactory().createRuleCondition();
+            retVal.Name = Name;
+            foreach (PreCondition preCondition in PreConditions)
+            {
+                PreCondition newPreCondition = preCondition.duplicate();
+                retVal.appendPreConditions(newPreCondition);
+            }
+            foreach (Action action in Actions)
+            {
+                Action newAction = action.duplicate();
+                retVal.appendActions(newAction);
             }
 
             return retVal;

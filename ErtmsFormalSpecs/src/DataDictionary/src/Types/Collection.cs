@@ -154,8 +154,7 @@ namespace DataDictionary.Types
         {
             Values.IValue retVal = null;
 
-            Interpreter.Parser parser = new Interpreter.Parser(EFSSystem);
-            Interpreter.Expression expression = parser.Expression(this, image);
+            Interpreter.Expression expression = EFSSystem.Parser.Expression(this, image);
             if (expression != null)
             {
                 retVal = expression.GetValue(new Interpreter.InterpretationContext(this));

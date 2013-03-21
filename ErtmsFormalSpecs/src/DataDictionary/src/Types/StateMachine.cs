@@ -326,12 +326,29 @@ namespace DataDictionary.Types
 
             if (expression != null)
             {
-                foreach (Values.IValue value in expression.Literals)
+                foreach (Values.IValue value in expression.GetLiterals())
                 {
                     Constants.State state = value as Constants.State;
                     if (state != null)
                     {
                         retval.Add(state);
+                    }
+                }
+
+                Interpreter.Call call = expression as Interpreter.Call;
+                if (call != null)
+                {
+                    Functions.Function function = call.Called.getStaticCallable() as Functions.Function;
+                    if (function != null)
+                    {
+                        foreach (Values.IValue value in function.GetLiterals())
+                        {
+                            Constants.State state = value as Constants.State;
+                            if (state != null)
+                            {
+                                retval.Add(state);
+                            }
+                        }
                     }
                 }
             }
@@ -610,6 +627,30 @@ namespace DataDictionary.Types
             }
 
             base.AddModelElement(element);
+        }
+
+        /// <summary>
+        /// Instanciates this state machine for the instanciation of a StructureProcedure into a Procedure
+        /// </summary>
+        /// <returns></returns>
+        public StateMachine instanciate()
+        {
+            StateMachine retVal = (StateMachine)Generated.acceptor.getFactory().createStateMachine();
+            retVal.Name = Name;
+            retVal.setFather(getFather());
+            retVal.InitialState = InitialState;
+            foreach (Constants.State state in States)
+            {
+                Constants.State newState = state.duplicate();
+                retVal.appendStates(newState);
+            }
+            foreach (Rules.Rule rule in Rules)
+            {
+                Rules.Rule newRule = rule.duplicate();
+                retVal.appendRules(newRule);
+            }
+
+            return retVal;
         }
     }
 }

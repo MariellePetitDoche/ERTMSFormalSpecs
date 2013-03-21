@@ -50,7 +50,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override abstract Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals);
+        public override abstract Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals);
 
 
         /// <summary>
@@ -60,38 +60,9 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <returns></returns>
         protected string getName(Parameter param)
         {
-            string retVal = "";
-
-            Function function = param.Value as Function;
-            if (function != null)
-            {
-                retVal = function.FullName;
-            }
-            else
-            {
-                Values.DoubleValue val = param.Value as Values.DoubleValue;
-                if (val != null)
-                {
-                    retVal = val.ToString();
-                }
-                else
-                {
-                    retVal = "<unknown>";
-                }
-            }
+            string retVal = param.Name;
 
             return retVal;
-        }
-
-        /// <summary>
-        /// Provides the graph of this function if it has been statically defined
-        /// </summary>
-        /// <param name="context">the context used to create the graph</param>
-        /// <param name="parameter">the parameter for which the graph should be created</param>
-        /// <returns></returns>
-        public override Graph createGraphForParameter(Interpreter.InterpretationContext context, Parameter parameter)
-        {
-            return createGraph(context);
         }
 
         /// <summary>
@@ -103,7 +74,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="count">the expected number of parameters</param>
         protected virtual void CheckFunctionalParameter(ModelElement root, Interpreter.InterpretationContext context, Interpreter.Expression expression, int count)
         {
-            Types.Type type = expression.getExpressionType(context);
+            Types.Type type = expression.GetExpressionType();
 
             Function function = type as Function;
             if (function != null)
@@ -142,17 +113,24 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="value">The value for which the graph must be created</param>
         /// <returns></returns>
-        protected Graph createGraphForValue(Interpreter.InterpretationContext context, Values.IValue value)
+        protected Graph createGraphForValue(Interpreter.InterpretationContext context, Values.IValue value, Parameter parameter = null)
         {
             Graph retVal = new Graph();
 
             Function function = value as Function;
             if (function != null)
             {
-                retVal = function.Graph;
-                if (retVal == null)
+                if (parameter == null)
                 {
-                    retVal = function.createGraph(context);
+                    parameter = (Parameter)function.FormalParameters[0];
+                    int token = context.LocalScope.PushContext();
+                    context.LocalScope.setGraphParameter(parameter);
+                    retVal = function.createGraph(context, parameter);
+                    context.LocalScope.PopContext(token);
+                }
+                else
+                {
+                    retVal = function.createGraph(context, parameter);
                 }
             }
             else
@@ -176,11 +154,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
             Function function = value as Function;
             if (function != null)
             {
-                retVal = function.Surface;
-                if (retVal == null)
-                {
-                    retVal = function.createSurface(context);
-                }
+                retVal = function.createSurface(context);
             }
             else
             {

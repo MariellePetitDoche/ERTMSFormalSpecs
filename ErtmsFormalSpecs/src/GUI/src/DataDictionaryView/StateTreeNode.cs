@@ -66,7 +66,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public StateTreeNode(DataDictionary.Constants.State item)
-            : base(item)
+            : base(item, null, false, true)
         {
             StateMachine = new StateMachineTreeNode(item.StateMachine);
             Nodes.Add(StateMachine);

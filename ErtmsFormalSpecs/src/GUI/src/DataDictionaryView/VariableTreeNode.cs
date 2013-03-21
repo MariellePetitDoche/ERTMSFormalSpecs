@@ -16,10 +16,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using DataDictionary;
 
 namespace GUI.DataDictionaryView
 {
@@ -156,7 +154,7 @@ namespace GUI.DataDictionaryView
         /// <param name="children"></param>
         /// <param name="encounteredTypes">the types that have already been encountered in the path to create this variable </param>
         public VariableTreeNode(DataDictionary.Variables.Variable item, string name, HashSet<DataDictionary.Types.Type> encounteredTypes)
-            : base(item, name)
+            : base(item, name, false)
         {
             encounteredTypes.Add(item.Type);
             subVariables = new SubVariablesTreeNode(item, encounteredTypes);
@@ -189,7 +187,8 @@ namespace GUI.DataDictionaryView
                 DataDictionary.Interpreter.InterpretationContext context = new DataDictionary.Interpreter.InterpretationContext(Item);
                 if (function.FormalParameters.Count == 1)
                 {
-                    DataDictionary.Functions.Graph graph = function.createGraph(context);
+                    Parameter parameter = (Parameter)function.FormalParameters[0];
+                    DataDictionary.Functions.Graph graph = function.createGraph(context, parameter);
                     if (graph != null && graph.Segments.Count != 0)
                     {
                         retVal.Add(new MenuItem("-"));

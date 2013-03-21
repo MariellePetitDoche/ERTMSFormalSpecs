@@ -38,6 +38,23 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance)
+        {
+            bool retVal = base.SemanticAnalysis(instance);
+
+            if (retVal)
+            {
+                Call.SemanticAnalysis(instance);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the rules associates to this procedure call statement
         /// </summary>
         public System.Collections.ArrayList Rules
@@ -83,17 +100,17 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             VariableUpdateStatement retVal = null;
 
             foreach (Rules.Action action in Actions)
             {
-                retVal = action.Modifies(element);
+                retVal = action.Modifies(variable);
                 if (retVal != null)
                 {
                     return retVal;
@@ -130,13 +147,13 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Indicates whether this statement reads the element
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
+        public override bool Reads(Types.ITypedElement variable)
         {
             foreach (Rules.Action action in Actions)
             {
-                if (action.Reads(element))
+                if (action.Reads(variable))
                 {
                     return true;
                 }
@@ -144,7 +161,6 @@ namespace DataDictionary.Interpreter.Statement
 
             return false;
         }
-
 
         /// <summary>
         /// Provides the list of elements read by this statement
@@ -170,28 +186,13 @@ namespace DataDictionary.Interpreter.Statement
         {
             InterpretationContext retVal = context;
 
-            if (Call.Called is DerefExpression)
+            DerefExpression deref = Call.Called as DerefExpression;
+            if (deref != null)
             {
-                DerefExpression deref = Call.Called as DerefExpression;
-                foreach (Utils.INamable namable in deref.Left.InnerGetValue(context).Values)
+                Values.IValue value = deref.GetPrefixValue(context, deref.Arguments.Count - 1) as Values.IValue;
+                if (value != null)
                 {
-                    if (namable is Values.IValue)
-                    {
-                        retVal = new InterpretationContext(context, namable);
-                        break;
-                    }
-                }
-
-                if (retVal == context)
-                {
-                    foreach (Utils.INamable namable in Call.Called.getCalled(context).Values)
-                    {
-                        if (namable is Variables.Procedure)
-                        {
-                            retVal = new InterpretationContext(context, namable);
-                            break;
-                        }
-                    }
+                    retVal = new InterpretationContext(context, value);
                 }
             }
 
@@ -212,7 +213,7 @@ namespace DataDictionary.Interpreter.Statement
         /// </summary>
         public void CheckStatement(InterpretationContext context)
         {
-            Call.checkExpression(context);
+            Call.checkExpression();
             if (Call != null)
             {
                 DataDictionary.Variables.IProcedure procedure = Call.getProcedure(context);
@@ -249,12 +250,10 @@ namespace DataDictionary.Interpreter.Statement
                     part.Message = procedure.FullName;
                     explanation.SubExplanations.Add(part);
 
-                    ctxt.LocalScope.PushContext();
-                    foreach (KeyValuePair<string, Values.IValue> pair in Call.AssignParameterValues(context, procedure, true))
+                    int token = ctxt.LocalScope.PushContext();
+                    foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in Call.AssignParameterValues(context, procedure, true))
                     {
-                        Parameter param = procedure.getFormalParameter(pair.Key);
-                        param.Value = pair.Value;
-                        ctxt.LocalScope.setVariable(param);
+                        ctxt.LocalScope.setVariable(pair.Key, pair.Value);
                     }
 
                     foreach (Rules.Rule rule in Rules)
@@ -270,7 +269,7 @@ namespace DataDictionary.Interpreter.Statement
                         retVal.AddRange(tmp);
                     }
 
-                    ctxt.LocalScope.PopContext();
+                    ctxt.LocalScope.PopContext(token);
                 }
                 else
                 {

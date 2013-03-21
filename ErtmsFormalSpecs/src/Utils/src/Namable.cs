@@ -139,5 +139,25 @@ namespace Utils
 
             return retVal;
         }
+
+        /// <summary>
+        /// Provides the enclosing INamable, if exists
+        /// </summary>
+        /// <param name="current"></param>
+        /// <returns></returns>
+        public static INamable getEnclosing(INamable current)
+        {
+            INamable retVal = null;
+
+            // Gets the enclosing element in the tree
+            IEnclosed enclosed = current as IEnclosed;
+            if (enclosed != null)
+            {
+                retVal = enclosed.Enclosing as INamable;
+            }
+
+            return retVal;
+        }
+
     }
 }

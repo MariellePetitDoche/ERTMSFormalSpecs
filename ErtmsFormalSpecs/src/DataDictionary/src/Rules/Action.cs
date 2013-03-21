@@ -1,3 +1,4 @@
+using System;
 // ------------------------------------------------------------------------------
 // -- Copyright ERTMS Solutions
 // -- Licensed under the EUPL V.1.1
@@ -168,30 +169,30 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// Provides the statement which modifies the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns>null if no statement modifies the element</returns>
-        public Interpreter.Statement.VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public Interpreter.Statement.VariableUpdateStatement Modifies(Types.ITypedElement variable)
         {
             if (Statement != null)
             {
-                return Statement.Modifies(element);
+                return Statement.Modifies(variable);
             }
 
             return null;
         }
 
         /// <summary>
-        /// Indicates whether this action reads the element
+        /// Indicates whether this action reads the variable
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="variable"></param>
         /// <returns></returns>
-        public bool Reads(Types.ITypedElement element)
+        public bool Reads(Types.ITypedElement variable)
         {
             if (Statement != null)
             {
-                return Statement.Reads(element);
+                return Statement.Reads(variable);
             }
 
             return false;
@@ -206,13 +207,20 @@ namespace DataDictionary.Rules
         {
             long start = System.Environment.TickCount;
 
-            if (Statement != null)
+            try
             {
-                Statement.GetChanges(context, retVal, explanation);
+                if (Statement != null)
+                {
+                    Statement.GetChanges(context, retVal, explanation);
+                }
+                else
+                {
+                    AddError("Invalid actions statement");
+                }
             }
-            else
+            catch (Exception e)
             {
-                AddError("Invalid actions statement");
+                AddException(e);
             }
 
             long stop = System.Environment.TickCount;
@@ -260,6 +268,19 @@ namespace DataDictionary.Rules
         /// <param name="copy"></param>
         public override void AddModelElement(Utils.IModelElement element)
         {
+        }
+
+        /// <summary>
+        /// Duplicates this model element
+        /// </summary>
+        /// <returns></returns>
+        public Action duplicate()
+        {
+            Action retVal = (Action)Generated.acceptor.getFactory().createAction();
+            retVal.Name = Name;
+            retVal.ExpressionText = ExpressionText;
+
+            return retVal;
         }
     }
 }

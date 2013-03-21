@@ -78,14 +78,14 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// </summary>
         /// <param name="context">the context used to create the graph</param>
         /// <returns></returns>
-        public override Graph createGraph(Interpreter.InterpretationContext context)
+        public override Graph createGraph(Interpreter.InterpretationContext context, Parameter parameter)
         {
             Graph retVal = null;
 
-            Graph graph = createGraphForValue(context, Function.Value);
+            Graph graph = createGraphForValue(context, context.findOnStack(Function).Value, parameter);
             if (graph != null)
             {
-                double speed = Functions.Function.getDoubleValue(Speed.Value);
+                double speed = Functions.Function.getDoubleValue(context.findOnStack(Speed).Value);
                 retVal = Graph.createGraph(graph.SolutionX(speed));
             }
             else
@@ -103,21 +103,29 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="actuals">the actual parameters values</param>
         /// <param name="localScope">the values of local variables</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
-            Graph graph = createGraphForValue(context, Function.Value);
-            if (graph != null)
+            Functions.Function function = context.findOnStack(Function).Value as Functions.Function;
+            if (function != null)
             {
-                double speed = Functions.Function.getDoubleValue(Speed.Value);
+                double speed = Functions.Function.getDoubleValue(context.findOnStack(Speed).Value);
+
+                Parameter parameter = (Parameter)function.FormalParameters[0];
+                int token2 = context.LocalScope.PushContext();
+                context.LocalScope.setGraphParameter(parameter);
+                Graph graph = function.createGraph(context, (Parameter)function.FormalParameters[0]);
+                context.LocalScope.PopContext(token2);
                 retVal = new Values.DoubleValue(EFSSystem.DoubleType, graph.SolutionX(speed));
             }
             else
             {
-                Log.Error("Cannot create graph for " + Function.ToString());
+                Log.Error("Cannot get function for " + Function.ToString());
             }
+            context.LocalScope.PopContext(token);
 
             return retVal;
         }

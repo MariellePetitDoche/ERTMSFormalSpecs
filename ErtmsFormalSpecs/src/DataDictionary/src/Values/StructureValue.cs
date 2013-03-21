@@ -32,7 +32,7 @@ namespace DataDictionary.Values
         /// Constructor
         /// </summary>
         /// <param name="structure"></param>
-        public StructureValue(Types.Structure structure)
+        public StructureValue(Types.Structure structure, Utils.INamable enclosing)
             : base(structure, new Dictionary<string, Utils.INamable>())
         {
             Enclosing = structure;
@@ -47,6 +47,7 @@ namespace DataDictionary.Values
                 variable.Name = element.Name;
                 variable.Mode = element.Mode;
                 variable.Default = element.Default;
+                variable.Enclosing = enclosing;
                 variable.Enclosing = this;
                 set(variable);
             }
@@ -54,7 +55,7 @@ namespace DataDictionary.Values
             foreach (Types.StructureProcedure procedure in Structure.Procedures)
             {
                 Variables.Procedure proc = (Variables.Procedure)DataDictionary.Generated.acceptor.getFactory().createProcedure();
-                proc.StateMachine = procedure.StateMachine;
+                proc.StateMachine = procedure.instanciateStateMachine();
                 proc.Rules = procedure.Rules;
                 proc.Name = procedure.Name;
                 proc.Default = procedure.Default;

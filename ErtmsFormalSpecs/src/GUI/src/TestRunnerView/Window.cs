@@ -268,7 +268,10 @@ namespace GUI.TestRunnerView
         {
             CheckRunner();
 
-            testBrowserTreeView.ClearMessages();
+            foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+            {
+                dictionary.ClearMessages();
+            }
             MDIWindow.Refresh();
         }
 

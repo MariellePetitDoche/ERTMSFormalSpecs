@@ -81,8 +81,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         public virtual void SplitHandler(object sender, EventArgs args)
         {
-            DataDictionary.Interpreter.Parser parser = new DataDictionary.Interpreter.Parser(Item.EFSSystem);
-            DataDictionary.Interpreter.Statement.Statement statement = parser.Statement(Item, Item.ExpressionText);
+            DataDictionary.Interpreter.Statement.Statement statement = Item.EFSSystem.Parser.Statement(Item, Item.ExpressionText);
             DataDictionary.Interpreter.Statement.VariableUpdateStatement variableUpdateStatement = statement as DataDictionary.Interpreter.Statement.VariableUpdateStatement;
             if (variableUpdateStatement != null)
             {
@@ -94,7 +93,7 @@ namespace GUI.DataDictionaryView
                     foreach (KeyValuePair<string, DataDictionary.Interpreter.Expression> value in associations)
                     {
                         DataDictionary.Rules.Action action = (DataDictionary.Rules.Action)DataDictionary.Generated.acceptor.getFactory().createAction();
-                        action.Expression = structExpression.Structure.FullName + "." + value.Key + " <- " + value.Value.ToString();
+                        action.Expression = structExpression.Structure.ToString() + "." + value.Key + " <- " + value.Value.ToString();
                         string aString = value.Value.ToString();
                         ActionTreeNode actionTreeNode = new ActionTreeNode(action);
 

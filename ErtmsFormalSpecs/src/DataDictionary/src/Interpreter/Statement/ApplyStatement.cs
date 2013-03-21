@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 namespace DataDictionary.Interpreter.Statement
 {
-    public class ApplyStatement : Statement
+    public class ApplyStatement : Statement, Utils.ISubDeclarator
     {
         /// <summary>
         /// The procedure to call
@@ -43,6 +43,8 @@ namespace DataDictionary.Interpreter.Statement
         public ApplyStatement(ModelElement root, ProcedureCallStatement call, Expression listExpression)
             : base(root)
         {
+            DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
+
             Call = call;
             Call.Enclosing = this;
 
@@ -52,21 +54,56 @@ namespace DataDictionary.Interpreter.Statement
             IteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
             IteratorVariable.Name = "X";
-            Types.Collection collectionType = ListExpression.getExpressionType() as Types.Collection;
-            if (collectionType != null)
-            {
-                IteratorVariable.Type = collectionType.Type;
-            }
+            Utils.ISubDeclaratorUtils.AppendNamable(DeclaredElements, IteratorVariable);
         }
 
         /// <summary>
-        /// Provides the statement which modifies the element
+        /// The elements declared by this declarator
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns>null if no statement modifies the element</returns>
-        public override VariableUpdateStatement Modifies(Types.ITypedElement element)
+        public Dictionary<string, List<Utils.INamable>> DeclaredElements { get; private set; }
+
+        /// <summary>
+        /// Appends the INamable which match the name provided in retVal
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="retVal"></param>
+        public void find(string name, List<Utils.INamable> retVal)
         {
-            VariableUpdateStatement retVal = Call.Modifies(element);
+            Utils.ISubDeclaratorUtils.Find(DeclaredElements, name, retVal);
+        }
+
+        /// <summary>
+        /// Performs the semantic analysis of the statement
+        /// </summary>
+        /// <param name="instance">the reference instance on which this element should analysed</param>
+        /// <returns>True if semantic analysis should be continued</returns>
+        public override bool SemanticAnalysis(Utils.INamable instance)
+        {
+            bool retVal = base.SemanticAnalysis(instance);
+
+            if (retVal)
+            {
+                ListExpression.SemanticAnalysis(instance, Filter.IsRightSide);
+                Types.Collection collectionType = ListExpression.GetExpressionType() as Types.Collection;
+                if (collectionType != null)
+                {
+                    IteratorVariable.Type = collectionType.Type;
+                }
+
+                Call.SemanticAnalysis(instance);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Provides the statement which modifies the variable
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns>null if no statement modifies the element</returns>
+        public override VariableUpdateStatement Modifies(Types.ITypedElement variable)
+        {
+            VariableUpdateStatement retVal = Call.Modifies(variable);
 
             return retVal;
         }
@@ -79,17 +116,6 @@ namespace DataDictionary.Interpreter.Statement
         {
             Call.UpdateStatements(retVal);
         }
-
-        /// <summary>
-        /// Indicates whether this statement reads the element
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        public override bool Reads(Types.ITypedElement element)
-        {
-            return Call.Reads(element);
-        }
-
 
         /// <summary>
         /// Provides the list of elements read by this statement
@@ -106,7 +132,7 @@ namespace DataDictionary.Interpreter.Statement
         public override void CheckStatement()
         {
             InterpretationContext context = new InterpretationContext(Root);
-            Types.Collection listExpressionType = ListExpression.getExpressionType(context) as Types.Collection;
+            Types.Collection listExpressionType = ListExpression.GetExpressionType() as Types.Collection;
             if (listExpressionType == null)
             {
                 Root.AddError("Target does not references a list variable");
@@ -126,7 +152,7 @@ namespace DataDictionary.Interpreter.Statement
             Values.ListValue listValues = ListExpression.GetValue(context) as Values.ListValue;
             if (listValues != null)
             {
-                context.LocalScope.PushContext();
+                int token = context.LocalScope.PushContext();
                 context.LocalScope.setVariable(IteratorVariable);
                 foreach (Values.IValue value in listValues.Val)
                 {
@@ -136,7 +162,7 @@ namespace DataDictionary.Interpreter.Statement
                         Call.GetChanges(context, retVal, explanation);
                     }
                 }
-                context.LocalScope.PopContext();
+                context.LocalScope.PopContext(token);
             }
             else
             {

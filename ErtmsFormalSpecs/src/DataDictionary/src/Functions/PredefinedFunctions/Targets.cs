@@ -85,9 +85,9 @@ namespace DataDictionary.Functions.PredefinedFunctions
             CheckFunctionalParameter(root, context, actualParameters[Targets2.Name], 1);
             CheckFunctionalParameter(root, context, actualParameters[Targets3.Name], 1);
 
-            Function function1 = actualParameters[Targets1.Name].getExpressionType() as Function;
-            Function function2 = actualParameters[Targets2.Name].getExpressionType() as Function;
-            Function function3 = actualParameters[Targets3.Name].getExpressionType() as Function;
+            Function function1 = actualParameters[Targets1.Name].GetExpressionType() as Function;
+            Function function2 = actualParameters[Targets2.Name].GetExpressionType() as Function;
+            Function function3 = actualParameters[Targets3.Name].GetExpressionType() as Function;
 
             if (function1 != null && function2 != null && function3 != null)
             {
@@ -104,41 +104,41 @@ namespace DataDictionary.Functions.PredefinedFunctions
         /// <param name="instance">the instance on which the function is evaluated</param>
         /// <param name="actuals">the actual parameters values</param>
         /// <returns>The value for the function application</returns>
-        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<string, Values.IValue> actuals)
+        public override Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
             Values.IValue retVal = null;
 
-            context.LocalScope.PushContext();
+            int token = context.LocalScope.PushContext();
             AssignParameters(context, actuals);
 
             Types.Collection collectionType = (Types.Collection)EFSSystem.findType(OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Kernel.SpeedAndDistanceMonitoring.TargetSupervision"), "Kernel.SpeedAndDistanceMonitoring.TargetSupervision.Targets");
             Values.ListValue collection = new Values.ListValue(collectionType, new List<Values.IValue>());
 
             // compute targets from the MRSP
-            Function function1 = Targets1.Value as Functions.Function;
-            if (!Targets1.Value.Name.Equals("EMPTY"))
+            Function function1 = context.findOnStack(Targets1).Value as Functions.Function;
+            if (!function1.Name.Equals("EMPTY"))
             {
-                Graph graph1 = createGraphForValue(context, Targets1.Value);
+                Graph graph1 = createGraphForValue(context, function1);
                 ComputeTargets(graph1.Function, collection);
             }
 
             // compute targets from the MA
-            Function function2 = Targets2.Value as Functions.Function;
-            if (!Targets2.Value.Name.Equals("EMPTY"))
+            Function function2 = context.findOnStack(Targets2).Value as Functions.Function;
+            if (!function2.Name.Equals("EMPTY"))
             {
-                Graph graph2 = createGraphForValue(context, Targets2.Value);
+                Graph graph2 = createGraphForValue(context, function2);
                 ComputeTargets(graph2.Function, collection);
             }
 
             // compute targets from the SR
-            Function function3 = Targets3.Value as Functions.Function;
-            if (!Targets3.Value.Name.Equals("EMPTY"))
+            Function function3 = context.findOnStack(Targets3).Value as Functions.Function;
+            if (!function3.Name.Equals("EMPTY"))
             {
-                Graph graph3 = createGraphForValue(context, Targets3.Value);
+                Graph graph3 = createGraphForValue(context, function3);
                 ComputeTargets(graph3.Function, collection);
             }
 
-            context.LocalScope.PopContext();
+            context.LocalScope.PopContext(token);
 
             retVal = collection;
             return retVal;
@@ -161,7 +161,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     {
                         Graph.Segment s = graph.Segments[i];
                         Types.Structure structureType = (Types.Structure)EFSSystem.findType(OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Kernel.SpeedAndDistanceMonitoring.TargetSupervision"), "Kernel.SpeedAndDistanceMonitoring.TargetSupervision.Target");
-                        Values.StructureValue value = new Values.StructureValue(structureType);
+                        Values.StructureValue value = new Values.StructureValue(structureType, structureType.NameSpace);
 
                         Variables.Variable speed = (Variables.Variable)DataDictionary.Generated.acceptor.getFactory().createVariable();
                         speed.Type = EFSSystem.findType(OverallNameSpaceFinder.INSTANCE.findByName(EFSSystem.Dictionaries[0], "Default.BaseTypes"), "Default.BaseTypes.Speed");

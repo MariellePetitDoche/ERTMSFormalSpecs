@@ -26,7 +26,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public EnumerationValuesTreeNode(DataDictionary.Types.Enum item)
-            : base(item, "Values", true)
+            : base(item, "Values", true, false)
         {
             foreach (DataDictionary.Constants.EnumValue value in item.Values)
             {
