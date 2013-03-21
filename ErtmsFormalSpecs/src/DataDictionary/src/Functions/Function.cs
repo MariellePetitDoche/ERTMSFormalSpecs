@@ -215,22 +215,28 @@ namespace DataDictionary.Functions
                         {
                             Parameter param = (Parameter)FormalParameters[0];
                             int token = ctxt.LocalScope.PushContext();
+                            Values.IValue actualValue = null;
                             if (parameter != null)
                             {
                                 Variables.IVariable actual = ctxt.findOnStack(parameter);
-                                Values.IValue value = null;
                                 if (actual != null)
                                 {
-                                    value = actual.Value;
+                                    actualValue = actual.Value;
                                 }
                                 else
                                 {
-                                    value = new Values.PlaceHolder(parameter.Type, 1);
+                                    actualValue = new Values.PlaceHolder(parameter.Type, 1);
                                 }
 
-                                ctxt.LocalScope.setParameter(param, value);
+                                ctxt.LocalScope.setParameter(param, actualValue);
                             }
                             retVal = createGraphForParameter(ctxt, param);
+
+                            if (IsCachedForGraph() && actualValue is Values.PlaceHolder)
+                            {
+                                Graph = retVal;
+                            }
+
                             ctxt.LocalScope.PopContext(token);
                         }
                         else
@@ -244,11 +250,6 @@ namespace DataDictionary.Functions
                 {
                     AddError("Cannot create graph of function, reason : " + e.Message);
                 }
-            }
-
-            if (IsCachedForGraph())
-            {
-                Graph = retVal;
             }
 
             return retVal;
