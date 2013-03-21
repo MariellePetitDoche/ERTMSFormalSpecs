@@ -81,13 +81,19 @@ namespace DataDictionary.Rules
             get
             {
                 string retVal = Condition;
+
                 if (retVal == null)
                 {
                     retVal = "";
                 }
+
                 return retVal;
             }
-            set { Condition = value; }
+            set 
+            { 
+                Condition = value; 
+                expressionTree = null; 
+            }
         }
 
         /// <summary>
