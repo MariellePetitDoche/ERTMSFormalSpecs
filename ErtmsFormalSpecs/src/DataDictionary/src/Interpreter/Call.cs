@@ -802,5 +802,23 @@ namespace DataDictionary.Interpreter
                 }
             }
         }
+
+        /// <summary>
+        /// Indicates whether this call may read a given variable
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public bool Reads(Types.ITypedElement variable)
+        {
+            bool retVal = false;
+
+            Function function = Called.getStaticCallable() as Function;
+            if (function != null)
+            {
+                retVal = function.Reads(variable);
+            }
+
+            return retVal;
+        }
     }
 }

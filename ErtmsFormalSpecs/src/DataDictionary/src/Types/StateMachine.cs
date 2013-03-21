@@ -334,6 +334,23 @@ namespace DataDictionary.Types
                         retval.Add(state);
                     }
                 }
+
+                Interpreter.Call call = expression as Interpreter.Call;
+                if (call != null)
+                {
+                    Functions.Function function = call.Called.getStaticCallable() as Functions.Function;
+                    if (function != null)
+                    {
+                        foreach (Values.IValue value in function.GetLiterals())
+                        {
+                            Constants.State state = value as Constants.State;
+                            if (state != null)
+                            {
+                                retval.Add(state);
+                            }
+                        }
+                    }
+                }
             }
 
             return retval;

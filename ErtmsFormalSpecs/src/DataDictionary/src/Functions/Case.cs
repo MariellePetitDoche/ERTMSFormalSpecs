@@ -14,7 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using DataDictionary.Interpreter;
+using DataDictionary.Rules;
 
 namespace DataDictionary.Functions
 {
@@ -198,5 +200,53 @@ namespace DataDictionary.Functions
             }
         }
 
+
+        public bool Read(Types.ITypedElement variable)
+        {
+            bool retVal = false;
+
+            foreach (PreCondition preCondition in PreConditions)
+            {
+                if (preCondition.Reads(variable))
+                {
+                    retVal = true;
+                    break;
+                }
+            }
+
+            if (!retVal && Expression != null)
+            {
+                foreach (Variables.IVariable var in Expression.GetVariables())
+                {
+                    if (var == variable)
+                    {
+                        retVal = true;
+                        break;
+                    }
+                }
+            }
+
+            return retVal;
+        }
+
+        public List<Values.IValue> GetLiterals()
+        {
+            List<Values.IValue> retVal = new List<Values.IValue>();
+
+            foreach (PreCondition preCondition in PreConditions)
+            {
+                if (preCondition.ExpressionTree != null)
+                {
+                    retVal.AddRange(preCondition.ExpressionTree.GetLiterals());
+                }
+            }
+
+            if (expression != null)
+            {
+                retVal.AddRange(Expression.GetLiterals());
+            }
+
+            return retVal;
+        }
     }
 }

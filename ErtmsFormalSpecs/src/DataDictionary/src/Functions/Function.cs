@@ -1209,5 +1209,33 @@ namespace DataDictionary.Functions
 
             return retVal;
         }
+
+        public bool Reads(Types.ITypedElement variable)
+        {
+            bool retVal = false;
+
+            foreach (Case cas in Cases)
+            {
+                if (cas.Read(variable))
+                {
+                    retVal = true;
+                    break;
+                }
+            }
+
+            return retVal;
+        }
+
+        public List<Values.IValue> GetLiterals()
+        {
+            List<Values.IValue> retVal = new List<Values.IValue>();
+
+            foreach (Case cas in Cases)
+            {
+                retVal.AddRange(cas.GetLiterals());
+            }
+
+            return retVal;
+        }
     }
 }

@@ -155,7 +155,16 @@ namespace GUI.StateDiagram
             [Category("Description"), TypeConverter(typeof(InternalStateTypeConverter))]
             public string InitialState
             {
-                get { return control.Transition.InitialState.Name; }
+                get
+                {
+                    string retVal = "";
+
+                    if (control.Transition.InitialState != null)
+                    {
+                        retVal = control.Transition.InitialState.Name;
+                    }
+                    return retVal;
+                }
                 set
                 {
                     State state = DataDictionary.OverallStateFinder.INSTANCE.findByName(control.Panel.StateMachine, value);

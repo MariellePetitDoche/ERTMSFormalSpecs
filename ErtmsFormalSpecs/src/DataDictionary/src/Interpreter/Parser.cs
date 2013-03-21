@@ -1028,7 +1028,10 @@ namespace DataDictionary.Interpreter
                     Root.AddError("End of expression expected, but found EOF");
                 }
             }
-            retVal.SemanticAnalysis(Filter.IsVariableOrValue);
+            if (retVal != null)
+            {
+                retVal.SemanticAnalysis(Filter.IsVariableOrValue);
+            }
 
             return retVal;
         }

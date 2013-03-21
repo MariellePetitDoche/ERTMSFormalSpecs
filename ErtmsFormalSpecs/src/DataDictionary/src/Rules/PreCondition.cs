@@ -184,6 +184,15 @@ namespace DataDictionary.Rules
                         break;
                     }
                 }
+
+                if (!retVal)
+                {
+                    Interpreter.Call call = ExpressionTree as Interpreter.Call;
+                    if (call != null)
+                    {
+                        retVal = call.Reads(variable);
+                    }
+                }
             }
 
             return retVal;
