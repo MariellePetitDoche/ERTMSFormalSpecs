@@ -26,7 +26,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public SubRulesTreeNode(DataDictionary.Rules.RuleCondition item)
-            : base(item, "Sub rules", true)
+            : base(item, "Sub rules", true, false)
         {
             foreach (DataDictionary.Rules.Rule rule in item.SubRules)
             {

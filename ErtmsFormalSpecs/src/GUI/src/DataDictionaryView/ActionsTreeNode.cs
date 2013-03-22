@@ -26,7 +26,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public ActionsTreeNode(DataDictionary.Rules.RuleCondition item)
-            : base(item, "Actions", true)
+            : base(item, "Actions", true, false)
         {
             foreach (DataDictionary.Rules.Action action in item.Actions)
             {
