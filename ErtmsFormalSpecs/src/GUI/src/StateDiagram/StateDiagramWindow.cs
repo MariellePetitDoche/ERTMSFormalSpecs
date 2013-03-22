@@ -18,7 +18,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary.Constants;
+using DataDictionary.Rules;
 using DataDictionary.Types;
+using Utils;
 
 namespace GUI.StateDiagram
 {
@@ -179,7 +181,17 @@ namespace GUI.StateDiagram
             [Category("Description"), TypeConverter(typeof(InternalStateTypeConverter))]
             public string TargetState
             {
-                get { return control.Transition.TargetState.Name; }
+                get
+                {
+                    string retVal = "";
+
+                    if (control.Transition != null && control.Transition.TargetState != null)
+                    {
+                        retVal = control.Transition.TargetState.Name;
+                    }
+
+                    return retVal;
+                }
                 set
                 {
                     State state = DataDictionary.OverallStateFinder.INSTANCE.findByName(control.Panel.StateMachine, value);
@@ -192,12 +204,15 @@ namespace GUI.StateDiagram
             }
         }
 
+        private object Selected { get; set; }
+
         /// <summary>
         /// Selects a model element
         /// </summary>
         /// <param name="model"></param>
         public void Select(object model)
         {
+            Selected = model;
             if (model is StateControl)
             {
                 StateControl control = model as StateControl;
@@ -209,6 +224,10 @@ namespace GUI.StateDiagram
                 TransitionControl control = model as TransitionControl;
                 propertyGrid.SelectedObject = new TransitionEditor(control);
                 MDIWindow.Select(control.Transition.RuleCondition);
+            }
+            else
+            {
+                propertyGrid.SelectedObject = null;
             }
         }
 
@@ -245,18 +264,14 @@ namespace GUI.StateDiagram
                 ruleCondition.Name = "<RuleCondition" + (rule.RuleConditions.Count + 1) + ">";
                 rule.appendConditions(ruleCondition);
 
-                DataDictionary.Rules.PreCondition pre = (DataDictionary.Rules.PreCondition)factory.createPreCondition();
-                pre.ExpressionText = "CurrentState in " + ((State)StateMachine.States[0]).LiteralName;
-                ruleCondition.appendPreConditions(pre);
-
                 DataDictionary.Rules.Action action = (DataDictionary.Rules.Action)factory.createAction();
                 action.Expression = "CurrentState <- " + ((State)StateMachine.States[1]).LiteralName;
                 ruleCondition.appendActions(action);
 
                 if (MDIWindow.DataDictionaryWindow != null)
                 {
-                    DataDictionaryView.StateMachineTreeNode node = MDIWindow.DataDictionaryWindow.FindNode(StateMachine) as DataDictionaryView.StateMachineTreeNode;
-                    DataDictionaryView.RuleTreeNode ruleNode = node.AddRule(rule);
+                    DataDictionaryView.StateTreeNode stateNode = MDIWindow.DataDictionaryWindow.FindNode((State)StateMachine.States[0]) as DataDictionaryView.StateTreeNode;
+                    DataDictionaryView.RuleTreeNode ruleNode = stateNode.StateMachine.AddRule(rule);
                 }
 
                 StateContainerPanel.RefreshControl();
@@ -265,6 +280,44 @@ namespace GUI.StateDiagram
                 TransitionControl control = StateContainerPanel.getTransitionControl(ruleCondition);
                 Select(control);
             }
+        }
+
+        private void deleteMenuItem1_Click(object sender, EventArgs e)
+        {
+            IModelElement model = null;
+
+            if (Selected is StateControl)
+            {
+                model = (Selected as StateControl).State;
+            }
+            else if (Selected is TransitionControl)
+            {
+                TransitionControl control = Selected as TransitionControl;
+                RuleCondition ruleCondition = control.Transition.RuleCondition;
+                Rule rule = ruleCondition.EnclosingRule;
+                if (rule.countConditions() == 1)
+                {
+                    model = rule;
+                }
+                else
+                {
+                    model = ruleCondition;
+                }
+
+            }
+
+            if (MDIWindow.DataDictionaryWindow != null)
+            {
+                BaseTreeNode node = MDIWindow.DataDictionaryWindow.FindNode(model);
+                if (node != null)
+                {
+                    node.Delete();
+                }
+            }
+            Select(null);
+
+            StateContainerPanel.RefreshControl();
+            StateContainerPanel.Refresh();
         }
     }
 }

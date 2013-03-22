@@ -179,5 +179,29 @@ namespace DataDictionary.Rules
             }
             TargetState = targetState;
         }
+
+        /// <summary>
+        /// Provides the name of the target state
+        /// </summary>
+        /// <returns></returns>
+        public string getTargetStateName()
+        {
+            string retVal = "<Unknown>";
+
+            if (TargetState != null)
+            {
+                retVal = TargetState.FullName;
+            }
+            else
+            {
+                State targetState = Update.Expression.Ref as State;
+                if (targetState != null)
+                {
+                    retVal = targetState.FullName.Substring(targetState.EnclosingProcedure.FullName.Length);
+                }
+            }
+
+            return retVal;
+        }
     }
 }

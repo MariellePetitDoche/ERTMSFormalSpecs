@@ -128,6 +128,7 @@ namespace GUI.StateDiagram
             else
             {
                 Text = "Initial state";
+
             }
             AutoSize = true;
             Panel.Refresh();
@@ -412,6 +413,16 @@ namespace GUI.StateDiagram
                     int x = target.X - (int)(Math.Cos(angle - ARROW_ANGLE) * ARROW_LENGTH);
                     int y = target.Y - (int)(Math.Sin(angle - ARROW_ANGLE) * ARROW_LENGTH);
                     e.Graphics.DrawLine(pen, target, new Point(x, y));
+                }
+
+                if (TargetStateControl == null)
+                {
+                    string targetStateName = transition.getTargetStateName();
+
+                    SizeF size = e.Graphics.MeasureString(targetStateName, Font);
+                    int x = target.X - (int)(size.Width / 2);
+                    int y = target.Y + 10;
+                    e.Graphics.DrawString(targetStateName, Font, pen.Brush, new Point(x, y));
                 }
             }
         }
