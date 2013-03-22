@@ -197,7 +197,7 @@ namespace DataDictionary.Rules
                 State targetState = Update.Expression.Ref as State;
                 if (targetState != null)
                 {
-                    retVal = targetState.FullName.Substring(targetState.EnclosingProcedure.FullName.Length);
+                    retVal = targetState.FullName.Substring(targetState.EnclosingProcedure.FullName.Length + 1);
                 }
             }
 
