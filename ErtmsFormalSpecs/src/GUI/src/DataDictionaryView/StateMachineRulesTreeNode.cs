@@ -37,7 +37,7 @@ namespace GUI.DataDictionaryView
         /// </summary>
         /// <param name="item"></param>
         public StateMachineRulesTreeNode(DataDictionary.Types.StateMachine item)
-            : base(item, "Rules", true)
+            : base(item, "Rules", true, false)
         {
             foreach (DataDictionary.Rules.Rule rule in item.Rules)
             {
