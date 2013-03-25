@@ -27,7 +27,7 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="children"></param>
         public RulePreConditionsTreeNode(DataDictionary.Rules.RuleCondition item)
-            : base(item, "Pre conditions", true)
+            : base(item, "Pre conditions", true, false)
         {
             foreach (DataDictionary.Rules.PreCondition preCondition in item.PreConditions)
             {

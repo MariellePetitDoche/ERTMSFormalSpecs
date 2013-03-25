@@ -58,8 +58,8 @@ namespace GUI.DataDictionaryView
         /// Constructor
         /// </summary>
         /// <param name="item"></param>
-        public RuleConditionTreeNode(DataDictionary.Rules.RuleCondition item, string name, bool isFolder = false)
-            : base(item, name, false, true)
+        public RuleConditionTreeNode(DataDictionary.Rules.RuleCondition item, string name, bool isFolder = false, bool addRequirements = true)
+            : base(item, name, false, addRequirements)
         {
         }
 

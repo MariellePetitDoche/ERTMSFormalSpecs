@@ -54,7 +54,7 @@ namespace GUI
             : base(item, name, isFolder)
         {
             HandleRequirements = true;
-            if (!isFolder && item.Requirements.Count > 0)
+            if (addRequirements && item.Requirements.Count > 0)
             {
                 ReqReferences = new ReqRefsTreeNode(item);
                 Nodes.Add(ReqReferences);
