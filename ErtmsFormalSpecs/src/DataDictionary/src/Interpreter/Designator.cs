@@ -200,7 +200,14 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        instance = enclosingSubDeclarator(instance);
+                        if (instance is Dictionary)
+                        {
+                            instance = enclosingSubDeclarator(instance);
+                        }
+                        else
+                        {
+                            instance = null;
+                        }
                     }
                 }
             }
