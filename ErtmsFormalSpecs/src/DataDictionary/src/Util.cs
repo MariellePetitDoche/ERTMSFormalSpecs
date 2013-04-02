@@ -138,24 +138,32 @@ namespace DataDictionary
         {
             Dictionary retVal = null;
 
-            DataDictionary.Generated.acceptor.setFactory(new DataDictionary.ObjectFactory());
-            XmlBFileContext ctxt = new XmlBFileContext();
-            ctxt.readFile(filePath);
+            Generated.ControllersManager.NamableController.DesactivateNotification();
             try
             {
-                retVal = (Dictionary)Generated.acceptor.accept(ctxt);
-                retVal.FilePath = filePath;
-                efsSystem.AddDictionary(retVal);
+                DataDictionary.Generated.acceptor.setFactory(new DataDictionary.ObjectFactory());
+                XmlBFileContext ctxt = new XmlBFileContext();
+                ctxt.readFile(filePath);
+                try
+                {
+                    retVal = (Dictionary)Generated.acceptor.accept(ctxt);
+                    retVal.FilePath = filePath;
+                    efsSystem.AddDictionary(retVal);
 
-                Updater updater = new Updater();
-                updater.visit(retVal);
-                retVal.Specifications.ManageTypeSpecs();
+                    Updater updater = new Updater();
+                    updater.visit(retVal);
+                    retVal.Specifications.ManageTypeSpecs();
 
-                LockFile(filePath);
+                    LockFile(filePath);
+                }
+                catch (XmlBooster.XmlBException excp)
+                {
+                    Log.Error(ctxt.errorMessage());
+                }
             }
-            catch (XmlBooster.XmlBException excp)
+            finally
             {
-                Log.Error(ctxt.errorMessage());
+                Generated.ControllersManager.NamableController.ActivateNotification();
             }
 
             return retVal;

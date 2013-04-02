@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 namespace DataDictionary.Interpreter
 {
-
     /// <summary>
     /// Compiles all expressions and statements located in the model & tests
     /// </summary>

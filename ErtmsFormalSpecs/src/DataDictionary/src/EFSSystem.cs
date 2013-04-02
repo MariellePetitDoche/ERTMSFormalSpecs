@@ -84,7 +84,7 @@ namespace DataDictionary
             Dictionaries = new List<Dictionary>();
 
             Generated.ControllersManager.NamableController.ActivateNotification();
-            Generated.ControllersManager.NamableController.Listeners.Add(new NamableChangeListener(this));
+            Generated.ControllersManager.NamableController.Listeners.Insert(0, new NamableChangeListener(this));
         }
 
         /// <summary>

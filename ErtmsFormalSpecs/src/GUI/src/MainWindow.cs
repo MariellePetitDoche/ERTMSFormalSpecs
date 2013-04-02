@@ -160,14 +160,87 @@ namespace GUI
         /// </summary>
         private string versionNumber = "0.9";
 
+
+        /// <summary>
+        /// Listener to model changes
+        /// </summary>
+        public class NamableChangeListener : XmlBooster.IListener<DataDictionary.Generated.Namable>
+        {
+            /// <summary>
+            /// The main window for which this listener listens
+            /// </summary>
+            private MainWindow MainWindow { get; set; }
+
+            /// <summary>
+            /// Last time refresh was done
+            /// </summary>
+            private DateTime LastRefresh { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="system"></param>
+            public NamableChangeListener(MainWindow window)
+            {
+                MainWindow = window;
+                LastRefresh = DateTime.MinValue;
+            }
+
+            #region Listens to namable changes
+            public void HandleChangeEvent(DataDictionary.Generated.Namable sender)
+            {
+                RefreshMainWindow();
+            }
+
+            public void HandleChangeEvent(XmlBooster.Lock aLock, DataDictionary.Generated.Namable sender)
+            {
+                RefreshMainWindow();
+            }
+
+            private void RefreshMainWindow()
+            {
+                DateTime now = DateTime.Now;
+                TimeSpan span = now - LastRefresh;
+
+                if (span > TimeSpan.FromSeconds(1))
+                {
+                    MainWindow.Invoke((MethodInvoker)delegate
+                    {
+                        MainWindow.Refresh();
+                    });
+                    LastRefresh = now;
+                }
+            }
+            #endregion
+        }
+
         /// <summary>
         /// Create the main window
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-            Text = "ERTMS Formal Spec Workbench (version " + versionNumber + ")";
             AllowRefresh = true;
+
+            DataDictionary.Generated.ControllersManager.NamableController.ActivateNotification();
+            DataDictionary.Generated.ControllersManager.NamableController.Listeners.Add(new NamableChangeListener(this));
+
+            Refresh();
+        }
+
+        /// <summary>
+        /// Updates the title according to the windows state
+        /// </summary>
+        public void UpdateTitle()
+        {
+            String windowTitle = "ERTMS Formal Spec Workbench (version " + versionNumber + ")";
+
+            if (EFSSystem.ShouldSave)
+            {
+                windowTitle += " [modified]";
+            }
+
+            Text = windowTitle;
         }
 
         /// <summary>
@@ -262,6 +335,7 @@ namespace GUI
             {
                 form.Refresh();
             }
+            UpdateTitle();
 
             base.Refresh();
         }
@@ -304,6 +378,9 @@ namespace GUI
             openFileDialog.Filter = "EFS Files (*.efs)|*.efs|All Files (*.*)|*.*";
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
+                bool shouldCompile = EFSSystem.ShouldRebuild;
+                bool shouldSave = EFSSystem.ShouldSave;
+
                 fileName = openFileDialog.FileName;
                 ProgressDialog dialog = new ProgressDialog("Opening file", OpenFileHandler);
                 dialog.ShowDialog();
@@ -357,6 +434,10 @@ namespace GUI
                         }
                     }
                 }
+
+                EFSSystem.ShouldRebuild = shouldCompile;
+                EFSSystem.ShouldSave = shouldSave;
+                Refresh();
             }
         }
 
@@ -397,6 +478,7 @@ namespace GUI
             {
                 DataDictionary.Util.LockAllFiles();
                 EFSSystem.ShouldSave = false;
+                UpdateTitle();
             }
         }
 
