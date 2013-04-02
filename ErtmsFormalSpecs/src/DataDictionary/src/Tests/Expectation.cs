@@ -128,6 +128,10 @@ namespace DataDictionary.Tests
                 }
                 return expressionTree;
             }
+            set
+            {
+                expressionTree = value;
+            }
         }
 
 

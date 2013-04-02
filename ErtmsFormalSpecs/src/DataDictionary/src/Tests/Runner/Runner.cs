@@ -225,12 +225,21 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void Setup()
         {
+            // Compile everything
+            Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, true);
+            compiler.Compile();
+
+            // Setup the execution environment
             Setuper setuper = new Setuper(EFSSystem);
             foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
             {
                 setuper.visit(dictionary);
             }
+
+            // Clears all caches
             Utils.FinderRepository.INSTANCE.ClearCache();
+
+            // Builds the list of functions that will require a cache for their graph 
             FunctionCacheCleaner = new FunctionGraphCache(EFSSystem);
         }
 

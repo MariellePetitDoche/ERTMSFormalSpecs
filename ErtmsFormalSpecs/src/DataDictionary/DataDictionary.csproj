@@ -64,6 +64,7 @@
     <Compile Include="src\Functions\PredefinedFunctions\RoundToMultiple.cs" />
     <Compile Include="src\Functions\PredefinedFunctions\Targets.cs" />
     <Compile Include="src\Functions\Surface.cs" />
+    <Compile Include="src\Interpreter\Compiler.cs" />
     <Compile Include="src\Interpreter\NumberExpression.cs" />
     <Compile Include="src\Interpreter\StringExpression.cs" />
     <Compile Include="src\Interpreter\ListExpression.cs" />

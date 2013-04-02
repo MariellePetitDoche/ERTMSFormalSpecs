@@ -72,7 +72,7 @@ namespace DataDictionary.Rules
             }
             set
             {
-                Expression = ExpressionTree.ToString();
+                expressionTree = value;
             }
         }
 
@@ -89,10 +89,10 @@ namespace DataDictionary.Rules
 
                 return retVal;
             }
-            set 
-            { 
-                Condition = value; 
-                expressionTree = null; 
+            set
+            {
+                Condition = value;
+                expressionTree = null;
             }
         }
 

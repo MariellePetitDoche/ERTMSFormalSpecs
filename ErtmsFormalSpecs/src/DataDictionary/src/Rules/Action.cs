@@ -53,7 +53,7 @@ namespace DataDictionary.Rules
             }
             set
             {
-                Expression = Statement.ToString();
+                statement = value;
             }
         }
 

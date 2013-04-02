@@ -446,6 +446,12 @@ namespace DataDictionary
         public void CheckRules()
         {
             ClearMessages();
+
+            // Rebuilds everything
+            Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, true);
+            compiler.Compile();
+
+            // Check rules
             RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
             visitor.visit(this, true);
         }
