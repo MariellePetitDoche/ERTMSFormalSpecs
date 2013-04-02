@@ -375,19 +375,28 @@ namespace GUI
         /// <param name="arg"></param>
         private void SaveFileHandler(object arg)
         {
-            if (pleaseSaveDictionary != null)
-            {
-                DataDictionary.Util.UnlockAllFiles();
+            DataDictionary.Util.UnlockAllFiles();
 
-                try
+            try
+            {
+                if (pleaseSaveDictionary != null)
                 {
                     pleaseSaveDictionary.save();
                     pleaseSaveDictionary = null;
                 }
-                finally
+                else
                 {
-                    DataDictionary.Util.LockAllFiles();
+                    // Save all dictionaries
+                    foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+                    {
+                        dictionary.save();
+                    }
                 }
+            }
+            finally
+            {
+                DataDictionary.Util.LockAllFiles();
+                EFSSystem.ShouldSave = false;
             }
         }
 
@@ -461,6 +470,24 @@ namespace GUI
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (EFSSystem.ShouldSave)
+            {
+                DialogResult result = MessageBox.Show("Model has been changed, do you want to save it", "Model changed", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                switch (result)
+                {
+                    case System.Windows.Forms.DialogResult.Yes:
+                        ProgressDialog dialog = new ProgressDialog("Saving files", SaveFileHandler);
+                        dialog.ShowDialog();
+                        break;
+
+                    case System.Windows.Forms.DialogResult.No:
+                        break;
+
+                    case System.Windows.Forms.DialogResult.Cancel:
+                        return;
+                }
+            }
+
             this.Close();
         }
 

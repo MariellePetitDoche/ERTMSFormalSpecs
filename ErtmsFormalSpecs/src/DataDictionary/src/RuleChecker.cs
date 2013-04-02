@@ -626,7 +626,7 @@ namespace DataDictionary
                     {
                         if (!cas.EnclosingFunction.ReturnType.Match(expressionType))
                         {
-                            cas.AddError("Expression type (" + expressionType.FullName + ") does not match function return type (" + cas.EnclosingFunction.Type.Name + ")");
+                            cas.AddError("Expression type (" + expressionType.FullName + ") does not match function return type (" + cas.EnclosingFunction.ReturnType.Name + ")");
                         }
                     }
                     else
