@@ -665,9 +665,17 @@ namespace GUI
         /// <param name="arg"></param>
         private void CheckModelHandler(object arg)
         {
-            foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+            DataDictionary.Generated.ControllersManager.NamableController.DesactivateNotification();
+            try
             {
-                dictionary.CheckRules();
+                foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+                {
+                    dictionary.CheckRules();
+                }
+            }
+            finally
+            {
+                DataDictionary.Generated.ControllersManager.NamableController.ActivateNotification();
             }
         }
 
