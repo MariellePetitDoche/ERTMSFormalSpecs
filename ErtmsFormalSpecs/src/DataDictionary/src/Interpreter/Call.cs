@@ -738,7 +738,7 @@ namespace DataDictionary.Interpreter
                     Values.IValue value = GetValue(context);
                     if (value != null)
                     {
-                        retVal = Functions.Surface.createSurface(Functions.Function.getDoubleValue(value), xParam, yParam);
+                        retVal = Functions.Surface.createSurface(value, xParam, yParam);
                     }
                     else
                     {
