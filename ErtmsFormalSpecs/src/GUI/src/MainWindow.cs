@@ -206,7 +206,7 @@ namespace GUI
                 {
                     MainWindow.Invoke((MethodInvoker)delegate
                     {
-                        MainWindow.Refresh();
+                        MainWindow.UpdateTitle();
                     });
                     LastRefresh = now;
                 }
@@ -480,7 +480,7 @@ namespace GUI
                 EFSSystem.ShouldSave = false;
                 Invoke((MethodInvoker)delegate
                 {
-                    Refresh();
+                    UpdateTitle();
                 });
             }
         }
