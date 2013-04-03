@@ -60,7 +60,7 @@ namespace GUI.DataDictionaryView
                 get { return Item.getTypeName(); }
                 set
                 {
-                    Item.Type = null;
+                    Item.ReturnType = null;
                     Item.setTypeName(value);
                 }
             }

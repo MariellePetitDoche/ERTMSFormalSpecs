@@ -421,6 +421,8 @@ namespace GUI
                     DataDictionary.ReqRelated reqRelated = (DataDictionary.ReqRelated)model;
                     reqRelated.setVerified(false);
                 }
+
+                DataDictionary.Generated.ControllersManager.NamableController.alertChange(null, null);
             }
         }
 

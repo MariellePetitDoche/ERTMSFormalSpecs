@@ -13,11 +13,11 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-
 namespace DataDictionary
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// A complete system, along with all dictionaries
     /// </summary>
@@ -34,11 +34,57 @@ namespace DataDictionary
         public Tests.Runner.Runner Runner { get; set; }
 
         /// <summary>
+        /// Indicates wheter the model should be recompiled (after a change or a load)
+        /// </summary>
+        public bool ShouldRebuild { get; set; }
+
+        /// <summary>
+        /// Indicates wheter the model should be saved (after a change)
+        /// </summary>
+        public bool ShouldSave { get; set; }
+
+        /// <summary>
+        /// Listener to model changes
+        /// </summary>
+        public class NamableChangeListener : XmlBooster.IListener<DataDictionary.Generated.Namable>
+        {
+            /// <summary>
+            /// The system for which this listener listens
+            /// </summary>
+            private EFSSystem System { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="system"></param>
+            public NamableChangeListener(EFSSystem system)
+            {
+                System = system;
+            }
+
+            #region Listens to namable changes
+            public void HandleChangeEvent(DataDictionary.Generated.Namable sender)
+            {
+                System.ShouldRebuild = true;
+                System.ShouldSave = true;
+            }
+
+            public void HandleChangeEvent(XmlBooster.Lock aLock, DataDictionary.Generated.Namable sender)
+            {
+                HandleChangeEvent(sender);
+            }
+            #endregion
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public EFSSystem()
         {
             Dictionaries = new List<Dictionary>();
+
+            Generated.ControllersManager.NamableController.ActivateNotification();
+            Generated.ControllersManager.NamableController.Listeners.Insert(0, new NamableChangeListener(this));
         }
 
         /// <summary>

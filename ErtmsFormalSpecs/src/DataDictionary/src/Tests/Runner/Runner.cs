@@ -147,6 +147,11 @@ namespace DataDictionary.Tests.Runner
             EventTimeLine = new Events.EventTimeLine();
             SubSequence = subSequence;
             EFSSystem.Runner = this;
+
+            // Compile everything
+            Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, EFSSystem.ShouldRebuild);
+            compiler.Compile();
+
             Setup();
         }
 
@@ -225,10 +230,6 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void Setup()
         {
-            // Compile everything
-            Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, true);
-            compiler.Compile();
-
             // Setup the execution environment
             Setuper setuper = new Setuper(EFSSystem);
             foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)

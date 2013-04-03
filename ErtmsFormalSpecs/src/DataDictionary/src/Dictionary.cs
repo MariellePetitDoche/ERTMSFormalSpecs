@@ -448,7 +448,7 @@ namespace DataDictionary
             ClearMessages();
 
             // Rebuilds everything
-            Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, true);
+            Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, EFSSystem.ShouldRebuild);
             compiler.Compile();
 
             // Check rules
