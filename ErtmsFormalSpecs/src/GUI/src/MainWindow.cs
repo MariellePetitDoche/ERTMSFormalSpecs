@@ -235,7 +235,7 @@ namespace GUI
         {
             String windowTitle = "ERTMS Formal Spec Workbench (version " + versionNumber + ")";
 
-            if (EFSSystem.ShouldSave)
+            if (EFSSystem != null && EFSSystem.ShouldSave)
             {
                 windowTitle += " [modified]";
             }
@@ -478,7 +478,10 @@ namespace GUI
             {
                 DataDictionary.Util.LockAllFiles();
                 EFSSystem.ShouldSave = false;
-                UpdateTitle();
+                Invoke((MethodInvoker)delegate
+                {
+                    Refresh();
+                });
             }
         }
 
