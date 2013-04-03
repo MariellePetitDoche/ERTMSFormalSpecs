@@ -38,7 +38,7 @@ namespace GUI.DataDictionaryView
         /// <param name="item"></param>
         /// <param name="name"></param>
         public CasesTreeNode(DataDictionary.Functions.Function item)
-            : base(item, "Cases", true)
+            : base(item, "Cases", true, false)
         {
             foreach (DataDictionary.Functions.Case aCase in item.Cases)
             {
