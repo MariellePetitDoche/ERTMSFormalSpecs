@@ -104,14 +104,13 @@
  Name="SubStep2 - Track data"
 >
 <Actions>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -121,9 +120,7 @@
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -3488,14 +3485,13 @@ IN
  Name="SubStep2 - Track data"
 >
 <Actions>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -3505,9 +3501,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -6872,14 +6866,13 @@ IN
  Name="SubStep2 - Track data"
 >
 <Actions>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -6889,9 +6882,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -10255,14 +10246,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -10272,9 +10262,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -13175,14 +13163,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -13192,9 +13179,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -16115,14 +16100,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -16132,9 +16116,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -19035,14 +19017,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -19052,9 +19033,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -21955,14 +21934,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -21972,9 +21950,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -24891,14 +24867,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -24908,9 +24883,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -27763,14 +27736,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -27780,9 +27752,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -30655,14 +30625,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -30672,9 +30641,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -33545,14 +33512,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -33562,9 +33528,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -36427,14 +36391,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -36444,9 +36407,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
@@ -39309,14 +39270,13 @@ IN
 >
 <Actions>
 <Action>Kernel.TrackConditions.TCProfile &lt;- EMPTY</Action>
-<Action>Kernel.MA.MA &lt;- Kernel.MA.MA
+<Action>Kernel.MA.MA &lt;- Kernel.MA.MovementAuthority
 {
     TargetSpeed =&gt; 0.0,
     Sections =&gt; [],
     EndSection =&gt; Kernel.MA.EndSection
     {
         EndSectionTimeOut =&gt; EMPTY,
-        SectionTimeOut =&gt; EMPTY,
         Length =&gt; 7000.0,
         DangerPoint =&gt; Kernel.MA.DangerPoint
         {
@@ -39326,9 +39286,7 @@ IN
         Overlap =&gt; EMPTY
     },
     TargetSpeedTimeOut =&gt; 0.0,
-    Available =&gt; Boolean.True,
-    LRBG =&gt; 2020,
-    LRBGLocation =&gt; 0.0
+    Available =&gt; Boolean.True
 }</Action>
 <Action>Kernel.MA.SignallingRelatedSpeedRestriction &lt;- 160.0</Action>
 <Action>INSERT
