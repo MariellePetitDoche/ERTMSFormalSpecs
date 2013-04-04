@@ -96,6 +96,15 @@ namespace DataDictionary.Interpreter
 
             base.visit(obj, visitSubNodes);
         }
+
+        public override void visit(Generated.Namable obj, bool visitSubNodes)
+        {
+            Namable namable = (Namable)obj;
+
+            namable.ClearFullName();
+
+            base.visit(obj, visitSubNodes);
+        }
         #endregion
     }
 }

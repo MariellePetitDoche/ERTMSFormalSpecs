@@ -44,7 +44,18 @@ namespace DataDictionary
                     Log.ErrorFormat("A name cannot end with a white space. Trimmed to " + value);
                 }
                 setName(value);
+                __fullName = null;
             }
+        }
+
+        /// <summary>
+        /// Stored version of the full name
+        /// </summary>
+        private string __fullName = null;
+
+        public void ClearFullName()
+        {
+            __fullName = null;
         }
 
         /// <summary>
@@ -54,19 +65,20 @@ namespace DataDictionary
         {
             get
             {
-                string retVal;
-
-                Namable enclosing = Utils.EnclosingFinder<Namable>.find(this);
-                if (enclosing != null)
+                if (__fullName == null)
                 {
-                    retVal = enclosing.FullName + "." + Name;
-                }
-                else
-                {
-                    retVal = Name;
+                    Namable enclosing = Utils.EnclosingFinder<Namable>.find(this);
+                    if (enclosing != null)
+                    {
+                        __fullName = enclosing.FullName + "." + Name;
+                    }
+                    else
+                    {
+                        __fullName = Name;
+                    }
                 }
 
-                return retVal;
+                return __fullName;
             }
         }
 
