@@ -689,7 +689,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                retVal = calledFunction.createGraph(context, null);
+                retVal = Function.createGraphForValue(GetValue(context));
             }
             context.LocalScope.PopContext(token);
 
