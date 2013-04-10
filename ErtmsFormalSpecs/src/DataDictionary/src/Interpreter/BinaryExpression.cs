@@ -1029,6 +1029,17 @@ namespace DataDictionary.Interpreter
         {
             base.checkExpression();
 
+            if (Operation == OPERATOR.EQUAL)
+            {
+                Types.Type leftType = Left.GetExpressionType();
+                Types.Type rightType = Right.GetExpressionType();
+
+                if (leftType is Types.StateMachine && rightType is Types.StateMachine)
+                {
+                    AddWarning("IN operator should be used instead of == between " + Left.ToString() + " and " + Right.ToString());
+                }
+            }
+
             Left.checkExpression();
             Right.checkExpression();
         }
