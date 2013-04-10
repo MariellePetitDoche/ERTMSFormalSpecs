@@ -146,13 +146,14 @@ namespace DataDictionary.Interpreter
             }
             retVal = i == expected.Length;
 
-            if (false && retVal)
+            char lastChar = expected[expected.Length - 1];
+            if (retVal && (Char.IsLetterOrDigit(lastChar) || '_'.Equals(lastChar)))
             {
                 // Ensure that the next character is not an identifier constituent
                 // (=> is a separator)
                 if (i < Buffer.Length)
                 {
-                    if (Char.IsLetterOrDigit(Buffer[i]) || Buffer[i] == '_')
+                    if (Char.IsLetterOrDigit(Buffer[Index + i]) || Buffer[Index + i] == '_')
                     {
                         retVal = false;
                     }
