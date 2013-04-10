@@ -132,6 +132,8 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         private bool LookAhead(string expected)
         {
+            bool retVal = false;
+
             skipWhiteSpaces();
             int i = 0;
             while (Index + i < Buffer.Length && i < expected.Length)
@@ -142,8 +144,23 @@ namespace DataDictionary.Interpreter
                 }
                 i = i + 1;
             }
+            retVal = i == expected.Length;
 
-            return i == expected.Length;
+            char lastChar = expected[expected.Length - 1];
+            if (retVal && (Char.IsLetterOrDigit(lastChar) || '_'.Equals(lastChar)))
+            {
+                // Ensure that the next character is not an identifier constituent
+                // (=> is a separator)
+                if (i < Buffer.Length)
+                {
+                    if (Char.IsLetterOrDigit(Buffer[Index + i]) || Buffer[Index + i] == '_')
+                    {
+                        retVal = false;
+                    }
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -1192,7 +1209,11 @@ namespace DataDictionary.Interpreter
                     throw new ParseErrorException("End of statement expected at " + Index + ", but found " + Buffer[Index]);
                 }
             }
-            retVal.SemanticAnalysis();
+
+            if (retVal != null)
+            {
+                retVal.SemanticAnalysis();
+            }
 
             return retVal;
         }
