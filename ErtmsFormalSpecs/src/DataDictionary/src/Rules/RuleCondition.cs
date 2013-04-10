@@ -149,16 +149,7 @@ namespace DataDictionary.Rules
         /// <returns></returns>
         public bool Uses(Variables.IVariable variable)
         {
-            bool prev = ModelElement.PerformLog;
-            ModelElement.PerformLog = false;
-            try
-            {
-                return Modifies(variable) != null || Reads(variable);
-            }
-            finally
-            {
-                ModelElement.PerformLog = prev;
-            }
+            return Modifies(variable) != null || Reads(variable);
         }
 
         /// <summary>
@@ -170,22 +161,13 @@ namespace DataDictionary.Rules
         {
             Interpreter.Statement.VariableUpdateStatement retVal = null;
 
-            bool prev = ModelElement.PerformLog;
-            ModelElement.PerformLog = false;
-            try
+            foreach (Action action in Actions)
             {
-                foreach (Action action in Actions)
+                retVal = action.Modifies(variable);
+                if (retVal != null)
                 {
-                    retVal = action.Modifies(variable);
-                    if (retVal != null)
-                    {
-                        return retVal;
-                    }
+                    return retVal;
                 }
-            }
-            finally
-            {
-                ModelElement.PerformLog = prev;
             }
 
             return retVal;

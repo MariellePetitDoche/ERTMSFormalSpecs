@@ -213,28 +213,25 @@ namespace Utils
         {
             bool add = true;
 
-            if (PerformLog)
+            if (log.Level == ElementLog.LevelEnum.Error)
             {
-                if (log.Level == ElementLog.LevelEnum.Error)
+                if (!log.FailedExpectation)  // if this is a failed expectation, this is not a model error
                 {
-                    if (!log.FailedExpectation)  // if this is a failed expectation, this is not a model error
-                    {
-                        ErrorCount += 1;
-                    }
-                    // System.Diagnostics.Debugger.Break();
+                    ErrorCount += 1;
                 }
-                foreach (ElementLog other in Messages)
+                // System.Diagnostics.Debugger.Break();
+            }
+            foreach (ElementLog other in Messages)
+            {
+                if (other.CompareTo(log) == 0)
                 {
-                    if (other.CompareTo(log) == 0)
-                    {
-                        add = false;
-                    }
+                    add = false;
                 }
+            }
 
-                if (add)
-                {
-                    Messages.Add(log);
-                }
+            if (add)
+            {
+                Messages.Add(log);
             }
         }
 
@@ -330,11 +327,6 @@ namespace Utils
         public virtual void AddModelElement(IModelElement element)
         {
         }
-
-        /// <summary>
-        /// Indicates that logs should be performed
-        /// </summary>
-        public static bool PerformLog = true;
 
         /// <summary>
         /// Counts the number of errors raised

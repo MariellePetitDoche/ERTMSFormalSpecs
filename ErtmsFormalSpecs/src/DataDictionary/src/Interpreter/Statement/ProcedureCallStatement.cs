@@ -126,21 +126,12 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="retVal">the list to fill</param>
         public override void UpdateStatements(List<VariableUpdateStatement> retVal)
         {
-            bool prev = ModelElement.PerformLog;
-            ModelElement.PerformLog = false;
-            try
+            foreach (Rules.Action action in Actions)
             {
-                foreach (Rules.Action action in Actions)
+                if (action.Statement != null)
                 {
-                    if (action.Statement != null)
-                    {
-                        action.Statement.UpdateStatements(retVal);
-                    }
+                    action.Statement.UpdateStatements(retVal);
                 }
-            }
-            finally
-            {
-                ModelElement.PerformLog = prev;
             }
         }
 

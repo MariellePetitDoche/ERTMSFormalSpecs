@@ -534,28 +534,19 @@ namespace DataDictionary.Interpreter
         {
             Term retVal = null;
 
-            bool performLog = ModelElement.PerformLog;
-            try
+            Expression literalValue = EvaluateLiteral();
+            if (literalValue != null)
             {
-                ModelElement.PerformLog = false;
-                Expression literalValue = EvaluateLiteral();
-                if (literalValue != null)
-                {
-                    retVal = new Term(Root, literalValue);
-                }
-
-                if (retVal == null)
-                {
-                    Designator designator = Designator();
-                    if (designator != null)
-                    {
-                        retVal = new Term(Root, designator);
-                    }
-                }
+                retVal = new Term(Root, literalValue);
             }
-            finally
+
+            if (retVal == null)
             {
-                ModelElement.PerformLog = performLog;
+                Designator designator = Designator();
+                if (designator != null)
+                {
+                    retVal = new Term(Root, designator);
+                }
             }
 
             return retVal;

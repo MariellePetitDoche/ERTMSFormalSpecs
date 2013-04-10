@@ -160,36 +160,27 @@ namespace GUI.DataDictionaryView
             retVal.Add(new MenuItem("Add case", new EventHandler(AddCaseHandler)));
             retVal.Add(new MenuItem("-"));
 
-            bool performLog = DataDictionary.ModelElement.PerformLog;
-            try
+            DataDictionary.Interpreter.InterpretationContext context = new DataDictionary.Interpreter.InterpretationContext(Item);
+            if (Item.FormalParameters.Count == 1)
             {
-                DataDictionary.ModelElement.PerformLog = true;
+                Parameter parameter = (Parameter)Item.FormalParameters[0];
+                DataDictionary.Functions.Graph graph = Item.createGraph(context, parameter);
+                if (graph != null && graph.Segments.Count != 0)
+                {
+                    retVal.Add(new MenuItem("Display", new EventHandler(DisplayHandler)));
+                    retVal.Add(new MenuItem("-"));
+                }
+            }
+            else if (Item.FormalParameters.Count == 2)
+            {
+                DataDictionary.Functions.Surface surface = Item.createSurface(context);
+                if (surface != null && surface.Segments.Count != 0)
+                {
+                    retVal.Add(new MenuItem("Display", new EventHandler(DisplayHandler)));
+                    retVal.Add(new MenuItem("-"));
+                }
+            }
 
-                DataDictionary.Interpreter.InterpretationContext context = new DataDictionary.Interpreter.InterpretationContext(Item);
-                if (Item.FormalParameters.Count == 1)
-                {
-                    Parameter parameter = (Parameter)Item.FormalParameters[0];
-                    DataDictionary.Functions.Graph graph = Item.createGraph(context, parameter);
-                    if (graph != null && graph.Segments.Count != 0)
-                    {
-                        retVal.Add(new MenuItem("Display", new EventHandler(DisplayHandler)));
-                        retVal.Add(new MenuItem("-"));
-                    }
-                }
-                else if (Item.FormalParameters.Count == 2)
-                {
-                    DataDictionary.Functions.Surface surface = Item.createSurface(context);
-                    if (surface != null && surface.Segments.Count != 0)
-                    {
-                        retVal.Add(new MenuItem("Display", new EventHandler(DisplayHandler)));
-                        retVal.Add(new MenuItem("-"));
-                    }
-                }
-            }
-            finally
-            {
-                DataDictionary.ModelElement.PerformLog = performLog;
-            }
             retVal.Add(new MenuItem("Delete", new EventHandler(DeleteHandler)));
 
             return retVal;
