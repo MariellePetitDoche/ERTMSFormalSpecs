@@ -594,6 +594,31 @@ namespace DataDictionary
 
             if (paragraph != null)
             {
+                switch (paragraph.getImplementationStatus())
+                {
+                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
+                        if (!paragraph.isApplicable())
+                        {
+                            paragraph.AddWarning("Paragraph state does not correspond to implementation status (Implemented but not applicable)");
+                        }
+                        break;
+
+                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
+                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
+                        if (!paragraph.isApplicable())
+                        {
+                            paragraph.AddWarning("Paragraph state does not correspond to implementation status (N/A but not applicable)");
+                        }
+                        break;
+
+                    case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
+                        if (paragraph.isApplicable())
+                        {
+                            paragraph.AddWarning("Paragraph state does not correspond to implementation status (Not implementable but applicable)");
+                        }
+                        break;
+                }
+
                 if (paragraph.getImplementationStatus() == Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented)
                 {
                     foreach (ReqRef reqRef in ImplementedParagraphsFinder.INSTANCE.findRefs(paragraph))

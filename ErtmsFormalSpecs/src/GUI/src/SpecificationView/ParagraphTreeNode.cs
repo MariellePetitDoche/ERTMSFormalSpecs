@@ -335,29 +335,17 @@ namespace GUI.SpecificationView
                 switch (p.getImplementationStatus())
                 {
                     case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
-                        if (!p.isApplicable())
-                        {
-                            p.AddWarning("Paragraph state does not correspond to implementation status");
-                        }
                         implementableCount += 1;
                         implementedCount += 1;
                         break;
 
                     case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NA:
                     case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
-                        if (!p.isApplicable())
-                        {
-                            p.AddWarning("Paragraph state does not correspond to implementation status");
-                        }
                         implementableCount += 1;
                         unImplementedCount += 1;
                         break;
 
                     case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
-                        if (p.isApplicable())
-                        {
-                            p.AddWarning("Paragraph state does not correspond to implementation status");
-                        }
                         notImplementable += 1;
                         break;
                 }
