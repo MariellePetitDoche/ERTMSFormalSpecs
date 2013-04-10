@@ -607,7 +607,7 @@ namespace DataDictionary
                     case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
                         if (!paragraph.isApplicable())
                         {
-                            paragraph.AddWarning("Paragraph state does not correspond to implementation status (N/A but not applicable)");
+                            paragraph.AddWarning("Paragraph state does not correspond to implementation status (N/A but applicable)");
                         }
                         break;
 
