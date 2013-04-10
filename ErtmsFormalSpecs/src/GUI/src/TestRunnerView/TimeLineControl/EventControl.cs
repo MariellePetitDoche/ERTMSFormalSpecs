@@ -126,16 +126,17 @@ namespace GUI.TestRunnerView.TimeLineControl
                     }
                 }
 
+                BaseTreeNode treeNode = null;
+
                 if (TimeLine.Window.MDIWindow.DataDictionaryWindow != null)
                 {
-                    BaseTreeNode treeNode = TimeLine.Window.MDIWindow.DataDictionaryWindow.TreeView.Select(variableUpdate.Action);
-
-                    if (treeNode == null)
+                    treeNode = TimeLine.Window.MDIWindow.DataDictionaryWindow.TreeView.Select(variableUpdate.Action);
+                }
+                if (treeNode == null)
+                {
+                    if (TimeLine.Window.MDIWindow.TestWindow != null)
                     {
-                        if (TimeLine.Window.MDIWindow.TestWindow != null)
-                        {
-                            TimeLine.Window.MDIWindow.TestWindow.TreeView.Select(variableUpdate.Action);
-                        }
+                        TimeLine.Window.MDIWindow.TestWindow.TreeView.Select(variableUpdate.Action);
                     }
                 }
             }
