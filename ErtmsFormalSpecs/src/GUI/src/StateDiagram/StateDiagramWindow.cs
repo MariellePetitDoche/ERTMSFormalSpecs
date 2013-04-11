@@ -217,12 +217,16 @@ namespace GUI.StateDiagram
             {
                 StateControl control = model as StateControl;
                 propertyGrid.SelectedObject = new StateEditor(control);
+                descriptionRichTextBox.ResetText();
+                descriptionRichTextBox.Rtf = control.State.getExplain(false);
                 MDIWindow.Select(control.State);
             }
             else if (model is TransitionControl)
             {
                 TransitionControl control = model as TransitionControl;
                 propertyGrid.SelectedObject = new TransitionEditor(control);
+                descriptionRichTextBox.ResetText();
+                descriptionRichTextBox.Rtf = control.Transition.RuleCondition.getExplain(true);
                 MDIWindow.Select(control.Transition.RuleCondition);
             }
             else

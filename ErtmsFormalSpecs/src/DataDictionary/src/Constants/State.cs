@@ -312,10 +312,14 @@ namespace DataDictionary.Constants
                   TextualExplainUtilities.Pad("{\\cf11 // " + TextualExplainUtilities.Iterate('*', 6 + Name.Length) + "}\\cf1\\par", indentLevel)
                 + TextualExplainUtilities.Pad("{\\cf11 // State " + Name + "}\\cf1\\par", indentLevel)
                 + TextualExplainUtilities.Pad("{\\cf11 // " + TextualExplainUtilities.Iterate('*', 6 + Name.Length) + "}\\cf1\\par", indentLevel);
-            foreach (Rules.Rule rule in StateMachine.Rules)
-            {
 
-                retVal += "\\par" + rule.getExplain(indentLevel, true);
+            if (getExplain)
+            {
+                foreach (Rules.Rule rule in StateMachine.Rules)
+                {
+
+                    retVal += "\\par" + rule.getExplain(indentLevel, true);
+                }
             }
 
             return retVal;
@@ -327,7 +331,7 @@ namespace DataDictionary.Constants
         /// <returns></returns>
         public string getExplain(bool explainSubElements)
         {
-            string retVal = getExplain(0, true);
+            string retVal = getExplain(0, explainSubElements);
 
             return TextualExplainUtilities.Encapsule(retVal);
         }

@@ -315,6 +315,26 @@ namespace GUI.StateDiagram
         static int SHIFT_SIZE = 40;
 
         /// <summary>
+        /// Indicates whether the angle is nearly vertical
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        private bool aroundVertical(double angle)
+        {
+            // Ensure the angle is in the first or second quadrant 
+            while (angle < 0)
+            {
+                angle = angle + 2 * Math.PI;
+            }
+            while (angle > Math.PI)
+            {
+                angle = angle - Math.PI;
+            }
+
+            return (angle > 3 * Math.PI / 8) && (angle < 5 * Math.PI / 8);
+        }
+
+        /// <summary>
         /// Ensures that two transitions do not overlap
         /// </summary>
         internal void EnsureNoOverlap()
@@ -332,6 +352,11 @@ namespace GUI.StateDiagram
                 {
                     if (t.Transition.InitialState == t1.Transition.InitialState &&
                         t.Transition.TargetState == t1.Transition.TargetState)
+                    {
+                        overlap.Add(t);
+                    }
+                    else if ((t.Transition.InitialState == t1.Transition.TargetState &&
+                        t.Transition.TargetState == t1.Transition.InitialState))
                     {
                         overlap.Add(t);
                     }
@@ -360,10 +385,23 @@ namespace GUI.StateDiagram
                         offset = new Point(0, SHIFT_SIZE);
                     }
 
+                    int i = 0;
+                    int Yoffset = 0;
                     foreach (TransitionControl transition in overlap)
                     {
                         transition.Offset = shift;
+                        if (transition.TargetStateControl != null && aroundVertical(angle))
+                        {
+                            transition.TextOffset = new Point(0, Yoffset);
+                            Yoffset += 30;
+                        }
                         shift.Offset(offset);
+
+                        if (transition.TargetStateControl == null)
+                        {
+                            transition.EndOffset = new Point(0, SHIFT_SIZE * i / 2);
+                        }
+                        i = i + 1;
                     }
                 }
             }

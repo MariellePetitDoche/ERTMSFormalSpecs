@@ -45,18 +45,24 @@ namespace GUI.StateDiagram
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.StateContainerPanel = new GUI.StateDiagram.StatePanel(this.components);
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addStateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addTransitionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.StateContainerPanel = new GUI.StateDiagram.StatePanel(this.components);
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.descriptionRichTextBox = new MyRichTextBox(true);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.contextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -72,11 +78,23 @@ namespace GUI.StateDiagram
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.propertyGrid);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(639, 341);
             this.splitContainer1.SplitterDistance = 403;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // StateContainerPanel
+            // 
+            this.StateContainerPanel.AutoScroll = true;
+            this.StateContainerPanel.ContextMenuStrip = this.contextMenu;
+            this.StateContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.StateContainerPanel.Location = new System.Drawing.Point(0, 0);
+            this.StateContainerPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.StateContainerPanel.Name = "StateContainerPanel";
+            this.StateContainerPanel.Size = new System.Drawing.Size(403, 341);
+            this.StateContainerPanel.StateMachine = null;
+            this.StateContainerPanel.TabIndex = 0;
             // 
             // contextMenu
             // 
@@ -102,28 +120,6 @@ namespace GUI.StateDiagram
             this.addTransitionMenuItem.Text = "Add transition";
             this.addTransitionMenuItem.Click += new System.EventHandler(this.addTransitionMenuItem_Click);
             // 
-            // propertyGrid
-            // 
-            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid.Margin = new System.Windows.Forms.Padding(2);
-            this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid.Size = new System.Drawing.Size(233, 341);
-            this.propertyGrid.TabIndex = 0;
-            // 
-            // StateContainerPanel
-            // 
-            this.StateContainerPanel.AutoScroll = true;
-            this.StateContainerPanel.ContextMenuStrip = this.contextMenu;
-            this.StateContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StateContainerPanel.Location = new System.Drawing.Point(0, 0);
-            this.StateContainerPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.StateContainerPanel.Name = "StateContainerPanel";
-            this.StateContainerPanel.Size = new System.Drawing.Size(403, 341);
-            this.StateContainerPanel.StateMachine = null;
-            this.StateContainerPanel.TabIndex = 0;
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -135,6 +131,43 @@ namespace GUI.StateDiagram
             this.toolStripMenuItem1.Size = new System.Drawing.Size(153, 22);
             this.toolStripMenuItem1.Text = "Delete selected";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.deleteMenuItem1_Click);
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.propertyGrid);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.descriptionRichTextBox);
+            this.splitContainer2.Size = new System.Drawing.Size(233, 341);
+            this.splitContainer2.SplitterDistance = 170;
+            this.splitContainer2.TabIndex = 1;
+            // 
+            // propertyGrid
+            // 
+            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid.Margin = new System.Windows.Forms.Padding(2);
+            this.propertyGrid.Name = "propertyGrid";
+            this.propertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.propertyGrid.Size = new System.Drawing.Size(233, 170);
+            this.propertyGrid.TabIndex = 0;
+            // 
+            // descriptionRichTextBox
+            // 
+            this.descriptionRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.descriptionRichTextBox.Location = new System.Drawing.Point(0, 0);
+            this.descriptionRichTextBox.Name = "descriptionRichTextBox";
+            this.descriptionRichTextBox.Size = new System.Drawing.Size(233, 167);
+            this.descriptionRichTextBox.TabIndex = 0;
+            this.descriptionRichTextBox.Text = "";
             // 
             // StateDiagramWindow
             // 
@@ -151,6 +184,10 @@ namespace GUI.StateDiagram
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.contextMenu.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -165,5 +202,7 @@ namespace GUI.StateDiagram
         private System.Windows.Forms.ToolStripMenuItem addTransitionMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private MyRichTextBox descriptionRichTextBox;
     }
 }

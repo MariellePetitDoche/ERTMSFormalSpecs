@@ -327,6 +327,7 @@ namespace GUI.StateDiagram
                 {
                     retVal = new Point(50, 50 + INITIAL_TRANSITION_LENGTH);
                 }
+                retVal.Offset(EndOffset);
 
                 return retVal;
             }
@@ -417,12 +418,13 @@ namespace GUI.StateDiagram
 
                 if (TargetStateControl == null)
                 {
+                    Font boldFont = new Font(Font, FontStyle.Bold);
                     string targetStateName = transition.getTargetStateName();
 
-                    SizeF size = e.Graphics.MeasureString(targetStateName, Font);
+                    SizeF size = e.Graphics.MeasureString(targetStateName, boldFont);
                     int x = target.X - (int)(size.Width / 2);
                     int y = target.Y + 10;
-                    e.Graphics.DrawString(targetStateName, Font, pen.Brush, new Point(x, y));
+                    e.Graphics.DrawString(targetStateName, boldFont, pen.Brush, new Point(x, y));
                 }
             }
         }
@@ -439,6 +441,7 @@ namespace GUI.StateDiagram
 
             startLocation.Offset(Offset);
             targetLocation.Offset(Offset);
+            targetLocation.Offset(EndOffset);
 
             // Set the location of the text
             Span Xspan = new Span(startLocation.X, targetLocation.X);
@@ -453,7 +456,7 @@ namespace GUI.StateDiagram
             }
 
             Point tmp = new Point(x, y);
-            tmp.Offset(Offset.Y, Offset.X);
+            tmp.Offset(TextOffset);
             Location = tmp;
         }
 
@@ -483,5 +486,15 @@ namespace GUI.StateDiagram
         /// The offset to apply to the start location & end location before painting the transition
         /// </summary>
         public Point Offset { get; set; }
+
+        /// <summary>
+        /// The offset to apply to the text before painting the transition
+        /// </summary>
+        public Point TextOffset { get; set; }
+
+        /// <summary>
+        /// The offset to be applied to the end transition
+        /// </summary>
+        public Point EndOffset { get; set; }
     }
 }
