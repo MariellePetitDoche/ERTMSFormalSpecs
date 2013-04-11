@@ -121,6 +121,7 @@ namespace GUI.TestRunnerView
             Window window = BaseForm as Window;
             if (window != null)
             {
+                window.setSubSequence(Item);
                 EFSSystem.Runner = new DataDictionary.Tests.Runner.Runner(Item);
                 EFSSystem.Runner.RunUntilStep(null);
             }

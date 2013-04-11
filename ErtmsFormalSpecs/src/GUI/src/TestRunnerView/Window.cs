@@ -120,6 +120,33 @@ namespace GUI.TestRunnerView
         private bool DoingRefresh { get; set; }
 
         /// <summary>
+        /// Sets the current frame parameters
+        /// </summary>
+        /// <param name="frame"></param>
+        public void setFrame(DataDictionary.Tests.Frame frame)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                frameToolStripComboBox.Text = frame.Name;
+                Refresh();
+            });
+        }
+
+        /// <summary>
+        /// Sets the current sub sequence window parameters
+        /// </summary>
+        /// <param name="subSequence"></param>
+        public void setSubSequence(DataDictionary.Tests.SubSequence subSequence)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                subSequenceSelectorComboBox.Text = subSequence.Name;
+                setFrame(subSequence.Frame);
+                Refresh();
+            });
+        }
+
+        /// <summary>
         /// Refreshes the display
         /// </summary>
         override public void Refresh()

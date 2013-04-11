@@ -133,7 +133,12 @@ namespace GUI.TestRunnerView
         {
             DateTime start = DateTime.Now;
 
-            failed = Item.ExecuteAllTests();
+            Window window = BaseForm as Window;
+            if (window != null)
+            {
+                window.setFrame(Item);
+                failed = Item.ExecuteAllTests();
+            }
 
             span = DateTime.Now.Subtract(start);
         }

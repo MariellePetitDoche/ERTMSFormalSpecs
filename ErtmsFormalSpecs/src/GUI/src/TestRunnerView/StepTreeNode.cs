@@ -283,6 +283,7 @@ namespace GUI.TestRunnerView
             Window window = BaseForm as Window;
             if (window != null)
             {
+                window.setSubSequence(Item.SubSequence);
                 DataDictionary.Tests.Runner.Runner runner = window.getRunner(Item.TestCase.SubSequence);
 
                 runner.RunUntilStep(Item);
