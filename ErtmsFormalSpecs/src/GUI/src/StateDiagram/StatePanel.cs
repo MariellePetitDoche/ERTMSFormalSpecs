@@ -218,8 +218,13 @@ namespace GUI.StateDiagram
                         transitions[transition] = transitionControl;
                         transitionControl.Parent = this;
                         transitionControl.Transition = transition;
-                        transitionControl.UpdatePosition();
                     }
+                    foreach (TransitionControl transition in transitions.Values)
+                    {
+                        transition.UpdatePosition();
+                    }
+
+                    EnsureNoOverlap();
                 }
             }
             finally
@@ -227,6 +232,8 @@ namespace GUI.StateDiagram
                 suspend = false;
                 ResumeLayout(true);
             }
+
+            Refresh();
         }
 
         private Point currentPosition = new Point(1, 1);
