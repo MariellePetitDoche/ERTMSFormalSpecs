@@ -123,7 +123,14 @@ namespace GUI.StateDiagram
         {
             if (Transition.RuleCondition != null)
             {
-                Text = Transition.RuleCondition.Name;
+                if ((Transition.RuleCondition.Name == null) || (Transition.RuleCondition.Name.Equals("")))
+                {
+                    Text = "unnamed transition";
+                }
+                else
+                {
+                    Text = Transition.RuleCondition.Name;
+                }
             }
             else
             {
