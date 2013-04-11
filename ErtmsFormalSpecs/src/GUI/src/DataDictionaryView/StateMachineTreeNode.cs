@@ -185,7 +185,7 @@ namespace GUI.DataDictionaryView
             if (window != null)
             {
                 window.ruleExplainTextBox.Visible = true;
-                window.stateDiagramPanel.Visible = false;
+                // window.stateDiagramPanel.Visible = false;
             }
 
             base.BeforeSelectionChange();
@@ -201,9 +201,9 @@ namespace GUI.DataDictionaryView
                 Window window = BaseTreeView.ParentForm as Window;
                 if (window != null)
                 {
-                    window.stateDiagramPanel.StateMachine = Item;
-                    window.ruleExplainTextBox.Visible = false;
-                    window.stateDiagramPanel.Visible = true;
+                    // window.stateDiagramPanel.StateMachine = Item;
+                    // window.ruleExplainTextBox.Visible = false;
+                    // window.stateDiagramPanel.Visible = true;
                 }
             }
 

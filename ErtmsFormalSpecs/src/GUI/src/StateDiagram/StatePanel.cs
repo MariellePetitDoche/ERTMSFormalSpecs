@@ -219,7 +219,6 @@ namespace GUI.StateDiagram
                         transitionControl.Parent = this;
                         transitionControl.Transition = transition;
                         transitionControl.UpdatePosition();
-                        transitionControl.Visible = true;
                     }
                 }
             }

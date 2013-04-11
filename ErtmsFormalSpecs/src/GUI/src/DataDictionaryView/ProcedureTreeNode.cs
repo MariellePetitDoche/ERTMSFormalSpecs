@@ -129,7 +129,7 @@ namespace GUI.DataDictionaryView
             if (window != null)
             {
                 window.ruleExplainTextBox.Visible = true;
-                window.stateDiagramPanel.Visible = false;
+                // window.stateDiagramPanel.Visible = false;
 
                 window.usageTreeView.Root = null;
             }
@@ -147,9 +147,9 @@ namespace GUI.DataDictionaryView
                 Window window = BaseTreeView.ParentForm as Window;
                 if (window != null)
                 {
-                    window.stateDiagramPanel.StateMachine = Item.StateMachine;
-                    window.ruleExplainTextBox.Visible = false;
-                    window.stateDiagramPanel.Visible = true;
+                    // window.stateDiagramPanel.StateMachine = Item.StateMachine;
+                    // window.ruleExplainTextBox.Visible = false;
+                    // window.stateDiagramPanel.Visible = true;
 
                     window.usageTreeView.Root = Item;
                 }
