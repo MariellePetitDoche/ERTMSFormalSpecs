@@ -307,6 +307,8 @@ namespace GUI.StateDiagram
                     MDIWindow.Select(control.Transition.RuleCondition);
                 }
             }
+
+            Refresh();
         }
 
         /// <summary>
@@ -405,6 +407,16 @@ namespace GUI.StateDiagram
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Indicates whether the control is selected
+        /// </summary>
+        /// <param name="transitionControl"></param>
+        /// <returns></returns>
+        internal bool isSelected(Control control)
+        {
+            return StateDiagramWindow.isSelected(control);
         }
     }
 }

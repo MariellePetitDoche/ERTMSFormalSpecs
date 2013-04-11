@@ -323,5 +323,15 @@ namespace GUI.StateDiagram
             StateContainerPanel.RefreshControl();
             StateContainerPanel.Refresh();
         }
+
+        /// <summary>
+        /// Indicates whether the control is selected
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        internal bool isSelected(Control control)
+        {
+            return control == Selected;
+        }
     }
 }

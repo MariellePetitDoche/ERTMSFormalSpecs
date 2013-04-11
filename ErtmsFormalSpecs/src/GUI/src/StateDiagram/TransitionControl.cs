@@ -350,6 +350,7 @@ namespace GUI.StateDiagram
         /// </summary>
         public static Color NORMAL_COLOR = Color.Black;
         public static Pen NORMAL_PEN = new Pen(NORMAL_COLOR);
+        public static Pen NORMAL_PEN_SELECTED = new Pen(NORMAL_COLOR, 4);
 
         /// <summary>
         /// A pen indicating that the transition is disabled
@@ -362,6 +363,12 @@ namespace GUI.StateDiagram
         /// </summary>
         public static Color ACTIVATED_COLOR = Color.Blue;
         public static Pen ACTIVATED_PEN = new Pen(ACTIVATED_COLOR, 4);
+
+        /// <summary>
+        /// An external state
+        /// </summary>
+        public static Color EXTERNAL_STATE_COLOR = Color.Green;
+        public static Pen EXTERNAL_STATE_PEN = new Pen(EXTERNAL_STATE_COLOR, 2);
 
         /// <summary>
         /// Draws the transition within the state panel
@@ -400,6 +407,13 @@ namespace GUI.StateDiagram
                                 SetColor(ACTIVATED_COLOR);
                             }
                         }
+                        else
+                        {
+                            if (Panel.isSelected(this))
+                            {
+                                pen = NORMAL_PEN_SELECTED;
+                            }
+                        }
                     }
                 }
 
@@ -424,7 +438,7 @@ namespace GUI.StateDiagram
                     SizeF size = e.Graphics.MeasureString(targetStateName, boldFont);
                     int x = target.X - (int)(size.Width / 2);
                     int y = target.Y + 10;
-                    e.Graphics.DrawString(targetStateName, boldFont, pen.Brush, new Point(x, y));
+                    e.Graphics.DrawString(targetStateName, boldFont, EXTERNAL_STATE_PEN.Brush, new Point(x, y));
                 }
             }
         }
