@@ -67,6 +67,7 @@ namespace GUI.TestRunnerView
         {
             SubSequenceTreeNode retVal;
 
+            subSequence.Enclosing = Item;
             Item.appendSubSequences(subSequence);
 
             retVal = new SubSequenceTreeNode(subSequence);

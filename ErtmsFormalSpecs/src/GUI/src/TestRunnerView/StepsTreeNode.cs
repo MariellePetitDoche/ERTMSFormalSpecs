@@ -64,6 +64,7 @@ namespace GUI.TestRunnerView
         /// <returns></returns>
         public StepTreeNode createStep(DataDictionary.Tests.Step step)
         {
+            step.Enclosing = Item;
             StepTreeNode retVal = new StepTreeNode(step);
 
             Item.appendSteps(step);

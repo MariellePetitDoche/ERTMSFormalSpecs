@@ -64,6 +64,7 @@ namespace GUI.TestRunnerView
         /// <param name="action"></param>
         public void addAction(DataDictionary.Rules.Action action)
         {
+            action.Enclosing = Item;
             DataDictionaryView.ActionTreeNode actionNode = new DataDictionaryView.ActionTreeNode(action);
             Item.appendActions(action);
             Nodes.Add(actionNode);

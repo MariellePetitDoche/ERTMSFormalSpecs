@@ -64,6 +64,7 @@ namespace GUI.TestRunnerView
         /// <param name="action"></param>
         public void addExpectation(DataDictionary.Tests.Expectation expectation)
         {
+            expectation.Enclosing = Item;
             ExpectationTreeNode expectationNode = new ExpectationTreeNode(expectation);
             Item.appendExpectations(expectation);
             Nodes.Add(expectationNode);
