@@ -101,6 +101,7 @@ namespace GUI.TestRunnerView
         public void AddActionHandler(object sender, EventArgs args)
         {
             DataDictionary.Rules.Action action = (DataDictionary.Rules.Action)DataDictionary.Generated.acceptor.getFactory().createAction();
+            action.Enclosing = Item;
             action.Name = "Action" + actions.Nodes.Count;
             createAction(action);
         }
@@ -128,6 +129,7 @@ namespace GUI.TestRunnerView
         public void AddExpectationHandler(object sender, EventArgs args)
         {
             DataDictionary.Tests.Expectation expectation = (DataDictionary.Tests.Expectation)DataDictionary.Generated.acceptor.getFactory().createExpectation();
+            expectation.Enclosing = Item;
             expectation.Name = "Expectation" + expectations.Nodes.Count;
             createExpectation(expectation);
         }
