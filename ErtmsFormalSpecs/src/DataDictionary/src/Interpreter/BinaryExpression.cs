@@ -29,7 +29,7 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// The available operators
         /// </summary>
-        public enum OPERATOR { EXP, MULT, DIV, ADD, SUB, EQUAL, NOT_EQUAL, IN, NOT_IN, LESS, LESS_OR_EQUAL, GREATER, GREATER_OR_EQUAL, AND, OR, DOT, UNDEF };
+        public enum OPERATOR { EXP, MULT, DIV, ADD, SUB, EQUAL, NOT_EQUAL, IN, NOT_IN, LESS, LESS_OR_EQUAL, GREATER, GREATER_OR_EQUAL, AND, OR, UNDEF };
 
         public static OPERATOR[] OperatorsLevel0 = { OPERATOR.OR, };
         public static OPERATOR[] OperatorsLevel1 = { OPERATOR.AND, };
@@ -48,8 +48,7 @@ namespace DataDictionary.Interpreter
             OPERATOR.EQUAL, OPERATOR.NOT_EQUAL, OPERATOR.IN, OPERATOR.NOT_IN, OPERATOR.LESS_OR_EQUAL, OPERATOR.GREATER_OR_EQUAL, OPERATOR.LESS, OPERATOR.GREATER,
             OPERATOR.ADD, OPERATOR.SUB,
             OPERATOR.MULT, OPERATOR.DIV,
-            OPERATOR.EXP,
-            OPERATOR.DOT,
+            OPERATOR.EXP
         };
 
         /// <summary>
