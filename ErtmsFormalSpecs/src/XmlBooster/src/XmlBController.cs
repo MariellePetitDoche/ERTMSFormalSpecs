@@ -137,14 +137,14 @@ namespace XmlBooster
         /// <summary>
         /// Indicates that notifications should be sent to the listeners
         /// </summary>
-        private bool notify = true;
+        private int notify = 0;
 
         /// <summary>
         /// Activates the notifications to the listeners
         /// </summary>
         public void ActivateNotification()
         {
-            notify = true;
+            notify += 1;
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace XmlBooster
         /// </summary>
         public void DesactivateNotification()
         {
-            notify = false;
+            notify -= 1;
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace XmlBooster
         /// <param name="sender"></param>
         public void alertChange(Lock aLock, T sender)
         {
-            if (notify)
+            if (notify > 0)
             {
                 foreach (IListener<T> listener in Listeners)
                 {

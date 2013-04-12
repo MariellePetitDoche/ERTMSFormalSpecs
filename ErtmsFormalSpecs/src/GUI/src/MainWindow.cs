@@ -222,7 +222,6 @@ namespace GUI
             InitializeComponent();
             AllowRefresh = true;
 
-            DataDictionary.Generated.ControllersManager.NamableController.ActivateNotification();
             DataDictionary.Generated.ControllersManager.NamableController.Listeners.Add(new NamableChangeListener(this));
 
             Refresh();
@@ -378,65 +377,68 @@ namespace GUI
             openFileDialog.Filter = "EFS Files (*.efs)|*.efs|All Files (*.*)|*.*";
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                bool shouldCompile = EFSSystem.ShouldRebuild;
-                bool shouldSave = EFSSystem.ShouldSave;
-
-                fileName = openFileDialog.FileName;
-                ProgressDialog dialog = new ProgressDialog("Opening file", OpenFileHandler);
-                dialog.ShowDialog();
-
-                // Open the windows
-                if (pleaseOpenDictionary != null)
+                try
                 {
-                    // Only open the specification window if specifications are available in the opened file
-                    if (pleaseOpenDictionary.Specifications != null && pleaseOpenDictionary.Specifications.AllParagraphs.Count > 0)
-                    {
-                        AddChildWindow(new SpecificationView.Window(pleaseOpenDictionary));
-                    }
+                    fileName = openFileDialog.FileName;
+                    ProgressDialog dialog = new ProgressDialog("Opening file", OpenFileHandler);
+                    dialog.ShowDialog();
 
-                    // Only open the model view window if model elements are available in the opened file
-                    if (pleaseOpenDictionary.NameSpaces.Count > 0)
+                    DataDictionary.Generated.ControllersManager.NamableController.DesactivateNotification();
+                    // Open the windows
+                    if (pleaseOpenDictionary != null)
                     {
-                        AddChildWindow(new DataDictionaryView.Window(pleaseOpenDictionary));
-                    }
-
-                    // Only shold the tests window if tests are defined in the opened file
-                    if (pleaseOpenDictionary.Tests.Count > 0)
-                    {
-                        IBaseForm testWindow = TestWindow;
-                        if (testWindow == null)
+                        // Only open the specification window if specifications are available in the opened file
+                        if (pleaseOpenDictionary.Specifications != null && pleaseOpenDictionary.Specifications.AllParagraphs.Count > 0)
                         {
-                            AddChildWindow(new TestRunnerView.Window(EFSSystem));
+                            AddChildWindow(new SpecificationView.Window(pleaseOpenDictionary));
                         }
-                        else
-                        {
-                            testWindow.RefreshModel();
-                        }
-                    }
 
-                    // Only open the shortcuts window if there are some shortcuts defined
-                    if (pleaseOpenDictionary.ShortcutsDictionary != null)
-                    {
-                        IBaseForm shortcutsWindow = ShortcutsWindow;
-                        if (shortcutsWindow == null)
+                        // Only open the model view window if model elements are available in the opened file
+                        if (pleaseOpenDictionary.NameSpaces.Count > 0)
                         {
-                            DataDictionary.Dictionary dictionary = GetActiveDictionary();
-                            if (dictionary != null)
+                            AddChildWindow(new DataDictionaryView.Window(pleaseOpenDictionary));
+                        }
+
+                        // Only shold the tests window if tests are defined in the opened file
+                        if (pleaseOpenDictionary.Tests.Count > 0)
+                        {
+                            IBaseForm testWindow = TestWindow;
+                            if (testWindow == null)
                             {
-                                Shortcuts.Window newWindow = new Shortcuts.Window(dictionary.ShortcutsDictionary);
-                                newWindow.Location = new System.Drawing.Point(Width - newWindow.Width - 20, 0);
-                                AddChildWindow(newWindow);
+                                AddChildWindow(new TestRunnerView.Window(EFSSystem));
+                            }
+                            else
+                            {
+                                testWindow.RefreshModel();
                             }
                         }
-                        else
+
+                        // Only open the shortcuts window if there are some shortcuts defined
+                        if (pleaseOpenDictionary.ShortcutsDictionary != null)
                         {
-                            shortcutsWindow.RefreshModel();
+                            IBaseForm shortcutsWindow = ShortcutsWindow;
+                            if (shortcutsWindow == null)
+                            {
+                                DataDictionary.Dictionary dictionary = GetActiveDictionary();
+                                if (dictionary != null)
+                                {
+                                    Shortcuts.Window newWindow = new Shortcuts.Window(dictionary.ShortcutsDictionary);
+                                    newWindow.Location = new System.Drawing.Point(Width - newWindow.Width - 20, 0);
+                                    AddChildWindow(newWindow);
+                                }
+                            }
+                            else
+                            {
+                                shortcutsWindow.RefreshModel();
+                            }
                         }
                     }
                 }
+                finally
+                {
+                    DataDictionary.Generated.ControllersManager.NamableController.ActivateNotification();
+                }
 
-                EFSSystem.ShouldRebuild = shouldCompile;
-                EFSSystem.ShouldSave = shouldSave;
                 Refresh();
             }
         }

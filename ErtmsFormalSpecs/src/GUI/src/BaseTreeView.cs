@@ -377,6 +377,8 @@ namespace GUI
             BaseTreeNode selected = Selected;
             try
             {
+                DataDictionary.Generated.ControllersManager.NamableController.DesactivateNotification();
+
                 SuspendLayout();
                 RefreshNodeContent = false;
 
@@ -388,6 +390,8 @@ namespace GUI
             }
             finally
             {
+                DataDictionary.Generated.ControllersManager.NamableController.ActivateNotification();
+
                 ResumeLayout(true);
                 RefreshNodeContent = true;
             }

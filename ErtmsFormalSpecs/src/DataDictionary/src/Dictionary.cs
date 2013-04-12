@@ -450,6 +450,7 @@ namespace DataDictionary
             // Rebuilds everything
             Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, EFSSystem.ShouldRebuild);
             compiler.Compile();
+            EFSSystem.ShouldRebuild = false;
 
             // Check rules
             RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);

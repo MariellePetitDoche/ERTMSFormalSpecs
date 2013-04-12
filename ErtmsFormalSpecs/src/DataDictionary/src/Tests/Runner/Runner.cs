@@ -151,6 +151,7 @@ namespace DataDictionary.Tests.Runner
             // Compile everything
             Interpreter.Compiler compiler = new Interpreter.Compiler(EFSSystem, EFSSystem.ShouldRebuild);
             compiler.Compile();
+            EFSSystem.ShouldRebuild = false;
 
             Setup();
         }
@@ -230,18 +231,26 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void Setup()
         {
-            // Setup the execution environment
-            Setuper setuper = new Setuper(EFSSystem);
-            foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+            try
             {
-                setuper.visit(dictionary);
+                Generated.ControllersManager.NamableController.DesactivateNotification();
+                // Setup the execution environment
+                Setuper setuper = new Setuper(EFSSystem);
+                foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+                {
+                    setuper.visit(dictionary);
+                }
+
+                // Clears all caches
+                Utils.FinderRepository.INSTANCE.ClearCache();
+
+                // Builds the list of functions that will require a cache for their graph 
+                FunctionCacheCleaner = new FunctionGraphCache(EFSSystem);
             }
-
-            // Clears all caches
-            Utils.FinderRepository.INSTANCE.ClearCache();
-
-            // Builds the list of functions that will require a cache for their graph 
-            FunctionCacheCleaner = new FunctionGraphCache(EFSSystem);
+            finally
+            {
+                Generated.ControllersManager.NamableController.ActivateNotification();
+            }
         }
 
         public class Activation
@@ -353,57 +362,66 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void Cycle()
         {
-            LastActivationTime = Time;
-
-            Utils.ModelElement.ErrorCount = 0;
-
-            foreach (Generated.acceptor.RulePriority priority in PRIORITIES_ORDER)
+            try
             {
+                DataDictionary.Generated.ControllersManager.NamableController.DesactivateNotification();
+
+                LastActivationTime = Time;
+
+                Utils.ModelElement.ErrorCount = 0;
+
+                foreach (Generated.acceptor.RulePriority priority in PRIORITIES_ORDER)
+                {
+                    // Clears the cache of functions
+                    FunctionCacheCleaner.ClearCaches();
+
+                    // Activates the processing engine
+                    HashSet<Activation> activations = new HashSet<Activation>();
+                    foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+                    {
+                        foreach (DataDictionary.Types.NameSpace nameSpace in dictionary.NameSpaces)
+                        {
+                            SetupNameSpaceActivations(priority, activations, nameSpace);
+                        }
+                    }
+
+                    ApplyActivations(activations);
+                }
                 // Clears the cache of functions
                 FunctionCacheCleaner.ClearCaches();
 
-                // Activates the processing engine
-                HashSet<Activation> activations = new HashSet<Activation>();
-                foreach (DataDictionary.Dictionary dictionary in EFSSystem.Dictionaries)
+                if (Utils.ModelElement.ErrorCount > 0)
                 {
-                    foreach (DataDictionary.Types.NameSpace nameSpace in dictionary.NameSpaces)
+                    SubStep subStep = CurrentSubStep();
+                    if (subStep != null)
                     {
-                        SetupNameSpaceActivations(priority, activations, nameSpace);
-                    }
-                }
-
-                ApplyActivations(activations);
-            }
-            // Clears the cache of functions
-            FunctionCacheCleaner.ClearCaches();
-
-            if (Utils.ModelElement.ErrorCount > 0)
-            {
-                SubStep subStep = CurrentSubStep();
-                if (subStep != null)
-                {
-                    subStep.AddError("Errors were raised while evaluating this sub step. See model view for more informations");
-                }
-                else
-                {
-                    Step step = CurrentStep();
-                    if (step != null)
-                    {
-                        step.AddError("Errors were raised while evaluating this step. See model view for more informations");
+                        subStep.AddError("Errors were raised while evaluating this sub step. See model view for more informations");
                     }
                     else
                     {
-                        TestCase testCase = CurrentTestCase();
-                        if (testCase != null)
+                        Step step = CurrentStep();
+                        if (step != null)
                         {
-                            testCase.AddError("Errors were raised while evaluating this test case. See model view for more informations");
+                            step.AddError("Errors were raised while evaluating this step. See model view for more informations");
                         }
                         else
                         {
-                            SubSequence.AddError("Errors were raised while evaluating this sub sequence. See model view for more informations");
+                            TestCase testCase = CurrentTestCase();
+                            if (testCase != null)
+                            {
+                                testCase.AddError("Errors were raised while evaluating this test case. See model view for more informations");
+                            }
+                            else
+                            {
+                                SubSequence.AddError("Errors were raised while evaluating this sub sequence. See model view for more informations");
+                            }
                         }
                     }
                 }
+            }
+            finally
+            {
+                DataDictionary.Generated.ControllersManager.NamableController.ActivateNotification();
             }
 
             EventTimeLine.CurrentTime += Step;
@@ -568,12 +586,20 @@ namespace DataDictionary.Tests.Runner
         /// </summary>
         public void SetupSubStep(SubStep subStep)
         {
-            LogInstance = subStep;
-
-            // No setup can occur when some expectations are still active
-            if (ActiveBlockingExpectations().Count == 0)
+            try
             {
-                EventTimeLine.AddModelEvent(new SubStepActivated(subStep));
+                DataDictionary.Generated.ControllersManager.NamableController.DesactivateNotification();
+                LogInstance = subStep;
+
+                // No setup can occur when some expectations are still active
+                if (ActiveBlockingExpectations().Count == 0)
+                {
+                    EventTimeLine.AddModelEvent(new SubStepActivated(subStep));
+                }
+            }
+            finally
+            {
+                DataDictionary.Generated.ControllersManager.NamableController.ActivateNotification();
             }
         }
 

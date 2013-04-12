@@ -1019,26 +1019,34 @@ namespace DataDictionary.Interpreter
         {
             Expression retVal = null;
 
-            Root = root;
-            Buffer = expression.ToCharArray();
-            retVal = Expression(0);
-
-            skipWhiteSpaces();
-            if (Index != Buffer.Length)
+            try
             {
-                retVal = null;
-                if (Index < Buffer.Length)
+                Generated.ControllersManager.NamableController.DesactivateNotification();
+                Root = root;
+                Buffer = expression.ToCharArray();
+                retVal = Expression(0);
+
+                skipWhiteSpaces();
+                if (Index != Buffer.Length)
                 {
-                    Root.AddError("End of expression expected, but found " + Buffer[Index]);
+                    retVal = null;
+                    if (Index < Buffer.Length)
+                    {
+                        Root.AddError("End of expression expected, but found " + Buffer[Index]);
+                    }
+                    else
+                    {
+                        Root.AddError("End of expression expected, but found EOF");
+                    }
                 }
-                else
+                if (retVal != null)
                 {
-                    Root.AddError("End of expression expected, but found EOF");
+                    retVal.SemanticAnalysis(Filter.IsVariableOrValue);
                 }
             }
-            if (retVal != null)
+            finally
             {
-                retVal.SemanticAnalysis(Filter.IsVariableOrValue);
+                Generated.ControllersManager.NamableController.ActivateNotification();
             }
 
             return retVal;
@@ -1188,22 +1196,31 @@ namespace DataDictionary.Interpreter
         {
             Statement.Statement retVal = null;
 
-            Root = root;
-            Buffer = expression.ToCharArray();
-            retVal = Statement(root);
-
-            skipWhiteSpaces();
-            if (Index != Buffer.Length)
+            try
             {
-                if (Index < Buffer.Length)
+                Generated.ControllersManager.NamableController.DesactivateNotification();
+
+                Root = root;
+                Buffer = expression.ToCharArray();
+                retVal = Statement(root);
+
+                skipWhiteSpaces();
+                if (Index != Buffer.Length)
                 {
-                    throw new ParseErrorException("End of statement expected at " + Index + ", but found " + Buffer[Index]);
+                    if (Index < Buffer.Length)
+                    {
+                        throw new ParseErrorException("End of statement expected at " + Index + ", but found " + Buffer[Index]);
+                    }
+                }
+
+                if (retVal != null)
+                {
+                    retVal.SemanticAnalysis();
                 }
             }
-
-            if (retVal != null)
+            finally
             {
-                retVal.SemanticAnalysis();
+                Generated.ControllersManager.NamableController.ActivateNotification();
             }
 
             return retVal;

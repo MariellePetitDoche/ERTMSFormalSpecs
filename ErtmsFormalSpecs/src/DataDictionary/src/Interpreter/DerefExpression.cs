@@ -84,7 +84,7 @@ namespace DataDictionary.Interpreter
             {
                 Ref = null;
 
-                ReturnValue tmp = Arguments[0].getReferences(null, Filter.AllMatches, false);
+                ReturnValue tmp = Arguments[0].getReferences(instance, Filter.AllMatches, false);
                 if (tmp.IsEmpty)
                 {
                     tmp = Arguments[0].getReferenceTypes(instance, Filter.AllMatches, false);
