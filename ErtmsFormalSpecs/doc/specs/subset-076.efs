@@ -63,15 +63,15 @@
  Name="Sub-step1"
 >
 <Actions>
-<Action>EURORADIO.RBCContactInformation.DataState &lt;- DataState.Valid</Action>
-<Action>EURORADIO.RBCContactInformation.RBCIdOrPhoneNumber.Id &lt;- &apos;1515&apos;</Action>
-<Action>EURORADIO.RBCContactInformation.RBCIdOrPhoneNumber.PhoneNumber &lt;- &apos;1234 FFFF FFFF FFFF&apos;</Action>
+<Action>EURORADIO.CurrentRadioSession.SessionInfo.DataState &lt;- DataState.Valid</Action>
+<Action>EURORADIO.CurrentRadioSession.SessionInfo.RBCIdOrPhoneNumber.Id &lt;- &apos;1515&apos;</Action>
+<Action>EURORADIO.CurrentRadioSession.SessionInfo.RBCIdOrPhoneNumber.PhoneNumber &lt;- &apos;1234 FFFF FFFF FFFF&apos;</Action>
 <Action>Kernel.Level.DataState &lt;- DataState.Valid</Action>
-<Action>Kernel.TrainPosition.TrainPosition.DataState &lt;- DataState.Valid</Action>
+<Action>Kernel.TrainPosition.Position.DataState &lt;- DataState.Valid</Action>
 <Action>Kernel.TrainRunningNumber.Value &lt;- &apos;TR007&apos;</Action>
 <Action>Kernel.TrainRunningNumber.DataState &lt;- Default.DataState.Valid</Action>
 <Action>DMI.DMI1.IsMaster &lt;- True</Action>
-<Action>Kernel.TrainPosition.TrainPosition.DirectionalPositionInformation.TrainOrientation &lt;- Default.Orientation.Nominal</Action>
+<Action>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- Default.Orientation.Nominal</Action>
 </Actions>
 </SubStep></SubSteps>
 </Step><Step
@@ -8717,15 +8717,15 @@ The new current mode is not indicated on the DMI</Description>
  Name="Sub-step1"
 >
 <Actions>
-<Action>EURORADIO.RBCContactInformation.DataState &lt;- DataState.Valid</Action>
-<Action>EURORADIO.RBCContactInformation.RBCIdOrPhoneNumber.Id &lt;- &apos;-1&apos;</Action>
-<Action>EURORADIO.RBCContactInformation.RBCIdOrPhoneNumber.PhoneNumber &lt;- &apos;Unknown&apos;</Action>
+<Action>EURORADIO.CurrentRadioSession.SessionInfo.DataState &lt;- DataState.Valid</Action>
+<Action>EURORADIO.CurrentRadioSession.SessionInfo.RBCIdOrPhoneNumber.Id &lt;- &apos;-1&apos;</Action>
+<Action>EURORADIO.CurrentRadioSession.SessionInfo.RBCIdOrPhoneNumber.PhoneNumber &lt;- &apos;Unknown&apos;</Action>
 <Action>Kernel.Level.DataState &lt;- DataState.Valid</Action>
-<Action>Kernel.TrainPosition.TrainPosition.DataState &lt;- DataState.Valid</Action>
+<Action>Kernel.TrainPosition.Position.DataState &lt;- DataState.Valid</Action>
 <Action>Kernel.TrainRunningNumber.Value &lt;- &apos;TR007&apos;</Action>
 <Action>Kernel.TrainRunningNumber.DataState &lt;- Default.DataState.Valid</Action>
 <Action>DMI.DMI1.IsMaster &lt;- True</Action>
-<Action>Kernel.TrainPosition.TrainPosition.DirectionalPositionInformation.TrainOrientation &lt;- Default.Orientation.Nominal</Action>
+<Action>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- Default.Orientation.Nominal</Action>
 </Actions>
 </SubStep></SubSteps>
 </Step><Step
