@@ -94,7 +94,10 @@ namespace DataDictionary.Specification
         /// <returns></returns>
         public override string ToString()
         {
-            return Name + "\t" + ImplementedParagraphs + "\t" + ApplicableParagraphs + "\t" + EstimatedTime;
+            double implementedPercentage = 0;
+            if (ApplicableParagraphs != 0)
+                implementedPercentage = ((double)ImplementedParagraphs / (double)ApplicableParagraphs) * 100;
+            return Name + "\t" + ImplementedParagraphs + "\t" + ApplicableParagraphs + "\t" + Math.Round(implementedPercentage, 2) + "%\t" + EstimatedTime;
         }
     }
 
@@ -126,7 +129,7 @@ namespace DataDictionary.Specification
             List<FunctionalBlock> functionalBlocks = CreateFunctionalBlocks();
 
             TextWriter tw = new StreamWriter(path);
-            tw.WriteLine("Name\tImplemented paragraphs\tApplicableParagraphs\tEstimatedTime");
+            tw.WriteLine("Name\tImplemented paragraphs\tApplicableParagraphs\tImplementedPercentage\tEstimatedTime");
 
             foreach (FunctionalBlock fb in functionalBlocks)
             {
