@@ -237,7 +237,12 @@ namespace GUI.StateDiagram
 
                 if (Math.Abs(deltaX) > 5 || Math.Abs(deltaY) > 5)
                 {
-                    SetPosition(State.getX() + deltaX, State.getY() + deltaY);
+                    int newX = State.getX() + deltaX;
+                    int newY = State.getY() + deltaY;
+                    if (Panel.Location.X <= newX && Panel.Location.Y <= newY)
+                    {
+                        SetPosition(newX, newY);
+                    }
                 }
             }
         }
