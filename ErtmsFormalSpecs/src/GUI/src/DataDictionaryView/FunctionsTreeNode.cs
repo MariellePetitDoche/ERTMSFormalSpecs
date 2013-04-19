@@ -149,5 +149,14 @@ namespace GUI.DataDictionaryView
                 AddFunction(function);
             }
         }
+
+        /// <summary>
+        /// Update counts according to the selected folder
+        /// </summary>
+        public override void SelectionChanged()
+        {
+            base.SelectionChanged();
+            (BaseForm as Window).toolStripStatusLabel.Text = Item.Functions.Count + (Item.Functions.Count > 1 ? " functions " : " function ") + "selected.";
+        }
     }
 }
