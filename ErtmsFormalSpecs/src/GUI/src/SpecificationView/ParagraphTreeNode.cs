@@ -236,6 +236,28 @@ namespace GUI.SpecificationView
             AddParagraph(paragraph);
         }
 
+        public void SetScopeOBU(object sender, EventArgs args)
+        {
+            setScope(DataDictionary.Generated.acceptor.Paragraph_scope.aOBU);
+        }
+
+        public void SetScopeTrack(object sender, EventArgs args)
+        {
+            setScope(DataDictionary.Generated.acceptor.Paragraph_scope.aTRACK);
+        }
+
+        public void SetScopeOBUTrack(object sender, EventArgs args)
+        {
+            setScope(DataDictionary.Generated.acceptor.Paragraph_scope.aOBU_AND_TRACK);
+        }
+
+        private void setScope(DataDictionary.Generated.acceptor.Paragraph_scope aScope)
+        {
+            Item.SetScope(aScope);
+            foreach (DataDictionary.Specification.Paragraph subParagraph in Item.getSubParagraphs())
+                subParagraph.SetScope(aScope);
+        }
+
         /// <summary>
         /// Handles a drop event
         /// </summary>
@@ -308,6 +330,9 @@ namespace GUI.SpecificationView
 
             retVal.Add(new MenuItem("Add Table to Id", new EventHandler(AddTableHandler)));
             retVal.Add(new MenuItem("Add Entry to Id", new EventHandler(AddEntryHandler)));
+            retVal.Add(new MenuItem("Recursively set scope to OBU", new EventHandler(SetScopeOBU)));
+            retVal.Add(new MenuItem("Recursively set scope to Track", new EventHandler(SetScopeTrack)));
+            retVal.Add(new MenuItem("Recursively set scope to OBU and Track", new EventHandler(SetScopeOBUTrack)));
             retVal.Add(new MenuItem("-"));
             retVal.Add(new MenuItem("Implemented", new EventHandler(ImplementedHandler)));
             retVal.Add(new MenuItem("Not implementable", new EventHandler(NotImplementableHandler)));
