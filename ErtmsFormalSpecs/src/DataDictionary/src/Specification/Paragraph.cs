@@ -171,6 +171,17 @@ namespace DataDictionary.Specification
             get { return getFather() as Paragraph; }
         }
 
+        private DataDictionary.Generated.acceptor.Paragraph_scope subParagraphsScope = Generated.acceptor.Paragraph_scope.defaultParagraph_scope;
+        public DataDictionary.Generated.acceptor.Paragraph_scope SubParagraphsScope
+        {
+            get
+            {
+                if (subParagraphsScope == Generated.acceptor.Paragraph_scope.defaultParagraph_scope)
+                    subParagraphsScope = computeSubParagraphsScope();
+                return subParagraphsScope;
+            }
+        }
+
         public void SetType(DataDictionary.Generated.acceptor.Paragraph_type Type)
         {
             setType(Type);
@@ -491,5 +502,36 @@ namespace DataDictionary.Specification
             }
         }
 
+        /// <summary>
+        /// Computes the scope of the sub-paragraphs
+        /// </summary>
+        /// <returns></returns>
+        private DataDictionary.Generated.acceptor.Paragraph_scope computeSubParagraphsScope()
+        {
+            DataDictionary.Generated.acceptor.Paragraph_scope result = getScope();
+
+            foreach (Paragraph paragraph in SubParagraphs)
+            {
+                switch (paragraph.SubParagraphsScope)
+                {
+                    case Generated.acceptor.Paragraph_scope.aOBU_AND_TRACK:
+                        return Generated.acceptor.Paragraph_scope.aOBU_AND_TRACK;
+                    case Generated.acceptor.Paragraph_scope.aOBU:
+                        if (result == Generated.acceptor.Paragraph_scope.aTRACK)
+                            return Generated.acceptor.Paragraph_scope.aOBU_AND_TRACK;
+                        else
+                            result = Generated.acceptor.Paragraph_scope.aOBU;
+                        break;
+                    case Generated.acceptor.Paragraph_scope.aTRACK:
+                        if (result == Generated.acceptor.Paragraph_scope.aOBU)
+                            return Generated.acceptor.Paragraph_scope.aOBU_AND_TRACK;
+                        else
+                            result = Generated.acceptor.Paragraph_scope.aTRACK;
+                        break;
+                }
+            }
+
+            return result;
+        }
     }
 }

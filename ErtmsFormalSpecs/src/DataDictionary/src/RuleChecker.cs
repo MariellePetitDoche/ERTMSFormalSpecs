@@ -631,6 +631,11 @@ namespace DataDictionary
                         }
                     }
                 }
+
+                if (paragraph.getScope() != paragraph.SubParagraphsScope && paragraph.getScope() != Generated.acceptor.Paragraph_scope.aOBU_AND_TRACK)
+                {
+                    paragraph.AddWarning("Paragraph scope does not correspond to the scope of its sub-paragraphs");
+                }
             }
 
             base.visit(obj, visitSubNodes);
