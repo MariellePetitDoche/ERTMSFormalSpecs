@@ -196,6 +196,17 @@ namespace DataDictionary.Specification
             }
         }
 
+        public void SetScope(DataDictionary.Generated.acceptor.Paragraph_scope Scope)
+        {
+            setScope(Scope);
+            Paragraph enclosingParagraph = this;
+            while (enclosingParagraph != null)
+            {
+                enclosingParagraph.subParagraphsScope = Generated.acceptor.Paragraph_scope.defaultParagraph_scope;
+                enclosingParagraph = enclosingParagraph.EnclosingParagraph;
+            }
+        }
+
         /**
          * Looks for a specific paragraph in this paragraph
          */
