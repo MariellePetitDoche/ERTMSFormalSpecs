@@ -122,7 +122,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                         DataDictionary.Interpreter.ExplanationPart explain = variableUpdate.Explanation;
                         ExplainBox explainTextBox = new ExplainBox();
                         explainTextBox.setExplanation(explain);
-                        explainTextBox.ShowMe();
+                        explainTextBox.ShowDialog();
                     }
                 }
 
