@@ -104,6 +104,39 @@ namespace DataDictionary
             return retVal;
         }
 
+        public override void visit(Generated.SubSequence obj, bool visitSubNodes)
+        {
+            Tests.SubSequence subSequence = (Tests.SubSequence)obj;
+
+            if (subSequence != null)
+            {
+                if (subSequence.TestCases.Count == 0)
+                {
+                    subSequence.AddWarning("Sub sequences should hold at least one test case");
+                }
+                else
+                {
+                    Tests.TestCase testCase = (Tests.TestCase)subSequence.TestCases[0];
+
+                    if (testCase.Steps.Count == 0)
+                    {
+                        testCase.AddWarning("First test case of a subsequence should hold at least one step");
+                    }
+                    else
+                    {
+                        Tests.Step step = (Tests.Step)testCase.Steps[0];
+
+                        if (step.Name.IndexOf("Setup") < 0 && step.Name.IndexOf("Initialize") < 0)
+                        {
+                            step.AddWarning("First step of the first test case of a subsequence should be used to setup the system, and should hold 'Setup' or 'Initialize' in its name");
+                        }
+                    }
+                }
+            }
+
+            base.visit(obj, visitSubNodes);
+        }
+
         /// <summary>
         /// Applied to all nodes of the tree
         /// </summary>
