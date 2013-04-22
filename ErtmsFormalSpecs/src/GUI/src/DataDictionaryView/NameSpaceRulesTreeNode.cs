@@ -123,5 +123,14 @@ namespace GUI.DataDictionaryView
                 AddRule(rule);
             }
         }
+
+        /// <summary>
+        /// Update counts according to the selected folder
+        /// </summary>
+        public override void SelectionChanged()
+        {
+            base.SelectionChanged();
+            (BaseForm as Window).toolStripStatusLabel.Text = Item.Rules.Count + (Item.Rules.Count > 1 ? " rules " : " rule ") + "selected.";
+        }
     }
 }

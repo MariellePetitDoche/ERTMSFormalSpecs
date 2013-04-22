@@ -87,5 +87,20 @@ namespace GUI.DataDictionaryView
                 AddNameSpace(nameSpace);
             }
         }
+
+        /// <summary>
+        /// Update counts according to the selected folder
+        /// </summary>
+        public override void SelectionChanged()
+        {
+            base.SelectionChanged();
+            List<DataDictionary.Types.NameSpace> namespaces = new List<DataDictionary.Types.NameSpace>();
+            foreach (DataDictionary.Types.NameSpace aNamespace in Item.SubNameSpaces)
+            {
+                namespaces.Add(aNamespace);
+            }
+
+            (BaseForm as Window).toolStripStatusLabel.Text = NameSpaceTreeNode.CreateStatMessage(namespaces, true);
+        }
     }
 }

@@ -222,5 +222,90 @@ namespace GUI.DataDictionaryView
                 structures.AcceptDrop(SourceNode);
             }
         }
+
+
+        /// <summary>
+        /// Update counts according to the selected namespace
+        /// </summary>
+        public override void SelectionChanged()
+        {
+            base.SelectionChanged();
+            List<DataDictionary.Types.NameSpace> namespaces = new List<DataDictionary.Types.NameSpace>();
+            namespaces.Add(Item);
+
+            (BaseForm as Window).toolStripStatusLabel.Text = CreateStatMessage(namespaces, false);
+        }
+
+
+        /// <summary>
+        /// Creates the stat message according to the list of namespaces provided
+        /// </summary>
+        /// <param name="paragraphs"></param>
+        /// <returns></returns>
+        public static string CreateStatMessage(List<DataDictionary.Types.NameSpace> namespaces, bool isFolder)
+        {
+            string result = "";
+
+            int ranges       = 0;
+            int enumerations = 0;
+            int structures   = 0;
+            int collections  = 0;
+            int functions    = 0;
+            int procedures   = 0;
+            int variables    = 0;
+            int rules        = 0;
+
+            List<DataDictionary.Types.NameSpace> allNamespaces = new List<DataDictionary.Types.NameSpace>();
+            foreach (DataDictionary.Types.NameSpace aNamespace in namespaces)
+            {
+                allNamespaces.AddRange(collectNamespaces(aNamespace));
+            }
+
+            foreach (DataDictionary.Types.NameSpace aNamespace in allNamespaces)
+            {
+                ranges       += aNamespace.Ranges.Count;
+                enumerations += aNamespace.Enumerations.Count;
+                structures   += aNamespace.Structures.Count;
+                collections  += aNamespace.Collections.Count;
+                functions    += aNamespace.Functions.Count;
+                procedures   += aNamespace.Procedures.Count;
+                variables    += aNamespace.Variables.Count;
+                rules        += aNamespace.Rules.Count;
+            }
+
+            if (!isFolder)
+            {
+                result += "The namespace " + namespaces[0].Name + " contains ";
+            }
+            else
+            {
+                result += namespaces.Count + (namespaces.Count > 1 ? " namespaces " : " namespace ") + "selected, containing ";
+            }
+
+            result += (allNamespaces.Count - namespaces.Count) + (allNamespaces.Count - namespaces.Count > 1 ? " sub-namespaces, " : " sub-namespace, ") +
+                      ranges       + (ranges       > 1 ? " ranges, "       : " range, ") +
+                      enumerations + (enumerations > 1 ? " enumerations, " : " enumeration, ") +
+                      structures   + (structures   > 1 ? " structures, "   : " structure, ") +
+                      collections  + (collections  > 1 ? " collections, "  : " collection, ") +
+                      functions    + (functions    > 1 ? " functions, "    : " function, ") +
+                      procedures   + (procedures   > 1 ? " procedures, "   : " procedure, ") +
+                      variables    + (variables    > 1 ? " variables and " : " variable and ") +
+                      rules        + (rules        > 1 ? " rules."         : " rule.");
+
+            return result;
+                   
+        }
+
+
+        private static List<DataDictionary.Types.NameSpace> collectNamespaces(DataDictionary.Types.NameSpace aNamespace)
+        {
+            List<DataDictionary.Types.NameSpace> result = new List<DataDictionary.Types.NameSpace>();
+            result.Add(aNamespace);
+            foreach(DataDictionary.Types.NameSpace aSubNamespace in aNamespace.SubNameSpaces)
+            {
+                result.AddRange(collectNamespaces(aSubNamespace));
+            }
+            return result;
+        }
     }
 }

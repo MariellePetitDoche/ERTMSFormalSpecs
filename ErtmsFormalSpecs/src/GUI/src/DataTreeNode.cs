@@ -858,6 +858,10 @@ namespace GUI
                     }
                 }
             }
+            if (BaseForm is GUI.DataDictionaryView.Window)
+            {
+                (BaseForm as GUI.DataDictionaryView.Window).toolStripStatusLabel.Text = "";
+            }
         }
     }
 }

@@ -130,5 +130,13 @@ namespace GUI.DataDictionaryView
             }
         }
 
+        /// <summary>
+        /// Update counts according to the selected folder
+        /// </summary>
+        public override void SelectionChanged()
+        {
+            base.SelectionChanged();
+            (BaseForm as Window).toolStripStatusLabel.Text = Item.Variables.Count + (Item.Variables.Count > 1 ? " variables " : " variable ") + "selected.";
+        }
     }
 }

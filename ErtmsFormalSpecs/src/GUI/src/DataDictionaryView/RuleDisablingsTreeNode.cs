@@ -77,5 +77,14 @@ namespace GUI.DataDictionaryView
 
             return retVal;
         }
+
+        /// <summary>
+        /// Update counts according to the selected folder
+        /// </summary>
+        public override void SelectionChanged()
+        {
+            base.SelectionChanged();
+            (BaseForm as Window).toolStripStatusLabel.Text = Item.RuleDisablings.Count + (Item.RuleDisablings.Count > 1 ? " rule disablings " : " rule disabling ") + "selected.";
+        }
     }
 }

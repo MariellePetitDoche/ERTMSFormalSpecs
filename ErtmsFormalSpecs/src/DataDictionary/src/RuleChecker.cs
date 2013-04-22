@@ -640,7 +640,7 @@ namespace DataDictionary
                     case DataDictionary.Generated.acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
                         if (!paragraph.isApplicable())
                         {
-                            paragraph.AddWarning("Paragraph state does not correspond to implementation status (N/A but applicable)");
+                            paragraph.AddWarning("Paragraph state does not correspond to implementation status (N/A but not applicable)");
                         }
                         break;
 
@@ -663,6 +663,11 @@ namespace DataDictionary
                             paragraph.AddError("Requirement implementation is complete, while model element implementation is not");
                         }
                     }
+                }
+
+                if (paragraph.getScope() != paragraph.SubParagraphsScope && paragraph.getScope() != Generated.acceptor.Paragraph_scope.aOBU_AND_TRACK)
+                {
+                    paragraph.AddWarning("Paragraph scope does not correspond to the scope of its sub-paragraphs");
                 }
             }
 

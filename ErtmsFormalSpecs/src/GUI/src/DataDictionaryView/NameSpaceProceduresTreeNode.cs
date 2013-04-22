@@ -123,5 +123,14 @@ namespace GUI.DataDictionaryView
                 AddProcedure(procedure);
             }
         }
+
+        /// <summary>
+        /// Update counts according to the selected folder
+        /// </summary>
+        public override void SelectionChanged()
+        {
+            base.SelectionChanged();
+            (BaseForm as Window).toolStripStatusLabel.Text = Item.Procedures.Count + (Item.Procedures.Count > 1 ? " procedures " : " procedure ") + "selected.";
+        }
     }
 }
