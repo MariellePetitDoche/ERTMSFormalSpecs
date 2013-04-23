@@ -197,6 +197,19 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
+        /// The default value
+        /// </summary>
+        public override Values.IValue DefaultValue
+        {
+            get
+            {
+                Values.IValue retVal = new Values.IntValue(EFSSystem.IntegerType, 0);
+
+                return retVal;
+            }
+        }
+
+        /// <summary>
         /// Indicates that the other type can be placed in variables of this type
         /// </summary>
         /// <param name="otherType"></param>
@@ -343,6 +356,19 @@ namespace DataDictionary.Types
         public DoubleType(EFSSystem efsSystem)
             : base(efsSystem, "Double")
         {
+        }
+
+        /// <summary>
+        /// The default value
+        /// </summary>
+        public override Values.IValue DefaultValue
+        {
+            get
+            {
+                Values.IValue retVal = new Values.DoubleValue(EFSSystem.DoubleType, 0.0);
+
+                return retVal;
+            }
         }
 
         /// <summary>
