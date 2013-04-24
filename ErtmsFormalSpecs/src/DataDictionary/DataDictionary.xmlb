@@ -424,9 +424,11 @@
       <FIELD NAME="Parameters"    REFTYPE="Parameter"/>
       <FIELD NAME="Cases"         REFTYPE="Case"/>
       <FIELD NAME="TypeName"      TYPE="PCHAR" />
+      <FIELD NAME="Cacheable"     TYPE="BOOLEAN" />
     </FIELDS>
     <ATTRIBUTES>
-      <ATTR NAME="Type" TARGET="TypeName" OPTIONAL="TRUE" />
+      <ATTR NAME="Type"      TARGET="TypeName"  OPTIONAL="TRUE" />
+      <ATTR NAME="Cacheable" TARGET="Cacheable" OPTIONAL="TRUE" DEFAULT="FALSE" />
     </ATTRIBUTES>
     <FORMULA>
       <CONCAT>
