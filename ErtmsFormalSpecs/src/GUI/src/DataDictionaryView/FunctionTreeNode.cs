@@ -64,6 +64,19 @@ namespace GUI.DataDictionaryView
                     Item.setTypeName(value);
                 }
             }
+
+            /// <summary>
+            /// Indicates that the function result can be cached, from one cycle to the other
+            /// </summary>
+            [Category("Description")]
+            public bool IsCacheable
+            {
+                get { return Item.getCacheable(); }
+                set
+                {
+                    Item.setCacheable(value);
+                }
+            }
         }
 
         private CasesTreeNode Cases;

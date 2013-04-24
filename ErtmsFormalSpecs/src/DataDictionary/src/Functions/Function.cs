@@ -232,7 +232,7 @@ namespace DataDictionary.Functions
                             }
                             retVal = createGraphForParameter(ctxt, param);
 
-                            if (IsCachedForGraph() && actualValue is Values.PlaceHolder)
+                            if (getCacheable() && actualValue is Values.PlaceHolder)
                             {
                                 Graph = retVal;
                             }
@@ -250,25 +250,6 @@ namespace DataDictionary.Functions
                 {
                     AddError("Cannot create graph of function, reason : " + e.Message);
                 }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Indicates whether this function should cache its value when computing a graph; 
-        /// Caching is done when the function only depends on a double value (input) and provides a double value (output)
-        /// because in that case, it is only dependant on its parameters
-        /// </summary>
-        /// <returns></returns>
-        public bool IsCachedForGraph()
-        {
-            bool retVal = false;
-
-            if (FormalParameters.Count == 1)
-            {
-                Parameter parameter = ((Parameter)FormalParameters[0]);
-                retVal = parameter.Type.IsDouble() && ReturnType.IsDouble();
             }
 
             return retVal;
@@ -672,6 +653,11 @@ namespace DataDictionary.Functions
                 retVal = this.Graph.ToSurfaceX();
             }
 
+            if (getCacheable())
+            {
+                Surface = retVal;
+            }
+
             return retVal;
         }
 
@@ -986,6 +972,11 @@ namespace DataDictionary.Functions
         }
 
         /// <summary>
+        /// The cached value for the latests evaluation
+        /// </summary>
+        private Values.IValue CachedValue = null;
+
+        /// <summary>
         /// Provides the value of the function
         /// </summary>
         /// <param name="instance">the instance on which the function is evaluated</param>
@@ -993,62 +984,70 @@ namespace DataDictionary.Functions
         /// <returns>The value for the function application</returns>
         public virtual Values.IValue Evaluate(Interpreter.InterpretationContext context, Dictionary<Variables.Actual, Values.IValue> actuals)
         {
-            Values.IValue retVal = null;
+            Values.IValue retVal = CachedValue;
 
-            int token = context.LocalScope.PushContext();
-            AssignParameters(context, actuals);
-            if (Cases.Count > 0)
+            if (retVal == null)
             {
-                // Statically defined function
-                foreach (Case aCase in Cases)
+                int token = context.LocalScope.PushContext();
+                AssignParameters(context, actuals);
+                if (Cases.Count > 0)
                 {
-                    if (aCase.EvaluatePreConditions(context))
+                    // Statically defined function
+                    foreach (Case aCase in Cases)
                     {
-                        retVal = aCase.Expression.GetValue(context);
-                        break;
+                        if (aCase.EvaluatePreConditions(context))
+                        {
+                            retVal = aCase.Expression.GetValue(context);
+                            break;
+                        }
                     }
                 }
-            }
-            else if (Surface != null && FormalParameters.Count == 2)
-            {
-                double x = 0.0;
-                double y = 0.0;
-                Parameter formal1 = (Parameter)FormalParameters[0];
-                Parameter formal2 = (Parameter)FormalParameters[1];
-                foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in actuals)
-                {
-                    if (pair.Key.Parameter == formal1)
-                    {
-                        x = Functions.Function.getDoubleValue(pair.Value);
-                    }
-                    if (pair.Key.Parameter == formal2)
-                    {
-                        y = Functions.Function.getDoubleValue(pair.Value);
-                    }
-                }
-                retVal = new Values.DoubleValue(EFSSystem.DoubleType, Surface.Val(x, y));
-            }
-            else if (Graph != null && FormalParameters.Count < 2)
-            {
-                if (FormalParameters.Count == 0)
-                {
-                    retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(0));
-                }
-                else if (FormalParameters.Count == 1)
+                else if (Surface != null && FormalParameters.Count == 2)
                 {
                     double x = 0.0;
-                    Parameter formal = (Parameter)FormalParameters[0];
+                    double y = 0.0;
+                    Parameter formal1 = (Parameter)FormalParameters[0];
+                    Parameter formal2 = (Parameter)FormalParameters[1];
                     foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in actuals)
                     {
-                        if (pair.Key.Parameter == formal)
+                        if (pair.Key.Parameter == formal1)
                         {
                             x = Functions.Function.getDoubleValue(pair.Value);
                         }
+                        if (pair.Key.Parameter == formal2)
+                        {
+                            y = Functions.Function.getDoubleValue(pair.Value);
+                        }
                     }
-                    retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(x));
+                    retVal = new Values.DoubleValue(EFSSystem.DoubleType, Surface.Val(x, y));
+                }
+                else if (Graph != null && FormalParameters.Count < 2)
+                {
+                    if (FormalParameters.Count == 0)
+                    {
+                        retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(0));
+                    }
+                    else if (FormalParameters.Count == 1)
+                    {
+                        double x = 0.0;
+                        Parameter formal = (Parameter)FormalParameters[0];
+                        foreach (KeyValuePair<Variables.Actual, Values.IValue> pair in actuals)
+                        {
+                            if (pair.Key.Parameter == formal)
+                            {
+                                x = Functions.Function.getDoubleValue(pair.Value);
+                            }
+                        }
+                        retVal = new Values.DoubleValue(EFSSystem.DoubleType, Graph.Val(x));
+                    }
+                }
+                context.LocalScope.PopContext(token);
+
+                if (getCacheable() && actuals.Count == 0)
+                {
+                    CachedValue = retVal;
                 }
             }
-            context.LocalScope.PopContext(token);
 
             return retVal;
         }
@@ -1271,6 +1270,16 @@ namespace DataDictionary.Functions
             }
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Clears the caches for this function
+        /// </summary>
+        public void ClearCache()
+        {
+            CachedValue = null;
+            Graph = null;
+            Surface = null;
         }
     }
 }

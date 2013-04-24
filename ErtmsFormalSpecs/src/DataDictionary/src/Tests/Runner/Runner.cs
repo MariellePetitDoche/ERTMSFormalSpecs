@@ -112,7 +112,7 @@ namespace DataDictionary.Tests.Runner
 
                 if (function != null)
                 {
-                    if (function.IsCachedForGraph())
+                    if (function.getCacheable())
                     {
                         CachedFunctions.Add(function);
                     }
@@ -128,7 +128,7 @@ namespace DataDictionary.Tests.Runner
             {
                 foreach (Functions.Function function in CachedFunctions)
                 {
-                    function.Graph = null;
+                    function.ClearCache();
                 }
             }
         }
