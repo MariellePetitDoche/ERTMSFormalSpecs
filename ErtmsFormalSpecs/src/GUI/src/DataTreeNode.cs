@@ -188,10 +188,10 @@ namespace GUI
                         RefreshNode();
                     }
 
-                    if (baseForm.MessageTextBox != null)
+                    if (baseForm.MessagesTextBox != null)
                     {
-                        baseForm.MessageTextBox.Lines = Utils.Utils.toStrings(Model.Messages);
-                        baseForm.MessageTextBox.ReadOnly = true;
+                        baseForm.MessagesTextBox.Lines = Utils.Utils.toStrings(Model.Messages);
+                        baseForm.MessagesTextBox.ReadOnly = true;
                     }
 
                     if (baseForm.subTreeView != null)
@@ -590,6 +590,14 @@ namespace GUI
         {
             UpdateText();
             UpdateColor();
+            if (BaseForm != null && BaseForm.MessagesTextBox != null)
+            {
+                if (BaseForm.Selected == Model)
+                {
+                    BaseForm.MessagesTextBox.Lines = Utils.Utils.toStrings(Model.Messages);
+                    BaseForm.MessagesTextBox.ReadOnly = true;
+                }
+            }
         }
 
         /// <summary>

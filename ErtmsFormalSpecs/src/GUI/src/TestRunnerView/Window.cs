@@ -36,7 +36,7 @@ namespace GUI.TestRunnerView
             get { return commentsRichTextBox; }
         }
 
-        public RichTextBox MessageTextBox
+        public RichTextBox MessagesTextBox
         {
             get { return messageRichTextBox; }
         }

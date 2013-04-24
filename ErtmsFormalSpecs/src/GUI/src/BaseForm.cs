@@ -41,7 +41,7 @@ namespace GUI
         /// <summary>
         /// The text editor for messages
         /// </summary>
-        RichTextBox MessageTextBox { get; }
+        RichTextBox MessagesTextBox { get; }
 
         /// <summary>
         /// The enclosing MDI Window

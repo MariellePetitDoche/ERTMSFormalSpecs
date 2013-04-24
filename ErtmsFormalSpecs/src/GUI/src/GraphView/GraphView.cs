@@ -169,7 +169,7 @@ namespace GUI.GraphView
         /// <summary>
         /// The text editor for messages
         /// </summary>
-        public RichTextBox MessageTextBox { get { return null; } }
+        public RichTextBox MessagesTextBox { get { return null; } }
 
         /// <summary>
         /// The enclosing MDI Window

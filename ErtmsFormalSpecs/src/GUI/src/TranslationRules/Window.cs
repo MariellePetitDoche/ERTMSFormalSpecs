@@ -35,7 +35,7 @@ namespace GUI.TranslationRules
             get { return commentRichTextBox; }
         }
 
-        public RichTextBox MessageTextBox
+        public RichTextBox MessagesTextBox
         {
             get { return messageRichTextBox; }
         }

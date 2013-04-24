@@ -76,7 +76,7 @@ namespace GUI.Shortcuts
             get { return null; }
         }
 
-        public RichTextBox MessageTextBox
+        public RichTextBox MessagesTextBox
         {
             get { return null; }
         }
