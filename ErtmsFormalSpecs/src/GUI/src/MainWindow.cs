@@ -849,14 +849,17 @@ namespace GUI
             if (dictionary != null)
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Title = "Open specification file";
-                openFileDialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+                openFileDialog.Title = "Open original specification file";
+                openFileDialog.Filter = "RTF Files (*.rtf)|*.rtf|All Files (*.*)|*.*";
                 if (openFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     string FileName = openFileDialog.FileName;
-                    if (MessageBox.Show("This will override the specifications. Are you sure ? ", "Override action", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    openFileDialog.Title = "Open new specification file";
+                    openFileDialog.Filter = "RTF Files (*.rtf)|*.rtf|All Files (*.*)|*.*";
+                    if (openFileDialog.ShowDialog(this) == DialogResult.OK)
                     {
-                        DataDictionary.Util.loadSpecification(FileName, dictionary);
+                        string NewFileName = openFileDialog.FileName;
+                        Importer.RtfDeltaImporter importer = new Importer.RtfDeltaImporter(FileName, NewFileName, dictionary.Specifications);
                         RefreshModel();
                     }
                 }
