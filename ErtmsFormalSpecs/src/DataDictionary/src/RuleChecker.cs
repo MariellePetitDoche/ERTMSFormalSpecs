@@ -450,6 +450,10 @@ namespace DataDictionary
                                 {
                                     preCondition.AddWarning("Operator != should not be used for state machines");
                                 }
+                                if (!preCondition.ExpressionText.Contains("CurrentState"))
+                                {
+                                    preCondition.AddError("Missing keyword \"CurrentState\"");
+                                }
                             }
                         }
                     }
@@ -501,6 +505,20 @@ namespace DataDictionary
                         if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
                         {
                             expect.AddError("Expression type should be Boolean");
+                        }
+                        /* if there are two literals and the first one is a state,
+                         * that means that the keyword "CurrentState" on the first literal
+                         * was forgotten (otherwise it would be interpreted as a variable) */
+                        List<Values.IValue> literals = expect.expressionTree.GetLiterals();
+                        if (literals.Count > 1)
+                        {
+                            if (literals[0].Type is Types.StateMachine)
+                            {
+                                if (!literals[0].Name.Contains("CurrentState"))
+                                {
+                                    expect.AddError("Missing keyword \"CurrentState\"");
+                                }
+                            }
                         }
                     }
                 }
