@@ -38,7 +38,7 @@ namespace GUI.SpecificationView
             get { return commentsRichTextBox; }
         }
 
-        public RichTextBox MessageTextBox
+        public RichTextBox MessagesTextBox
         {
             get { return messagesRichTextBox; }
         }

@@ -35,7 +35,7 @@ namespace GUI.DataDictionaryView
             get { return commentRichTextBox; }
         }
 
-        public RichTextBox MessageTextBox
+        public RichTextBox MessagesTextBox
         {
             get { return messagesRichTextBox; }
         }
