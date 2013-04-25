@@ -445,6 +445,7 @@ namespace DataDictionary.Types
                                     int transitionCount = Transitions.Count;
                                     bool filteredOut = false;
 
+                                    // Finds the enclosing state of this action to determine the source state of this transition
                                     Constants.State enclosingState = Utils.EnclosingFinder<Constants.State>.find(action);
                                     if (enclosingState != null)
                                     {
@@ -516,9 +517,9 @@ namespace DataDictionary.Types
                     condition = action.RuleCondition;
                 }
 
-                if (targetState == target || initialState == initial)
+                if (targetState != null || initialState != null)
                 {
-                    // At least one of the target or initial state lies in this state machine
+                    // This transition is about this state machine.
                     if (initialState != targetState && initialState != null)
                     {
                         // Check that the transition is not yet present
