@@ -512,7 +512,7 @@ namespace DataDictionary
                         List<Values.IValue> literals = expect.expressionTree.GetLiterals();
                         if (literals.Count > 1)
                         {
-                            if (literals[0].Type is Types.StateMachine)
+                            if (literals[0].Type is Types.StateMachine && literals[1].Type is Types.StateMachine)
                             {
                                 if (!literals[0].Name.Contains("CurrentState"))
                                 {
