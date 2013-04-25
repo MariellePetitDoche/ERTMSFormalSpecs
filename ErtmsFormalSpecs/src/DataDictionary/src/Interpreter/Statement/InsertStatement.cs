@@ -199,7 +199,7 @@ namespace DataDictionary.Interpreter.Statement
 
                         Rules.Change change = new Rules.Change(variable, variable.Value, newListValue);
                         retVal.Add(change);
-                        explanation.SubExplanations.Add(new ExplanationPart(change));
+                        explanation.SubExplanations.Add(new ExplanationPart(Root, change));
                     }
                     else
                     {

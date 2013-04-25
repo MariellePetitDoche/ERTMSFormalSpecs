@@ -54,16 +54,22 @@ namespace DataDictionary.Interpreter
         public List<ExplanationPart> SubExplanations { get; private set; }
 
         /// <summary>
-        /// The (optional) change for which this explanation part is built
+        /// The model element for which the explanation is created
         /// </summary>
-        private DataDictionary.Rules.Change Change { get; set; }
+        public ModelElement Element { get; private set; }
+
+        /// <summary>
+        /// The (optional) change for which this explanation part is created
+        /// </summary>
+        public DataDictionary.Rules.Change Change { get; private set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="message"></param>
-        public ExplanationPart()
+        /// <param name="element">The element for which this explanation part is created</param>
+        public ExplanationPart(ModelElement element)
         {
+            Element = element;
             Message = "<No explanation yet>";
             SubExplanations = new List<ExplanationPart>();
         }
@@ -71,9 +77,11 @@ namespace DataDictionary.Interpreter
         /// <summary>
         /// Constructor for an explanation, based on a change
         /// </summary>
-        /// <param name="change"></param>
-        public ExplanationPart(DataDictionary.Rules.Change change)
+        /// <param name="element">The element for which this explanation part is created</param>
+        /// <param name="change">The change performed</param>
+        public ExplanationPart(ModelElement element, DataDictionary.Rules.Change change)
         {
+            Element = element;
             Change = change;
             SubExplanations = new List<ExplanationPart>();
         }

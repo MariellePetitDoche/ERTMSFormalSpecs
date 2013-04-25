@@ -14,17 +14,75 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Windows.Forms;
+using DataDictionary.Interpreter;
 
 namespace GUI.TestRunnerView
 {
     public partial class ExplainBox : Form
     {
         /// <summary>
+        /// A node of the tree
+        /// </summary>
+        private class ExplainTreeNode : TreeNode
+        {
+            /// <summary>
+            /// The explanation which corresponds to this node
+            /// </summary>
+            public ExplanationPart Explanation { get; private set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="explanation"></param>
+            public ExplainTreeNode(ExplanationPart explanation)
+            {
+                Explanation = explanation;
+                Text = explanation.Message;
+            }
+
+            /// <summary>
+            /// Provides the explain box in which this node lies
+            /// </summary>
+            private ExplainBox ExplainBox
+            {
+                get
+                {
+                    return GUIUtils.EnclosingFinder<ExplainBox>.find(TreeView); ;
+                }
+            }
+
+            /// <summary>
+            /// Provides the MDI window enclosing this tree node
+            /// </summary>
+            private MainWindow MDIWindow
+            {
+                get
+                {
+                    return GUIUtils.EnclosingFinder<MainWindow>.find(TreeView); ;
+                }
+            }
+
+            /// <summary>
+            /// Selects the corresponding model element
+            /// </summary>
+            public void SelectModel()
+            {
+                if (Explanation.Element != null)
+                {
+                    MDIWindow.Select(Explanation.Element, true);
+                    ExplainBox.explainRichTextBox.Text = Explanation.Message;
+                }
+            }
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public ExplainBox()
         {
             InitializeComponent();
+
+            explainTreeView.AfterSelect += new TreeViewEventHandler(explainTreeView_AfterSelect);
         }
 
         /// <summary>
@@ -32,16 +90,23 @@ namespace GUI.TestRunnerView
         /// </summary>
         /// <param name="part"></param>
         /// <param name="node"></param>
-        private void innerSetExplanation(DataDictionary.Interpreter.ExplanationPart part, TreeNode node)
+        /// <param param name="level">the level in which the explanation is inserted</param>
+        private void innerSetExplanation(DataDictionary.Interpreter.ExplanationPart part, ExplainTreeNode node, int level)
         {
-            node.Text = part.Message;
-            node.Nodes.Clear();
-
             foreach (DataDictionary.Interpreter.ExplanationPart subPart in part.SubExplanations)
             {
-                TreeNode subNode = new TreeNode();
-                innerSetExplanation(subPart, subNode);
+                ExplainTreeNode subNode = new ExplainTreeNode(subPart);
+                innerSetExplanation(subPart, subNode, level + 1);
                 node.Nodes.Add(subNode);
+            }
+
+            if (level <= 2)
+            {
+                node.Expand();
+            }
+            else
+            {
+                node.Collapse();
             }
         }
 
@@ -51,27 +116,23 @@ namespace GUI.TestRunnerView
         /// <param name="explanation"></param>
         public void setExplanation(DataDictionary.Interpreter.ExplanationPart explanation)
         {
-            TreeNode node = new TreeNode();
-            innerSetExplanation(explanation, node);
-
             explainTreeView.Nodes.Clear();
+            ExplainTreeNode node = new ExplainTreeNode(explanation);
+            innerSetExplanation(explanation, node, 0);
             explainTreeView.Nodes.Add(node);
-            explainTreeView.ExpandAll();
         }
 
-        public void ShowMe()
+        /// <summary>
+        /// Handles the selection of an element of the treeview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void explainTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            Control current = this;
-            MainWindow window = null;
-            while (current != null && window == null)
+            ExplainTreeNode node = explainTreeView.SelectedNode as ExplainTreeNode;
+            if (node != null)
             {
-                current = current.Parent;
-                window = current as MainWindow;
-            }
-
-            if (window != null)
-            {
-                window.AddChildWindow(this);
+                node.SelectModel();
             }
         }
     }

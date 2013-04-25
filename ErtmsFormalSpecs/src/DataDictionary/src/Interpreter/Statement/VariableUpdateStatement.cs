@@ -180,7 +180,7 @@ namespace DataDictionary.Interpreter.Statement
                 Rules.Change change = new Rules.Change(var, var.Value, value);
                 change.Apply();
                 retVal.Add(change);
-                explanation.SubExplanations.Add(new ExplanationPart(change));
+                explanation.SubExplanations.Add(new ExplanationPart(Root, change));
             }
             else
             {

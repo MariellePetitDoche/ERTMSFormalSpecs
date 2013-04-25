@@ -82,9 +82,25 @@ namespace GUI.TestRunnerView.TimeLineControl
         /// <summary>
         /// The enclosing time line control
         /// </summary>
-        TimeLineControl TimeLine
+        private TimeLineControl TimeLine
         {
             get { return Parent as TimeLineControl; }
+        }
+
+        /// <summary>
+        /// Provides the enclosing window
+        /// </summary>
+        private Window EnclosingWindow
+        {
+            get { return TimeLine.Window; }
+        }
+
+        /// <summary>
+        /// Provides the main window
+        /// </summary>
+        MainWindow MDIWindow
+        {
+            get { return EnclosingWindow.MDIWindow; }
         }
 
         /// <summary>
@@ -122,7 +138,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                         DataDictionary.Interpreter.ExplanationPart explain = variableUpdate.Explanation;
                         ExplainBox explainTextBox = new ExplainBox();
                         explainTextBox.setExplanation(explain);
-                        explainTextBox.ShowDialog();
+                        MDIWindow.AddChildWindow(explainTextBox);
                     }
                 }
 
@@ -151,7 +167,7 @@ namespace GUI.TestRunnerView.TimeLineControl
                         DataDictionary.Interpreter.ExplanationPart explain = expectation.ExpressionTree.Explain();
                         ExplainBox explainTextBox = new ExplainBox();
                         explainTextBox.setExplanation(explain);
-                        explainTextBox.ShowDialog();
+                        MDIWindow.AddChildWindow(explainTextBox);
                     }
                 }
 

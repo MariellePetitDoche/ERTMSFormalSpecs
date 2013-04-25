@@ -65,6 +65,7 @@ namespace GUI
 
             AfterLabelEdit += new NodeLabelEditEventHandler(LabelEditHandler);
             LabelEdit = true;
+            HideSelection = false;
 
             ImageList = new ImageList();
             ImageList.Images.Add(GUI.Properties.Resources.file);
@@ -344,8 +345,9 @@ namespace GUI
         /// Selects the node which references the element provided
         /// </summary>
         /// <param name="element"></param>
+        /// <param name="getFocus">Indicates whether the focus should be given to the enclosing form</param>
         /// <returns>the selected node</returns>
-        public BaseTreeNode Select(Utils.IModelElement element)
+        public BaseTreeNode Select(Utils.IModelElement element, bool getFocus = false)
         {
             BaseTreeNode retVal = null;
 
@@ -353,7 +355,12 @@ namespace GUI
             if (retVal != null)
             {
                 Selected = retVal;
-                Focus();
+
+                if (getFocus)
+                {
+                    Form form = GUIUtils.EnclosingFinder<Form>.find(this);
+                    form.BringToFront();
+                }
             }
 
             return retVal;

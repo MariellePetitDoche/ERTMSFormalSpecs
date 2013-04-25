@@ -237,7 +237,7 @@ namespace DataDictionary.Interpreter.Statement
                 DataDictionary.Variables.IProcedure procedure = Call.getProcedure(ctxt);
                 if (procedure != null)
                 {
-                    ExplanationPart part = new ExplanationPart();
+                    ExplanationPart part = new ExplanationPart(Root);
                     part.Message = procedure.FullName;
                     explanation.SubExplanations.Add(part);
 

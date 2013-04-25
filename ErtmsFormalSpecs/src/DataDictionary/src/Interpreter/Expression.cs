@@ -480,7 +480,7 @@ namespace DataDictionary.Interpreter
 
             if (explain)
             {
-                ExplanationPart part = new ExplanationPart();
+                ExplanationPart part = new ExplanationPart(Root);
                 currentExplanation.SubExplanations.Add(part);
                 currentExplanation = part;
             }
@@ -505,7 +505,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public ExplanationPart Explain()
         {
-            ExplanationPart retVal = new ExplanationPart();
+            ExplanationPart retVal = new ExplanationPart(Root);
             currentExplanation = retVal;
 
             try

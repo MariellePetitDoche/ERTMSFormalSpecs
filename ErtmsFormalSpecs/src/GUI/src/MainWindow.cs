@@ -39,15 +39,17 @@ namespace GUI
         /// Selects the model element in all opened sub windows
         /// </summary>
         /// <param name="model"></param>
-        public void Select(Utils.IModelElement model)
+        /// <param name="getFocus">Indicates whether the focus should be given to the enclosing form</param>
+        public void Select(Utils.IModelElement model, bool getFocus = false)
         {
             if (model != null)
             {
                 foreach (IBaseForm form in SubWindows)
                 {
-                    if (form.TreeView != null)
+                    BaseTreeView treeView = form.TreeView;
+                    if (treeView != null)
                     {
-                        form.TreeView.Select(model);
+                        treeView.Select(model, getFocus);
                     }
                 }
             }

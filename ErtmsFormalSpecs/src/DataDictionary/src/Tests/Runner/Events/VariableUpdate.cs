@@ -53,7 +53,7 @@ namespace DataDictionary.Tests.Runner.Events
         {
             base.Apply(context);
 
-            Explanation = new Interpreter.ExplanationPart();
+            Explanation = new Interpreter.ExplanationPart(Action);
             Explanation.Message = "Action " + Action.Name;
             Changes = new List<Rules.Change>();
             Action.GetChanges(context, Changes, Explanation);
