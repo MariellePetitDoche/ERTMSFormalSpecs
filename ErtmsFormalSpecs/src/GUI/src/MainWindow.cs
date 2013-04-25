@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -1167,6 +1168,40 @@ namespace GUI
         {
             FunctionsPerformances.FunctionsPerformances functionsPerformances = new FunctionsPerformances.FunctionsPerformances(EFSSystem);
             AddChildWindow(functionsPerformances);
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Creates a new dictionary
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Create new dictionary. Select dictionary file location";
+            openFileDialog.Filter = "EFS Files (*.efs)|*.efs";
+            if (openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                DataDictionary.Dictionary dictionary = new DataDictionary.Dictionary();
+                dictionary.FilePath = filePath;
+                dictionary.Name = Path.GetFileNameWithoutExtension(filePath);
+                EFSSystem.AddDictionary(dictionary);
+                RefreshModel();
+
+                // Open a data dictionary window if none is yet present
+                bool found = false;
+                foreach (IBaseForm form in SubWindows)
+                {
+                    if (form is DataDictionaryView.Window)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    AddChildWindow(new DataDictionaryView.Window(dictionary));
+                }
+            }
         }
     }
 }

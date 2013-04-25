@@ -83,6 +83,8 @@ namespace DataDictionary
         {
             Dictionaries = new List<Dictionary>();
 
+            DataDictionary.Generated.acceptor.setFactory(new DataDictionary.ObjectFactory());
+
             Generated.ControllersManager.NamableController.ActivateNotification();
             Generated.ControllersManager.NamableController.Listeners.Insert(0, new NamableChangeListener(this));
         }

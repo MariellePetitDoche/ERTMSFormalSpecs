@@ -141,7 +141,6 @@ namespace DataDictionary
             Generated.ControllersManager.NamableController.DesactivateNotification();
             try
             {
-                DataDictionary.Generated.acceptor.setFactory(new DataDictionary.ObjectFactory());
                 XmlBFileContext ctxt = new XmlBFileContext();
                 ctxt.readFile(filePath);
                 try
@@ -179,7 +178,6 @@ namespace DataDictionary
         {
             Specification.Specification retVal = null;
 
-            DataDictionary.Generated.acceptor.setFactory(new DataDictionary.ObjectFactory());
             XmlBFileContext ctxt = new XmlBFileContext();
             ctxt.readFile(fileName);
             try
