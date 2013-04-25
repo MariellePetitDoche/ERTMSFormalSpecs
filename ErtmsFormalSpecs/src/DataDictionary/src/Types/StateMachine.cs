@@ -451,7 +451,7 @@ namespace DataDictionary.Types
                                         filteredOut = filteredOut || AddTransition(update, stt1, null, enclosingState);
                                     }
 
-                                    if ( !filteredOut )
+                                    if (!filteredOut)
                                     {
                                         foreach (Rules.PreCondition preCondition in ruleCondition.AllPreConditions)
                                         {
@@ -508,12 +508,26 @@ namespace DataDictionary.Types
                 // TargetState is the target state either in this state machine or in a sub state machine
                 Constants.State targetState = StateMachine.StateInThisStateMachine(target);
 
+                // Determine the rule condition (if any) related to this state machine
+                Rules.RuleCondition condition = null;
+                if (update != null)
+                {
+                    Rules.Action action = update.Root as Rules.Action;
+                    condition = action.RuleCondition;
+                }
+
                 if (targetState == target || initialState == initial)
                 {
                     // At least one of the target or initial state lies in this state machine
                     if (initialState != targetState && initialState != null)
                     {
-                        Transitions.Add(new Rules.Transition(preCondition, initialState, update, targetState));
+                        // Check that the transition is not yet present
+                        // This case can occur when the same RuleCondition references two different states 
+                        // in a substate machine. Only draws the transition once.
+                        if (!findMatchingTransition(condition, initialState, targetState))
+                        {
+                            Transitions.Add(new Rules.Transition(preCondition, initialState, update, targetState));
+                        }
                     }
                     else
                     {
@@ -521,6 +535,29 @@ namespace DataDictionary.Types
                         {
                             retVal = true;
                         }
+                    }
+                }
+
+                return retVal;
+            }
+
+            /// <summary>
+            /// Finds a transition which matches the initial state, target state and rule condition in the existing transitions
+            /// </summary>
+            /// <param name="condition"></param>
+            /// <param name="initialState"></param>
+            /// <param name="targetState"></param>
+            /// <returns></returns>
+            private bool findMatchingTransition(Rules.RuleCondition condition, Constants.State initialState, Constants.State targetState)
+            {
+                bool retVal = false;
+
+                foreach (Rules.Transition t in Transitions)
+                {
+                    if (t.RuleCondition == condition && t.InitialState == initialState && t.TargetState == targetState)
+                    {
+                        retVal = true;
+                        break;
                     }
                 }
 
