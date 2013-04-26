@@ -1,3 +1,4 @@
 /sandbox.efs
 *.bak
 /subset-026_export.efs
+/sandbox*.efs
