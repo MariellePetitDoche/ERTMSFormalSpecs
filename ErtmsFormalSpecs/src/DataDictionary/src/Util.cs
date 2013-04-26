@@ -151,7 +151,10 @@ namespace DataDictionary
 
                     Updater updater = new Updater();
                     updater.visit(retVal);
-                    retVal.Specifications.ManageTypeSpecs();
+                    if (retVal.Specifications != null)
+                    {
+                        retVal.Specifications.ManageTypeSpecs();
+                    }
 
                     LockFile(filePath);
                 }
