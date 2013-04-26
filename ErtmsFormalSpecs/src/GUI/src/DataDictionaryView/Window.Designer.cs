@@ -96,6 +96,7 @@ namespace GUI.DataDictionaryView
             this.expressionTabPage.SuspendLayout();
             this.commentTabPage.SuspendLayout();
             this.usageTabPage.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip
@@ -173,7 +174,7 @@ namespace GUI.DataDictionaryView
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(926, 548);
+            this.splitContainer1.Size = new System.Drawing.Size(926, 526);
             this.splitContainer1.SplitterDistance = 221;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 5;
@@ -182,6 +183,7 @@ namespace GUI.DataDictionaryView
             // 
             this.dataDictTree.AllowDrop = true;
             this.dataDictTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataDictTree.HideSelection = false;
             this.dataDictTree.ImageIndex = 0;
             this.dataDictTree.LabelEdit = true;
             this.dataDictTree.Location = new System.Drawing.Point(0, 0);
@@ -189,7 +191,7 @@ namespace GUI.DataDictionaryView
             this.dataDictTree.Root = null;
             this.dataDictTree.Selected = null;
             this.dataDictTree.SelectedImageIndex = 0;
-            this.dataDictTree.Size = new System.Drawing.Size(221, 548);
+            this.dataDictTree.Size = new System.Drawing.Size(221, 526);
             this.dataDictTree.TabIndex = 3;
             // 
             // splitContainer2
@@ -207,8 +209,8 @@ namespace GUI.DataDictionaryView
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl);
-            this.splitContainer2.Size = new System.Drawing.Size(702, 548);
-            this.splitContainer2.SplitterDistance = 222;
+            this.splitContainer2.Size = new System.Drawing.Size(702, 526);
+            this.splitContainer2.SplitterDistance = 213;
             this.splitContainer2.SplitterWidth = 3;
             this.splitContainer2.TabIndex = 5;
             // 
@@ -225,7 +227,7 @@ namespace GUI.DataDictionaryView
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer4.Size = new System.Drawing.Size(702, 222);
+            this.splitContainer4.Size = new System.Drawing.Size(702, 213);
             this.splitContainer4.SplitterDistance = 348;
             this.splitContainer4.TabIndex = 5;
             // 
@@ -236,7 +238,7 @@ namespace GUI.DataDictionaryView
             this.dataDictPropertyGrid.Location = new System.Drawing.Point(0, 0);
             this.dataDictPropertyGrid.Name = "dataDictPropertyGrid";
             this.dataDictPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.dataDictPropertyGrid.Size = new System.Drawing.Size(348, 222);
+            this.dataDictPropertyGrid.Size = new System.Drawing.Size(348, 213);
             this.dataDictPropertyGrid.TabIndex = 4;
             // 
             // groupBox1
@@ -245,7 +247,7 @@ namespace GUI.DataDictionaryView
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(350, 222);
+            this.groupBox1.Size = new System.Drawing.Size(350, 213);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Messages";
@@ -256,7 +258,7 @@ namespace GUI.DataDictionaryView
             this.messagesRichTextBox.Location = new System.Drawing.Point(3, 16);
             this.messagesRichTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.messagesRichTextBox.Name = "messagesRichTextBox";
-            this.messagesRichTextBox.Size = new System.Drawing.Size(344, 203);
+            this.messagesRichTextBox.Size = new System.Drawing.Size(344, 194);
             this.messagesRichTextBox.TabIndex = 1;
             this.messagesRichTextBox.Text = "";
             // 
@@ -271,7 +273,7 @@ namespace GUI.DataDictionaryView
             this.tabControl.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(702, 323);
+            this.tabControl.Size = new System.Drawing.Size(702, 310);
             this.tabControl.TabIndex = 1;
             // 
             // descriptionTabPage
@@ -281,7 +283,7 @@ namespace GUI.DataDictionaryView
             this.descriptionTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.descriptionTabPage.Name = "descriptionTabPage";
             this.descriptionTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.descriptionTabPage.Size = new System.Drawing.Size(694, 297);
+            this.descriptionTabPage.Size = new System.Drawing.Size(694, 284);
             this.descriptionTabPage.TabIndex = 4;
             this.descriptionTabPage.Text = "Description";
             this.descriptionTabPage.UseVisualStyleBackColor = true;
@@ -301,7 +303,7 @@ namespace GUI.DataDictionaryView
             // 
             this.splitContainer3.Panel2.Controls.Add(this.ruleExplainTextBox);
             this.splitContainer3.Panel2.Controls.Add(this.stateDiagramPanel);
-            this.splitContainer3.Size = new System.Drawing.Size(690, 293);
+            this.splitContainer3.Size = new System.Drawing.Size(690, 280);
             this.splitContainer3.SplitterDistance = 341;
             this.splitContainer3.SplitterWidth = 3;
             this.splitContainer3.TabIndex = 0;
@@ -313,7 +315,7 @@ namespace GUI.DataDictionaryView
             this.requirementsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.requirementsTextBox.Location = new System.Drawing.Point(0, 0);
             this.requirementsTextBox.Name = "requirementsTextBox";
-            this.requirementsTextBox.Size = new System.Drawing.Size(341, 293);
+            this.requirementsTextBox.Size = new System.Drawing.Size(341, 280);
             this.requirementsTextBox.TabIndex = 22;
             this.requirementsTextBox.Text = "";
             // 
@@ -326,7 +328,7 @@ namespace GUI.DataDictionaryView
             this.ruleExplainTextBox.Location = new System.Drawing.Point(0, 0);
             this.ruleExplainTextBox.Name = "ruleExplainTextBox";
             this.ruleExplainTextBox.ReadOnly = true;
-            this.ruleExplainTextBox.Size = new System.Drawing.Size(346, 293);
+            this.ruleExplainTextBox.Size = new System.Drawing.Size(346, 280);
             this.ruleExplainTextBox.TabIndex = 24;
             this.ruleExplainTextBox.Text = "";
             this.ruleExplainTextBox.WordWrap = false;
@@ -337,7 +339,7 @@ namespace GUI.DataDictionaryView
             this.stateDiagramPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.stateDiagramPanel.Location = new System.Drawing.Point(0, 0);
             this.stateDiagramPanel.Name = "stateDiagramPanel";
-            this.stateDiagramPanel.Size = new System.Drawing.Size(346, 293);
+            this.stateDiagramPanel.Size = new System.Drawing.Size(346, 280);
             this.stateDiagramPanel.StateMachine = null;
             this.stateDiagramPanel.TabIndex = 0;
             this.stateDiagramPanel.Visible = false;
@@ -406,6 +408,7 @@ namespace GUI.DataDictionaryView
             // 
             this.usageTreeView.AllowDrop = true;
             this.usageTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.usageTreeView.HideSelection = false;
             this.usageTreeView.ImageIndex = 0;
             this.usageTreeView.LabelEdit = true;
             this.usageTreeView.Location = new System.Drawing.Point(2, 2);
@@ -430,8 +433,7 @@ namespace GUI.DataDictionaryView
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(31, 17);
-            this.toolStripStatusLabel.Text = "";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // Window
             // 
@@ -439,9 +441,9 @@ namespace GUI.DataDictionaryView
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(926, 573);
-            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.statusStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Window";
@@ -471,6 +473,8 @@ namespace GUI.DataDictionaryView
             this.expressionTabPage.ResumeLayout(false);
             this.commentTabPage.ResumeLayout(false);
             this.usageTabPage.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
