@@ -42,6 +42,8 @@ namespace GUI.DataDictionaryView
         NameSpaceVariablesTreeNode variables;
         NameSpaceRulesTreeNode rules;
 
+        bool isDirectory = false;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -79,6 +81,7 @@ namespace GUI.DataDictionaryView
         public NameSpaceTreeNode(DataDictionary.Types.NameSpace item, string name, bool isFolder)
             : base(item, name, isFolder)
         {
+            isDirectory = true;
         }
 
         /// <summary>
@@ -177,6 +180,16 @@ namespace GUI.DataDictionaryView
             variables.AddHandler(sender, args);
         }
 
+
+        /// <summary>
+        /// Adds a namespace in the corresponding namespace
+        /// </summary>
+        /// <param name="nameSpace"></param>
+        public NameSpaceTreeNode AddNameSpace(DataDictionary.Types.NameSpace nameSpace)
+        {
+            return subNameSpaces.AddNameSpace(nameSpace);
+        }
+
         /// <summary>
         /// The menu items for this tree node
         /// </summary>
@@ -205,21 +218,37 @@ namespace GUI.DataDictionaryView
         {
             base.AcceptDrop(SourceNode);
 
-            if (SourceNode is VariableTreeNode)
+            if (isDirectory)
             {
-                variables.AcceptDrop(SourceNode);
+                BaseTreeNode parent = Parent as BaseTreeNode;
+                parent.AcceptDrop(SourceNode);
             }
-            else if (SourceNode is ProcedureTreeNode)
+            else
             {
-                procedures.AcceptDrop(SourceNode);
-            }
-            else if (SourceNode is RuleTreeNode)
-            {
-                rules.AcceptDrop(SourceNode);
-            }
-            else if (SourceNode is StructureTreeNode)
-            {
-                structures.AcceptDrop(SourceNode);
+                if (SourceNode is VariableTreeNode)
+                {
+                    variables.AcceptDrop(SourceNode);
+                }
+                else if (SourceNode is ProcedureTreeNode)
+                {
+                    procedures.AcceptDrop(SourceNode);
+                }
+                else if (SourceNode is RuleTreeNode)
+                {
+                    rules.AcceptDrop(SourceNode);
+                }
+                else if (SourceNode is StructureTreeNode)
+                {
+                    structures.AcceptDrop(SourceNode);
+                }
+                else if (SourceNode is NameSpaceTreeNode)
+                {
+                    NameSpaceTreeNode nameSpaceTreeNode = SourceNode as NameSpaceTreeNode;
+                    DataDictionary.Types.NameSpace nameSpace = nameSpaceTreeNode.Item;
+
+                    nameSpaceTreeNode.Delete();
+                    AddNameSpace(nameSpace);
+                }
             }
         }
 
@@ -246,14 +275,14 @@ namespace GUI.DataDictionaryView
         {
             string result = "";
 
-            int ranges       = 0;
+            int ranges = 0;
             int enumerations = 0;
-            int structures   = 0;
-            int collections  = 0;
-            int functions    = 0;
-            int procedures   = 0;
-            int variables    = 0;
-            int rules        = 0;
+            int structures = 0;
+            int collections = 0;
+            int functions = 0;
+            int procedures = 0;
+            int variables = 0;
+            int rules = 0;
 
             List<DataDictionary.Types.NameSpace> allNamespaces = new List<DataDictionary.Types.NameSpace>();
             foreach (DataDictionary.Types.NameSpace aNamespace in namespaces)
@@ -263,14 +292,14 @@ namespace GUI.DataDictionaryView
 
             foreach (DataDictionary.Types.NameSpace aNamespace in allNamespaces)
             {
-                ranges       += aNamespace.Ranges.Count;
+                ranges += aNamespace.Ranges.Count;
                 enumerations += aNamespace.Enumerations.Count;
-                structures   += aNamespace.Structures.Count;
-                collections  += aNamespace.Collections.Count;
-                functions    += aNamespace.Functions.Count;
-                procedures   += aNamespace.Procedures.Count;
-                variables    += aNamespace.Variables.Count;
-                rules        += aNamespace.Rules.Count;
+                structures += aNamespace.Structures.Count;
+                collections += aNamespace.Collections.Count;
+                functions += aNamespace.Functions.Count;
+                procedures += aNamespace.Procedures.Count;
+                variables += aNamespace.Variables.Count;
+                rules += aNamespace.Rules.Count;
             }
 
             if (!isFolder)
@@ -283,17 +312,17 @@ namespace GUI.DataDictionaryView
             }
 
             result += (allNamespaces.Count - namespaces.Count) + (allNamespaces.Count - namespaces.Count > 1 ? " sub-namespaces, " : " sub-namespace, ") +
-                      ranges       + (ranges       > 1 ? " ranges, "       : " range, ") +
+                      ranges + (ranges > 1 ? " ranges, " : " range, ") +
                       enumerations + (enumerations > 1 ? " enumerations, " : " enumeration, ") +
-                      structures   + (structures   > 1 ? " structures, "   : " structure, ") +
-                      collections  + (collections  > 1 ? " collections, "  : " collection, ") +
-                      functions    + (functions    > 1 ? " functions, "    : " function, ") +
-                      procedures   + (procedures   > 1 ? " procedures, "   : " procedure, ") +
-                      variables    + (variables    > 1 ? " variables and " : " variable and ") +
-                      rules        + (rules        > 1 ? " rules."         : " rule.");
+                      structures + (structures > 1 ? " structures, " : " structure, ") +
+                      collections + (collections > 1 ? " collections, " : " collection, ") +
+                      functions + (functions > 1 ? " functions, " : " function, ") +
+                      procedures + (procedures > 1 ? " procedures, " : " procedure, ") +
+                      variables + (variables > 1 ? " variables and " : " variable and ") +
+                      rules + (rules > 1 ? " rules." : " rule.");
 
             return result;
-                   
+
         }
 
 
@@ -301,7 +330,7 @@ namespace GUI.DataDictionaryView
         {
             List<DataDictionary.Types.NameSpace> result = new List<DataDictionary.Types.NameSpace>();
             result.Add(aNamespace);
-            foreach(DataDictionary.Types.NameSpace aSubNamespace in aNamespace.SubNameSpaces)
+            foreach (DataDictionary.Types.NameSpace aSubNamespace in aNamespace.SubNameSpaces)
             {
                 result.AddRange(collectNamespaces(aSubNamespace));
             }

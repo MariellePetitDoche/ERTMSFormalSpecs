@@ -71,24 +71,6 @@ namespace GUI.DataDictionaryView
         }
 
         /// <summary>
-        /// Accepts drop of a tree node, in a drag & drop operation
-        /// </summary>
-        /// <param name="SourceNode"></param>
-        public override void AcceptDrop(BaseTreeNode SourceNode)
-        {
-            base.AcceptDrop(SourceNode);
-
-            if (SourceNode is NameSpaceTreeNode)
-            {
-                NameSpaceTreeNode nameSpaceTreeNode = SourceNode as NameSpaceTreeNode;
-                DataDictionary.Types.NameSpace nameSpace = nameSpaceTreeNode.Item;
-
-                nameSpaceTreeNode.Delete();
-                AddNameSpace(nameSpace);
-            }
-        }
-
-        /// <summary>
         /// Update counts according to the selected folder
         /// </summary>
         public override void SelectionChanged()

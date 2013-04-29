@@ -138,6 +138,7 @@ namespace GUI
         }
 
         private const int CTRL = 8;
+        private const int ALT = 32;
 
         /// <summary>
         /// Called when the drop operation is performed on a node
@@ -156,6 +157,10 @@ namespace GUI
                     if ((e.KeyState & CTRL) != 0)
                     {
                         DestinationNode.AcceptCopy(SourceNode);
+                    }
+                    else if ((e.KeyState & ALT) != 0)
+                    {
+                        DestinationNode.AcceptMove(SourceNode);
                     }
                     else
                     {

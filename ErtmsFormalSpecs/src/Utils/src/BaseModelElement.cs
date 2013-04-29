@@ -162,6 +162,7 @@ namespace Utils
             if (EnclosingCollection != null)
             {
                 EnclosingCollection.Remove(this);
+                setFather(null);
             }
         }
 

@@ -638,22 +638,6 @@ namespace GUI
         /// <param name="SourceNode"></param>
         public virtual void AcceptDrop(BaseTreeNode SourceNode)
         {
-            System.Collections.ArrayList SourceCollection = SourceNode.Model.EnclosingCollection;
-            System.Collections.ArrayList ThisCollection = Model.EnclosingCollection;
-
-            if (ThisCollection != null && SourceCollection == ThisCollection)
-            {
-                // This is a reordering
-                int sourceIndex = ThisCollection.IndexOf(SourceNode.Model);
-                int thisIndex = ThisCollection.IndexOf(Model);
-                if (thisIndex >= 0 && thisIndex >= 0 && thisIndex != sourceIndex)
-                {
-                    ThisCollection.Remove(SourceNode.Model);
-                    thisIndex = ThisCollection.IndexOf(Model);
-                    ThisCollection.Insert(thisIndex, SourceNode.Model);
-                    MainWindow.RefreshModel();
-                }
-            }
         }
 
         /// <summary>
@@ -680,6 +664,29 @@ namespace GUI
             }
         }
 
+        /// <summary>
+        /// Accepts the move of a base tree node on this node
+        /// </summary>
+        /// <param name="SourceNode"></param>
+        public virtual void AcceptMove(BaseTreeNode SourceNode)
+        {
+            System.Collections.ArrayList SourceCollection = SourceNode.Model.EnclosingCollection;
+            System.Collections.ArrayList ThisCollection = Model.EnclosingCollection;
+
+            if (ThisCollection != null && SourceCollection == ThisCollection)
+            {
+                // This is a reordering
+                int sourceIndex = ThisCollection.IndexOf(SourceNode.Model);
+                int thisIndex = ThisCollection.IndexOf(Model);
+                if (thisIndex >= 0 && thisIndex >= 0 && thisIndex != sourceIndex)
+                {
+                    ThisCollection.Remove(SourceNode.Model);
+                    thisIndex = ThisCollection.IndexOf(Model);
+                    ThisCollection.Insert(thisIndex, SourceNode.Model);
+                    MainWindow.RefreshModel();
+                }
+            }
+        }
         /// <summary>
         /// Provides the main window wich holds this tree node
         /// </summary>

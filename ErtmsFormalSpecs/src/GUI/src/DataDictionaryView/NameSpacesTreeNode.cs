@@ -60,9 +60,21 @@ namespace GUI.DataDictionaryView
         {
             DataDictionary.Types.NameSpace nameSpace = (DataDictionary.Types.NameSpace)DataDictionary.Generated.acceptor.getFactory().createNameSpace();
             nameSpace.Name = "<NameSpace" + (GetNodeCount(false) + 1) + ">";
+            AddNameSpace(nameSpace);
+        }
+
+        /// <summary>
+        /// Adds a namespace in the corresponding namespace
+        /// </summary>
+        /// <param name="nameSpace"></param>
+        public NameSpaceTreeNode AddNameSpace(DataDictionary.Types.NameSpace nameSpace)
+        {
             Item.appendNameSpaces(nameSpace);
-            Nodes.Add(new NameSpaceTreeNode(nameSpace));
+            NameSpaceTreeNode retVal = new NameSpaceTreeNode(nameSpace);
+            Nodes.Add(retVal);
             SortSubNodes();
+
+            return retVal;
         }
 
         /// <summary>
@@ -76,6 +88,24 @@ namespace GUI.DataDictionaryView
             retVal.Add(new MenuItem("Add", new EventHandler(AddHandler)));
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Accepts drop of a tree node, in a drag & drop operation
+        /// </summary>
+        /// <param name="SourceNode"></param>
+        public override void AcceptDrop(BaseTreeNode SourceNode)
+        {
+            base.AcceptDrop(SourceNode);
+
+            if (SourceNode is NameSpaceTreeNode)
+            {
+                NameSpaceTreeNode nameSpaceTreeNode = SourceNode as NameSpaceTreeNode;
+                DataDictionary.Types.NameSpace nameSpace = nameSpaceTreeNode.Item;
+
+                nameSpaceTreeNode.Delete();
+                AddNameSpace(nameSpace);
+            }
         }
 
         /// <summary>
