@@ -386,10 +386,11 @@ namespace GUI
                     ProgressDialog dialog = new ProgressDialog("Opening file", OpenFileHandler);
                     dialog.ShowDialog();
 
-                    DataDictionary.Generated.ControllersManager.NamableController.DesactivateNotification();
                     // Open the windows
                     if (pleaseOpenDictionary != null)
                     {
+                        DataDictionary.Generated.ControllersManager.NamableController.DesactivateNotification();
+
                         // Only open the specification window if specifications are available in the opened file
                         if (pleaseOpenDictionary.Specifications != null && pleaseOpenDictionary.Specifications.AllParagraphs.Count > 0)
                         {
@@ -435,6 +436,10 @@ namespace GUI
                                 shortcutsWindow.RefreshModel();
                             }
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot open file, please see log file (GUI.Log) for more information", "Cannot open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 finally

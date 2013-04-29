@@ -162,6 +162,10 @@ namespace DataDictionary
                 {
                     Log.Error(ctxt.errorMessage());
                 }
+                catch (Exception e)
+                {
+                    Log.Error(e.Message);
+                }
             }
             finally
             {
@@ -197,6 +201,10 @@ namespace DataDictionary
             catch (XmlBooster.XmlBException excp)
             {
                 Log.Error(ctxt.errorMessage());
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
             }
 
             return retVal;
