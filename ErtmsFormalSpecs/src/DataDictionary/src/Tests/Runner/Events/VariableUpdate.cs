@@ -14,7 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
+using DataDictionary.Rules;
 
 namespace DataDictionary.Tests.Runner.Events
 {
@@ -33,7 +33,7 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         /// The changes performed by this action execution
         /// </summary>
-        public List<DataDictionary.Rules.Change> Changes { get; private set; }
+        public ChangeList Changes { get; private set; }
 
         /// <summary>
         /// Constructor
@@ -46,26 +46,35 @@ namespace DataDictionary.Tests.Runner.Events
         }
 
         /// <summary>
+        /// Computes the changes related to this event
+        /// </summary>
+        /// <param name="apply">Indicates that the changes should be applied directly</param>
+        public override bool ComputeChanges(bool apply)
+        {
+            bool retVal = base.ComputeChanges(apply);
+
+            if (retVal)
+            {
+                Explanation = new Interpreter.ExplanationPart(Action);
+                Explanation.Message = "Action " + Action.Name;
+                Interpreter.InterpretationContext context = new Interpreter.InterpretationContext(Instance);
+                Changes = new ChangeList();
+                Action.GetChanges(context, Changes, Explanation, apply);
+                Changes.CheckChanges(Action);
+                Message = Explanation.ToString();
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Performs the variable change
         /// </summary>
-        /// <param name="localScope">The values of local variables</param>
-        public override void Apply(Interpreter.InterpretationContext context)
+        /// <param name="context">The execution context used to compute the values</param>
+        public override void Apply()
         {
-            base.Apply(context);
-
-            Explanation = new Interpreter.ExplanationPart(Action);
-            Explanation.Message = "Action " + Action.Name;
-            Changes = new List<Rules.Change>();
-            Action.GetChanges(context, Changes, Explanation);
-            Message = Explanation.ToString();
-            foreach (DataDictionary.Rules.Change change in Changes)
-            {
-                change.Apply();
-                if (change.NewValue == null)
-                {
-                    Action.AddError(change.Variable.FullName + " <- <cannot evaluate value>");
-                }
-            }
+            base.Apply();
+            Changes.Apply();
         }
 
         /// <summary>
@@ -74,11 +83,7 @@ namespace DataDictionary.Tests.Runner.Events
         public override void RollBack()
         {
             base.RollBack();
-
-            foreach (DataDictionary.Rules.Change change in Changes)
-            {
-                change.UnApply();
-            }
+            Changes.RollBack();
         }
     }
 }

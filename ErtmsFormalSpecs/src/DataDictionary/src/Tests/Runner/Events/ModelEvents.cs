@@ -76,12 +76,33 @@ namespace DataDictionary.Tests.Runner.Events
         }
 
         /// <summary>
-        /// Perform the system modifications related to this event
+        /// Indicates that the changes have been computed
         /// </summary>
-        /// <param name="localScope">The values of local variables</param>
-        public virtual void Apply(Interpreter.InterpretationContext context)
+        private bool changesComputed = false;
+
+        /// <summary>
+        /// Computes the changes related to this event
+        /// </summary>
+        /// <param name="apply">Indicates that the changes should be applied directly</param>
+        /// <returns>True if changes should be computed</returns>
+        public virtual bool ComputeChanges(bool apply)
         {
-            // By default, nothing to do
+            bool retVal = !changesComputed;
+
+            changesComputed = true;
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// Applies the changes related to this event
+        /// </summary>
+        public virtual void Apply()
+        {
+            if (!changesComputed)
+            {
+                ComputeChanges(false);
+            }
         }
 
         /// <summary>

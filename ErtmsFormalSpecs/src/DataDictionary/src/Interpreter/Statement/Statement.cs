@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
+using DataDictionary.Rules;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -101,9 +102,10 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Provides the changes performed by this statement
         /// </summary>
-        /// <param name="context">The interpretation context used to perform evaluations</param>
-        /// <param name="retVal">the list to fill with changes</param>
-        /// <param name="explanation">The explanation for this change</param>
-        public abstract void GetChanges(Interpreter.InterpretationContext context, List<Rules.Change> retVal, Interpreter.ExplanationPart explanation);
+        /// <param name="context">The context on which the changes should be computed</param>
+        /// <param name="changes">The changes performed by this statement</param>
+        /// <param name="explanation">The explanatino to fill, if any</param>
+        /// <param name="apply">Indicates that the changes should be applied immediately</param>
+        public abstract void GetChanges(Interpreter.InterpretationContext context, ChangeList changes, Interpreter.ExplanationPart explanation, bool apply);
     }
 }

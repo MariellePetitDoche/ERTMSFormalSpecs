@@ -199,11 +199,14 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        /// Applies this action and creates a list of changes to be applied on the system
+        /// Creates a list of changes to be applied on the system
         /// </summary>
-        /// <param name="instance">The instance on which this action should be evaluated</param>
-        /// <param name="retVal">The list to fill with the changes</param>
-        public void GetChanges(Interpreter.InterpretationContext context, List<Change> retVal, Interpreter.ExplanationPart explanation)
+        /// <param name="context">The context on which the changes should be computed</param>
+        /// <param name="changes">The list of changes to be updated</param>
+        /// <param name="explanation">The explanatino to fill, if any</param>
+        /// <param name="apply">Indicates that the changes should be applied immediately</param>
+        /// <returns>The list to fill with the changes</param>
+        public void GetChanges(Interpreter.InterpretationContext context, ChangeList changes, Interpreter.ExplanationPart explanation, bool apply)
         {
             long start = System.Environment.TickCount;
 
@@ -211,7 +214,7 @@ namespace DataDictionary.Rules
             {
                 if (Statement != null)
                 {
-                    Statement.GetChanges(context, retVal, explanation);
+                    Statement.GetChanges(context, changes, explanation, apply);
                 }
                 else
                 {

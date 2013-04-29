@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
+using DataDictionary.Rules;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -145,9 +146,11 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Provides the changes performed by this statement
         /// </summary>
-        /// <param name="instance">The instance on which the expression should be evaluated</param>
-        /// <param name="retVal">the list to fill with changes</param>
-        public override void GetChanges(InterpretationContext context, List<Rules.Change> retVal, ExplanationPart explanation)
+        /// <param name="context">The context on which the changes should be computed</param>
+        /// <param name="changes">The list to fill with the changes</param>
+        /// <param name="explanation">The explanatino to fill, if any</param>
+        /// <param name="apply">Indicates that the changes should be applied immediately</param>
+        public override void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation, bool apply)
         {
             Values.ListValue listValues = ListExpression.GetValue(context) as Values.ListValue;
             if (listValues != null)
@@ -159,7 +162,7 @@ namespace DataDictionary.Interpreter.Statement
                     if (value != EFSSystem.EmptyValue)
                     {
                         IteratorVariable.Value = value;
-                        Call.GetChanges(context, retVal, explanation);
+                        Call.GetChanges(context, changes, explanation, apply);
                     }
                 }
                 context.LocalScope.PopContext(token);

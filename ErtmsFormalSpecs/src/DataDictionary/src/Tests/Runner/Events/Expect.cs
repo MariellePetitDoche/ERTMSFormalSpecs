@@ -81,11 +81,9 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         /// Adds this expectation in the list of active expectations in the time line
         /// </summary>
-        /// <param name="localScope">The values of local variables</param>
-        public override void Apply(Interpreter.InterpretationContext context)
+        public override void Apply()
         {
-            base.Apply(context);
-
+            base.Apply();
             TimeLine.ActiveExpectations.Add(this);
         }
 

@@ -75,7 +75,7 @@ namespace DataDictionary.Tests.Runner.Events
             modelEvent.Time = CurrentTime;
             modelEvent.TimeLine = this;
             modelEvents.Add(modelEvent);
-            modelEvent.Apply(new Interpreter.InterpretationContext(modelEvent.Instance));
+            modelEvent.Apply();
         }
 
         /// <summary>

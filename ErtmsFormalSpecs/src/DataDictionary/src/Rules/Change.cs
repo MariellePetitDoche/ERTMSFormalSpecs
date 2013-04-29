@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 namespace DataDictionary.Rules
 {
     /// <summary>
@@ -70,12 +71,82 @@ namespace DataDictionary.Rules
         /// <summary>
         /// Rolls back the change
         /// </summary>
-        public void UnApply()
+        public void RollBack()
         {
             if (Applied)
             {
                 Variable.Value = PreviousValue;
                 Applied = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Holds a list of changes
+    /// </summary>
+    public class ChangeList
+    {
+        /// <summary>
+        /// The changes stored in this change list
+        /// </summary>
+        List<Change> Changes { get; set; }
+
+        /// <summary>
+        /// Consdtructor
+        /// </summary>
+        public ChangeList()
+        {
+            Changes = new List<Change>();
+        }
+
+        /// <summary>
+        /// Adds a change to the list of changes
+        /// </summary>
+        /// <param name="change">The change to add</param>
+        /// <param name="apply">Indicates whether the change should be applied immediately</param>
+        public void Add(Change change, bool apply)
+        {
+            Changes.Add(change);
+            if (apply)
+            {
+                change.Apply();
+            }
+        }
+
+        /// <summary>
+        /// Ensures that all changes have a correct value
+        /// </summary>
+        /// <param name="element"></param>
+        public void CheckChanges(ModelElement element)
+        {
+            foreach (Change change in Changes)
+            {
+                if (change.NewValue == null)
+                {
+                    element.AddError(change.Variable.FullName + " <- <cannot evaluate value>");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Apply all changes
+        /// </summary>
+        public void Apply()
+        {
+            foreach (DataDictionary.Rules.Change change in Changes)
+            {
+                change.Apply();
+            }
+        }
+
+        /// <summary>
+        /// Roll back all changes in the list
+        /// </summary>
+        public void RollBack()
+        {
+            foreach (DataDictionary.Rules.Change change in Changes)
+            {
+                change.RollBack();
             }
         }
     }

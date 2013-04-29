@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 namespace DataDictionary.Tests.Runner.Events
 {
     public class SubStepActivated : ModelEvent
@@ -34,6 +35,11 @@ namespace DataDictionary.Tests.Runner.Events
         /// </summary>
         public override Types.NameSpace NameSpace { get { return null; } }
 
+        /// <summary>
+        /// The list of changes related to this sub step
+        /// </summary>
+        public List<VariableUpdate> Updates { get; set; }
+
         /// Constructor
         /// </summary>
         /// <param name="step">The activated step</param>
@@ -44,26 +50,44 @@ namespace DataDictionary.Tests.Runner.Events
         }
 
         /// <summary>
+        /// Computes the changes related to this event
+        /// </summary>
+        /// <param name="apply">Indicates that the changes should be applied directly</param>
+        public override bool ComputeChanges(bool apply)
+        {
+            bool retVal = base.ComputeChanges(apply);
+
+            if (retVal)
+            {
+                // Computes the list of variable updates
+                Updates = new List<VariableUpdate>();
+                foreach (DataDictionary.Rules.Action action in subStep.Actions)
+                {
+                    if (action.Statement != null)
+                    {
+                        Updates.Add(new VariableUpdate(action, SubStep.Dictionary));
+                    }
+                    else
+                    {
+                        action.AddError("Cannot parse action statement");
+                    }
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Applies this step activation be registering it in the activation cache
         /// </summary>
-        /// <param name="localScope">The values of local variables</param>
-        public override void Apply(Interpreter.InterpretationContext context)
+        public override void Apply()
         {
-            base.Apply(context);
+            base.Apply();
 
             TimeLine.SubStepActivationCache[SubStep] = this;
-
-            // Modifies the system's state
-            foreach (DataDictionary.Rules.Action action in subStep.Actions)
+            foreach (VariableUpdate update in Updates)
             {
-                if (action.Statement != null)
-                {
-                    TimeLine.AddModelEvent(new VariableUpdate(action, SubStep.Dictionary));
-                }
-                else
-                {
-                    action.AddError("Cannot parse action statement");
-                }
+                TimeLine.AddModelEvent(update);
             }
 
             // Store the step corresponding expectations

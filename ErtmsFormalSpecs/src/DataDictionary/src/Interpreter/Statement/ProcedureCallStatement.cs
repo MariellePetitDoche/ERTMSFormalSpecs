@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 using System.Collections.Generic;
+using DataDictionary.Rules;
 
 namespace DataDictionary.Interpreter.Statement
 {
@@ -227,9 +228,11 @@ namespace DataDictionary.Interpreter.Statement
         /// <summary>
         /// Provides the changes performed by this statement
         /// </summary>
-        /// <param name="instance">The instance on which the expression should be evaluated</param>
-        /// <param name="retVal">the list to fill with changes</param>
-        public override void GetChanges(InterpretationContext context, List<Rules.Change> retVal, Interpreter.ExplanationPart explanation)
+        /// <param name="context">The context on which the changes should be computed</param>
+        /// <param name="changes">The list to fill with the changes</param>
+        /// <param name="explanation">The explanatino to fill, if any</param>
+        /// <param name="apply">Indicates that the changes should be applied immediately</param>
+        public override void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation, bool apply)
         {
             if (Call != null)
             {
@@ -249,15 +252,7 @@ namespace DataDictionary.Interpreter.Statement
 
                     foreach (Rules.Rule rule in Rules)
                     {
-                        List<Rules.Change> tmp = new List<Rules.Change>();
-
-                        ApplyRule(rule, tmp, ctxt, part);
-                        foreach (Rules.Change change in tmp)
-                        {
-                            change.Apply();
-                        }
-
-                        retVal.AddRange(tmp);
+                        ApplyRule(rule, changes, ctxt, part);
                     }
 
                     ctxt.LocalScope.PopContext(token);
@@ -277,9 +272,9 @@ namespace DataDictionary.Interpreter.Statement
         /// Applies a rule defined in a procedure
         /// </summary>
         /// <param name="rule"></param>
-        /// <param name="retVal"></param>
+        /// <param name="changes"></param>
         /// <param name="ctxt"></param>
-        private void ApplyRule(Rules.Rule rule, List<Rules.Change> retVal, InterpretationContext ctxt, ExplanationPart explanation)
+        private void ApplyRule(Rules.Rule rule, ChangeList changes, InterpretationContext ctxt, ExplanationPart explanation)
         {
             foreach (Rules.RuleCondition condition in rule.RuleConditions)
             {
@@ -287,12 +282,12 @@ namespace DataDictionary.Interpreter.Statement
                 {
                     foreach (Rules.Action action in condition.Actions)
                     {
-                        action.GetChanges(ctxt, retVal, explanation);
+                        action.GetChanges(ctxt, changes, explanation, true);
                     }
 
                     foreach (Rules.Rule subRule in condition.SubRules)
                     {
-                        ApplyRule(subRule, retVal, ctxt, explanation);
+                        ApplyRule(subRule, changes, ctxt, explanation);
                     }
                     break;
                 }
