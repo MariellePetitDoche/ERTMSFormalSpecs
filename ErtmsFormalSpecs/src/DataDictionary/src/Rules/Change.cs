@@ -144,9 +144,9 @@ namespace DataDictionary.Rules
         /// </summary>
         public void RollBack()
         {
-            foreach (DataDictionary.Rules.Change change in Changes)
+            for (int i = Changes.Count - 1; i >= 0; i--)
             {
-                change.RollBack();
+                Changes[i].RollBack();
             }
         }
     }
