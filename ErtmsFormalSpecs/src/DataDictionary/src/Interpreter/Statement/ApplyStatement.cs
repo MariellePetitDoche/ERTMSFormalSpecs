@@ -31,6 +31,11 @@ namespace DataDictionary.Interpreter.Statement
         public Expression ListExpression { get; private set; }
 
         /// <summary>
+        /// The list on which the procedure should be called
+        /// </summary>
+        public Expression ConditionExpression { get; private set; }
+
+        /// <summary>
         /// The iterator variable
         /// </summary>
         public Variables.Variable IteratorVariable { get; private set; }
@@ -41,7 +46,7 @@ namespace DataDictionary.Interpreter.Statement
         /// <param name="root">The root element for which this element is built</param>
         /// <param name="call">The corresponding function call designator</param>
         /// <param name="parameters">The expressions used to compute the parameters</param>
-        public ApplyStatement(ModelElement root, ProcedureCallStatement call, Expression listExpression)
+        public ApplyStatement(ModelElement root, ProcedureCallStatement call, Expression listExpression, Expression conditionExpression)
             : base(root)
         {
             DeclaredElements = new Dictionary<string, List<Utils.INamable>>();
@@ -51,6 +56,12 @@ namespace DataDictionary.Interpreter.Statement
 
             ListExpression = listExpression;
             ListExpression.Enclosing = this;
+
+            ConditionExpression = conditionExpression;
+            if (ConditionExpression != null)
+            {
+                ConditionExpression.Enclosing = this;
+            }
 
             IteratorVariable = (Variables.Variable)Generated.acceptor.getFactory().createVariable();
             IteratorVariable.Enclosing = this;
@@ -89,6 +100,11 @@ namespace DataDictionary.Interpreter.Statement
                 if (collectionType != null)
                 {
                     IteratorVariable.Type = collectionType.Type;
+                }
+
+                if (ConditionExpression != null)
+                {
+                    ConditionExpression.SemanticAnalysis(instance);
                 }
 
                 Call.SemanticAnalysis(instance);
@@ -144,6 +160,31 @@ namespace DataDictionary.Interpreter.Statement
         }
 
         /// <summary>
+        /// Indicates whether the condition is satisfied with the value provided
+        /// Hyp : the value of the iterator variable has been assigned before
+        /// </summary>
+        /// <returns></returns>
+        public bool conditionSatisfied(InterpretationContext context)
+        {
+            bool retVal = true;
+
+            if (ConditionExpression != null)
+            {
+                Values.BoolValue b = ConditionExpression.GetValue(context) as Values.BoolValue;
+                if (b == null)
+                {
+                    retVal = false;
+                }
+                else
+                {
+                    retVal = b.Val;
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         /// Provides the changes performed by this statement
         /// </summary>
         /// <param name="context">The context on which the changes should be computed</param>
@@ -162,7 +203,10 @@ namespace DataDictionary.Interpreter.Statement
                     if (value != EFSSystem.EmptyValue)
                     {
                         IteratorVariable.Value = value;
-                        Call.GetChanges(context, changes, explanation, apply);
+                        if (conditionSatisfied(context))
+                        {
+                            Call.GetChanges(context, changes, explanation, apply);
+                        }
                     }
                 }
                 context.LocalScope.PopContext(token);

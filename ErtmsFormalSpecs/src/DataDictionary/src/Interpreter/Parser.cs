@@ -1071,7 +1071,13 @@ namespace DataDictionary.Interpreter
                     Statement.ProcedureCallStatement call = new Statement.ProcedureCallStatement(root, callExpression);
                     Match("ON");
                     Expression listExpression = Expression(0);
-                    retVal = new Statement.ApplyStatement(root, call, listExpression);
+                    Expression condition = null;
+                    if (LookAhead("|"))
+                    {
+                        Match("|");
+                        condition = Expression(0);
+                    }
+                    retVal = new Statement.ApplyStatement(root, call, listExpression, condition);
                 }
                 else
                 {
