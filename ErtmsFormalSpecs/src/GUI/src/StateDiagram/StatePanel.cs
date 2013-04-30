@@ -307,14 +307,14 @@ namespace GUI.StateDiagram
         }
 
         /// <summary>
-        /// The size of the shift between arrows to be used when overlap occurs
+        /// The size of the shift between arrows to be used when overlap occurs (more or less horizontally)
         /// </summary>
-        static int SHIFT_SIZE = 40;
+        static int HORIZONTAL_SHIFT_SIZE = 40;
 
         /// <summary>
-        /// The size of the shift, between texts, to be used when overlap occurs
+        /// The size of the shift between arrows to be used when overlap occurs (more or less horizontally)
         /// </summary>
-        static int TEXT_SHIFT_SIZE = 20;
+        static int VERTICAL_SHIFT_SIZE = 20;
 
         /// <summary>
         /// 2 * Pi
@@ -368,14 +368,14 @@ namespace GUI.StateDiagram
                         (angle < -Math.PI / 4 && angle > -3 * Math.PI / 4))
                     {
                         // Horizontal shift
-                        shift = new Point(-(overlap.Count - 1) * SHIFT_SIZE / 2, 0);
-                        offset = new Point(SHIFT_SIZE, 0);
+                        shift = new Point(-(overlap.Count - 1) * HORIZONTAL_SHIFT_SIZE / 2, 0);
+                        offset = new Point(HORIZONTAL_SHIFT_SIZE, 0);
                     }
                     else
                     {
                         // Vertical shift
-                        shift = new Point(0, -(overlap.Count - 1) * SHIFT_SIZE / 2);
-                        offset = new Point(0, SHIFT_SIZE);
+                        shift = new Point(0, -(overlap.Count - 1) * VERTICAL_SHIFT_SIZE / 2);
+                        offset = new Point(0, VERTICAL_SHIFT_SIZE);
                     }
 
                     int i = 0;
@@ -386,7 +386,7 @@ namespace GUI.StateDiagram
 
                         if (transition.TargetStateControl == null)
                         {
-                            transition.EndOffset = new Point(0, SHIFT_SIZE * i / 2);
+                            transition.EndOffset = new Point(0, VERTICAL_SHIFT_SIZE * i / 2);
                         }
                         i = i + 1;
                     }
