@@ -228,7 +228,14 @@ namespace GUI.StateDiagram
                 TransitionControl control = model as TransitionControl;
                 propertyGrid.SelectedObject = new TransitionEditor(control);
                 descriptionRichTextBox.ResetText();
-                descriptionRichTextBox.Rtf = control.Transition.RuleCondition.getExplain(true);
+                if (control.Transition.RuleCondition != null)
+                {
+                    descriptionRichTextBox.Rtf = control.Transition.RuleCondition.getExplain(true);
+                }
+                else
+                {
+                    descriptionRichTextBox.Rtf = "";
+                }
                 MDIWindow.Select(control.Transition.RuleCondition);
             }
             else

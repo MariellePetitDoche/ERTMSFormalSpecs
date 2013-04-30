@@ -137,7 +137,7 @@ namespace GUI.StateDiagram
                 Text = "Initial state";
 
             }
-            AutoSize = true;
+            Panel.UpdateTransitionPosition();
             Panel.Refresh();
         }
 
@@ -177,7 +177,7 @@ namespace GUI.StateDiagram
         /// <summary>
         /// The size of a transition when no initial state is defined
         /// </summary>
-        private static int INITIAL_TRANSITION_LENGTH = 40;
+        public static int INITIAL_TRANSITION_LENGTH = 40;
 
         private static double ARROW_LENGTH = 10.0;
         private static double ARROW_ANGLE = Math.PI / 6;
@@ -234,6 +234,26 @@ namespace GUI.StateDiagram
         }
 
         /// <summary>
+        /// Indicates whether the angle is nearly vertical
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        private bool aroundVertical(double angle)
+        {
+            // Ensure the angle is in the first or second quadrant 
+            while (angle < 0)
+            {
+                angle = angle + 2 * Math.PI;
+            }
+            while (angle > Math.PI)
+            {
+                angle = angle - Math.PI;
+            }
+
+            return (angle > 3 * Math.PI / 8) && (angle < 5 * Math.PI / 8);
+        }
+
+        /// <summary>
         /// Provides the start location of the transition
         /// </summary>
         public Point StartLocation
@@ -282,6 +302,7 @@ namespace GUI.StateDiagram
                     retVal = new Point(50, 50);
                 }
 
+                retVal.Offset(Offset);  // This offset is used to avoid overlapping of similar transitions
                 return retVal;
             }
         }
@@ -334,8 +355,9 @@ namespace GUI.StateDiagram
                 {
                     retVal = new Point(50, 50 + INITIAL_TRANSITION_LENGTH);
                 }
-                retVal.Offset(EndOffset);
 
+                retVal.Offset(EndOffset);   // This offset is used to have final transitions unaligned
+                retVal.Offset(Offset);      // This offset is used to avoid overlapping of similar transitions
                 return retVal;
             }
         }
@@ -388,10 +410,6 @@ namespace GUI.StateDiagram
                 double angle = Angle;
                 Point start = StartLocation;
                 Point target = TargetLocation;
-
-                // Apply the offset to avoid overlaps
-                start.Offset(Offset);
-                target.Offset(Offset);
 
                 // Select the pen used to draw the arrow
                 Pen pen = NORMAL_PEN;
@@ -451,44 +469,12 @@ namespace GUI.StateDiagram
         }
 
         /// <summary>
-        /// Updates the position of the label, according to the initial state and target state
-        /// </summary>
-        public void UpdatePosition()
-        {
-            // Set the start & end location of the arrow
-            Point startLocation = StartLocation;
-            Point targetLocation = TargetLocation;
-            (Parent as StatePanel).EnsureNoOverlap();
-
-            startLocation.Offset(Offset);
-            targetLocation.Offset(Offset);
-            targetLocation.Offset(EndOffset);
-
-            // Set the location of the text
-            Span Xspan = new Span(startLocation.X, targetLocation.X);
-            Span Yspan = new Span(startLocation.Y, targetLocation.Y);
-
-            int x = Math.Min(startLocation.X, targetLocation.X) + Xspan.Center - Width / 2;
-            int y = Math.Min(startLocation.Y, targetLocation.Y) + Yspan.Center - Height / 2;
-
-            if (InitialStateControl == null)
-            {
-                y = y - INITIAL_TRANSITION_LENGTH / 2;
-            }
-
-            Point tmp = new Point(x, y);
-            tmp.Offset(TextOffset);
-            Location = tmp;
-        }
-
-        /// <summary>
         /// Sets the initial state of the transition controlled by this transition control
         /// </summary>
         /// <param name="state"></param>
         public void SetInitialState(DataDictionary.Constants.State state)
         {
             Transition.SetInitialState(state);
-            UpdatePosition();
             RefreshControl();
         }
 
@@ -499,7 +485,6 @@ namespace GUI.StateDiagram
         public void SetTargetState(DataDictionary.Constants.State state)
         {
             Transition.SetTargetState(state);
-            UpdatePosition();
             RefreshControl();
         }
 
@@ -509,13 +494,82 @@ namespace GUI.StateDiagram
         public Point Offset { get; set; }
 
         /// <summary>
-        /// The offset to apply to the text before painting the transition
-        /// </summary>
-        public Point TextOffset { get; set; }
-
-        /// <summary>
         /// The offset to be applied to the end transition
         /// </summary>
         public Point EndOffset { get; set; }
+
+        /// <summary>
+        /// Provides the center of the transition arrow
+        /// </summary>
+        /// <returns></returns>
+        public Point getCenter()
+        {
+            // Set the start & end location of the arrow
+            Point startLocation = StartLocation;
+            Point targetLocation = TargetLocation;
+
+            // Set the location of the text
+            Span Xspan = new Span(startLocation.X, targetLocation.X);
+            Span Yspan = new Span(startLocation.Y, targetLocation.Y);
+
+            int x = Math.Min(startLocation.X, targetLocation.X) + Xspan.Center;
+            int y = Math.Min(startLocation.Y, targetLocation.Y) + Yspan.Center;
+
+            return new Point(x, y);
+        }
+
+        /// <summary>
+        /// Provides the text bounding box, according to the center point provided.
+        /// The text bounding box for initial transitions is above that transition
+        /// </summary>
+        /// <param name="center">The center of the box</param>
+        /// <returns></returns>
+        public Rectangle getTextBoundingBox(Point center)
+        {
+            int x = center.X - Width / 2;
+            int y = center.Y - Height / 2;
+
+            // Position of the text box for initial transitions
+            if (InitialStateControl == null)
+            {
+                y = y - TransitionControl.INITIAL_TRANSITION_LENGTH / 2;
+            }
+
+            return new Rectangle(x, y, Width, Height);
+        }
+
+        /// <summary>
+        /// The delta applied when sliding the transition
+        /// </summary>
+        private const int DELTA = 5;
+
+        /// <summary>
+        /// Direction of the slide
+        /// </summary>
+        public enum SlideDirection { Up, Down };
+
+        /// <summary>
+        /// Slides the transition following the transition arrow 
+        /// to avoid colliding with the colliding rectangle
+        /// </summary>
+        /// <param name="center">The current center of the text box</param>
+        /// <param name="colliding">The colliding rectangle</param>
+        /// <returns></returns>
+        public Point Slide(Point center, Rectangle colliding, SlideDirection direction)
+        {
+            Point retVal;
+
+            double angle = Angle;
+            if (direction == SlideDirection.Up)
+            {
+                retVal = new Point((int)(center.X + Math.Cos(angle) * DELTA), (int)(center.Y + Math.Sin(angle) * DELTA));
+            }
+            else
+            {
+                retVal = new Point((int)(center.X - Math.Cos(angle) * DELTA), (int)(center.Y - Math.Sin(angle) * DELTA));
+            }
+
+            return retVal;
+        }
     }
 }

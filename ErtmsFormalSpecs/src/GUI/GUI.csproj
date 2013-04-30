@@ -395,6 +395,9 @@
     <EmbeddedResource Include="src\StateDiagram\StateDiagramWindow.resx">
       <DependentUpon>StateDiagramWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\StateDiagram\TransitionControl.resx">
+      <DependentUpon>TransitionControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\TestRunnerView\ExplainBox.resx">
       <DependentUpon>ExplainBox.cs</DependentUpon>
     </EmbeddedResource>

@@ -167,14 +167,14 @@ namespace GUI.StateDiagram
         /// <summary>
         /// Indicates whether the layout should be suspended
         /// </summary>
-        bool suspend = false;
+        bool refreshingControl = false;
 
         /// <summary>
         /// Refreshes the layout, if it is not suspended
         /// </summary>
         public override void Refresh()
         {
-            if (!suspend)
+            if (!refreshingControl)
             {
                 base.Refresh();
             }
@@ -187,7 +187,7 @@ namespace GUI.StateDiagram
         {
             try
             {
-                suspend = true;
+                refreshingControl = true;
                 SuspendLayout();
 
                 foreach (StateControl control in states.Values)
@@ -219,21 +219,227 @@ namespace GUI.StateDiagram
                         transitionControl.Parent = this;
                         transitionControl.Transition = transition;
                     }
-                    foreach (TransitionControl transition in transitions.Values)
-                    {
-                        transition.UpdatePosition();
-                    }
-
-                    EnsureNoOverlap();
+                    UpdateTransitionPosition();
                 }
             }
             finally
             {
-                suspend = false;
+                refreshingControl = false;
                 ResumeLayout(true);
             }
 
             Refresh();
+        }
+
+        /// <summary>
+        /// Handles the rectangles that are already allocated in the diagram
+        /// </summary>
+        private class BoxAllocation
+        {
+            /// <summary>
+            /// The allocated rectangles
+            /// </summary>
+            List<Rectangle> AllocatedBoxes = new List<Rectangle>();
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            public BoxAllocation()
+            {
+            }
+
+            /// <summary>
+            /// Finds a rectangle which intersects with the current rectangle
+            /// </summary>
+            /// <param name="rectangle"></param>
+            /// <returns></returns>
+            public Rectangle Intersects(Rectangle rectangle)
+            {
+                Rectangle retVal = Rectangle.Empty;
+
+                foreach (Rectangle current in AllocatedBoxes)
+                {
+                    if (current.IntersectsWith(rectangle))
+                    {
+                        retVal = current;
+                        break;
+                    }
+                }
+
+                return retVal;
+            }
+
+            /// <summary>
+            /// Allocates a new rectangle 
+            /// </summary>
+            /// <param name="rectangle"></param>
+            public void Allocate(Rectangle rectangle)
+            {
+                AllocatedBoxes.Add(rectangle);
+            }
+        }
+
+        /// <summary>
+        /// The allocated boxes
+        /// </summary>
+        private BoxAllocation AllocatedBoxes;
+
+        /// <summary>
+        /// Provides a distance between two points
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+        private int distance(Point p1, Point p2)
+        {
+            return Math.Abs(p1.X - p2.X) + Math.Abs(p1.Y - p2.Y);
+        }
+
+        /// <summary>
+        /// Updates the transition position to ensure that no overlap exists
+        ///   - on the arrows
+        ///   - on the transition text
+        /// </summary>
+        public void UpdateTransitionPosition()
+        {
+            ComputeTransitionArrowPosition();
+            ComputeTransitionTextPosition();
+        }
+
+        /// <summary>
+        /// The size of the shift between arrows to be used when overlap occurs
+        /// </summary>
+        static int SHIFT_SIZE = 40;
+
+        /// <summary>
+        /// The size of the shift, between texts, to be used when overlap occurs
+        /// </summary>
+        static int TEXT_SHIFT_SIZE = 20;
+
+        /// <summary>
+        /// 2 * Pi
+        /// </summary>
+        static double TWO_PI = Math.PI * 2;
+
+        /// <summary>
+        /// Ensures that two transitions do not overlap by computing an offset between the transitions
+        /// </summary>
+        private void ComputeTransitionArrowPosition()
+        {
+            List<TransitionControl> workingSet = new List<TransitionControl>();
+            workingSet.AddRange(transitions.Values);
+
+            while (workingSet.Count > 1)
+            {
+                TransitionControl t1 = workingSet[0];
+                workingSet.Remove(t1);
+
+                // Compute the set of transitions overlapping with t1
+                List<TransitionControl> overlap = new List<TransitionControl>();
+                overlap.Add(t1);
+                foreach (TransitionControl t in workingSet)
+                {
+                    if (t.Transition.InitialState == t1.Transition.InitialState &&
+                        t.Transition.TargetState == t1.Transition.TargetState)
+                    {
+                        overlap.Add(t);
+                    }
+                    else if ((t.Transition.InitialState == t1.Transition.TargetState &&
+                        t.Transition.TargetState == t1.Transition.InitialState))
+                    {
+                        overlap.Add(t);
+                    }
+                }
+
+                // Remove all transitions of this overlap class from the working set
+                foreach (TransitionControl t in overlap)
+                {
+                    workingSet.Remove(t);
+                }
+
+                // Shift transitions of this overlap set if they are overlapping (that is, if the set size > 1)
+                if (overlap.Count > 1)
+                {
+                    Point shift;        // the shift to be applied to the current transition
+                    Point offset;       // the offset to apply on all transitions of this overlap set
+
+                    double angle = overlap[0].Angle;
+                    if ((angle > Math.PI / 4 && angle < 3 * Math.PI / 4) ||
+                        (angle < -Math.PI / 4 && angle > -3 * Math.PI / 4))
+                    {
+                        // Horizontal shift
+                        shift = new Point(-(overlap.Count - 1) * SHIFT_SIZE / 2, 0);
+                        offset = new Point(SHIFT_SIZE, 0);
+                    }
+                    else
+                    {
+                        // Vertical shift
+                        shift = new Point(0, -(overlap.Count - 1) * SHIFT_SIZE / 2);
+                        offset = new Point(0, SHIFT_SIZE);
+                    }
+
+                    int i = 0;
+                    foreach (TransitionControl transition in overlap)
+                    {
+                        transition.Offset = shift;
+                        shift.Offset(offset);
+
+                        if (transition.TargetStateControl == null)
+                        {
+                            transition.EndOffset = new Point(0, SHIFT_SIZE * i / 2);
+                        }
+                        i = i + 1;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the position of the transition texts, following the transition arrow, to avoid text overlap
+        /// </summary>
+        private void ComputeTransitionTextPosition()
+        {
+            AllocatedBoxes = new BoxAllocation();
+            foreach (TransitionControl transition in transitions.Values)
+            {
+                Point center = transition.getCenter();
+                Point upSlide = Slide(transition, center, TransitionControl.SlideDirection.Up);
+                Point downSlide = Slide(transition, center, TransitionControl.SlideDirection.Down);
+
+                Rectangle boundingBox;
+                if (distance(center, upSlide) <= distance(center, downSlide))
+                {
+                    boundingBox = transition.getTextBoundingBox(upSlide);
+                }
+                else
+                {
+                    boundingBox = transition.getTextBoundingBox(downSlide);
+                }
+
+                transition.Location = new Point(boundingBox.X, boundingBox.Y);
+                AllocatedBoxes.Allocate(boundingBox);
+            }
+        }
+
+        /// <summary>
+        /// Tries to slide the transition up following the transition arrow to avoid any collision
+        /// with the already allocated bounding boxes
+        /// </summary>
+        /// <param name="transition"></param>
+        /// <param name="center"></param>
+        /// <returns></returns>
+        private Point Slide(TransitionControl transition, Point center, TransitionControl.SlideDirection direction)
+        {
+            Point retVal = center;
+            Rectangle colliding = AllocatedBoxes.Intersects(transition.getTextBoundingBox(retVal));
+
+            while (colliding != Rectangle.Empty)
+            {
+                retVal = transition.Slide(retVal, colliding, direction);
+                colliding = AllocatedBoxes.Intersects(transition.getTextBoundingBox(retVal));
+            }
+
+            return retVal;
         }
 
         private Point currentPosition = new Point(1, 1);
@@ -274,12 +480,7 @@ namespace GUI.StateDiagram
 
         internal void ControlHasMoved()
         {
-            foreach (TransitionControl transition in transitions.Values)
-            {
-                transition.UpdatePosition();
-            }
-
-            Refresh();
+            RefreshControl();
         }
 
         /// <summary>
@@ -315,104 +516,6 @@ namespace GUI.StateDiagram
             }
 
             Refresh();
-        }
-
-        /// <summary>
-        /// The size of the shift to be used when overlap occurs
-        /// </summary>
-        static int SHIFT_SIZE = 40;
-
-        /// <summary>
-        /// Indicates whether the angle is nearly vertical
-        /// </summary>
-        /// <param name="angle"></param>
-        /// <returns></returns>
-        private bool aroundVertical(double angle)
-        {
-            // Ensure the angle is in the first or second quadrant 
-            while (angle < 0)
-            {
-                angle = angle + 2 * Math.PI;
-            }
-            while (angle > Math.PI)
-            {
-                angle = angle - Math.PI;
-            }
-
-            return (angle > 3 * Math.PI / 8) && (angle < 5 * Math.PI / 8);
-        }
-
-        /// <summary>
-        /// Ensures that two transitions do not overlap
-        /// </summary>
-        internal void EnsureNoOverlap()
-        {
-            List<TransitionControl> workingSet = new List<TransitionControl>();
-            workingSet.AddRange(transitions.Values);
-
-            while (workingSet.Count > 1)
-            {
-                TransitionControl t1 = workingSet[0];
-                workingSet.Remove(t1);
-
-                List<TransitionControl> overlap = new List<TransitionControl>();
-                foreach (TransitionControl t in workingSet)
-                {
-                    if (t.Transition.InitialState == t1.Transition.InitialState &&
-                        t.Transition.TargetState == t1.Transition.TargetState)
-                    {
-                        overlap.Add(t);
-                    }
-                    else if ((t.Transition.InitialState == t1.Transition.TargetState &&
-                        t.Transition.TargetState == t1.Transition.InitialState))
-                    {
-                        overlap.Add(t);
-                    }
-                }
-
-                foreach (TransitionControl t in overlap)
-                {
-                    workingSet.Remove(t);
-                }
-                overlap.Add(t1);
-                if (overlap.Count > 1)
-                {
-                    Point shift;
-                    Point offset;
-                    double angle = overlap[0].Angle;
-                    if ((angle > Math.PI / 4 && angle < 3 * Math.PI / 4) ||
-                        (angle < -Math.PI / 4 && angle > -3 * Math.PI / 4))
-                    {
-                        // Horizontal shift
-                        shift = new Point(-overlap.Count * SHIFT_SIZE / 4, 0);
-                        offset = new Point(SHIFT_SIZE, 0);
-                    }
-                    else
-                    {
-                        shift = new Point(0, -overlap.Count * SHIFT_SIZE / 4);
-                        offset = new Point(0, SHIFT_SIZE);
-                    }
-
-                    int i = 0;
-                    int Yoffset = 0;
-                    foreach (TransitionControl transition in overlap)
-                    {
-                        transition.Offset = shift;
-                        if (transition.TargetStateControl != null && aroundVertical(angle))
-                        {
-                            transition.TextOffset = new Point(0, Yoffset);
-                            Yoffset += 30;
-                        }
-                        shift.Offset(offset);
-
-                        if (transition.TargetStateControl == null)
-                        {
-                            transition.EndOffset = new Point(0, SHIFT_SIZE * i / 2);
-                        }
-                        i = i + 1;
-                    }
-                }
-            }
         }
 
         /// <summary>

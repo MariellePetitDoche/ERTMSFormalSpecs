@@ -43,7 +43,14 @@ namespace GUI.StateDiagram
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // TransitionControl
+            // 
+            this.AutoSize = true;
+            this.Size = new System.Drawing.Size(100, 23);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
