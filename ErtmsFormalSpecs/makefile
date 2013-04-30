@@ -5,7 +5,6 @@ all:
 	make -C src all
 
 release: clean
-	make -C depends all
 	make -C src release
 
 gitclone:
