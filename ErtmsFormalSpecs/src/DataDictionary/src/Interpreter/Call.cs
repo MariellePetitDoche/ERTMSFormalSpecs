@@ -257,7 +257,10 @@ namespace DataDictionary.Interpreter
                     foreach (KeyValuePair<string, Expression> pair in NamedActualParameters)
                     {
                         Parameter parameter = callable.getFormalParameter(pair.Key);
-                        retVal.Add(parameter, pair.Value);
+                        if (parameter != null)
+                        {
+                            retVal.Add(parameter, pair.Value);
+                        }
                     }
                 }
             }
